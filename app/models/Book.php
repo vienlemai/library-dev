@@ -22,7 +22,7 @@ class Book extends Eloquent {
 	/**
 	 * Status SS_DISAPPROVE when moderator disapprove for a book that submitted
 	 */
-	const SS_DISAPPROVE = 2;
+	const SS_DISAPPROVED = 2;
 
 	/**
 	 * Status SS_PUBLISHED when moderator approve for a book, this book is publish

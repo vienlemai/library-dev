@@ -10,8 +10,6 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
-var_dump('ok');
-exit();
 $app = new Illuminate\Foundation\Application;
 /*
 |--------------------------------------------------------------------------

@@ -32,14 +32,6 @@
 							</a>
 						</div>
 					</div>
-					<div class='buttons'>
-						<div class='item'>
-							<a class='btn btn-primary btn-small' href='dang_nhap.html'>
-								<span class='i-play'></span>
-								Đăng nhập
-							</a>
-						</div>
-					</div>
 				</div>
 			</div>
 

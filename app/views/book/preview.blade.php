@@ -18,6 +18,16 @@
 	</div>
 	<div class='content'>
 		<div class='row-fluid'>
+			<div class="alert alert-success">
+				Bạn vừa nhập thành công {{{$book->number}}} cuốn <strong>{{{$book->title}}}</strong><br>
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+			<div class='text-center'>
+				<button class="btn btn-primary" type="button" id="btnPrintBarcode" data-url="{{ route('book.generate-barcode') }}">
+					<i class="icon-print"></i> In mã vạch
+				</button>
+				<input type="hidden" id="bookId" value="{{{$book->id}}}"/>
+			</div>
 			<div class='span12'>
 				<div class='span6'>
 					<div class='block'>
@@ -164,11 +174,7 @@
 				</div>
 			</div>
 			<div class='footer'>
-				<div class='text-center'>
-					<button class="btn btn-primary" type="button" id="btnPrintBarcode" data-url="{{ route('book.generate-barcode') }}">
-						In mã vạch
-					</button>
-				</div>
+
 			</div>
 			<?php echo Former::close() ?>
 		</div>
