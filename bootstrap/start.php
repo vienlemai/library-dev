@@ -10,9 +10,9 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
-
+var_dump('ok');
 $app = new Illuminate\Foundation\Application;
-
+var_dump($app);exit();
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment
