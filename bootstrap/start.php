@@ -11,8 +11,8 @@
 |
 */
 var_dump('ok');
+exit();
 $app = new Illuminate\Foundation\Application;
-var_dump($app);exit();
 /*
 |--------------------------------------------------------------------------
 | Detect The Application Environment
