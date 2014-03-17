@@ -11,6 +11,8 @@
 		<link rel="icon" type="image/ico" href="favicon.ico"/>
 		<script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
 		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
+		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
+		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/vlm.css') }}}"/>
 
 		<!--[if lte IE 7]>
 		<script type='text/javascript' src='js/other/lte-ie7.js'></script>
@@ -146,6 +148,7 @@
 
 			</div>
 		</div>
-		<script type="text/javascript" src="{{{asset('js/main.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/vlm.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/lht.js')}}}"></script>
 	</body>
 </html>
