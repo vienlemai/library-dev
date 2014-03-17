@@ -58,4 +58,9 @@ Route::post('/book/generate-barcode', array(
 	'uses' => 'BookController@generateBarcode',
 	'before' => 'auth'
 ));
+
+Route::get('/user/create', array(
+	'as' => 'user.create',
+	'uses' => 'UserController@create',
+));
 //Route::get('/book/create','BookController@create');
