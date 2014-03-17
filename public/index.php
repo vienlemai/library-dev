@@ -17,6 +17,7 @@
 | loading of any our classes "manually". Feels great to relax.
 |
 */
+exit('ok');
 
 require __DIR__.'/../bootstrap/autoload.php';
 
