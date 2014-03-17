@@ -36,7 +36,7 @@ Route::group(array('before' => 'auth'), function() {
 		'uses' => 'BookController@create',
 	));
 	//print barcode
-	Route::get('/book/{id}/print-barcode', array('as' => 'book.printBarcode', 'uses' => 'BookController@printBarcode'));
+	Route::get('/book/{id}/preview', array('as' => 'book.preview', 'uses' => 'BookController@preview'));
 });
 
 /**

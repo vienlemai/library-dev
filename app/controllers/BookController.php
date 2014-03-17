@@ -19,7 +19,12 @@ class BookController extends \BaseController {
 	 * Display a listing of books that being catalog
 	 */
 	public function catalog() {
-		$this->layout->content = View::make('book.catalog');
+		$books = array();
+		foreach (Book::$_SS_LABEL as $k => $v) {
+			$books[$k] = Book::where('status', '=', $k)->get();
+		}
+		//var_dump($books[0]['books']->count());exit();
+		$this->layout->content = View::make('book.catalog', array('books' => $books));
 	}
 
 	/**
@@ -59,20 +64,20 @@ class BookController extends \BaseController {
 				'another_infor' => Input::get('another_infor'),
 			));
 			$book->save();
-			return Redirect::to('/book/' . $book->id . '/print-barcode');
+			return Redirect::to('/book/' . $book->id . '/preview');
 		} else {
 			Former::withErrors($v->messages());
 			return View::make('book.create');
 		}
 	}
 
-	public function printBarcode($bookId) {
+	public function preview($bookId) {
 		$book = Book::findOrFail($bookId);
 		$user = Sentry::getUser();
 		if ($book->created_by != $user->id) {
 			App::abort(404);
 		}
-		$this->layout->content = View::make('book.print_barcode', array('book' => $book));
+		$this->layout->content = View::make('book.preview', array('book' => $book));
 	}
 
 	/**
@@ -80,10 +85,12 @@ class BookController extends \BaseController {
 	 */
 	public function generateBarcode() {
 		$number = Input::get('number');
-		$prefix = time();
+		$time = time();
 		$result = array();
+		$random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
 		for ($i = 1; $i <= $number; $i++) {
-			array_push($result, array('code' => $prefix . sprintf("%03s", $i), 'barcode' => DNS1D::getBarcodeHTML($prefix . $i, "UPCA")));
+			$code = $random . sprintf("%03s", $i);
+			array_push($result, array('code' => $code, 'barcode' => DNS1D::getBarcodeHTML($code, "UPCA")));
 		}
 		return View::make('book.generate-barcode', array('barcode' => $result));
 	}
