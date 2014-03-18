@@ -14,11 +14,11 @@
 
 //users routers
 //Route::get('/user/create', 'UserController@create');
-Route::post('/login', array(
+Route::post('login', array(
     'as' => 'login',
     'uses' => 'AdminController@postLogin'
 ));
-Route::get('/login', array(
+Route::get('login', array(
     'as' => 'login',
     'uses' => 'AdminController@login',
 ));
@@ -30,16 +30,16 @@ Route::group(array('before' => 'auth'), function () {
     //home
     Route::get('/', array('as' => 'home', 'uses' => 'AdminController@index'));
     //logout
-    Route::get('/logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
+    Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
     //book catalog index
-    Route::get('/book/catalog', array('as' => 'book.catalog', 'uses' => 'BookController@catalog'));
+    Route::get('book/catalog', array('as' => 'book.catalog', 'uses' => 'BookController@catalog'));
     //book create
-    Route::get('/book/create', array(
+    Route::get('book/create', array(
         'as' => 'book.create',
         'uses' => 'BookController@create',
     ));
     //print barcode
-    Route::get('/book/{id}/preview', array('as' => 'book.preview', 'uses' => 'BookController@preview'));
+    Route::get('book/{id}/preview', array('as' => 'book.preview', 'uses' => 'BookController@preview'));
 });
 
 /**
@@ -47,7 +47,7 @@ Route::group(array('before' => 'auth'), function () {
  */
 Route::group(array('before' => 'auth|csrf'), function () {
     //book save
-    Route::post('/book/save', array(
+    Route::post('book/save', array(
         'as' => 'book.save',
         'uses' => 'BookController@save',
     ));
