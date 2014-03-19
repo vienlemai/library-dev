@@ -10,54 +10,65 @@
   | and give it the Closure to execute when that URI is requested.
   |
  */
-
-
+//var_dump(User::$get_actions);
+//exit();
 //users routers
 //Route::get('/user/create', 'UserController@create');
 Route::post('login', array(
-    'as' => 'login',
-    'uses' => 'AdminController@postLogin'
+	'as' => 'login',
+	'uses' => 'AdminController@postLogin'
 ));
 Route::get('login', array(
-    'as' => 'login',
-    'uses' => 'AdminController@login',
+	'as' => 'login',
+	'uses' => 'AdminController@login',
 ));
 
+Route::get('error/{type}', array(
+	'as' => 'error',
+	'uses' => 'AdminController@error'
+));
+//home
+Route::get('/', array('as' => 'home', 'uses' => 'AdminController@index'));
+//logout
+Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
 /**
  * routers for get request that need to authenticate to continute
  */
 Route::group(array('before' => 'auth'), function () {
-    //home
-    Route::get('/', array('as' => 'home', 'uses' => 'AdminController@index'));
-    //logout
-    Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
-    //book catalog index
-    Route::get('book/catalog', array('as' => 'book.catalog', 'uses' => 'BookController@catalog'));
-    //book create
-    Route::get('book/create', array(
-        'as' => 'book.create',
-        'uses' => 'BookController@create',
-    ));
-    //print barcode
-    Route::get('book/{id}/preview', array('as' => 'book.preview', 'uses' => 'BookController@preview'));
+
+	foreach (User::$get_actions as $action) {
+		Route::get($action['path'], array(
+			'as' => $action['name'],
+			'uses' => $action['controller'] . '@' . $action['action']
+		));
+	}
+	//book catalog index
+	//Route::get('book/catalog', array('as' => 'book.catalog', 'uses' => 'BookController@catalog'));
+	//book create
+//	Route::get('book/create', array(
+//		'as' => 'book.create',
+//		'uses' => 'BookController@create',
+//	));
+	//print barcode
+	//Route::get('book/{id}/preview', array('as' => 'book.preview', 'uses' => 'BookController@preview'));
 });
 
 /**
  * routers for post request that need to authenticate and csrf validate
  */
 Route::group(array('before' => 'auth|csrf'), function () {
-    //book save
-    Route::post('book/save', array(
-        'as' => 'book.save',
-        'uses' => 'BookController@save',
-    ));
+	//book save
+	Route::post('book/save', array(
+		'as' => 'book.save',
+		'uses' => 'BookController@save',
+	));
 });
 
 
 Route::post('/book/generate-barcode', array(
-    'as' => 'book.generate-barcode',
-    'uses' => 'BookController@generateBarcode',
-    'before' => 'auth'
+	'as' => 'book.generate-barcode',
+	'uses' => 'BookController@generateBarcode',
+	'before' => 'auth'
 ));
 
 Route::get('/user/create', array(

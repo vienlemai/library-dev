@@ -9,6 +9,15 @@ class AdminController extends BaseController {
 	public function index() {
 		$this->layout->content = View::make('admin.index');
 	}
+	
+	public function error($type){
+		$message = '';
+		switch ($type){
+			case 'permission': $message = "Bạn không có quyền truy cập vào đây";
+			//default : $message = 'Lỗi hệ thống';
+		}
+		return View::make('admin.error', compact('message'));
+	}
 
 	public function login() {
 		$login_attribute = Config::get('cartalyst/sentry::users.login_attribute');

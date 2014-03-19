@@ -48,7 +48,7 @@
 						</div>
 						<div class='info'>
 							<div class='name'>
-								<a href='#'>Admin</a>
+								<a href='#'>{{Sentry::getUser()->email}}</a>
 							</div>
 							<div class='buttons'>
 								<a href='#'>

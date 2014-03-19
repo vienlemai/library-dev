@@ -1,52 +1,55 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
+class User {
+	public static $groups = array(
+		'admin' => 'Quản trị',
+		'cataloger' => 'Biên mục',
+		'moderator' => 'Kiểm duyêt',
+		'librarian' => 'Thủ thư'
+	);
+	public static $get_actions = array(
+		array(
+			'path' => 'book/create',
+			'displayName' => 'Thêm mới tài liệu',
+			'name' => 'book.create',
+			'controller' => 'BookController',
+			'action' => 'create'
+		),
+		array(
+			'path' => 'book/catalog',
+			'displayName' => 'Biên mục tài liệu',
+			'name' => 'book.catalog',
+			'controller' => 'BookController',
+			'action' => 'catalog',
+		),
+		array(
+			'path' => 'book/{id}preview',
+			'displayName' => 'Xem trước tài liệu',
+			'name' => 'book.preview',
+			'controller' => 'BookController',
+			'action' => 'preview'
+		),
+	);
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
-
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'users';
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password');
-
-	/**
-	 * Get the unique identifier for the user.
-	 *
-	 * @return mixed
-	 */
-	public function getAuthIdentifier()
-	{
-		return $this->getKey();
-	}
-
-	/**
-	 * Get the password for the user.
-	 *
-	 * @return string
-	 */
-	public function getAuthPassword()
-	{
-		return $this->password;
-	}
-
-	/**
-	 * Get the e-mail address where password reminders are sent.
-	 *
-	 * @return string
-	 */
-	public function getReminderEmail()
-	{
-		return $this->email;
+	public static function getDefaultPermission() {
+		$sharedPermissions = array('home', 'error', 'logout');
+		$catalogerPermissions = array('book.create', 'book.catalog', 'book.preview');
+		$moderationPermissions = array();
+		$librarianPermissions = array();
+		return array(
+			array(
+				'name' => 'cataloger',
+				'permissions' => array_merge($sharedPermissions, $catalogerPermissions)
+			),
+			array(
+				'name' => 'moderator',
+				'permissions' => array_merge($sharedPermissions, $moderationPermissions)
+			),
+			array(
+				'name' => 'librarian',
+				'permissions' => array_merge($sharedPermissions, $librarianPermissions)
+			)
+		);
 	}
 
 }
