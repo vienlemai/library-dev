@@ -3,12 +3,12 @@
 <div class="wrap">
 	<div class='head'>
 		<div class='page-title'>
-			Thêm mới sách
+			Tạo mới tài liệu
 		</div>
 		<div class='page-tools'>
 			<ul>
 				<li>
-					<a class='btn btn-small' href='bien_muc_tai_lieu.html'>
+					<a class='btn btn-small' href='{{route('book.catalog')}}'>
 						<i class='i-reply'></i>
 						Danh sách tài liệu
 					</a>
@@ -22,9 +22,9 @@
 				<div class='span6'>
 					<div class='block'>
 						<div class='head'>
-							<h2>Thông tin sách</h2>
+							<h2>Nhập thông tin sách</h2>
 						</div>
-						<div class='content np'>
+						<div class='content'>
 
 							{{ Former::horizontal_open(route('book.save'))->method('POST') }}
 							{{Former::xlarge_text('title')
@@ -75,7 +75,7 @@
 						<div class='head'>
 							<h2>Thông tin kiểm soát</h2>
 						</div>
-						<div class='content np'>
+						<div class='content'>
 							<div class="form-horizontal">
 								{{Former::xlarge_text('organization')
 									->label('Mã cơ quan')
@@ -102,10 +102,14 @@
 									->label('Giá tiền')
 								}}
 
-								{{Former::select('storate')
-									->label('Kho')
-									->options(array('1'=>'Kho A','2'=>'Kho B'),1)								
-								}}
+								<div class="control-group">
+									<label class="control-label" for="storate">Nơi lưu trữ</label>
+									<div class="controls">
+										<select name="storage" id="storage" class="input-xlarge">
+											{{$storageOptions}}
+										</select>
+									</div>
+								</div>
 
 								{{Former::xlarge_text('number')
 									->label('Số lượng')
@@ -113,12 +117,12 @@
 
 								{{Former::select('level')
 									->label('Mức độ')
-									->options(array('1'=>'Kho A','2'=>'Kho B'),1)								
+									->options($levels)								
 								}}
 
 								{{Former::textarea('another_infor')
 									->label('Thông tin khác')
-									->class('input-xlarge')
+									->class('input-xlarge editor')
 									->rows(4)
 								}}								
 
@@ -129,13 +133,10 @@
 			</div>
 			<div class='footer'>
 				<div class='text-center'>
-					<button class='btn'>
+					<button class='btn' type="reset">
 						<i class='i-ccw'></i>
 						Nhập lại
 					</button>
-<!--					<button class="btn" type="button" id="btnPrintBarcode" data-url="{{ route('book.generate-barcode') }}">
-						In mã vạch
-					</button>-->
 					<button class='btn btn-primary'>
 						<i class='i-checkmark-2'></i>
 						Lưu tài liệu

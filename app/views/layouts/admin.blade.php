@@ -10,10 +10,14 @@
 		<title>Thư viện online - Quản trị</title>
 		<link rel="icon" type="image/ico" href="favicon.ico"/>
 		<script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/bootbox.min.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/jquery.validate.min.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
 		<script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>
+		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
 		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
 		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
-		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/vlm.css') }}}"/>
+		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/be/vlm.css') }}}"/>
 
 		<!--[if lte IE 7]>
 		<script type='text/javascript' src='js/other/lte-ie7.js'></script>
@@ -47,8 +51,8 @@
 							<img src="{{{asset('img/default_avatar.png')}}}">
 						</div>
 						<div class='info'>
-							<div class='name'>
-								<a href='#'>{{Sentry::getUser()->email}}</a>
+							<div class='name'
+								 <a href='#'>{{Sentry::check()?Sentry::getUser()->email:''}}</a>
 							</div>
 							<div class='buttons'>
 								<a href='#'>
@@ -66,7 +70,7 @@
 						<li class='active'>
 							<a href='index.html'>Bảng điều khiển</a>
 						</li>
-						<li class='openable open'>
+						<li class='disabled'>
 							<a href='#'>Lưu hành</a>
 							<ul>
 								<li class=''>
@@ -93,14 +97,14 @@
 							<a href='#'>Biên mục</a>
 							<ul>
 								<li class=''>
-									<a href='bien_muc_tai_lieu.html'>Biên mục tài liệu</a>
+									<a href="{{route('book.catalog')}}">Biên mục tài liệu</a>
 								</li>
 								<li class=''>
-									<a href='xac_nhan_tai_lieu.html'>Xác nhận tài liệu</a>
+									<a href='{{route('book.moderate')}}'>Xác nhận tài liệu</a>
 								</li>
 							</ul>
 						</li>
-						<li class='openable open'>
+						<li class='disabled'>
 							<a href='#'>Thống kê</a>
 							<ul>
 								<li class=''>
@@ -111,7 +115,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class='openable open'>
+						<li class='disabled'>
 							<a href='#'>
 								Kiểm kê
 							</a>
@@ -124,7 +128,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class='openable open'>
+						<li class='disabled'>
 							<a href='#'>Quản lý hệ thống</a>
 							<ul>
 								<li class=''>
@@ -140,8 +144,6 @@
 						</li>
 					</ul>
 				</div>
-
-
 				<div id="content">
 					@yield('content')
 
@@ -149,7 +151,8 @@
 
 			</div>
 		</div>
-		<script type="text/javascript" src="{{{asset('js/vlm.js')}}}"></script>
-		<script type="text/javascript" src="{{{asset('js/lht.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/select2.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/be/vlm.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/be/lht.js')}}}"></script>
 	</body>
 </html>

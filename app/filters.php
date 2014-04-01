@@ -39,13 +39,12 @@ Route::filter('auth', function() {
 
 		return Redirect::route('login');
 	}
-	 //list($prefix, $module, $rule) = explode('.', Route::currentRouteName());
-	
-	 //var_dump(Route::currentRouteName());
-	 $action = Route::currentRouteName();
-	 if(!Sentry::hasAccess($action)){
-		 return Redirect::route('error',array('permission'));
-	 }
+	//list($prefix, $module, $rule) = explode('.', Route::currentRouteName());
+	//var_dump(Route::currentRouteName());
+	$action = Route::currentRouteName();
+	if (!Sentry::hasAccess($action)) {
+		return Redirect::route('error', array('permission'));
+	}
 });
 
 

@@ -29,7 +29,8 @@ class Book extends Eloquent {
 	 */
 	const SS_PUBLISHED = 3;
 
-	public static $_SS_LABEL = array(
+	//labels of a book for cataloger
+	public static $CAT_SS_LABELS = array(
 		0 => 'Đang biên mục',
 		1 => 'Chưa xác nhận',
 		2 => 'Lỗi',
@@ -37,10 +38,27 @@ class Book extends Eloquent {
 	);
 
 	/**
-	 * Status SS_
+	 * labels of a book for moderator
 	 */
-	protected static $STATUS = array(
+	public static $MOD_SS_LABEL = array(
+		1 => 'Đã gửi lên',
+		2 => 'Đã báo lỗi',
+		3 => 'Đã lưu hành',
 	);
+	public static $LEVELS = array(
+		1 => 'Bình thường',
+		2 => 'Mật',
+		3 => 'Tối mật',
+		4 => 'Tuyệt mật'
+	);
+
+	public function getDates() {
+		return array_merge(parent::getDates(), array('submitted_at', 'published_at'));
+	}
+
+	public function bookItems() {
+		return $this->hasMany('BookItem');
+	}
 
 	/**
 	 * Security fillable

@@ -35,22 +35,34 @@ Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogou
  * routers for get request that need to authenticate to continute
  */
 Route::group(array('before' => 'auth'), function () {
-
 	foreach (User::$get_actions as $action) {
 		Route::get($action['path'], array(
 			'as' => $action['name'],
 			'uses' => $action['controller'] . '@' . $action['action']
 		));
 	}
-	//book catalog index
-	//Route::get('book/catalog', array('as' => 'book.catalog', 'uses' => 'BookController@catalog'));
-	//book create
-//	Route::get('book/create', array(
-//		'as' => 'book.create',
-//		'uses' => 'BookController@create',
-//	));
-	//print barcode
-	//Route::get('book/{id}/preview', array('as' => 'book.preview', 'uses' => 'BookController@preview'));
+
+	Route::get('book/catalog/search', array(
+		'as' => 'book.catalog.search',
+		'uses' => 'BookController@catalogSearch'
+	));
+
+	Route::get('book/moderate/{id}', array(
+		'as' => 'book.moderate.view',
+		'uses' => 'BookController@moderateView'
+	));
+	Route::get('book/publish/{id}', array(
+		'as' => 'book.publish',
+		'uses' => 'BookController@publish'
+	));
+	Route::get('book/catalog/{id}', array(
+		'as' => 'book.catalog.view',
+		'uses' => 'BookController@catalogView'
+	));
+	Route::get('book/barcode/{id}', array(
+		'as' => 'book.barcode',
+		'uses' => 'BookController@barcode'
+	));
 });
 
 /**
@@ -62,14 +74,24 @@ Route::group(array('before' => 'auth|csrf'), function () {
 		'as' => 'book.save',
 		'uses' => 'BookController@save',
 	));
+	Route::post('book/{id}/update', array(
+		'as' => 'book.update',
+		'uses' => 'BookController@update',
+	));
+	Route::post('book/submit', array(
+		'as' => 'book.submit',
+		'uses' => 'BookController@submit',
+	));
+	Route::delete('book/{id}/delete', array(
+		'as' => 'book.delete',
+		'uses' => 'BookController@destroy',
+	));
+
+	Route::post('book/disapprove/{id}', array(
+		'as' => 'book.disapprove',
+		'uses' => 'BookController@disapprove'
+	));
 });
-
-
-Route::post('/book/generate-barcode', array(
-	'as' => 'book.generate-barcode',
-	'uses' => 'BookController@generateBarcode',
-	'before' => 'auth'
-));
 
 Route::get('/user/create', array(
 	'as' => 'user.create',

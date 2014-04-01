@@ -1,16 +1,18 @@
 <?php
 
 class BaseController extends Controller {
+	/**
+	 * for pagination: the number of items per page
+	 */
+	const ITEMS_PER_PAGE = 20;
 
 	/**
 	 * Setup the layout used by the controller.
 	 *
 	 * @return void
 	 */
-	protected function setupLayout()
-	{
-		if ( ! is_null($this->layout))
-		{
+	protected function setupLayout() {
+		if (!is_null($this->layout)) {
 			$this->layout = View::make($this->layout);
 		}
 	}

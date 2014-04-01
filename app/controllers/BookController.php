@@ -16,15 +16,141 @@ class BookController extends \BaseController {
 	}
 
 	/**
+	 * Index page for cataloger
 	 * Display a listing of books that being catalog
 	 */
 	public function catalog() {
-		$books = array();
-		foreach (Book::$_SS_LABEL as $k => $v) {
-			$books[$k] = Book::where('status', '=', $k)->get();
+		if (Request::ajax()) {
+			$type = Input::get('type');
+			switch ($type) {
+				case Book::SS_SUBMITED:
+					$books = Book::where('status', '=', $type)
+							->where('created_by', '=', Sentry::getUser()->id)
+							->orderBy('submitted_at', 'desc')
+							->paginate(self::ITEMS_PER_PAGE);
+					break;
+				case Book::SS_PUBLISHED:
+					$books = Book::where('status', '=', $type)
+							->where('created_by', '=', Sentry::getUser()->id)
+							->orderBy('published_at', 'desc')
+							->paginate(self::ITEMS_PER_PAGE);
+					break;
+				default:
+					$books = Book::where('status', '=', $type)
+							->where('created_by', '=', Sentry::getUser()->id)
+							->orderBy('updated_at', 'desc')
+							->paginate(self::ITEMS_PER_PAGE);
+					break;
+			}
+			return View::make('book.partials.catalog.' . $type, array('books' => $books));
+		} else {
+			foreach (Book::$CAT_SS_LABELS as $k => $v) {
+				$count[$k] = Book::where('status', '=', $k)->count();
+			}
+			foreach (Book::$CAT_SS_LABELS as $k => $v) {
+				switch ($k) {
+					case Book::SS_SUBMITED:
+						$books[$k] = Book::where('status', '=', $k)
+								->where('created_by', '=', Sentry::getUser()->id)
+								->orderBy('submitted_at', 'desc')
+								->paginate(self::ITEMS_PER_PAGE);
+						break;
+					case Book::SS_PUBLISHED:
+						$books[$k] = Book::where('status', '=', $k)
+								->where('created_by', '=', Sentry::getUser()->id)
+								->orderBy('published_at', 'desc')
+								->paginate(self::ITEMS_PER_PAGE);
+						break;
+					default:
+						$books[$k] = Book::where('status', '=', $k)
+								->where('created_by', '=', Sentry::getUser()->id)
+								->orderBy('updated_at', 'desc')
+								->paginate(self::ITEMS_PER_PAGE);
+						break;
+				}
+			}
+			return View::make('book.catalog', array('books' => $books, 'count' => $count));
 		}
-		//var_dump($books[0]['books']->count());exit();
-		$this->layout->content = View::make('book.catalog', array('books' => $books));
+	}
+
+	/**
+	 * Search books for catologer, get bookType, and keyword form request
+	 */
+	public function catalogSearch() {
+		if (Request::ajax()) {
+			$type = Input::get('book-type');
+			$keyword = Input::get('keyword');
+			$books = Book::where('status', '=', $type)
+					->where('created_by', '=', Sentry::getUser()->id)
+					->where('title', 'LIKE', '%' . $keyword . '%')
+					->orderBy('updated_at', 'desc')
+					->paginate(self::ITEMS_PER_PAGE);
+			return View::make('book.partials.catalog.' . $type, array('books' => $books, 'keyword' => $keyword));
+		} else {
+			foreach (Book::$CAT_SS_LABELS as $k => $v) {
+				$count[$k] = Book::where('status', '=', $k)->count();
+			}
+			foreach (Book::$CAT_SS_LABELS as $k => $v) {
+				$books[$k] = Book::where('status', '=', $k)
+						->where('created_by', '=', Sentry::getUser()->id)
+						->where('title', 'LIKE', '%' . $keyword . '%')
+						->orderBy('created_at', 'desc')
+						->paginate(self::ITEMS_PER_PAGE);
+			}
+			return View::make('book.catalog', array('books' => $books, 'count' => $count));
+		}
+	}
+
+	/**
+	 * Index page for moderator
+	 * List all book that submitted, disapproved, published
+	 */
+	public function moderate() {
+		if (Request::ajax()) {
+			$type = Input::get('type');
+			switch ($type) {
+				case Book::SS_SUBMITED:
+					$books = Book::where('status', '=', $type)
+							->orderBy('submitted_at', 'desc')
+							->paginate(self::ITEMS_PER_PAGE);
+					break;
+				case Book::SS_PUBLISHED:
+					$books = Book::where('status', '=', $type)
+							->orderBy('published_at', 'desc')
+							->paginate(self::ITEMS_PER_PAGE);
+					break;
+				default :
+					$books = Book::where('status', '=', $type)
+							->orderBy('updated_at', 'desc')
+							->paginate(self::ITEMS_PER_PAGE);
+					break;
+			}
+			return View::make('book.partials.moderate.' . $type, array('books' => $books));
+		} else {
+			foreach (Book::$MOD_SS_LABEL as $k => $v) {
+				$count[$k] = Book::where('status', '=', $k)->count();
+			}
+			foreach (Book::$MOD_SS_LABEL as $k => $v) {
+				switch ($k) {
+					case Book::SS_SUBMITED:
+						$books[$k] = Book::where('status', '=', $k)
+								->orderBy('submitted_at', 'desc')
+								->paginate(self::ITEMS_PER_PAGE);
+						break;
+					case Book::SS_PUBLISHED:
+						$books[$k] = Book::where('status', '=', $k)
+								->orderBy('published_at', 'desc')
+								->paginate(self::ITEMS_PER_PAGE);
+						break;
+					default :
+						$books[$k] = Book::where('status', '=', $k)
+								->orderBy('updated_at', 'desc')
+								->paginate(self::ITEMS_PER_PAGE);
+						break;
+				}
+			}
+			return View::make('book.moderate', array('books' => $books, 'count' => $count));
+		}
 	}
 
 	/**
@@ -33,7 +159,11 @@ class BookController extends \BaseController {
 	 * @return Response
 	 */
 	public function create() {
-		$this->layout->content = View::make('book.create');
+		$storageOptions = new Storage();
+		$this->layout->content = View::make('book.create', array(
+					'storageOptions' => $storageOptions->render(),
+					'levels' => Book::$LEVELS,
+		));
 	}
 
 	/**
@@ -42,6 +172,8 @@ class BookController extends \BaseController {
 	public function save() {
 		$v = Book::validate(Input::all());
 		if ($v->passes()) {
+			$time = time();
+			$random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
 			$book = new Book(array(
 				'title' => Input::get('title'),
 				'sub_title' => Input::get('sub_title'),
@@ -62,66 +194,92 @@ class BookController extends \BaseController {
 				'number' => Input::get('number'),
 				'level' => Input::get('level'),
 				'another_infor' => Input::get('another_infor'),
+				'barcode' => $random,
 			));
-			$book->save();
-			return Redirect::to('/book/' . $book->id . '/preview');
+			if ($book->save()) {
+				Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
+						. Input::get('title')
+						. '"</strong>, số lượng : <strong>'
+						. Input::get('number') . ' cuốn</strong>, '
+						. 'Số mã vạch đã in : <strong>' . $book->barcode_printed . ' mã</strong>');
+			} else {
+				Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+			}
+
+			return Redirect::route('book.catalog.view', $book->id);
 		} else {
 			Former::withErrors($v->messages());
 			return View::make('book.create');
 		}
 	}
 
-	public function preview($bookId) {
+	/**
+	 * Moderator view book when book is submitted
+	 */
+	public function moderateView($bookId) {
+		$book = Book::findOrFail($bookId);
+		if ($book->status != Book::SS_SUBMITED) {
+			Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
+			return Redirect::route('book.moderate');
+		}
+		$user = Sentry::getUser();
+//		if ($book->created_by == $user->id) {
+//			App::abort(404);
+//		}
+		$this->layout->content = View::make('book.moderate-view', array('book' => $book));
+	}
+
+	public function catalogView($bookId) {
 		$book = Book::findOrFail($bookId);
 		$user = Sentry::getUser();
 		if ($book->created_by != $user->id) {
 			App::abort(404);
 		}
-		$this->layout->content = View::make('book.preview', array('book' => $book));
+		$storageOptions = new Storage();
+		$this->layout->content = View::make('book.catalog-view', array(
+					'book' => $book,
+					'levels' => Book::$LEVELS,
+					'storageOptions' => $storageOptions->render(),
+		));
 	}
 
 	/**
 	 * Gennerate barcode
 	 */
-	public function generateBarcode() {
-		$number = Input::get('number');
-		$time = time();
+	public function barcode($id) {
+		$book = Book::findOrFail($id);
+		$number = $book->number;
+		$barcode = $book->barcode;
 		$result = array();
-		$random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
 		for ($i = 1; $i <= $number; $i++) {
-			$code = $random . sprintf("%03s", $i);
-			array_push($result, array('code' => $code, 'barcode' => DNS1D::getBarcodeHTML($code, "UPCA")));
+			$code = $barcode . sprintf("%03s", $i);
+			array_push($result, array('code' => $code, 'barcode' => DNS1D::getBarcodePNGPath($code, "UPCA")));
 		}
-		return View::make('book.generate-barcode', array('barcode' => $result));
+		return View::make('book.barcode', array('barcode' => $result, 'book' => $book));
 	}
 
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store() {
-		//
-	}
-
-	/**
-	 * Display the specified resource.
+	 * Show the form for editing the book
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id) {
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id) {
-		//
+	public function edit($bookId) {
+		$book = Book::findOrFail($bookId);
+		$user = Sentry::getUser();
+		if ($book->created_by != $user->id) {
+			Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
+			return Redirect::route('book.moderate');
+		} else if ($book->status == Book::SS_SUBMITED || $book->status == Book::SS_PUBLISHED) {
+			Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
+			return Redirect::route('book.moderate');
+		}
+		$storageOptions = new Storage();
+		$this->layout->content = View::make('book.edit', array(
+					'book' => $book,
+					'storageOptions' => $storageOptions->render(),
+					'levels' => Book::$LEVELS
+		));
 	}
 
 	/**
@@ -131,7 +289,59 @@ class BookController extends \BaseController {
 	 * @return Response
 	 */
 	public function update($id) {
-		//
+		$v = Book::validate(Input::all());
+		if ($v->passes()) {
+			$book = Book::find($id);
+			$time = time();
+			$random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
+			$book->title = Input::get('title');
+			$book->sub_title = Input::get('sub_title');
+			$book->author = Input::get('author');
+			$book->translator = Input::get('translator');
+			$book->publish_info = Input::get('publish_info');
+			$book->publisher = Input::get('publisher');
+			$book->printer = Input::get('printer');
+			$book->pages = Input::get('pages');
+			$book->size = Input::get('size');
+			$book->attach = Input::get('attach');
+			$book->organization = Input::get('organization');
+			$book->language = Input::get('language');
+			$book->cutter = Input::get('cutter');
+			$book->type_number = Input::get('type_number');
+			$book->price = Input::get('price');
+			$book->storage = Input::get('storage');
+			$book->number = Input::get('number');
+			$book->level = Input::get('level');
+			$book->another_infor = Input::get('another_infor');
+			$book->barcode = $random;
+			if ($book->status == Book::SS_DISAPPROVED) {
+				$book->status = Book::SS_SUBMITED;
+				Session::flash('success', 'Đã chỉnh sửa và gửi tài liệu <strong>"'
+						. Input::get('title')
+						. '"</strong>, số lượng : <strong>'
+						. Input::get('number') . ' cuốn</strong>');
+			} else {
+				Session::flash('success', 'Sửa thành công tài liệu <strong>"'
+						. Input::get('title')
+						. '"</strong>, số lượng : <strong>'
+						. Input::get('number') . ' cuốn</strong>');
+			}
+			if ($book->save()) {
+				BookItem::where('book_id', '=', $book->id)->delete();
+				$barcode = $book->barcode;
+				for ($i = 1; $i <= $book->number; $i++) {
+					$code = $barcode . sprintf("%03s", $i);
+					$bItem = new BookItem(array('barcode' => $code, 'status' => BookItem::SS_STORAGED));
+					$book->bookItems()->save($bItem);
+				}
+				return Redirect::route('book.catalog.view', $book->id);
+			} else {
+				Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+			}
+		} else {
+			Former::withErrors($v->messages());
+			return View::make('book.create');
+		}
 	}
 
 	/**
@@ -141,7 +351,44 @@ class BookController extends \BaseController {
 	 * @return Response
 	 */
 	public function destroy($id) {
-		//
+		exit('deleting . . .');
+	}
+
+	/**
+	 * Cateloger submit books for moderator to moderate
+	 */
+	public function submit() {
+		$input = Input::all();
+		$count = 0;
+		foreach ($input['bookId'] as $bookId) {
+			$count++;
+			Book::where('id', '=', $bookId)->update(array('status' => Book::SS_SUBMITED, 'submitted_at' => Carbon\Carbon::now()));
+		}
+		Session::flash('success', 'Gửi thành công ' . $count . ' tài liệu');
+		return Redirect::route('book.catalog');
+	}
+
+	/**
+	 * Moderator publish a book
+	 */
+	public function publish($id) {
+		$user = Sentry::getUser();
+		$book = Book::findOrFail($id);
+		Book::where('id', '=', $id)->update(array('status' => Book::SS_PUBLISHED, 'published_at' => Carbon\Carbon::now(), 'published_by' => $user->id));
+		Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
+		return Redirect::route('book.moderate');
+	}
+
+	/**
+	 * Moderator disapprove a book
+	 */
+	public function disapprove($id) {
+		$book = Book::findOrFail($id);
+		$book->status = Book::SS_DISAPPROVED;
+		$book->error_reason = Input::get('reason');
+		$book->save();
+		Session::flash('success', 'Đã báo lỗi thành công tài liệu ' . $book->title);
+		return Redirect::route('book.moderate');
 	}
 
 }

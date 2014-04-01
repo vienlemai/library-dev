@@ -8,7 +8,7 @@
 		<div class='page-tools'>
 			<ul>
 				<li>
-					<a class='btn btn-small btn-primary' href='them_moi_sach.html'>
+					<a class='btn btn-small btn-primary' href='{{route('book.create')}}'>
 						<i class='i-plus-2'></i>
 						Thêm mới
 					</a>
@@ -24,27 +24,27 @@
 						<ul class='boxes nmt'>
 							<li style="width: 24%">
 								<div class='text-info'>
-									<?php echo ($books[Book::SS_ADDED]->count()) ?>
-									<span><?php echo Book::$_SS_LABEL[Book::SS_ADDED] ?></span>
+									<?php echo ($count[Book::SS_ADDED]) ?>
+									<span><?php echo Book::$CAT_SS_LABELS[Book::SS_ADDED] ?></span>
 								</div>
 							</li>
 							<li style="width: 24%">
 								<div class='text-warning'>
-									<?php echo ($books[Book::SS_SUBMITED]->count()) ?>
-									<span><?php echo Book::$_SS_LABEL[Book::SS_SUBMITED] ?></span>
+									<?php echo ($count[Book::SS_SUBMITED]) ?>
+									<span><?php echo Book::$CAT_SS_LABELS[Book::SS_SUBMITED] ?></span>
 								</div>
 							</li>
 							<li style="width: 24%">
 								<div class='text-error'>
-									<?php echo ($books[Book::SS_DISAPPROVED]->count()) ?>
-									<span><?php echo Book::$_SS_LABEL[Book::SS_DISAPPROVED] ?></span>
+									<?php echo ($count[Book::SS_DISAPPROVED]) ?>
+									<span><?php echo Book::$CAT_SS_LABELS[Book::SS_DISAPPROVED] ?></span>
 								</div>
 							</li>
 
 							<li style="width: 24%">
 								<div class='text-success'>
-									<?php echo ($books[Book::SS_PUBLISHED]->count()) ?>
-									<span><?php echo Book::$_SS_LABEL[Book::SS_PUBLISHED] ?></span>
+									<?php echo ($count[Book::SS_PUBLISHED]) ?>
+									<span><?php echo Book::$CAT_SS_LABELS[Book::SS_PUBLISHED] ?></span>
 								</div>
 							</li>
 						</ul>
@@ -52,6 +52,7 @@
 				</div>
 			</div>
 		</div>
+		@include('partials.flash')		
 		<div class='space'></div>
 		<div class='row-fluid'>
 			<ul class='nav nav-tabs'>
@@ -68,20 +69,18 @@
 					<a data-toggle='tab' href='#published'>Tài liệu đã lưu hành</a>
 				</li>
 			</ul>
-			<div class='tab-content'>
+			<div class='tab-content' id="book-catalog">
 				<div class='tab-pane active' id='added'>
-					<div class='block'>
+					<div class='block table-container'>
 						<div class='head'>
-							<h2>Hiển thị 6/30 tài liệu</h2>
+							<h2>Hiển thị {{$books[Book::SS_ADDED]->count()}}/{{$books[Book::SS_ADDED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
-								<form action='' method='post'>
-									<div class='input-append'>
-										<input placeholder='Tìm kiếm ...' type='text'>
-										<button class='btn' type='button'>
-											<span class='icon-search'></span>
-										</button>
-									</div>
-								</form>
+								<div class='input-append'>
+									<input placeholder='Tìm kiếm ...' type="text" class="table-search-input" book-type="{{Book::SS_ADDED}}" data-url="{{route('book.catalog.search')}}">
+									<button class="btn btn-book-search" type="button">
+										<span class='icon-search'></span>
+									</button>
+								</div>
 							</div>
 						</div>
 						<div class='content np table-sorting'>
@@ -91,79 +90,68 @@
 										<th style='width:5%'>
 											<input class='checkall' type='checkbox'>
 										</th>
-										<th style='width:35%'>Tiêu đề</th>
-										<th style='width:20%'>Tác giả</th>
-										<th style='width:10%'>Số lượng</th>
-										<th style='width:20%'>Thời gian</th>
-										<th style='width:20%'>Thao tác</th>
+										<th>Tiêu đề</th>
+										<th>Tác giả</th>
+										<th>Số lượng</th>
+										<th>Thời gian</th>
+										<th>Thao tác</th>
 									</tr>
 								</thead>
 								<tbody>
+								<form action="{{route('book.submit')}}" method="POST" class="form-check">
+									{{Form::token()}}
 									<?php foreach ($books[Book::SS_ADDED] as $book): ?>
+
 										<tr>
 											<td>
-												<input name='checkbox' type='checkbox'>
+												<input name="bookId[]" value="{{$book->id}}" class="checkitem" type='checkbox'>
 											</td>
 											<td>{{$book->title }}</td>
 											<td>{{$book->author}}</td>
 											<td>{{$book->number}}</td>
-											<td>{{$book->created_at}}</td>
+											<td>{{$book->created_at->format('d/m/Y h:i').' ('.$book->created_at->diffForHumans().')'}}</td>
 											<td>
 												<div class='row-actions'>
-													<a class='text-info' href='#'>
+													<a class='text-info' href="{{route('book.catalog.view',$book->id)}}">
+														<i class='i-magnifier'></i>
+														Xem
+													</a>
+													<a class='text-warning' href='{{route('book.edit',$book->id)}}'>
 														<i class='i-pencil'></i>
 														Sửa
 													</a>
-													<a class='text-error' href='#'>
+													<a class='text-error' href='{{route('book.delete',$book->id)}}' data-confirm="Bạn có chắc chắn muốn xóa tài liệu {{$book->title}}" data-method="delete" data-token="{{csrf_token()}}">
 														<i class='i-cancel-2'></i>
 														Xóa
-													</a>
+													</a>			
 												</div>
 											</td>
 										</tr>
-									<?php endforeach; ?>
-
+									<?php endforeach; ?>	
+								</form>
 								</tbody>
 							</table>
 						</div>
 						<div class='footer'>
+							<button class="btn btn-primary btn-large btn-check-submit" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
+							<span class="check-info" style="display: none">Đã chọn 2 mục</span>
+							<span class="loading" style="margin-left: 50px; display: none">
+								<img src="{{asset('img/loading.gif')}}"/>
+								Đang tải . . .
+							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									<ul>
-										<li class='disabled'>
-											<a href='#'>«</a>
-										</li>
-										<li class='active'>
-											<a href='#'>1</a>
-										</li>
-										<li>
-											<a href='#'>2</a>
-										</li>
-										<li>
-											<a href='#'>3</a>
-										</li>
-										<li class='disabled'>
-											<a href='#'>...</a>
-										</li>
-										<li>
-											<a href='#'>9</a>
-										</li>
-										<li>
-											<a href='#'>10</a>
-										</li>
-										<li>
-											<a href='#'>»</a>
-										</li>
-									</ul>
+									{{$books[Book::SS_ADDED]->appends(array('type'=>Book::SS_ADDED))->links()}}
 								</div>
 							</div>
 						</div>
 					</div>
+
 				</div>
 				<div class='tab-pane' id='submitted'>
 					<div class='block'>
 						<div class='head'>
-							<h2>Hiển thị 9/15 tài liệu</h2>
+							<h2>Hiển thị {{$books[Book::SS_SUBMITED]->count()}}/{{$books[Book::SS_SUBMITED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
 								<form action='' method='post'>
 									<div class='input-append'>
@@ -175,67 +163,41 @@
 								</form>
 							</div>
 						</div>
-						<div class='content np table-sorting'>
+						<div class="content np table-sorting">
 							<table cellpadding='0' cellspacing='0' class='sort' width='100%'>
 								<thead>
 									<tr>
-										<th style='width:4%'>TT</th>
-										<th style='width:35%'>Tiêu đề</th>
-										<th style='width:20%'>Tác giả</th>
-										<th style='width:10%'>Số lượng</th>
-										<th style='width:20%'>Thời gian</th>
-										<th style='width:20%'>Thao tác</th>
+										<th>TT</th>
+										<th>Tiêu đề</th>
+										<th>Tác giả</th>
+										<th>Số lượng</th>
+										<th>Ngày tạo</th>
+										<th>Ngày gửi</th>
 									</tr>
 								</thead>
 								<tbody>
+									<?php $index = 1; ?>
 									<?php foreach ($books[Book::SS_SUBMITED] as $book): ?>
 										<tr>
-											<td>1</td>
+											<td>{{$index++}}</td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
-											<td>{{$book->created_at}}</td>
-											<td>
-												<div class='row-actions'>
-													<a class='text-info' href='#'>
-														<i class='i-magnifier'></i>
-														Xem
-													</a>
-												</div>
-											</td>
+											<td>{{$book->number}}</td>
+											<td>{{$book->created_at->format('d/m/Y h:i').'('.$book->created_at->diffForHumans().')'}}</td>
+											<td>{{$book->submitted_at->format('d/m/Y h:i').'('.$book->submitted_at->diffForHumans().')'}}</td>
 										</tr>
-										<<?php endforeach; ?>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>
 						<div class='footer'>
+							<span class="loading" style="margin-left: 50px; display: none">
+								<img src="{{asset('img/loading.gif')}}"/>
+								Đang tải . . .
+							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									<ul>
-										<li class='disabled'>
-											<a href='#'>«</a>
-										</li>
-										<li class='active'>
-											<a href='#'>1</a>
-										</li>
-										<li>
-											<a href='#'>2</a>
-										</li>
-										<li>
-											<a href='#'>3</a>
-										</li>
-										<li class='disabled'>
-											<a href='#'>...</a>
-										</li>
-										<li>
-											<a href='#'>9</a>
-										</li>
-										<li>
-											<a href='#'>10</a>
-										</li>
-										<li>
-											<a href='#'>»</a>
-										</li>
-									</ul>
+									{{$books[Book::SS_SUBMITED]->appends(array('type'=>Book::SS_SUBMITED))->links()}}
 								</div>
 							</div>
 						</div>
@@ -245,7 +207,7 @@
 				<div class='tab-pane' id='disapproved'>
 					<div class='block'>
 						<div class='head'>
-							<h2>Hiển thị 9/15 tài liệu</h2>
+							<h2>Hiển thị {{$books[Book::SS_DISAPPROVED]->count()}}/{{$books[Book::SS_DISAPPROVED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
 								<form action='' method='post'>
 									<div class='input-append'>
@@ -261,12 +223,12 @@
 							<table cellpadding='0' cellspacing='0' class='sort' width='100%'>
 								<thead>
 									<tr>
-										<th style='width:4%'>TT</th>
-										<th style='width:35%'>Tiêu đề</th>
-										<th style='width:20%'>Tác giả</th>
-										<th style='width:10%'>Số lượng</th>
-										<th style='width:20%'>Thời gian</th>
-										<th style='width:20%'>Thao tác</th>
+										<th>TT</th>
+										<th>Tiêu đề</th>
+										<th>Tác giả</th>
+										<th>Số lượng</th>
+										<th>Ngày gửi</th>
+										<th>Thao tác</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -275,49 +237,29 @@
 											<td>1</td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
-											<td>{{$book->created_at}}</td>
+											<td>{{$book->number}}</td>
+											<td>{{$book->created_at->format('d/m/Y h:i').' ('.$book->created_at->diffForHumans().')'}}</td>
 											<td>
 												<div class='row-actions'>
-													<a class='text-info' href='#'>
+													<a class='text-info' href='{{route('book.catalog.view',$book->id)}}'>
 														<i class='i-magnifier'></i>
 														Xem
 													</a>
 												</div>
 											</td>
 										</tr>
-										<<?php endforeach; ?>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>
 						<div class='footer'>
+							<span class="loading" style="margin-left: 50px; display: none">
+								<img src="{{asset('img/loading.gif')}}"/>
+								Đang tải . . .
+							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									<ul>
-										<li class='disabled'>
-											<a href='#'>«</a>
-										</li>
-										<li class='active'>
-											<a href='#'>1</a>
-										</li>
-										<li>
-											<a href='#'>2</a>
-										</li>
-										<li>
-											<a href='#'>3</a>
-										</li>
-										<li class='disabled'>
-											<a href='#'>...</a>
-										</li>
-										<li>
-											<a href='#'>9</a>
-										</li>
-										<li>
-											<a href='#'>10</a>
-										</li>
-										<li>
-											<a href='#'>»</a>
-										</li>
-									</ul>
+									{{$books[Book::SS_DISAPPROVED]->appends(array('type'=>Book::SS_DISAPPROVED))->links()}}
 								</div>
 							</div>
 						</div>
@@ -325,10 +267,10 @@
 				</div>
 
 				<!--Tab published-->
-				<div class='tab-pane' id='disapproved'>
+				<div class='tab-pane' id='published'>
 					<div class='block'>
 						<div class='head'>
-							<h2>Hiển thị 9/15 tài liệu</h2>
+							<h2>Hiển thị {{$books[Book::SS_PUBLISHED]->count()}}/{{$books[Book::SS_PUBLISHED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
 								<form action='' method='post'>
 									<div class='input-append'>
@@ -344,12 +286,13 @@
 							<table cellpadding='0' cellspacing='0' class='sort' width='100%'>
 								<thead>
 									<tr>
-										<th style='width:4%'>TT</th>
-										<th style='width:35%'>Tiêu đề</th>
-										<th style='width:20%'>Tác giả</th>
-										<th style='width:10%'>Số lượng</th>
-										<th style='width:20%'>Thời gian</th>
-										<th style='width:20%'>Thao tác</th>
+										<th>TT</th>
+										<th>Tiêu đề</th>
+										<th>Tác giả</th>
+										<th>Số lượng</th>
+										<th>Ngày tạo</th>
+										<th>Ngày lưu hành</th>
+										<th>Thao tác</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -358,49 +301,30 @@
 											<td>1</td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
-											<td>{{$book->created_at}}</td>
+											<td>{{$book->number}}</td>
+											<td>{{$book->created_at->format('d/m/Y h:i').' ('.$book->created_at->diffForHumans().')'}}</td>
+											<td>{{$book->published_at->format('d/m/Y h:i').' ('.$book->published_at->diffForHumans().')'}}</td>
 											<td>
 												<div class='row-actions'>
-													<a class='text-info' href='#'>
+													<a class='text-info' href='{{route('book.catalog.view',$book->id)}}'>
 														<i class='i-magnifier'></i>
 														Xem
 													</a>
 												</div>
 											</td>
 										</tr>
-										<<?php endforeach; ?>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>
 						<div class='footer'>
+							<span class="loading" style="margin-left: 50px; display: none">
+								<img src="{{asset('img/loading.gif')}}"/>
+								Đang tải . . .
+							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									<ul>
-										<li class='disabled'>
-											<a href='#'>«</a>
-										</li>
-										<li class='active'>
-											<a href='#'>1</a>
-										</li>
-										<li>
-											<a href='#'>2</a>
-										</li>
-										<li>
-											<a href='#'>3</a>
-										</li>
-										<li class='disabled'>
-											<a href='#'>...</a>
-										</li>
-										<li>
-											<a href='#'>9</a>
-										</li>
-										<li>
-											<a href='#'>10</a>
-										</li>
-										<li>
-											<a href='#'>»</a>
-										</li>
-									</ul>
+									{{$books[Book::SS_PUBLISHED]->appends(array('type'=>Book::SS_PUBLISHED))->links()}}
 								</div>
 							</div>
 						</div>

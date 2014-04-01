@@ -4,7 +4,7 @@ class User {
 	public static $groups = array(
 		'admin' => 'Quản trị',
 		'cataloger' => 'Biên mục',
-		'moderator' => 'Kiểm duyêt',
+		'moderator' => 'Kiểm duyệt',
 		'librarian' => 'Thủ thư'
 	);
 	public static $get_actions = array(
@@ -23,11 +23,18 @@ class User {
 			'action' => 'catalog',
 		),
 		array(
-			'path' => 'book/{id}preview',
-			'displayName' => 'Xem trước tài liệu',
-			'name' => 'book.preview',
+			'path' => 'book/moderate',
+			'displayName' => 'Kiểm duyệt tài liệu',
+			'name' => 'book.moderate',
 			'controller' => 'BookController',
-			'action' => 'preview'
+			'action' => 'moderate'
+		),
+		array(
+			'path' => 'book/{id}/edit',
+			'displayName' => 'Chỉnh sửa tài liệu',
+			'name' => 'book.edit',
+			'controller' => 'BookController',
+			'action' => 'edit'
 		),
 	);
 
