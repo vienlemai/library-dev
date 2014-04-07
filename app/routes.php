@@ -28,7 +28,7 @@ Route::get('error/{type}', array(
 	'uses' => 'AdminController@error'
 ));
 //home
-Route::get('/', array('as' => 'home', 'uses' => 'AdminController@index'));
+Route::get('/', array('as' => 'home', 'uses' => 'BookController@catalog'));
 //logout
 Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
 /**
@@ -41,10 +41,13 @@ Route::group(array('before' => 'auth'), function () {
 			'uses' => $action['controller'] . '@' . $action['action']
 		));
 	}
-
 	Route::get('book/catalog/search', array(
 		'as' => 'book.catalog.search',
 		'uses' => 'BookController@catalogSearch'
+	));
+	Route::get('book/moderate/search', array(
+		'as' => 'book.moderate.search',
+		'uses' => 'BookController@moderateSearch'
 	));
 
 	Route::get('book/moderate/{id}', array(
@@ -62,6 +65,10 @@ Route::group(array('before' => 'auth'), function () {
 	Route::get('book/barcode/{id}', array(
 		'as' => 'book.barcode',
 		'uses' => 'BookController@barcode'
+	));
+	Route::get('/user/create', array(
+		'as' => 'user.create',
+		'uses' => 'UserController@create',
 	));
 });
 
@@ -91,10 +98,9 @@ Route::group(array('before' => 'auth|csrf'), function () {
 		'as' => 'book.disapprove',
 		'uses' => 'BookController@disapprove'
 	));
-});
 
-Route::get('/user/create', array(
-	'as' => 'user.create',
-	'uses' => 'UserController@create',
-));
-//Route::get('/book/create','BookController@create');
+	Route::post('user/save', array(
+		'as' => 'user.save',
+		'uses' => 'UserController@save',
+	));
+});

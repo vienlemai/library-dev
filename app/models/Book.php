@@ -100,7 +100,7 @@ class Book extends Eloquent {
 		$rules = array(
 			'title' => 'required',
 			'author' => 'required',
-			'number' => 'required',
+			'number' => 'required',			
 		);
 
 		$messages = array(

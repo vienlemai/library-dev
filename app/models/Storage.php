@@ -36,9 +36,14 @@ class Storage extends Node {
 		}
 		return $html;
 	}
+
 	//get tree form leaf to root
-	public function getTree($id){
-		
+	public function getPath($node) {
+		if ($node->isRoot()) {
+			return $node->name;
+		} else {
+			return $this->getPath($node->parent()->first()) . '/' . $node->name;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////

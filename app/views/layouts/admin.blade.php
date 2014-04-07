@@ -128,17 +128,11 @@
 								</li>
 							</ul>
 						</li>
-						<li class='disabled'>
+						<li class='openable open'>
 							<a href='#'>Quản lý hệ thống</a>
 							<ul>
 								<li class=''>
-									<a href='nhan_vien.html'>Nhân viên</a>
-								</li>
-								<li class=''>
-									<a href='quyen_han.html'>Quyền hạn</a>
-								</li>
-								<li class=''>
-									<a href='kho_danh_muc_don_vi.html'>Kho - Danh mục - Đơn vị</a>
+									<a href='{{route('user.create')}}'>Nhân viên</a>
 								</li>
 							</ul>
 						</li>

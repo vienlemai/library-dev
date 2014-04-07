@@ -28,7 +28,7 @@
 
 							{{ Former::horizontal_open(route('book.save'))->method('POST') }}
 							{{Former::xlarge_text('title')
-								->label('Nhan đề')
+								->label('Nhan đề (*)')
 							}}
 
 							{{Former::xlarge_text('sub_title')
@@ -36,7 +36,7 @@
 							}}
 
 							{{Former::xlarge_text('author')
-								->label('Tác giả')
+								->label('Tác giả (*)')
 							}}
 
 							{{Former::xlarge_text('translator')
@@ -112,7 +112,7 @@
 								</div>
 
 								{{Former::xlarge_text('number')
-									->label('Số lượng')
+									->label('Số lượng (*)')
 								}}
 
 								{{Former::select('level')

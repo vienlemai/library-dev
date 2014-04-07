@@ -52,18 +52,16 @@
 			</ul>
 			<div class='tab-content' id="book-catalog">
 				<div class='tab-pane active' id='submitted'>
-					<div class='block'>
+					<div class='block table-container'>
 						<div class='head'>
 							<h2>Hiển thị {{$books[Book::SS_SUBMITED]->count()}}/{{$books[Book::SS_SUBMITED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
-								<form action='' method='post'>
-									<div class='input-append'>
-										<input placeholder='Tìm kiếm ...' type='text'>
-										<button class='btn' type='button'>
-											<span class='icon-search'></span>
-										</button>
-									</div>
-								</form>
+								<div class='input-append'>
+									<input placeholder='Tìm kiếm ...' type="text" class="table-search-input" book-type="{{Book::SS_SUBMITED}}" data-url="{{route('book.moderate.search')}}">
+									<button class="btn btn-book-search" type="button">
+										<span class='icon-search'></span>
+									</button>
+								</div>
 							</div>
 						</div>
 						<div class="content np table-sorting">
@@ -107,7 +105,7 @@
 							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									{{$books[Book::SS_SUBMITED]->appends(array('type'=>Book::SS_SUBMITED))->links()}}
+									{{$books[Book::SS_SUBMITED]->appends(array('book-type'=>Book::SS_SUBMITED))->links()}}
 								</div>
 							</div>
 						</div>
@@ -115,18 +113,16 @@
 				</div>
 				<!--Tab disapproved-->
 				<div class='tab-pane' id='disapproved'>
-					<div class='block'>
+					<div class='block table-container'>
 						<div class='head'>
 							<h2>Hiển thị {{$books[Book::SS_DISAPPROVED]->count()}}/{{$books[Book::SS_DISAPPROVED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
-								<form action='' method='post'>
-									<div class='input-append'>
-										<input placeholder='Tìm kiếm ...' type='text'>
-										<button class='btn' type='button'>
-											<span class='icon-search'></span>
-										</button>
-									</div>
-								</form>
+								<div class='input-append'>
+									<input placeholder='Tìm kiếm ...' type="text" class="table-search-input" book-type="{{Book::SS_DISAPPROVED}}" data-url="{{route('book.moderate.search')}}">
+									<button class="btn btn-book-search" type="button">
+										<span class='icon-search'></span>
+									</button>
+								</div>
 							</div>
 						</div>
 						<div class='content np table-sorting'>
@@ -141,9 +137,10 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php $index = 1; ?>
 									<?php foreach ($books[Book::SS_DISAPPROVED] as $book): ?>
 										<tr>
-											<td>1</td>
+											<td><?php echo $index ++ ?></td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
 											<td>{{$book->number}}</td>
@@ -160,7 +157,7 @@
 							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									{{$books[Book::SS_DISAPPROVED]->appends(array('type'=>Book::SS_DISAPPROVED))->links()}}
+									{{$books[Book::SS_DISAPPROVED]->appends(array('book-type'=>Book::SS_DISAPPROVED))->links()}}
 								</div>
 							</div>
 						</div>
@@ -170,17 +167,15 @@
 				<!--Tab published-->
 				<div class='tab-pane' id='published'>
 					<div class='block'>
-						<div class='head'>
+						<div class='head table-container'>
 							<h2>Hiển thị {{$books[Book::SS_PUBLISHED]->count()}}/{{$books[Book::SS_PUBLISHED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
-								<form action='' method='post'>
-									<div class='input-append'>
-										<input placeholder='Tìm kiếm ...' type='text'>
-										<button class='btn' type='button'>
-											<span class='icon-search'></span>
-										</button>
-									</div>
-								</form>
+								<div class='input-append'>
+									<input placeholder='Tìm kiếm ...' type="text" class="table-search-input" book-type="{{Book::SS_PUBLISHED}}" data-url="{{route('book.moderate.search')}}">
+									<button class="btn btn-book-search" type="button">
+										<span class='icon-search'></span>
+									</button>
+								</div>
 							</div>
 						</div>
 						<div class='content np table-sorting'>
@@ -196,9 +191,10 @@
 									</tr>
 								</thead>
 								<tbody>
+									<?php $index = 1; ?>
 									<?php foreach ($books[Book::SS_PUBLISHED] as $book): ?>
 										<tr>
-											<td>1</td>
+											<td><?php $index++ ?></td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
 											<td>{{$book->number}}</td>
@@ -216,7 +212,7 @@
 							</span>
 							<div class='side fr'>
 								<div class='pagination'>
-									{{$books[Book::SS_PUBLISHED]->appends(array('type'=>Book::SS_PUBLISHED))->links()}}
+									{{$books[Book::SS_PUBLISHED]->appends(array('book-type'=>Book::SS_PUBLISHED))->links()}}
 								</div>
 							</div>
 						</div>
@@ -225,6 +221,5 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 @stop
