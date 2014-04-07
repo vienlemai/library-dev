@@ -28,7 +28,7 @@ Route::get('error/{type}', array(
 	'uses' => 'AdminController@error'
 ));
 //home
-Route::get('/', array('as' => 'home', 'uses' => 'BookController@catalog'));
+Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'BookController@catalog'));
 //logout
 Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
 /**
@@ -66,9 +66,14 @@ Route::group(array('before' => 'auth'), function () {
 		'as' => 'book.barcode',
 		'uses' => 'BookController@barcode'
 	));
-	Route::get('/user/create', array(
+	Route::get('user/create', array(
 		'as' => 'user.create',
 		'uses' => 'UserController@create',
+	));
+	
+	Route::get('reader',array(
+		'as'=>'reader',
+		'uses'=>'ReaderController@index',
 	));
 });
 
@@ -102,5 +107,9 @@ Route::group(array('before' => 'auth|csrf'), function () {
 	Route::post('user/save', array(
 		'as' => 'user.save',
 		'uses' => 'UserController@save',
+	));
+	Route::post('reader/save',array(
+		'as'=>'reader.save',
+		'uses'=>'ReaderController@save',
 	));
 });

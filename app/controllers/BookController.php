@@ -231,18 +231,13 @@ class BookController extends \BaseController {
 						. '"</strong>, số lượng : <strong>'
 						. Input::get('number') . ' cuốn</strong>, '
 						. 'Số mã vạch đã in : <strong>' . $book->barcode_printed . ' mã</strong>');
+				return Redirect::route('book.catalog.view', $book->id);
 			} else {
 				Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+				return Redirect::route('book.create');
 			}
-			//$storageOptions = new Storage();
-			return Redirect::route('book.catalog.view', $book->id);
 		} else {
-			Former::withErrors($v->messages());
-			$storageOptions = new Storage();
-			return View::make('book.create', array(
-						'storageOptions' => $storageOptions->render(),
-						'levels' => Book::$LEVELS,
-			));
+			return Redirect::route('book.create')->withInput()->withErrors($v->messages());
 		}
 	}
 
