@@ -8,7 +8,7 @@
 		<div class='page-tools'>
 			<ul>
 				<li>
-					<a class='btn btn-small' href='{{route('book.catalog')}}'>
+					<a class='btn btn-small' href='{{route('readers')}}'>
 						<i class='i-reply'></i>
 						Danh sách bạn đọc
 					</a>

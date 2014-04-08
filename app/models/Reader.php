@@ -17,16 +17,16 @@ class Reader extends Eloquent {
 	/**
 	 * Status SS_BORROWING reader borrowing books
 	 */
-	const SS_BORROWING = 0;
+	//const SS_BORROWING = 1;
 
 	/**
 	 * Status SS_PAUSING reader is unable to borrow books
 	 */
-	const SS_PAUSING = 2;
+	const SS_PAUSING = 1;
 
 	public static $LABELS = array(
 		self::SS_CIRCULATING => 'Đang lưu thông',
-		self::SS_BORROWING => 'Đang mượn tài liệu',
+		//self::SS_BORROWING => 'Đang mượn tài liệu',
 		self::SS_PAUSING => 'Đang bị khóa'
 	);
 
@@ -62,6 +62,14 @@ class Reader extends Eloquent {
 			'email.required' => 'Phải nhập địa chỉ email'
 		);
 		return Validator::make($input, $rules, $messages);
+	}
+
+	public static function boot() {
+		parent::boot();
+		static::creating(function($reader) {
+			$reader->status = Reader::SS_CIRCULATING;
+			$reader->created_by = Sentry::getUser()->id;
+		});
 	}
 
 }

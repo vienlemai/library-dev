@@ -12,11 +12,28 @@ class ReaderController extends \BaseController {
 	 * @return Response
 	 */
 	public function index() {
-		foreach (Reader::$LABELS as $k => $v) {
-			$count[$k] = Reader::where('status', '=', $k)->count();
-		}
 		$readers = Reader::paginate(self::ITEMS_PER_PAGE);
-		$this->layout->content = View::make('reader.index', array('count' => $count, 'readers' => $readers));
+		if (Request::ajax()) {
+			return View::make('reader.partials.index', array('readers' => $readers));
+		} else {
+			foreach (Reader::$LABELS as $k => $v) {
+				$count[$k] = Reader::where('status', '=', $k)->count();
+			}
+			return View::make('reader.index', array('count' => $count, 'readers' => $readers));
+		}
+	}
+
+	public function search() {
+		$keyword = Input::get('keyword');
+		$readers = Reader::where('full_name', 'LIKE', '%' . $keyword . '%')->paginate(self::ITEMS_PER_PAGE);
+		if (Request::ajax()) {
+			return View::make('reader.partials.index', array('readers' => $readers, 'keyword' => $keyword));
+		} else {
+			foreach (Reader::$LABELS as $k => $v) {
+				$count[$k] = Reader::where('status', '=', $k)->count();
+			}
+			return View::make('reader.index', array('count' => $count, 'readers' => $readers));
+		}
 	}
 
 	public function create() {
@@ -41,10 +58,10 @@ class ReaderController extends \BaseController {
 			));
 			if ($reader->save()) {
 				Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
-				Redirect::route('reader');
+				return Redirect::route('readers');
 			} else {
 				Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
-				Redirect::route('reader.create');
+				return Redirect::route('reader.create');
 			}
 		} else {
 			Former::withErrors($v->messages());

@@ -70,10 +70,15 @@ Route::group(array('before' => 'auth'), function () {
 		'as' => 'user.create',
 		'uses' => 'UserController@create',
 	));
-	
-	Route::get('reader',array(
-		'as'=>'reader',
-		'uses'=>'ReaderController@index',
+
+	Route::get('readers', array(
+		'as' => 'readers',
+		'uses' => 'ReaderController@index',
+	));
+
+	Route::get('reader/search', array(
+		'as' => 'reader.search',
+		'uses' => 'ReaderController@search',
 	));
 });
 
@@ -108,8 +113,8 @@ Route::group(array('before' => 'auth|csrf'), function () {
 		'as' => 'user.save',
 		'uses' => 'UserController@save',
 	));
-	Route::post('reader/save',array(
-		'as'=>'reader.save',
-		'uses'=>'ReaderController@save',
+	Route::post('reader/save', array(
+		'as' => 'reader.save',
+		'uses' => 'ReaderController@save',
 	));
 });

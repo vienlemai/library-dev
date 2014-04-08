@@ -67,7 +67,11 @@
 	</span>
 	<div class='side fr'>
 		<div class='pagination'>
+			@if(isset($keyword))
+			{{$books->appends(array('book-type'=>Book::SS_ADDED,'keyword'=>$keyword))->links()}}
+			@else
 			{{$books->appends(array('book-type'=>Book::SS_ADDED))->links()}}
+			@endif
 		</div>
 	</div>
 </div>
