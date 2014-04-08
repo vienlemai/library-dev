@@ -134,6 +134,9 @@
 								<li class=''>
 									<a href='{{route('user.create')}}'>Nhân viên</a>
 								</li>
+								<li class=''>
+									<a href='{{route('configs')}}'>Cấu hình</a>
+								</li>
 							</ul>
 						</li>
 					</ul>

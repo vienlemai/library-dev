@@ -4,7 +4,7 @@ class BaseController extends Controller {
 	/**
 	 * for pagination: the number of items per page
 	 */
-	const ITEMS_PER_PAGE = 2;
+	const ITEMS_PER_PAGE = 20;
 
 	/**
 	 * Setup the layout used by the controller.

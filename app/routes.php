@@ -80,6 +80,12 @@ Route::group(array('before' => 'auth'), function () {
 		'as' => 'reader.search',
 		'uses' => 'ReaderController@search',
 	));
+
+	//configs
+	Route::get('configs', array(
+		'as' => 'configs',
+		'uses' => 'ConfigController@edit',
+	));
 });
 
 /**
@@ -116,5 +122,10 @@ Route::group(array('before' => 'auth|csrf'), function () {
 	Route::post('reader/save', array(
 		'as' => 'reader.save',
 		'uses' => 'ReaderController@save',
+	));
+	//configs
+	Route::post('config/update', array(
+		'as' => 'config.update',
+		'uses' => 'ConfigController@update'
 	));
 });

@@ -30,7 +30,6 @@
 					<td>{{$reader->created_at->format('d/m/Y')}}</td>
 					<td>{{Reader::$LABELS[$reader->status]}}</td>
 					<td>
-						<a href='#'>Lịch sử</a>
 					</td>
 				</tr>
 			<?php endforeach; ?>
