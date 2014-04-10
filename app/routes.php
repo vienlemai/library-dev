@@ -128,4 +128,9 @@ Route::group(array('before' => 'auth|csrf'), function () {
 		'as' => 'config.update',
 		'uses' => 'ConfigController@update'
 	));
+	Route::post('upload/image', array(
+		'as' => 'upload.image',
+		'uses' => 'FileController@uploadImage'
+	));
 });
+

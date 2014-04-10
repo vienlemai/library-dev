@@ -194,6 +194,27 @@
 		}
 	};
 
+	/**
+	 * Ajax upload image and preview
+	 * */
+	$(".input-choose-image").fileupload({
+		url: $(this).attr('data-url'),
+		dataType: "json",
+		start: function() {
+		},
+		done: function() {
+
+		},
+		success: function() {
+
+		},
+		error: function(e) {
+			console.log(e);
+			//alert('Lỗi ' + e);
+			return false;
+		}
+	});
+
 	tableHandle.init();
 
 })(jQuery);

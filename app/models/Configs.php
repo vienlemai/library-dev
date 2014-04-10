@@ -19,11 +19,17 @@ class Configs extends Eloquent {
 
 	public static function validate($input) {
 		$rules = array(
-			'value' => 'required',
+			'reader_expired' => 'required',
+			'book_expired' => 'required',
+			'max_books' => 'required',
+			'extra_times' => 'required',
 		);
 
 		$messages = array(
-			'full_name.required' => 'Phải nhập giá trị',
+			'reader_expired.required' => 'Phải nhập giá trị',
+			'book_expired.required' => 'Phải nhập giá trị',
+			'max_books.required' => 'Phải nhập giá trị',
+			'extra_times.required' => 'Phải nhập giá trị',
 		);
 		return Validator::make($input, $rules, $messages);
 	}
