@@ -7,5 +7,6 @@ composer.lock
 .DS_Store
 Thumbs.db
 .idea
+nbproject
 /nbproject/private/
 /public/img/barcode
