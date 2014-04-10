@@ -70,26 +70,26 @@
 						<li class='active'>
 							<a href='index.html'>Bảng điều khiển</a>
 						</li>
-						<li class='disabled'>
+						<li class='openable open'>
 							<a href='#'>Lưu hành</a>
 							<ul>
 								<li class=''>
-									<a href='muon_tra_tai_lieu.html'>Mượn trả tài liệu</a>
+									<a href='#'>Mượn trả tài liệu</a>
 								</li>
 								<li class=''>
-									<a href='danh_sach_tai_lieu.html'>Danh sách tài liệu</a>
+									<a href='#'>Danh sách tài liệu</a>
 								</li>
 								<li class=''>
-									<a href='danh_sach_ban_doc.html'>Danh sách bạn đọc</a>
+									<a href='{{route('readers')}}'>Danh sách bạn đọc</a>
 								</li>
 								<li class=''>
-									<a href='them_moi_ban_doc.html'>Thêm bạn đọc</a>
+									<a href='{{route('reader.create')}}'>Thêm bạn đọc</a>
 								</li>
 								<li class=''>
-									<a href='doc_gia_tre_han.html'>Độc giả trễ hạn</a>
+									<a href='#'>Độc giả trễ hạn</a>
 								</li>
 								<li class=''>
-									<a href='lich_su_luu_thong.html'>Lịch sử lưu thông</a>
+									<a href='#'>Lịch sử lưu thông</a>
 								</li>
 							</ul>
 						</li>
@@ -128,17 +128,11 @@
 								</li>
 							</ul>
 						</li>
-						<li class='disabled'>
+						<li class='openable open'>
 							<a href='#'>Quản lý hệ thống</a>
 							<ul>
 								<li class=''>
-									<a href='nhan_vien.html'>Nhân viên</a>
-								</li>
-								<li class=''>
-									<a href='quyen_han.html'>Quyền hạn</a>
-								</li>
-								<li class=''>
-									<a href='kho_danh_muc_don_vi.html'>Kho - Danh mục - Đơn vị</a>
+									<a href='{{route('user.create')}}'>Nhân viên</a>
 								</li>
 							</ul>
 						</li>

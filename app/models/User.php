@@ -1,6 +1,8 @@
 <?php
 
-class User {
+use Cartalyst\Sentry\Users\Eloquent\User as SentryModel;
+
+class User extends SentryModel {
 	public static $groups = array(
 		'admin' => 'Quản trị',
 		'cataloger' => 'Biên mục',
@@ -35,6 +37,13 @@ class User {
 			'name' => 'book.edit',
 			'controller' => 'BookController',
 			'action' => 'edit'
+		),
+		array(
+			'path' => 'reader/create',
+			'displayName' => 'Thêm mới bạn đọc',
+			'name' => 'reader.create',
+			'controller' => 'ReaderController',
+			'action' => 'create',
 		),
 	);
 

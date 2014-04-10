@@ -158,9 +158,9 @@
 									->disabled()
 								}}
 
-								{{Former::select('storate')
+								{{Former::xlarge_text('storate')
 									->label('Kho')
-									->options(array('1'=>'Kho A','2'=>'Kho B'),$book->storate)
+									->value($path)
 									->disabled()								
 								}}
 

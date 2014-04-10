@@ -2,8 +2,8 @@
 	<h2>Hiển thị {{$books->count()}}/{{$books->getTotal()}} tài liệu</h2>
 	<div class='toolbar-table-right'>
 		<div class='input-append'>
-			<input placeholder='Tìm kiếm ...' type="text" value="<?php echo isset($keyword) ? $keyword : '' ?>" class="table-search-input" book-type="{{Book::SS_SUBMITED}}" data-url="{{route('book.moderate.search')}}">
-			<button class="btn btn-book-search" type="button">
+			<input placeholder='Tìm kiếm ...' type="text" value="<?php echo isset($keyword) ? $keyword : '' ?>" class="table-search-input" book-type="{{Book::SS_ADDED }}" data-url="{{route('book.catalog.search')}}">
+			<button class="btn" type="button">
 				<span class='icon-search'></span>
 			</button>
 		</div>
@@ -17,8 +17,8 @@
 				<th>Tiêu đề</th>
 				<th>Tác giả</th>
 				<th>Số lượng</th>
+				<th>Ngày tạo</th>
 				<th>Ngày gửi</th>
-				<th>Thao tác</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -29,15 +29,8 @@
 					<td>{{$book->title}}</td>
 					<td>{{$book->author}}</td>
 					<td>{{$book->number}}</td>
-					<td>{{$book->submitted_at->format('d/m/Y h:i').' ('.$book->submitted_at->diffForHumans().')'}}</td>
-					<td>
-						<div class='row-actions'>
-							<a class='text-info' href='{{route('book.moderate.view',$book->id)}}'>
-								<i class='i-magnifier'></i>
-								Xem
-							</a>
-						</div>
-					</td>
+					<td>{{$book->created_at->format('d/m/Y h:i').'('.$book->created_at->diffForHumans().')'}}</td>
+					<td>{{$book->submitted_at->format('d/m/Y h:i').'('.$book->submitted_at->diffForHumans().')'}}</td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

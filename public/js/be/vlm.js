@@ -3,38 +3,11 @@
 	tinymce.init({
 		selector: ".editor",
 		menubar: false,
-		statusbar:false,
-		toolbar:false,
+		statusbar: false,
+		toolbar: false,
 		//toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
 	});
 	$("#storage").select2();
-	//Print barcode
-	$("#btnPrintBarcode").on("click", function() {
-		var dataUrl = $(this).attr('data-url');
-		var bookId = $("#bookId").val();
-		var number = $("#number").val();
-		var title = $("#title").val();
-		$.ajax({
-			url: dataUrl,
-			type: "POST",
-			dataType: "html",
-			data: {bookId: bookId, title: title, number: number},
-			success: function(data) {
-				var printWindow = window.open("", "", "width=400,height=600");
-				printWindow.document.write('<html><head><title>my div</title>');
-				/*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
-				printWindow.document.write('</head><body >');
-				printWindow.document.write(data);
-				printWindow.document.write('</body></html>');
-
-				//printWindow.print();
-				//printWindow.close();
-			},
-			error: function() {
-
-			},
-		});
-	});
 
 	$('[btn-confirm="confirm"]').on('click', function() {
 		dataConfirm = $(this).attr('data-confirm');
@@ -67,23 +40,29 @@
 	 * */
 	var tableHandle = {
 		$tableContainer: $('.table-container'),
+		contanerClass: '.table-container',
 		$searchInput: $(".table-search-input"),
 		init: function() {
 			this.$tableContainer.each(function() {
 				$container = $(this);
 				//ajax pagination
 				$(this).on('click', '.pagination a', function() {
+					$paging = $(this);
 					//call ajax to get html content for paging
 					$.ajax({
 						url: $(this).attr('href'),
 						data: null,
 						type: "GET",
 						beforeSend: function() {
-							$container.find('span.loading').show();
+							$paging.parents(tableHandle.contanerClass).find('span.loading').show();
 						},
 						success: function(result) {
-							$container.find('span.loading').hide();
-							$container.html(result);
+							$paging.parents(tableHandle.contanerClass).find('span.loading').hide();
+							$paging.parents(tableHandle.contanerClass).html(result);
+						},
+						error: function() {
+							bootbox.alert('Đã có lỗi xảy ra, vui lòng đăng nhập lại');
+							return false;
 						}
 					});
 					return false;
@@ -93,6 +72,7 @@
 
 				//seach on table
 				$(this).on('change', '.table-search-input', function() {
+					$input = $(this);
 					searchParmas = {};
 					ignoreArr = ['type', 'placeholder', 'class', 'id', 'data-url'];
 					dataUrl = $(this).attr('data-url');
@@ -113,11 +93,15 @@
 						type: "GET",
 						data: searchParmas,
 						beforeSend: function() {
-							$container.find('span.loading').show();
+							$input.parents(tableHandle.contanerClass).find('span.loading').show();
 						},
 						success: function(result) {
-							$container.find('span.loading').hide();
-							$container.html(result);
+							$input.parents(tableHandle.contanerClass).find('span.loading').hide();
+							$input.parents(tableHandle.contanerClass).html(result);
+						},
+						error: function() {
+							bootbox.alert('Đã có lỗi xảy ra, vui lòng đăng nhập lại');
+							return false;
 						}
 					});
 				});
@@ -126,6 +110,7 @@
 				//checkall 
 				$(this).on('click', 'input.checkall', function() {
 					checked = $(this).prop('checked');
+					$container = $(this).parents(tableHandle.contanerClass);
 					$checkItems = $container.find('.checkitem');
 					numberOfChecked = 0;
 					$checkItems.each(function() {
@@ -141,6 +126,7 @@
 				});
 				//check on item on table
 				$(this).on('click', 'input.checkitem', function() {
+					$container = $(this).parents(tableHandle.contanerClass);
 					$checkItems = $container.find('.checkitem');
 					numberOfChecked = 0;
 					$checkItems.each(function() {
@@ -156,6 +142,7 @@
 
 				//submit after check
 				$(this).on('click', '.btn-check-submit', function() {
+					$container = $(this).parents(tableHandle.contanerClass);
 					$checkItems = $container.find('.checkitem');
 					numberOfChecked = 0;
 					$checkItems.each(function() {

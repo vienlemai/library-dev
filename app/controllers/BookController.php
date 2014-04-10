@@ -21,7 +21,7 @@ class BookController extends \BaseController {
 	 */
 	public function catalog() {
 		if (Request::ajax()) {
-			$type = Input::get('type');
+			$type = Input::get('book-type');
 			switch ($type) {
 				case Book::SS_SUBMITED:
 					$books = Book::where('status', '=', $type)
@@ -77,9 +77,10 @@ class BookController extends \BaseController {
 	 * Search books for catologer, get bookType, and keyword form request
 	 */
 	public function catalogSearch() {
+		$type = Input::get('book-type');
+		$keyword = Input::get('keyword');
 		if (Request::ajax()) {
-			$type = Input::get('book-type');
-			$keyword = Input::get('keyword');
+
 			$books = Book::where('status', '=', $type)
 					->where('created_by', '=', Sentry::getUser()->id)
 					->where('title', 'LIKE', '%' . $keyword . '%')
@@ -154,6 +155,34 @@ class BookController extends \BaseController {
 	}
 
 	/**
+	 * Search books for catologer, get bookType, and keyword form request
+	 */
+	public function moderateSearch() {
+		$type = Input::get('book-type');
+		$keyword = Input::get('keyword');
+		if (Request::ajax()) {
+			$books = Book::where('status', '=', $type)
+					->where('created_by', '=', Sentry::getUser()->id)
+					->where('title', 'LIKE', '%' . $keyword . '%')
+					->orderBy('updated_at', 'desc')
+					->paginate(self::ITEMS_PER_PAGE);
+			return View::make('book.partials.moderate.' . $type, array('books' => $books, 'keyword' => $keyword));
+		} else {
+			foreach (Book::$CAT_SS_LABELS as $k => $v) {
+				$count[$k] = Book::where('status', '=', $k)->count();
+			}
+			foreach (Book::$CAT_SS_LABELS as $k => $v) {
+				$books[$k] = Book::where('status', '=', $k)
+						->where('created_by', '=', Sentry::getUser()->id)
+						->where('title', 'LIKE', '%' . $keyword . '%')
+						->orderBy('created_at', 'desc')
+						->paginate(self::ITEMS_PER_PAGE);
+			}
+			return View::make('book.catalog', array('books' => $books, 'count' => $count));
+		}
+	}
+
+	/**
 	 * Add new book
 	 *
 	 * @return Response
@@ -202,14 +231,13 @@ class BookController extends \BaseController {
 						. '"</strong>, số lượng : <strong>'
 						. Input::get('number') . ' cuốn</strong>, '
 						. 'Số mã vạch đã in : <strong>' . $book->barcode_printed . ' mã</strong>');
+				return Redirect::route('book.catalog.view', $book->id);
 			} else {
 				Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+				return Redirect::route('book.create');
 			}
-
-			return Redirect::route('book.catalog.view', $book->id);
 		} else {
-			Former::withErrors($v->messages());
-			return View::make('book.create');
+			return Redirect::route('book.create')->withInput()->withErrors($v->messages());
 		}
 	}
 
@@ -222,11 +250,15 @@ class BookController extends \BaseController {
 			Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
 			return Redirect::route('book.moderate');
 		}
+
 		$user = Sentry::getUser();
 //		if ($book->created_by == $user->id) {
 //			App::abort(404);
 //		}
-		$this->layout->content = View::make('book.moderate-view', array('book' => $book));
+		$storageOptions = new Storage();
+		$node = Storage::where('id', '=', $book->storage)->first();
+		$path = $storageOptions->getPath($node);
+		$this->layout->content = View::make('book.moderate-view', array('book' => $book, 'path' => $path));
 	}
 
 	public function catalogView($bookId) {
@@ -236,10 +268,12 @@ class BookController extends \BaseController {
 			App::abort(404);
 		}
 		$storageOptions = new Storage();
+		$node = Storage::where('id', '=', $book->storage)->first();
+		$path = $storageOptions->getPath($node);
 		$this->layout->content = View::make('book.catalog-view', array(
 					'book' => $book,
 					'levels' => Book::$LEVELS,
-					'storageOptions' => $storageOptions->render(),
+					'path' => $path,
 		));
 	}
 
