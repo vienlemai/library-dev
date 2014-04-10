@@ -23,11 +23,20 @@
 					<h2>Nhập thông bạn đọc</h2>
 				</div>
 				<div class='content'>
-
 					{{ Former::horizontal_open(route('reader.save'))->method('POST') }}
 					{{Former::xlarge_text('full_name')
 								->label('Họ tên (*)')
 					}}
+
+					<div class="control-group">
+						<label class="control-label" for="avatar">Ảnh đại diện (*)</label>
+						<div class="controls">
+							<input type="file" class="input-choose-image" data-url="{{route('upload.image')}}" data-token="{{Session::token()}}"/>
+							<div>
+								<img class="" src="{{asset('img/no_avatar.gif')}}" width="100" height="100"/>
+							</div>
+						</div>
+					</div>
 
 					{{Former::xlarge_text('year_of_birth')
 								->label('Ngày sinh')
@@ -64,12 +73,7 @@
 
 					{{Former::close();
 					}}
-
 				</div>
-				<div class='footer'>
-
-				</div>
-				<?php echo Former::close() ?>
 			</div>
 		</div>
 	</div>

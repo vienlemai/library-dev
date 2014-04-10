@@ -9,10 +9,10 @@ class AdminController extends BaseController {
 	public function index() {
 		$this->layout->content = View::make('admin.index');
 	}
-	
-	public function error($type){
+
+	public function error($type) {
 		$message = '';
-		switch ($type){
+		switch ($type) {
 			case 'permission': $message = "Bạn không có quyền truy cập vào đây";
 			//default : $message = 'Lỗi hệ thống';
 		}
@@ -71,6 +71,5 @@ class AdminController extends BaseController {
 		}
 		return Redirect::route('login');
 	}
-	
-	
+
 }

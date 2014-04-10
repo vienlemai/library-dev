@@ -10,6 +10,8 @@
 		<title>Thư viện online - Quản trị</title>
 		<link rel="icon" type="image/ico" href="favicon.ico"/>
 		<script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/jquery.iframe-transport.js')}}}"></script>
+		<script type="text/javascript" src="{{{asset('js/jquery.fileupload.js')}}}"></script>
 		<script type="text/javascript" src="{{{asset('js/bootbox.min.js')}}}"></script>
 		<script type="text/javascript" src="{{{asset('js/jquery.validate.min.js')}}}"></script>
 		<script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
@@ -48,7 +50,7 @@
 				<div id='sidebar'>
 					<div class='user'>
 						<div class='pic'>
-							<img src="{{{asset('img/default_avatar.png')}}}">
+							<img src="{{asset('img/default_avatar.png')}}">
 						</div>
 						<div class='info'>
 							<div class='name'
@@ -133,6 +135,9 @@
 							<ul>
 								<li class=''>
 									<a href='{{route('user.create')}}'>Nhân viên</a>
+								</li>
+								<li class=''>
+									<a href='{{route('configs')}}'>Cấu hình</a>
 								</li>
 							</ul>
 						</li>
