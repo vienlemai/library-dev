@@ -22,10 +22,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php $index = 1; ?>
+			<?php $index = $books->getFrom(); ?>
 			<?php foreach ($books as $book): ?>
 				<tr>
-					<td><?php echo $index++ ?></td>
+					<td>{{$index++}}</td>
 					<td>{{$book->title}}</td>
 					<td>{{$book->author}}</td>
 					<td>{{$book->number}}</td>
@@ -44,9 +44,9 @@
 	<div class='side fr'>
 		<div class='pagination'>
 			@if(isset($keyword))
-			{{$books->appends(array('book-type'=>Book::SS_ADDED,'keyword'=>$keyword))->links()}}
+			{{$books->appends(array('book-type'=>Book::SS_PUBLISHED,'keyword'=>$keyword))->links()}}
 			@else
-			{{$books->appends(array('book-type'=>Book::SS_ADDED))->links()}}
+			{{$books->appends(array('book-type'=>Book::SS_PUBLISHED))->links()}}
 			@endif
 		</div>
 	</div>

@@ -101,15 +101,35 @@ class BookController extends \BaseController {
 			return View::make('book.catalog', array('books' => $books, 'count' => $count));
 		}
 	}
-	
-	public function library(){
-		$books = Book::where('status','=',Book::SS_PUBLISHED)->paginate(self::ITEMS_PER_PAGE);
-		if(Request::ajax()){
-			return View::make('book.partials.library',array('books'=>$books));
-		}else{
-			return View::make('book.library',array('books'=>$books));
+
+	public function library() {
+		$books = Book::where('status', '=', Book::SS_PUBLISHED)->orderBy('published_at', 'desc')->paginate(self::ITEMS_PER_PAGE);
+		if (Request::ajax()) {
+			return View::make('book.partials.library.library', array('books' => $books));
+		} else {
+			return View::make('book.library', array('books' => $books));
 		}
-		
+	}
+
+	public function librarySearch() {
+		$keyword = Input::get('keyword');
+		$books = Book::where('status', '=', Book::SS_PUBLISHED)
+				->where('title', 'LIKE', '%' . $keyword . '%')
+				->orderBy('published_at', 'desc')
+				->paginate(self::ITEMS_PER_PAGE);
+		if (Request::ajax()) {
+			return View::make('book.partials.library.library', array('books' => $books, 'keyword' => $keyword));
+		} else {
+			return View::make('book.library', array('books' => $books, 'keyword' => $keyword));
+		}
+	}
+
+	public function libraryView($id) {
+		$book = Book::findOrFail($id);
+		$storageOptions = new Storage();
+		$node = Storage::where('id', '=', $book->storage)->first();
+		$path = $storageOptions->getPath($node);
+		return View::make('book.partials.library.view', array('book' => $book,'path'=>$path));
 	}
 
 	/**
@@ -118,7 +138,7 @@ class BookController extends \BaseController {
 	 */
 	public function moderate() {
 		if (Request::ajax()) {
-			$type = Input::get('type');
+			$type = Input::get('book-type');
 			switch ($type) {
 				case Book::SS_SUBMITED:
 					$books = Book::where('status', '=', $type)

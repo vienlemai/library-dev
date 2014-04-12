@@ -66,9 +66,18 @@ Route::group(array('before' => 'auth'), function () {
 		'as' => 'book.library',
 		'uses' => 'BookController@library'
 	));
+	Route::get('book/library/{id}', array(
+		'as' => 'book.library.view',
+		'uses' => 'BookController@libraryView'
+	));
 	Route::get('book/barcode/{id}', array(
 		'as' => 'book.barcode',
 		'uses' => 'BookController@barcode'
+	));
+
+	Route::get('book/library/search', array(
+		'as' => 'book.library.search',
+		'uses' => 'BookController@librarySearch'
 	));
 	Route::get('user/create', array(
 		'as' => 'user.create',

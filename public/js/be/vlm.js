@@ -9,6 +9,22 @@
 	});
 	$("#storage").select2();
 
+	$('[btn-confirm="confirm"]').on('click', function() {
+		dataConfirm = $(this).attr('data-confirm');
+		dataUrl = $(this).attr('data-url');
+		bootbox.confirm(dataConfirm, 'Hủy bỏ', 'Đồng ý', function(result) {
+			if (result) {
+				location.href = dataUrl;
+			}
+		});
+	});
+	$('[data-modal="show-modal"]').on('click', function(e) {
+		dataUrl = $(this).attr('data-url');
+		$.get(dataUrl, function(result) {
+			$(result).modal();
+		});
+		return false;
+	});
 
 	$("#btn-disapprove-book").on('click', function() {
 		$("#form-disapprove-book").toggle(300);

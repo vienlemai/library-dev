@@ -174,7 +174,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $index = 1; ?>
+									<?php $index = $books[Book::SS_SUBMITED]->getFrom(); ?>
 									<?php foreach ($books[Book::SS_SUBMITED] as $book): ?>
 										<tr>
 											<td>{{$index++}}</td>
@@ -228,7 +228,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $index = 1; ?>
+									<?php $index = $books[Book::SS_DISAPPROVED]->getFrom(); ?>
 									<?php foreach ($books[Book::SS_DISAPPROVED] as $book): ?>
 										<tr>
 											<td><?php echo $index++ ?></td>
@@ -291,7 +291,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $index = 1; ?>
+									<?php $index = $books[Book::SS_PUBLISHED]->getFrom(); ?>
 									<?php foreach ($books[Book::SS_PUBLISHED] as $book): ?>
 										<tr>
 											<td><?php echo $index++ ?></td>

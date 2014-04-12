@@ -77,7 +77,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $index = 1; ?>
+									<?php $index = $books[Book::SS_SUBMITED]->getFrom(); ?>
 									<?php foreach ($books[Book::SS_SUBMITED] as $book): ?>
 										<tr>
 											<td>{{$index++}}</td>
@@ -137,10 +137,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $index = 1; ?>
+									<?php $index = $books[Book::SS_DISAPPROVED]->getFrom(); ?>
 									<?php foreach ($books[Book::SS_DISAPPROVED] as $book): ?>
 										<tr>
-											<td><?php echo $index ++ ?></td>
+											<td>{{ $index ++ }}</td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
 											<td>{{$book->number}}</td>
@@ -166,8 +166,8 @@
 
 				<!--Tab published-->
 				<div class='tab-pane' id='published'>
-					<div class='block'>
-						<div class='head table-container'>
+				<div class='block table-container'>
+						<div class='head'>
 							<h2>Hiển thị {{$books[Book::SS_PUBLISHED]->count()}}/{{$books[Book::SS_PUBLISHED]->getTotal()}} tài liệu</h2>
 							<div class='toolbar-table-right'>
 								<div class='input-append'>
@@ -191,10 +191,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $index = 1; ?>
+									<?php $index = $books[Book::SS_PUBLISHED]->getFrom(); ?>
 									<?php foreach ($books[Book::SS_PUBLISHED] as $book): ?>
 										<tr>
-											<td><?php $index++ ?></td>
+											<td>{{ $index++ }}</td>
 											<td>{{$book->title}}</td>
 											<td>{{$book->author}}</td>
 											<td>{{$book->number}}</td>

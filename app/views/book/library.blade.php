@@ -15,7 +15,7 @@
 					<h2>Hiển thị {{$books->count()}}/{{$books->getTotal()}} tài liệu</h2>
 					<div class='toolbar-table-right'>
 						<div class='input-append'>
-							<input placeholder='Tìm kiếm ...' type="text" class="table-search-input" book-type="{{Book::SS_ADDED}}" data-url="{{route('book.catalog.search')}}">
+							<input placeholder='Tìm kiếm ...' type="text" class="table-search-input"  data-url="{{route('book.library.search')}}">
 							<button class="btn btn-book-search" type="button">
 								<span class='icon-search'></span>
 							</button>
@@ -36,7 +36,7 @@
 							</tr>
 						</thead>
 						<tbody>					
-							<?php $stt = 1; ?>
+							<?php $stt = $books->getFrom() ?>
 							<?php foreach ($books as $book): ?>
 
 								<tr>
@@ -46,11 +46,11 @@
 									<td>{{$book->title }}</td>
 									<td>{{$book->author}}</td>
 									<td>{{$book->number}}</td>
-									<td>aaa</td>
-									<td>{{$book->published_at->format('h:i,\ngày d \tháng m, Y').' ('.$book->created_at->diffForHumans().')'}}</td>
+									<td>0</td>
+									<td>{{$book->published_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
 									<td>
 										<div class='row-actions'>
-											<a class='text-info' href="#">
+											<a class='text-info' href="javascript:void(0)" data-modal="show-modal" data-url='{{route('book.library.view',$book->id)}}'>
 												<i class='i-magnifier'></i>
 												Xem
 											</a>		
@@ -62,8 +62,6 @@
 					</table>
 				</div>
 				<div class='footer'>
-					<button class="btn btn-primary btn-large btn-check-submit" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
-					<span class="check-info" style="display: none"></span>
 					<span class="loading" style="margin-left: 50px; display: none">
 						<img src="{{asset('img/loading.gif')}}"/>
 						Đang tải . . .
