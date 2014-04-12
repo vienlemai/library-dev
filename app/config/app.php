@@ -99,6 +99,7 @@ return array(
 		'Dinesh\Barcode\BarcodeServiceProvider',
 		'Cartalyst\Sentry\SentryServiceProvider',
 		'Baum\BaumServiceProvider',
+       // 'Bkwld\LaravelHaml\ServiceProvider' //https://github.com/BKWLD/laravel-haml
 	),
 	/*
 	  |--------------------------------------------------------------------------

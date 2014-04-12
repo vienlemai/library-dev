@@ -26,9 +26,7 @@
 					<table cellpadding='0' cellspacing='0' class='sort' width='100%'>
 						<thead>
 							<tr>
-								<th style='width:5%'>
-									<input class='checkall' type='checkbox'>
-								</th>
+								<th style='width:5%'>TT</th>
 								<th>Tiêu đề</th>
 								<th>Tác giả</th>
 								<th>Số lượng</th>
@@ -37,12 +35,13 @@
 								<th>Thao tác</th>
 							</tr>
 						</thead>
-						<tbody>						
-							<?php foreach ($books[Book::SS_ADDED] as $book): ?>
+						<tbody>					
+							<?php $stt = 1; ?>
+							<?php foreach ($books as $book): ?>
 
 								<tr>
 									<td>
-										<input name="bookId[]" value="{{$book->id}}" class="checkitem" type='checkbox'>
+										{{$stt++}}
 									</td>
 									<td>{{$book->title }}</td>
 									<td>{{$book->author}}</td>

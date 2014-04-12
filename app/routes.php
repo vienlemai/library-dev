@@ -75,6 +75,7 @@ Route::group(array('before' => 'auth'), function () {
 		'uses' => 'UserController@create',
 	));
 
+
 	Route::get('readers', array(
 		'as' => 'readers',
 		'uses' => 'ReaderController@index',
@@ -101,6 +102,7 @@ Route::group(array('before' => 'auth'), function () {
 		'uses' => 'ConfigController@edit',
 	));
 });
+
 
 /**
  * routers for post request that need to authenticate and csrf validate
