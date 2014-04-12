@@ -29,7 +29,9 @@ class Reader extends Eloquent {
 		//self::SS_BORROWING => 'Đang mượn tài liệu',
 		self::SS_PAUSING => 'Đang bị khóa'
 	);
-
+	public function getDates() {
+		return array_merge(parent::getDates(), array('expired_at'));
+	}
 	public function bookItems() {
 		return $this->hasMany('BookItem');
 	}
@@ -46,7 +48,8 @@ class Reader extends Eloquent {
 		'school_year',
 		'subject',
 		'email',
-		'phone'
+		'phone',
+		'avatar'
 	);
 
 	public static function validate($input) {
@@ -54,12 +57,14 @@ class Reader extends Eloquent {
 			'full_name' => 'required',
 			'class' => 'required',
 			'email' => 'required',
+			'avatar' => 'required',
 		);
 
 		$messages = array(
 			'full_name.required' => 'Phải nhập tên bạn đọc',
 			'class.required' => 'Phải nhập lớp',
-			'email.required' => 'Phải nhập địa chỉ email'
+			'email.required' => 'Phải nhập địa chỉ email',
+			'avatar.required' => 'Phải chọn ảnh đại diện'
 		);
 		return Validator::make($input, $rules, $messages);
 	}
@@ -69,6 +74,8 @@ class Reader extends Eloquent {
 		static::creating(function($reader) {
 			$reader->status = Reader::SS_CIRCULATING;
 			$reader->created_by = Sentry::getUser()->id;
+			$expired = Session::get('LibConfig.reader_expired');
+			$reader->expired_at = Carbon\Carbon::now()->addDays($expired);
 		});
 	}
 

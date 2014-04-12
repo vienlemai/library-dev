@@ -62,6 +62,10 @@ Route::group(array('before' => 'auth'), function () {
 		'as' => 'book.catalog.view',
 		'uses' => 'BookController@catalogView'
 	));
+	Route::get('book/library', array(
+		'as' => 'book.library',
+		'uses' => 'BookController@library'
+	));
 	Route::get('book/barcode/{id}', array(
 		'as' => 'book.barcode',
 		'uses' => 'BookController@barcode'
@@ -79,6 +83,16 @@ Route::group(array('before' => 'auth'), function () {
 	Route::get('reader/search', array(
 		'as' => 'reader.search',
 		'uses' => 'ReaderController@search',
+	));
+
+	Route::get('reader/{id}', array(
+		'as' => 'reader.view',
+		'uses' => 'ReaderController@view'
+	));
+
+	Route::get('reader/card/{id}', array(
+		'as' => 'reader.card',
+		'uses' => 'ReaderController@card'
 	));
 
 	//configs

@@ -9,15 +9,6 @@
 	});
 	$("#storage").select2();
 
-	$('[btn-confirm="confirm"]').on('click', function() {
-		dataConfirm = $(this).attr('data-confirm');
-		dataUrl = $(this).attr('data-url');
-		bootbox.confirm(dataConfirm, 'Hủy bỏ', 'Đồng ý', function(result) {
-			if (result) {
-				location.href = dataUrl;
-			}
-		});
-	});
 
 	$("#btn-disapprove-book").on('click', function() {
 		$("#form-disapprove-book").toggle(300);
@@ -197,22 +188,81 @@
 	/**
 	 * Ajax upload image and preview
 	 * */
-	$(".input-choose-image").fileupload({
-		url: $(this).attr('data-url'),
-		dataType: "json",
-		start: function() {
-		},
-		done: function() {
-
-		},
-		success: function() {
-
-		},
-		error: function(e) {
-			console.log(e);
-			//alert('Lỗi ' + e);
-			return false;
-		}
+	$(".form-upload-image").each(function() {
+		var $form = $(this);
+		var $uploadError = $form.siblings('.upload-error'),
+				$uploadProgress = $form.siblings('.upload-progress'),
+				uploadType = $form.attr('upload-type'),
+				token = $form.children('.crsf-token').val(),
+				$oldFile = $form.children('.old-file'),
+				maxSize = 2000000,
+				acceptFileTypes = /^image\/(gif|jpe?g|png)$/i,
+				msgFileSize = 'Dung lượng ảnh quá lớn, chỉ cho phép dung lượng nhỏ hơn 2M',
+				msgFileExt = 'Định dạng ảnh không hợp lệ, chỉ cho phép các định dạng gif, jpeg, jpg, png',
+				msgUnsaved = 'Tiến trình upload ảnh chưa hoàn tất, bạn có chắc chắn muốn thoát ?',
+				msgFail = 'Đã có lỗi xảy ra, vui lòng thử lại sau';
+		uploadErrors = [];
+		$form.fileupload({
+			url: $form.attr('action'),
+			type: 'POST',
+			datatype: 'json',
+			add: function(event, data) {
+				uploadErrors = [];
+				// Message on unLoad.
+				window.onbeforeunload = function() {
+					return msgUnsaved;
+				};
+				if (data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+					uploadErrors.push(msgFileExt);
+				}
+				if (data.originalFiles[0]['size'] > maxSize) {
+					uploadErrors.push(msgFileSize);
+				}
+				if (uploadErrors.length > 0) {
+					window.onbeforeunload = null;
+					$uploadError.children('span').html(uploadErrors[0]);
+					$uploadError.show();
+				} else {
+					data.formData = {'_token': token, 'uploadType': uploadType, 'oldFile': $oldFile.val()};
+					data.submit();
+				}
+			},
+			start: function() {
+				$uploadProgress.show();
+				$uploadError.hide();
+				$uploadProgress.children('.bar').css('width', 0 + '%');
+			},
+			send: function(e, data) {
+				// onSend
+			},
+			progress: function(e, data) {
+				var percent = Math.round((data.loaded / data.total) * 100);
+				$uploadProgress.children('.bar').css('width', percent + '%');
+			},
+			fail: function(e, data) {
+				// Remove 'unsaved changes' message.
+				bootbox.alert(msgFail);
+				window.onbeforeunload = null;
+			}, done: function(event, data) {
+				$uploadError.hide();
+				$uploadProgress.hide();
+			},
+			success: function(result) {
+				window.onbeforeunload = null;
+				if (result.status === true) {
+					$form.find('.image-preview').attr('src', result.image_path);
+					$form.find('.old-file').val(result.image_name);
+					$('input.image_path').val(result.image_path);
+				} else {
+					$uploadError.show();
+					$uploadError.children('span').html(result.message);
+				}
+			},
+			error: function() {
+				bootbox.alert(msgFail);
+				window.onbeforeunload = null;
+			}
+		});
 	});
 
 	tableHandle.init();

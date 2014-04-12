@@ -74,7 +74,10 @@
 									<td>{{$reader->created_at->format('d/m/Y')}}</td>
 									<td>{{Reader::$LABELS[$reader->status]}}</td>
 									<td>
-										
+										<a class='text-info' href="{{route('reader.view',$reader->id)}}">
+											<i class='i-magnifier'></i>
+											Xem
+										</a>
 									</td>
 								</tr>
 							<?php endforeach; ?>

@@ -101,6 +101,16 @@ class BookController extends \BaseController {
 			return View::make('book.catalog', array('books' => $books, 'count' => $count));
 		}
 	}
+	
+	public function library(){
+		$books = Book::where('status','=',Book::SS_PUBLISHED)->paginate(self::ITEMS_PER_PAGE);
+		if(Request::ajax()){
+			return View::make('book.partials.library',array('books'=>$books));
+		}else{
+			return View::make('book.library',array('books'=>$books));
+		}
+		
+	}
 
 	/**
 	 * Index page for moderator

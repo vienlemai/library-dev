@@ -55,6 +55,7 @@ class ReaderController extends \BaseController {
 				'subject' => Input::get('subject'),
 				'email' => Input::get('email'),
 				'phone' => Input::get('phone'),
+				'avatar' => Input::get('avatar')
 			));
 			if ($reader->save()) {
 				Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
@@ -67,6 +68,17 @@ class ReaderController extends \BaseController {
 			Former::withErrors($v->messages());
 			return Redirect::route('reader.create')->withInput()->withErrors($v->messages());
 		}
+	}
+
+	public function view($id) {
+		$reader = Reader::findOrFail($id);
+		return View::make('reader.view', array('reader' => $reader));
+	}
+
+	public function card($id) {
+		$reader = Reader::findOrFail($id);
+		$barcode = DNS1D::getBarcodePNGPath($reader->barcode, "UPCA");
+		return View::make('reader.card', array('reader' => $reader, 'barcode' => $barcode));
 	}
 
 }
