@@ -75,16 +75,5 @@ App::down(function() {
   |
  */
 
-/**
- * |-------------------------------------------------------------------------
- * | Global Session
- * |-------------------------------------------------------------------------
- */
 
-if (!Session::has('LibConfig')) {
-	$configs = DB::table('configs')->get();
-	foreach ($configs as $config) {
-		Session::push('LibConfig.' . $config->key, $config->value);
-	}
-}
 require app_path() . '/filters.php';
