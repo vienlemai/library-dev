@@ -66,7 +66,7 @@ Route::group(array('before' => 'auth'), function () {
 		'as' => 'book.library',
 		'uses' => 'BookController@library'
 	));
-	Route::get('book/library/{id}', array(
+	Route::get('book/library/view/{id}', array(
 		'as' => 'book.library.view',
 		'uses' => 'BookController@libraryView'
 	));
@@ -78,6 +78,10 @@ Route::group(array('before' => 'auth'), function () {
 	Route::get('book/library/search', array(
 		'as' => 'book.library.search',
 		'uses' => 'BookController@librarySearch'
+	));
+	Route::get('book/circulate', array(
+		'as' => 'book.circulate',
+		'uses' => 'BookController@circulate'
 	));
 	Route::get('user/create', array(
 		'as' => 'user.create',
@@ -105,7 +109,7 @@ Route::group(array('before' => 'auth'), function () {
 		'uses' => 'ReaderController@card'
 	));
 
-	//configs
+//configs
 	Route::get('configs', array(
 		'as' => 'configs',
 		'uses' => 'ConfigController@edit',
@@ -117,7 +121,7 @@ Route::group(array('before' => 'auth'), function () {
  * routers for post request that need to authenticate and csrf validate
  */
 Route::group(array('before' => 'auth|csrf'), function () {
-	//book save
+//book save
 	Route::post('book/save', array(
 		'as' => 'book.save',
 		'uses' => 'BookController@save',
@@ -148,7 +152,7 @@ Route::group(array('before' => 'auth|csrf'), function () {
 		'as' => 'reader.save',
 		'uses' => 'ReaderController@save',
 	));
-	//configs
+//configs
 	Route::post('config/update', array(
 		'as' => 'config.update',
 		'uses' => 'ConfigController@update'

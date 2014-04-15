@@ -68,4 +68,8 @@ class User extends SentryModel {
 		);
 	}
 
+	public function catalogers() {
+		
+	}
+
 }

@@ -129,7 +129,7 @@ class BookController extends \BaseController {
 		$storageOptions = new Storage();
 		$node = Storage::where('id', '=', $book->storage)->first();
 		$path = $storageOptions->getPath($node);
-		return View::make('book.partials.library.view', array('book' => $book,'path'=>$path));
+		return View::make('book.partials.library.view', array('book' => $book, 'path' => $path));
 	}
 
 	/**
@@ -210,6 +210,13 @@ class BookController extends \BaseController {
 			}
 			return View::make('book.catalog', array('books' => $books, 'count' => $count));
 		}
+	}
+
+	/**
+	 * Book circulation
+	 */
+	public function circulate() {
+		return View::make('book.circulate');
 	}
 
 	/**

@@ -27,7 +27,7 @@
             <a href='#'>Lưu hành</a>
             <ul>
                 <li class=''>
-                    <a href='#'>Mượn trả tài liệu</a>
+                    <a href='{{route('book.circulate')}}'>Mượn trả tài liệu</a>
                 </li>
                 <li class=''>
                     <a href='{{route('book.library')}}'>Danh sách tài liệu</a>

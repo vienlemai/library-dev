@@ -60,6 +60,14 @@ class Book extends Eloquent {
 		return $this->hasMany('BookItem');
 	}
 
+	public function cataloger() {
+		return $this->belongsTo('User', 'created_by');
+	}
+
+	public function moderator() {
+		return $this->belongsTo('User', 'published_by');
+	}
+
 	/**
 	 * Security fillable
 	 */
@@ -100,7 +108,7 @@ class Book extends Eloquent {
 		$rules = array(
 			'title' => 'required',
 			'author' => 'required',
-			'number' => 'required',			
+			'number' => 'required',
 		);
 
 		$messages = array(
