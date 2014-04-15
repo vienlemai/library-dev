@@ -105,7 +105,7 @@
 								<div class="control-group">
 									<label class="control-label" for="storate">Nơi lưu trữ</label>
 									<div class="controls">
-										<select name="storage" id="storage" class="input-xlarge">
+										<select name="storage" id="storage" class="input-xlarge select2">
 											{{$storageOptions}}
 										</select>
 									</div>
@@ -117,7 +117,8 @@
 
 								{{Former::select('level')
 									->label('Mức độ')
-									->options($levels)								
+									->options($levels)
+                                    ->class('select2')
 								}}
 
 								{{Former::textarea('another_infor')
