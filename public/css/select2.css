@@ -39,7 +39,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     color: #444;
     text-decoration: none;
 
-    border-radius: 4px;
+    border-radius: 2px;
 
     background-clip: padding-box;
 
@@ -60,7 +60,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
 .select2-container.select2-drop-above .select2-choice {
     border-bottom-color: #aaa;
 
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 2px 2px;
 
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eee), color-stop(0.9, #fff));
     background-image: -webkit-linear-gradient(center bottom, #eee 0%, #fff 90%);
@@ -139,7 +139,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     border: 1px solid #aaa;
     border-top: 0;
 
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 2px 2px;
 
     -webkit-box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
             box-shadow: 0 4px 5px rgba(0, 0, 0, .15);
@@ -159,7 +159,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     border-top: 1px solid #aaa;
     border-bottom: 0;
 
-    border-radius: 4px 4px 0 0;
+    border-radius: 2px 2px 0 0;
 
     -webkit-box-shadow: 0 -4px 5px rgba(0, 0, 0, .15);
             box-shadow: 0 -4px 5px rgba(0, 0, 0, .15);
@@ -183,7 +183,7 @@ Version: 3.4.5 Timestamp: Mon Nov  4 08:22:42 PST 2013
     top: 0;
 
     border-left: 1px solid #aaa;
-    border-radius: 0 4px 4px 0;
+    border-radius: 0 2px 2px 0;
 
     background-clip: padding-box;
 
@@ -498,7 +498,7 @@ disabled look for disabled choices in the results dropdown
     cursor: default;
     border: 1px solid #aaaaaa;
 
-    border-radius: 3px;
+    border-radius: 2px;
 
     -webkit-box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, 0.05);
             box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, 0.05);

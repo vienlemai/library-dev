@@ -35,7 +35,7 @@
                     </a>
                     <div class='buttons fl'>
                         <div class='item'>
-                            <a class='btn btn-primary btn-small c_layout' href='#' title='toggle sidebar'>
+                            <a class='btn btn-primary btn-small c_layout' href='#' title='Ẩn/Hiện Sidebar'>
                                 <span class='i-layout-8'></span>
                             </a>
                         </div>
@@ -50,6 +50,7 @@
             </div>
         </div>
         <script type="text/javascript" src="{{{asset('js/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/be/common.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/vlm.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/lht.js')}}}"></script>
     </body>
