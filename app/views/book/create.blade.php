@@ -56,7 +56,7 @@
 							}}
 
 							{{Former::xlarge_text('pages')
-								->label('Số trang')
+								->label('Số trang (*)')
 							}}
 
 							{{Former::xlarge_text('size')
