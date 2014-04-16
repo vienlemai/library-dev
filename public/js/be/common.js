@@ -15,5 +15,10 @@ $(function() {
     $(".select2").select2({
         width: 'resolve'
     });
+
+    /* Auto hide error text and color if user typed */
+    $('.control-group.error').on('keydown', 'input', function() {
+        $(this).closest('.control-group').removeClass('error').find('.help-inline').fadeOut(300);
+    });
 });
 
