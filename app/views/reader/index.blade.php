@@ -24,14 +24,14 @@
 						<ul class='boxes nmt'>
 							<li>
 								<div class='text-success'>
-									<?php echo $count[Reader::SS_CIRCULATING] ?>
-									<span><?php echo Reader::$LABELS[Reader::SS_CIRCULATING] ?></span>
+									<?php echo $count[Reader::SS_CIRCULATED] ?>
+									<span><?php echo Reader::$LABELS[Reader::SS_CIRCULATED] ?></span>
 								</div>
 							</li>							
 							<li>
 								<div class='text-error'>
-									<?php echo $count[Reader::SS_PAUSING] ?>
-									<span><?php echo Reader::$LABELS[Reader::SS_PAUSING] ?></span>
+									<?php echo $count[Reader::SS_PAUSED] ?>
+									<span><?php echo Reader::$LABELS[Reader::SS_PAUSED] ?></span>
 								</div>
 							</li>
 						</ul>
