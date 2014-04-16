@@ -33,6 +33,12 @@ class Reader extends Eloquent {
         self::SS_CIRCULATED => 'Đang lưu thông',
         self::SS_PAUSED => 'Đang bị khóa'
     );
+    public static $SS_LABELS = array(
+        self::SS_CIRCULATED => 'Đang lưu thông',
+        self::SS_PAUSED => 'Đang bị khóa',
+        self::SS_EXPIRED_BOOK => 'Đang trễ hạn trả sách',
+        self::SS_EXPIRED => 'Hết hạn'
+    );
 
     public function getDates() {
         return array_merge(parent::getDates(), array('expired_at'));

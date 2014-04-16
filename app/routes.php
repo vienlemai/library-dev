@@ -88,7 +88,9 @@ Route::group(array('before' => 'auth'), function () {
         'uses' => 'UserController@create',
     ));
 
-
+    /**
+     * Readers
+     */
     Route::get('readers', array(
         'as' => 'readers',
         'uses' => 'ReaderController@index',
@@ -99,7 +101,7 @@ Route::group(array('before' => 'auth'), function () {
         'uses' => 'ReaderController@search',
     ));
 
-    Route::get('reader/{id}', array(
+    Route::get('reader/view/{id}', array(
         'as' => 'reader.view',
         'uses' => 'ReaderController@view'
     ));
@@ -108,11 +110,29 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'reader.card',
         'uses' => 'ReaderController@card'
     ));
+    Route::get('reader/pause/{id}', array(
+        'as' => 'reader.pause',
+        'uses' => 'ReaderController@pause'
+    ));
+    Route::get('reader/unpause/{id}', array(
+        'as' => 'reader.unpause',
+        'uses' => 'ReaderController@unpause',
+    ));
 
-//configs
+    //configs
     Route::get('configs', array(
         'as' => 'configs',
         'uses' => 'ConfigController@edit',
+    ));
+
+    //circulations
+    Route::get('circulation', array(
+        'as' => 'circulation',
+        'uses' => 'CirculationController@index',
+    ));
+    Route::post('circulation/reader', array(
+        'as' => 'circulation.reader',
+        'uses' => 'CirculationController@loadReader',
     ));
 });
 

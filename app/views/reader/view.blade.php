@@ -43,6 +43,7 @@
                                         <li>Ngày tạo: {{$reader->created_at->format('d/m/Y')}}</li>
                                         <li>Ngày hết hạn: {{$reader->expired_at->format('d/m/Y')}}</li>
                                         <li>Người tạo: {{json_decode($reader->creater)->last_name }}</li>
+                                        <li>Trạng thái: {{Reader::$SS_LABELS[$reader->status]}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -67,7 +68,7 @@
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                             </div>
                         <?php endif; ?>
-                        {{ Former::horizontal_open(route('reader.save'))->method('POST') }}
+                        {{ Former::horizontal_open('')->method('POST') }}
                         {{Former::xlarge_text('full_name')
 								->label('Họ tên (*)')
 								->value($reader->full_name)
@@ -120,11 +121,11 @@
                             <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo mã thẻ</a>
                             <a class="btn btn-success" href="#">Lịch sử mượn trả</a>
                             @if($reader->status === Reader::SS_CIRCULATED)
-                            <button class="btn btn-danger" btn-confirm="confirm">Khóa thẻ</button>
+                            <button class="btn btn-danger" btn-confirm="confirm" data-url="{{route('reader.pause',array($reader->id))}}" data-confirm="Bạn có chắc chắn muốn khóa bạn đọc {{$reader->full_name}}">Khóa thẻ</button>
+                            @elseif($reader->status == Reader::SS_PAUSED)
+                            <button class="btn btn-warning" btn-confirm="confirm" data-url="{{route('reader.unpause',array($reader->id))}}" data-confirm="Bạn có chắc chắn muốn mở khóa cho bạn đọc {{$reader->full_name}}">Mở khóa thẻ</button>
                             @endif
                         </div>
-                        {{Former::close();
-                        }}
 
                     </div>
                 </div>

@@ -30,7 +30,7 @@
 								</div>
 								<div class='avatar-select-wrapper'>
 									<div class='avatar'>
-										<img src='img/sample_avatar.jpg'>
+                                        <img src='img/sample_avatar.jpg' height="100" width="100">
 									</div>
 								</div>
 								<div class='content-row'>
