@@ -20,36 +20,119 @@
 		});
 		return false;
 	});
-
 	/**
 	 * Circulation
 	 * */
-	$("#circulation-reader").on('change', '.barcode-scanner', function() {
-		var barcode = $(this).val();
-		var dataUrl = $(this).attr('data-url');
-		if (barcode != "") {
-			$.ajax({
-				url: dataUrl,
-				type: 'POST',
-				dataType: 'json',
-				data: {barcode: barcode},
-				success: function(result) {
-					if (result.status === true) {
 
-					} else {
-						bootbox.alert(result.message);
-						return false;
-					}
-				},
-				error: function() {
-					bootbox.alert('Đã có lỗi xảy ra, vui lòng thử lại');
-					$("#circulation-reader").find('.barcode-scanner').val("");
+
+	var cirHandle = {
+		$circulationReader: $("#circulation-reader"),
+		$circulationBook: $("#circulation-book"),
+		$circulationListBook: $("#circulation-list-book"),
+		ajaxFailMsg: 'Đã có lỗi xảy ra, vui lòng thử lại',
+		readerId: 0,
+		bookItemId: 0,
+		init: function() {
+			this.$circulationReader.find('input.barcode-scanner').focus();
+			//cirHandle.$circulationBook.find('input.barcode-scanner').attr('disabled','disabled');
+			var defaultCirReader = this.$circulationReader.html(),
+					defaultCirBook = this.$circulationBook.html(),
+					defaultListBook = this.$circulationListBook.html();
+			this.$circulationReader.on('change', '.barcode-scanner', function() {
+				var barcode = $(this).val();
+				var dataUrl = $(this).attr('data-url');
+				if (barcode !== "") {
+					$.ajax({
+						url: dataUrl,
+						type: 'POST',
+						dataType: 'json',
+						data: {barcode: barcode},
+						success: function(result) {
+							if (result.status === true) {
+								cirHandle.$circulationBook.find('input.barcode-scanner').focus();
+								cirHandle.readerId = result.reader_id;
+								cirHandle.$circulationReader.html(result.reader_html);
+								cirHandle.$circulationListBook.html(result.list_book_html);
+							} else {
+								bootbox.alert(result.message);
+								cirHandle.readerId = 0;
+								cirHandle.$circulationReader.html(defaultCirReader);
+								cirHandle.$circulationListBook.html(defaultListBook);
+								return false;
+							}
+						},
+						error: function() {
+							bootbox.alert(cirHandle.ajaxFailMsg);
+							cirHandle.readerId = 0;
+							cirHandle.$circulationReader.html(defaultCirReader);
+							cirHandle.$circulationListBook.html(defaultListBook);
+							return false;
+						}
+
+					});
+				} else {
+					cirHandle.readerId = 0;
+					cirHandle.$circulationReader.html(defaultCirReader);
+					cirHandle.$circulationListBook.html(defaultListBook);
 					return false;
 				}
+			});
+
+			this.$circulationBook.on('change', '.barcode-scanner', function() {
+				var barcode = $(this).val();
+				var dataUrl = $(this).attr('data-url');
+				if (barcode != "") {
+					$.ajax({
+						url: dataUrl,
+						type: 'POST',
+						dataType: 'json',
+						data: {barcode: barcode, readerId: cirHandle.readerId},
+						success: function(result) {
+							if (result.status === true) {
+								cirHandle.bookItemId = result.book_item_id;
+								cirHandle.$circulationBook.html(result.book_html);
+							} else {
+								bootbox.alert(result.message);
+								cirHandle.bookItemId = 0;
+								cirHandle.$circulationBook.html(defaultCirBook);
+								return false;
+							}
+						},
+						error: function() {
+							bootbox.alert(cirHandle.ajaxFailMsg);
+							cirHandle.bookItemId = 0;
+							cirHandle.$circulationBook.html(defaultCirReader);
+							return false;
+						}
+
+					});
+				}
+			});
+
+			this.$circulationBook.on('click', '#btn-borrow-book', function() {
+				if (cirHandle.bookItemId !== 0 && cirHandle.readerId !== 0) {
+					var dataUrl = $(this).attr('data-url');
+					$.ajax({
+						url: dataUrl,
+						type: "POST",
+						dataType: "JSON",
+						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
+						success: function(result) {
+							cirHandle.$circulationListBook.html(result.list_book_html);
+						},
+						error: function() {
+							bootbox.alert(cirHandle.ajaxFailMsg);
+							return false;
+						}
+					});
+				}
+			});
+			this.$circulationBook.on('click', '#btn-return-book', function() {
 
 			});
 		}
-	});
+	};
+
 
 	$("#btn-disapprove-book").on('click', function() {
 		$("#form-disapprove-book").toggle(300);
@@ -66,7 +149,6 @@
 			reason: "Bạn chưa nhập lý do báo lỗi"
 		}
 	});
-
 	/**
 	 * Handle ajax pagination,ajax search, checkall, uncheckall items
 	 * */
@@ -98,10 +180,7 @@
 						}
 					});
 					return false;
-
 				});
-
-
 				//seach on table
 				$(this).on('change', '.table-search-input', function() {
 					$input = $(this);
@@ -112,11 +191,10 @@
 					searchParmas.keyword = $(this).val();
 					for (k in this.attributes) {
 						//get attributes that need to search, to build paramaters for search query
-						if (typeof (this.attributes[k].value) != 'undefined' && $.inArray(this.attributes[k].name, ignoreArr) == -1) {
+						if (typeof (this.attributes[k].value) !== 'undefined' && $.inArray(this.attributes[k].name, ignoreArr) === -1) {
 							attrName = this.attributes[k].name;
 							attrValue = this.attributes[k].value;
 							searchParmas[attrName] = attrValue;
-
 						}
 					}
 					//make ajax request 
@@ -137,8 +215,6 @@
 						}
 					});
 				});
-
-
 				//checkall 
 				$(this).on('click', 'input.checkall', function() {
 					checked = $(this).prop('checked');
@@ -171,7 +247,6 @@
 						$container.find('.check-info').hide();
 					}
 				});
-
 				//submit after check
 				$(this).on('click', '.btn-check-submit', function() {
 					$container = $(this).parents(tableHandle.contanerClass);
@@ -200,14 +275,12 @@
 										'method': 'POST',
 										'action': action,
 									});
-
 							var tokenInput =
 									$('<input>', {
 										'type': 'hidden',
 										'name': '_token',
 										'value': token
 									});
-
 							var hiddenInput =
 									$('<input>', {
 										'name': '_method',
@@ -218,14 +291,11 @@
 							//console.log(form.html());
 						}
 					});
-
 					return false;
 				});
-
 			});
 		}
 	};
-
 	/**
 	 * Ajax upload image and preview
 	 * */
@@ -305,7 +375,6 @@
 			}
 		});
 	});
-
 	tableHandle.init();
-
+	cirHandle.init();
 })(jQuery);

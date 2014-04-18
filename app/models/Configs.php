@@ -21,14 +21,16 @@ class Configs extends Eloquent {
         $rules = array(
             'reader_expired' => 'required',
             'book_expired' => 'required',
-            'max_books' => 'required',
+            'max_book_local' => 'required',
+            'max_book_remote' => 'required',
             'extra_times' => 'required',
         );
 
         $messages = array(
             'reader_expired.required' => 'Phải nhập giá trị',
             'book_expired.required' => 'Phải nhập giá trị',
-            'max_books.required' => 'Phải nhập giá trị',
+            'max_book_local.required' => 'Phải nhập giá trị',
+            'max_book_remote.required' => 'Phải nhập giá trị',
             'extra_times.required' => 'Phải nhập giá trị',
         );
         return Validator::make($input, $rules, $messages);

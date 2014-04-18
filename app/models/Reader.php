@@ -94,5 +94,9 @@ class Reader extends Eloquent {
     public function creater() {
         return $this->belongsTo('User', 'created_by');
     }
+    
+    public function circulations(){
+        return $this->hasMany('Circulation')->where('returned','=',false);
+    }
 
 }
