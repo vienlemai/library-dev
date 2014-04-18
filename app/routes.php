@@ -88,12 +88,13 @@ Route::group(array('before' => 'auth'), function () {
             'uses' => 'UserController@create',
         ));
 
-
+        /**
+         * Readers
+         */
         Route::get('readers', array(
             'as' => 'readers',
             'uses' => 'ReaderController@index',
         ));
-
         Route::get('reader/search', array(
             'as' => 'reader.search',
             'uses' => 'ReaderController@search',
@@ -115,7 +116,39 @@ Route::group(array('before' => 'auth'), function () {
             'uses' => 'ConfigController@edit',
         ));
     });
+Route::get('reader/view/{id}', array(
+    'as' => 'reader.view',
+    'uses' => 'ReaderController@view'
+));
 
+Route::get('reader/card/{id}', array(
+    'as' => 'reader.card',
+    'uses' => 'ReaderController@card'
+));
+Route::get('reader/pause/{id}', array(
+    'as' => 'reader.pause',
+    'uses' => 'ReaderController@pause'
+));
+Route::get('reader/unpause/{id}', array(
+    'as' => 'reader.unpause',
+    'uses' => 'ReaderController@unpause',
+));
+
+//configs
+Route::get('configs', array(
+    'as' => 'configs',
+    'uses' => 'ConfigController@edit',
+));
+
+//circulations
+Route::get('circulation', array(
+    'as' => 'circulation',
+    'uses' => 'CirculationController@index',
+));
+Route::post('circulation/reader', array(
+    'as' => 'circulation.reader',
+    'uses' => 'CirculationController@loadReader',
+));
 
 /**
  * routers for post request that need to authenticate and csrf validate

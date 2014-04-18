@@ -84,6 +84,15 @@ class ReaderController extends \BaseController {
     public function pause($id) {
         $reader = Reader::findOrFail($id);
         Reader::where('id', '=', $id)->update(array('status' => Reader::SS_PAUSED));
+        Session::flash('success', 'Đã khóa bạn đọc ' . $reader->full_name);
+        return Redirect::route('reader.view', array($reader->id));
+    }
+
+    public function unpause($id) {
+        $reader = Reader::findOrFail($id);
+        Reader::where('id', '=', $id)->update(array('status' => Reader::SS_CIRCULATED));
+        Session::flash('success', 'Đã mở khóa cho bạn đọc ' . $reader->full_name);
+        return Redirect::route('reader.view', array($reader->id));
     }
 
 }
