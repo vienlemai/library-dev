@@ -1,7 +1,6 @@
 <?php
 
 class BookController extends \BaseController {
-<<<<<<< HEAD
     /**
      * The layout that should be used for responses.
      */
@@ -22,7 +21,7 @@ class BookController extends \BaseController {
      */
     public function catalog() {
         if (Request::ajax()) {
-            $type = Input::get('book-type');
+            $type = Input::get('type');
             switch ($type) {
                 case Book::SS_SUBMITED:
                     $books = Book::where('status', '=', $type)
@@ -78,10 +77,9 @@ class BookController extends \BaseController {
      * Search books for catologer, get bookType, and keyword form request
      */
     public function catalogSearch() {
-        $type = Input::get('book-type');
-        $keyword = Input::get('keyword');
         if (Request::ajax()) {
-
+            $type = Input::get('book-type');
+            $keyword = Input::get('keyword');
             $books = Book::where('status', '=', $type)
                 ->where('created_by', '=', Sentry::getUser()->id)
                 ->where('title', 'LIKE', '%' . $keyword . '%')
@@ -103,43 +101,13 @@ class BookController extends \BaseController {
         }
     }
 
-    public function library() {
-        $books = Book::where('status', '=', Book::SS_PUBLISHED)->orderBy('published_at', 'desc')->paginate(self::ITEMS_PER_PAGE);
-        if (Request::ajax()) {
-            return View::make('book.partials.library.library', array('books' => $books));
-        } else {
-            return View::make('book.library', array('books' => $books));
-        }
-    }
-
-    public function librarySearch() {
-        $keyword = Input::get('keyword');
-        $books = Book::where('status', '=', Book::SS_PUBLISHED)
-            ->where('title', 'LIKE', '%' . $keyword . '%')
-            ->orderBy('published_at', 'desc')
-            ->paginate(self::ITEMS_PER_PAGE);
-        if (Request::ajax()) {
-            return View::make('book.partials.library.library', array('books' => $books, 'keyword' => $keyword));
-        } else {
-            return View::make('book.library', array('books' => $books, 'keyword' => $keyword));
-        }
-    }
-
-    public function libraryView($id) {
-        $book = Book::findOrFail($id);
-        $storageOptions = new Storage();
-        $node = Storage::where('id', '=', $book->storage)->first();
-        $path = $storageOptions->getPath($node);
-        return View::make('book.partials.library.view', array('book' => $book, 'path' => $path));
-    }
-
     /**
      * Index page for moderator
      * List all book that submitted, disapproved, published
      */
     public function moderate() {
         if (Request::ajax()) {
-            $type = Input::get('book-type');
+            $type = Input::get('type');
             switch ($type) {
                 case Book::SS_SUBMITED:
                     $books = Book::where('status', '=', $type)
@@ -183,225 +151,6 @@ class BookController extends \BaseController {
             }
             return View::make('book.moderate', array('books' => $books, 'count' => $count));
         }
-    }
-
-    /**
-     * Search books for catologer, get bookType, and keyword form request
-     */
-    public function moderateSearch() {
-        $type = Input::get('book-type');
-        $keyword = Input::get('keyword');
-        if (Request::ajax()) {
-            $books = Book::where('status', '=', $type)
-                ->where('created_by', '=', Sentry::getUser()->id)
-                ->where('title', 'LIKE', '%' . $keyword . '%')
-                ->orderBy('updated_at', 'desc')
-                ->paginate(self::ITEMS_PER_PAGE);
-            return View::make('book.partials.moderate.' . $type, array('books' => $books, 'keyword' => $keyword));
-        } else {
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $count[$k] = Book::where('status', '=', $k)->count();
-            }
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $books[$k] = Book::where('status', '=', $k)
-                    ->where('created_by', '=', Sentry::getUser()->id)
-                    ->where('title', 'LIKE', '%' . $keyword . '%')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(self::ITEMS_PER_PAGE);
-            }
-            return View::make('book.catalog', array('books' => $books, 'count' => $count));
-=======
-
-    /**
-     * The layout that should be used for responses.
-     */
-    protected $layout = 'layouts.admin';
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index() {
-        //
-    }
-
-    /**
-     * Index page for cataloger
-     * Display a listing of books that being catalog
-     */
-    public function catalog() {
-        if (Request::ajax()) {
-            $type = Input::get('book-type');
-            switch ($type) {
-                case Book::SS_SUBMITED:
-                    $books = Book::where('status', '=', $type)
-                      ->where('created_by', '=', Sentry::getUser()->id)
-                      ->orderBy('submitted_at', 'desc')
-                      ->paginate(self::ITEMS_PER_PAGE);
-                    break;
-                case Book::SS_PUBLISHED:
-                    $books = Book::where('status', '=', $type)
-                      ->where('created_by', '=', Sentry::getUser()->id)
-                      ->orderBy('published_at', 'desc')
-                      ->paginate(self::ITEMS_PER_PAGE);
-                    break;
-                default:
-                    $books = Book::where('status', '=', $type)
-                      ->where('created_by', '=', Sentry::getUser()->id)
-                      ->orderBy('updated_at', 'desc')
-                      ->paginate(self::ITEMS_PER_PAGE);
-                    break;
-            }
-            return View::make('book.partials.catalog.' . $type, array('books' => $books));
-        } else {
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $count[$k] = Book::where('status', '=', $k)->count();
-            }
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                switch ($k) {
-                    case Book::SS_SUBMITED:
-                        $books[$k] = Book::where('status', '=', $k)
-                          ->where('created_by', '=', Sentry::getUser()->id)
-                          ->orderBy('submitted_at', 'desc')
-                          ->paginate(self::ITEMS_PER_PAGE);
-                        break;
-                    case Book::SS_PUBLISHED:
-                        $books[$k] = Book::where('status', '=', $k)
-                          ->where('created_by', '=', Sentry::getUser()->id)
-                          ->orderBy('published_at', 'desc')
-                          ->paginate(self::ITEMS_PER_PAGE);
-                        break;
-                    default:
-                        $books[$k] = Book::where('status', '=', $k)
-                          ->where('created_by', '=', Sentry::getUser()->id)
-                          ->orderBy('updated_at', 'desc')
-                          ->paginate(self::ITEMS_PER_PAGE);
-                        break;
-                }
-            }
-            return View::make('book.catalog', array('books' => $books, 'count' => $count));
-        }
-    }
-
-    /**
-     * Search books for catologer, get bookType, and keyword form request
-     */
-    public function catalogSearch() {
-        $type = Input::get('book-type');
-        $keyword = Input::get('keyword');
-        if (Request::ajax()) {
-
-            $books = Book::where('status', '=', $type)
-              ->where('created_by', '=', Sentry::getUser()->id)
-              ->where('title', 'LIKE', '%' . $keyword . '%')
-              ->orderBy('updated_at', 'desc')
-              ->paginate(self::ITEMS_PER_PAGE);
-            return View::make('book.partials.catalog.' . $type, array('books' => $books, 'keyword' => $keyword));
-        } else {
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $count[$k] = Book::where('status', '=', $k)->count();
-            }
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $books[$k] = Book::where('status', '=', $k)
-                  ->where('created_by', '=', Sentry::getUser()->id)
-                  ->where('title', 'LIKE', '%' . $keyword . '%')
-                  ->orderBy('created_at', 'desc')
-                  ->paginate(self::ITEMS_PER_PAGE);
-            }
-            return View::make('book.catalog', array('books' => $books, 'count' => $count));
-        }
-    }
-
-    public function library() {
-        $books = Book::where('status', '=', Book::SS_PUBLISHED)->orderBy('published_at', 'desc')->paginate(self::ITEMS_PER_PAGE);
-        if (Request::ajax()) {
-            return View::make('book.partials.library.library', array('books' => $books));
-        } else {
-            return View::make('book.library', array('books' => $books));
-        }
-    }
-
-    public function librarySearch() {
-        $keyword = Input::get('keyword');
-        $books = Book::where('status', '=', Book::SS_PUBLISHED)
-          ->where('title', 'LIKE', '%' . $keyword . '%')
-          ->orderBy('published_at', 'desc')
-          ->paginate(self::ITEMS_PER_PAGE);
-        if (Request::ajax()) {
-            return View::make('book.partials.library.library', array('books' => $books, 'keyword' => $keyword));
-        } else {
-            return View::make('book.library', array('books' => $books, 'keyword' => $keyword));
-        }
-    }
-
-    public function libraryView($id) {
-        $book = Book::findOrFail($id);
-        $storageOptions = new Storage();
-        $node = Storage::where('id', '=', $book->storage)->first();
-        $path = $storageOptions->getPath($node);
-        return View::make('book.partials.library.view', array('book' => $book, 'path' => $path));
-    }
-
-    /**
-     * Index page for moderator
-     * List all book that submitted, disapproved, published
-     */
-    public function moderate() {
-        if (Request::ajax()) {
-            $type = Input::get('book-type');
-            switch ($type) {
-                case Book::SS_SUBMITED:
-                    $books = Book::where('status', '=', $type)
-                      ->orderBy('submitted_at', 'desc')
-                      ->paginate(self::ITEMS_PER_PAGE);
-                    break;
-                case Book::SS_PUBLISHED:
-                    $books = Book::where('status', '=', $type)
-                      ->orderBy('published_at', 'desc')
-                      ->paginate(self::ITEMS_PER_PAGE);
-                    break;
-                default :
-                    $books = Book::where('status', '=', $type)
-                      ->orderBy('updated_at', 'desc')
-                      ->paginate(self::ITEMS_PER_PAGE);
-                    break;
-            }
-            return View::make('book.partials.moderate.' . $type, array('books' => $books));
-        } else {
-            foreach (Book::$MOD_SS_LABEL as $k => $v) {
-                $count[$k] = Book::where('status', '=', $k)->count();
-            }
-            foreach (Book::$MOD_SS_LABEL as $k => $v) {
-                switch ($k) {
-                    case Book::SS_SUBMITED:
-                        $books[$k] = Book::where('status', '=', $k)
-                          ->orderBy('submitted_at', 'desc')
-                          ->paginate(self::ITEMS_PER_PAGE);
-                        break;
-                    case Book::SS_PUBLISHED:
-                        $books[$k] = Book::where('status', '=', $k)
-                          ->orderBy('published_at', 'desc')
-                          ->paginate(self::ITEMS_PER_PAGE);
-                        break;
-                    default :
-                        $books[$k] = Book::where('status', '=', $k)
-                          ->orderBy('updated_at', 'desc')
-                          ->paginate(self::ITEMS_PER_PAGE);
-                        break;
-                }
-            }
-            return View::make('book.moderate', array('books' => $books, 'count' => $count));
->>>>>>> 0eab7913eabe5901960d5a1d2591771229219a6f
-        }
-    }
-
-    /**
-<<<<<<< HEAD
-     * Book circulation
-     */
-    public function circulate() {
-        return View::make('book.circulate');
     }
 
     /**
@@ -453,13 +202,14 @@ class BookController extends \BaseController {
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>, '
                     . 'Số mã vạch đã in : <strong>' . $book->barcode_printed . ' mã</strong>');
-                return Redirect::route('book.catalog.view', $book->id);
             } else {
                 Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
-                return Redirect::route('book.create');
             }
+
+            return Redirect::route('book.catalog.view', $book->id);
         } else {
-            return Redirect::route('book.create')->withInput()->withErrors($v->messages());
+            Former::withErrors($v->messages());
+            return View::make('book.create');
         }
     }
 
@@ -472,120 +222,11 @@ class BookController extends \BaseController {
             Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
             return Redirect::route('book.moderate');
         }
-
-=======
-     * Search books for catologer, get bookType, and keyword form request
-     */
-    public function moderateSearch() {
-        $type = Input::get('book-type');
-        $keyword = Input::get('keyword');
-        if (Request::ajax()) {
-            $books = Book::where('status', '=', $type)
-              ->where('created_by', '=', Sentry::getUser()->id)
-              ->where('title', 'LIKE', '%' . $keyword . '%')
-              ->orderBy('updated_at', 'desc')
-              ->paginate(self::ITEMS_PER_PAGE);
-            return View::make('book.partials.moderate.' . $type, array('books' => $books, 'keyword' => $keyword));
-        } else {
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $count[$k] = Book::where('status', '=', $k)->count();
-            }
-            foreach (Book::$CAT_SS_LABELS as $k => $v) {
-                $books[$k] = Book::where('status', '=', $k)
-                  ->where('created_by', '=', Sentry::getUser()->id)
-                  ->where('title', 'LIKE', '%' . $keyword . '%')
-                  ->orderBy('created_at', 'desc')
-                  ->paginate(self::ITEMS_PER_PAGE);
-            }
-            return View::make('book.catalog', array('books' => $books, 'count' => $count));
-        }
-    }
-
-    /**
-     * Book circulation
-     */
-    public function circulate() {
-        return View::make('book.circulate');
-    }
-
-    /**
-     * Add new book
-     *
-     * @return Response
-     */
-    public function create() {
-        $storageOptions = new Storage();
-        $this->layout->content = View::make('book.create', array(
-            'storageOptions' => $storageOptions->render(),
-            'levels' => Book::$LEVELS,
-        ));
-    }
-
-    /**
-     * Validate book data from from, if pass then save data to database
-     */
-    public function save() {
-        $v = Book::validate(Input::all());
-        if ($v->passes()) {
-            $time = time();
-            $random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
-            $book = new Book(array(
-              'title' => Input::get('title'),
-              'sub_title' => Input::get('sub_title'),
-              'author' => Input::get('author'),
-              'translator' => Input::get('translator'),
-              'publish_info' => Input::get('publish_info'),
-              'publisher' => Input::get('publisher'),
-              'printer' => Input::get('printer'),
-              'pages' => Input::get('pages'),
-              'size' => Input::get('size'),
-              'attach' => Input::get('attach'),
-              'organization' => Input::get('organization'),
-              'language' => Input::get('language'),
-              'cutter' => Input::get('cutter'),
-              'type_number' => Input::get('type_number'),
-              'price' => Input::get('price'),
-              'storage' => Input::get('storage'),
-              'number' => Input::get('number'),
-              'level' => Input::get('level'),
-              'another_infor' => Input::get('another_infor'),
-              'barcode' => $random,
-            ));
-            if ($book->save()) {
-                Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
-                  . Input::get('title')
-                  . '"</strong>, số lượng : <strong>'
-                  . Input::get('number') . ' cuốn</strong>, '
-                  . 'Số mã vạch đã in : <strong>' . $book->barcode_printed . ' mã</strong>');
-                return Redirect::route('book.catalog.view', $book->id);
-            } else {
-                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
-                return Redirect::route('book.create');
-            }
-        } else {
-            return Redirect::route('book.create')->withInput()->withErrors($v->messages());
-        }
-    }
-
-    /**
-     * Moderator view book when book is submitted
-     */
-    public function moderateView($bookId) {
-        $book = Book::findOrFail($bookId);
-        if ($book->status != Book::SS_SUBMITED) {
-            Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
-            return Redirect::route('book.moderate');
-        }
-
->>>>>>> 0eab7913eabe5901960d5a1d2591771229219a6f
         $user = Sentry::getUser();
 //		if ($book->created_by == $user->id) {
 //			App::abort(404);
 //		}
-        $storageOptions = new Storage();
-        $node = Storage::where('id', '=', $book->storage)->first();
-        $path = $storageOptions->getPath($node);
-        $this->layout->content = View::make('book.moderate-view', array('book' => $book, 'path' => $path));
+        $this->layout->content = View::make('book.moderate-view', array('book' => $book));
     }
 
     public function catalogView($bookId) {
@@ -595,18 +236,10 @@ class BookController extends \BaseController {
             App::abort(404);
         }
         $storageOptions = new Storage();
-        $node = Storage::where('id', '=', $book->storage)->first();
-        $path = $storageOptions->getPath($node);
         $this->layout->content = View::make('book.catalog-view', array(
-<<<<<<< HEAD
                 'book' => $book,
                 'levels' => Book::$LEVELS,
-                'path' => $path,
-=======
-            'book' => $book,
-            'levels' => Book::$LEVELS,
-            'path' => $path,
->>>>>>> 0eab7913eabe5901960d5a1d2591771229219a6f
+                'storageOptions' => $storageOptions->render(),
         ));
     }
 
@@ -620,11 +253,7 @@ class BookController extends \BaseController {
         $result = array();
         for ($i = 1; $i <= $number; $i++) {
             $code = $barcode . sprintf("%03s", $i);
-<<<<<<< HEAD
-            array_push($result, array('code' => $code, 'barcode' => DNS1D::getBarcodePNGPath($code, "EAN13",3,33)));
-=======
             array_push($result, array('code' => $code, 'barcode' => DNS1D::getBarcodePNGPath($code, "UPCA")));
->>>>>>> 0eab7913eabe5901960d5a1d2591771229219a6f
         }
         return View::make('book.barcode', array('barcode' => $result, 'book' => $book));
     }
@@ -647,15 +276,9 @@ class BookController extends \BaseController {
         }
         $storageOptions = new Storage();
         $this->layout->content = View::make('book.edit', array(
-<<<<<<< HEAD
                 'book' => $book,
                 'storageOptions' => $storageOptions->render(),
                 'levels' => Book::$LEVELS
-=======
-            'book' => $book,
-            'storageOptions' => $storageOptions->render(),
-            'levels' => Book::$LEVELS
->>>>>>> 0eab7913eabe5901960d5a1d2591771229219a6f
         ));
     }
 
@@ -694,7 +317,6 @@ class BookController extends \BaseController {
             if ($book->status == Book::SS_DISAPPROVED) {
                 $book->status = Book::SS_SUBMITED;
                 Session::flash('success', 'Đã chỉnh sửa và gửi tài liệu <strong>"'
-<<<<<<< HEAD
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
@@ -703,16 +325,6 @@ class BookController extends \BaseController {
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
-=======
-                  . Input::get('title')
-                  . '"</strong>, số lượng : <strong>'
-                  . Input::get('number') . ' cuốn</strong>');
-            } else {
-                Session::flash('success', 'Sửa thành công tài liệu <strong>"'
-                  . Input::get('title')
-                  . '"</strong>, số lượng : <strong>'
-                  . Input::get('number') . ' cuốn</strong>');
->>>>>>> 0eab7913eabe5901960d5a1d2591771229219a6f
             }
             if ($book->save()) {
                 BookItem::where('book_id', '=', $book->id)->delete();
