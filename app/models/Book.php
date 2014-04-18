@@ -1,7 +1,6 @@
 <?php
 
 class Book extends Eloquent {
-
     /**
      * Table name
      */
@@ -13,7 +12,6 @@ class Book extends Eloquent {
     /**
      * Status SS_ADDED when cataloger add a book to database
      */
-
     const SS_ADDED = 0;
 
     /**
@@ -100,10 +98,10 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                    $book->status = Book::SS_ADDED;
-                    $book->created_by = Sentry::getUser()->id;
-                    $book->barcode_printed = 0;
-                });
+                $book->status = Book::SS_ADDED;
+                $book->created_by = Sentry::getUser()->id;
+                $book->barcode_printed = 0;
+            });
     }
 
     public static function validate($input) {
@@ -121,6 +119,10 @@ class Book extends Eloquent {
             'integer' => 'xin nhập vào số nguyên'
         );
         return Validator::make($input, $rules, $messages);
+    }
+
+    public function representString() {
+        # "<cutter or barcode> <Title>"
     }
 
 }
