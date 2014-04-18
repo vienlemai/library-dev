@@ -78,15 +78,19 @@ class Reader extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($reader) {
-            $reader->status = Reader::SS_CIRCULATED;
-            $reader->created_by = Sentry::getUser()->id;
-            $expired = Session::get('LibConfig.reader_expired');
-            $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
-        });
+                $reader->status = Reader::SS_CIRCULATED;
+                $reader->created_by = Sentry::getUser()->id;
+                $expired = Session::get('LibConfig.reader_expired');
+                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
+            });
     }
 
     public function creater() {
         return $this->belongsTo('User', 'created_by');
+    }
+
+    public function representString() {
+        # "Bạn đọc <Fullname>"
     }
 
 }
