@@ -103,4 +103,8 @@ class Reader extends Eloquent {
         # "Bạn đọc <Fullname>"
     }
 
+    public function representString() {
+        # "Bạn đọc <Fullname>"
+    }
+
 }
