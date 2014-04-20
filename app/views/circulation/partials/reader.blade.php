@@ -90,7 +90,7 @@
     <div class='content-row'>
         <div class='span5'>Mượn về:</div>
         <div class='span7'>
-            {{count($reader->circulations)}}/{{$max_book_remote}}
+            {{($reader->circulations->count())}}/{{$max_book_remote}}
         </div>
     </div>
 </div>

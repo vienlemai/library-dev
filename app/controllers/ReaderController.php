@@ -44,9 +44,11 @@ class ReaderController extends \BaseController {
         $v = Reader::validate(Input::all());
         if ($v->passes()) {
             $time = time();
-            $random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 9);
+            $fullCode = $this->ean13_check_digit($random);
             $reader = new Reader(array(
-                'barcode' => $random,
+                'barcode' => $fullCode,
                 'full_name' => Input::get('full_name'),
                 'class' => Input::get('class'),
                 'year_of_birth' => Input::get('year_of_birth'),

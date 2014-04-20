@@ -237,9 +237,10 @@ class BookController extends \BaseController {
      */
     public function save() {
         $v = Book::validate(Input::all());
+        $time = time();
+        $vnCode = '893';
+        $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
-            $time = time();
-            $random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
             $book = new Book(array(
                 'title' => Input::get('title'),
                 'sub_title' => Input::get('sub_title'),
@@ -263,11 +264,17 @@ class BookController extends \BaseController {
                 'barcode' => $random,
             ));
             if ($book->save()) {
+                for ($i = 1; $i <= $book->number; $i++) {
+                    $code = $random . sprintf("%03s", $i);
+                    $fullCode = $this->ean13_check_digit($code);
+                    $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
+                    $book->bookItems()->save($bItem);
+                }
+
                 Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
-                    . Input::get('number') . ' cuốn</strong>, '
-                    . 'Số mã vạch đã in : <strong>' . $book->barcode_printed . ' mã</strong>');
+                    . Input::get('number') . ' cuốn</strong>');
                 return Redirect::route('book.catalog.view', $book->id);
             } else {
                 Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
@@ -288,7 +295,7 @@ class BookController extends \BaseController {
             return Redirect::route('book.moderate');
         }
 
-        $user = Sentry::getUser();
+        //$user = Sentry::getUser();
 //		if ($book->created_by == $user->id) {
 //			App::abort(404);
 //		}
@@ -318,13 +325,10 @@ class BookController extends \BaseController {
      * Gennerate barcode
      */
     public function barcode($id) {
-        $book = Book::findOrFail($id);
-        $number = $book->number;
-        $barcode = $book->barcode;
+        $book = Book::with('bookItems')->get()->find($id);
         $result = array();
-        for ($i = 1; $i <= $number; $i++) {
-            $code = $barcode . sprintf("%03s", $i);
-            array_push($result, array('code' => $code, 'barcode' => DNS1D::getBarcodePNGPath($code, "EAN13", 3, 33)));
+        foreach ($book->bookItems as $bookItem) {
+            array_push($result, array('code' => $bookItem->barcode, 'barcode' => DNS1D::getBarcodePNGPath($bookItem->barcode, "EAN13", 1.5, 33)));
         }
         return View::make('book.barcode', array('barcode' => $result, 'book' => $book));
     }
@@ -361,10 +365,11 @@ class BookController extends \BaseController {
      */
     public function update($id) {
         $v = Book::validate(Input::all());
+        $time = time();
+        $vnCode = '893';
+        $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
             $book = Book::find($id);
-            $time = time();
-            $random = substr(number_format($time * rand(), 0, '', ''), 0, 6);
             $book->title = Input::get('title');
             $book->sub_title = Input::get('sub_title');
             $book->author = Input::get('author');
@@ -402,7 +407,8 @@ class BookController extends \BaseController {
                 $barcode = $book->barcode;
                 for ($i = 1; $i <= $book->number; $i++) {
                     $code = $barcode . sprintf("%03s", $i);
-                    $bItem = new BookItem(array('barcode' => $code, 'status' => BookItem::SS_STORAGED));
+                    $fullCode = $this->ean13_check_digit($code);
+                    $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
                     $book->bookItems()->save($bItem);
                 }
                 return Redirect::route('book.catalog.view', $book->id);
@@ -410,8 +416,7 @@ class BookController extends \BaseController {
                 Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
             }
         } else {
-            Former::withErrors($v->messages());
-            return View::make('book.create');
+            return Redirect::route('book.edit', array($id))->withInput()->withErrors($v->messages());
         }
     }
 
@@ -461,5 +466,7 @@ class BookController extends \BaseController {
         Session::flash('success', 'Đã báo lỗi thành công tài liệu ' . $book->title);
         return Redirect::route('book.moderate');
     }
+
+    
 
 }

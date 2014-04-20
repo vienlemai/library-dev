@@ -12,3 +12,4 @@
 */
 Artisan::add(new resetGroup);
 Artisan::resolve('resetGroup');
+Artisan::add(new CronJob);
