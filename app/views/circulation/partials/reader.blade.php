@@ -25,13 +25,26 @@
             <i class='i-time'></i>
             Lịch sử
         </a>
-        <a class='btn btn-warning' href='#'>
-            <i class='i-locked'></i>
-            Khóa thẻ
-        </a>
     </div>
 </div>
 <div class='span7'>
+    <?php if ($reader->status == Reader::SS_PAUSED): ?>
+        <div class="alert alert-error">
+            Bạn đọc đang bị khóa thẻ, không thể mượn thêm tài liệu
+            <button data-dismiss="alert" class="close" type="button">×</button>
+        </div>
+    <?php elseif ($reader->status == Reader::SS_EXPIRED): ?>
+        <div class="alert alert-error">
+            Thẻ bạn đọc đã hết hạn, không thể mượn thêm tài liệu
+            <button data-dismiss="alert" class="close" type="button">×</button>
+        </div>
+    <?php endif; ?>
+    <?php if ($msgFine !== ''): ?>
+        <div class="alert alert-error">
+            <?php echo $msgFine ?>
+            <button data-dismiss="alert" class="close" type="button">×</button>
+        </div>
+    <?php endif; ?>
     <div class='content-row'>
         <div class='span5'>Họ tên:</div>
         <div class='span7'>
@@ -77,7 +90,7 @@
     <div class='content-row'>
         <div class='span5'>Mượn về:</div>
         <div class='span7'>
-            {{count($reader->circulations)}}/{{$max_book_remote[0]}}
+            {{count($reader->circulations)}}/{{$max_book_remote}}
         </div>
     </div>
 </div>

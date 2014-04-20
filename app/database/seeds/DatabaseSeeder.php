@@ -70,7 +70,25 @@ class ConfigTableSeeder extends Seeder {
                 'key' => 'extra_times',
                 'value' => '2',
                 'unit' => 'Lần'
-            )
+            ),
+            array(
+                'name' => 'Thời gian gia hạn thêm tài liệu',
+                'key' => 'book_more_time',
+                'value' => '10',
+                'unit' => 'Ngày'
+            ),
+            array(
+                'name' => 'Thời gian gia hạn thêm thẻ',
+                'key' => 'reader_more_time',
+                'value' => '365',
+                'unit' => 'Ngày'
+            ),
+            array(
+                'name' => 'Tiền phạt trễ hạn tài liệu',
+                'key' => 'book_expired_fine',
+                'value' => '1000',
+                'unit' => 'Đồng/ngày/cuốn'
+            ),
         ));
         Session::forget('LibConfig');
     }

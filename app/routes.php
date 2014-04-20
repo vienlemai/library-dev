@@ -134,6 +134,22 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'circulation.reader',
         'uses' => 'CirculationController@loadReader',
     ));
+    Route::post('circulation/book', array(
+        'as' => 'circulation.book',
+        'uses' => 'CirculationController@loadBook',
+    ));
+    Route::post('circulation/borrow', array(
+        'as' => 'circulation.borrow',
+        'uses' => 'CirculationController@borrow',
+    ));
+    Route::post('circulation/return', array(
+        'as' => 'circulation.return',
+        'uses' => 'CirculationController@returnBook',
+    ));
+    Route::post('circulation/extra', array(
+        'as' => 'circulation.extra',
+        'uses' => 'CirculationController@extra',
+    ));
 });
 
 
@@ -182,4 +198,6 @@ Route::group(array('before' => 'auth|csrf'), function () {
         'uses' => 'FileController@uploadImage'
     ));
 });
-
+Event::listen("illuminate.query", function($query, $bindings, $time, $name) {
+    Log::info($query);
+});

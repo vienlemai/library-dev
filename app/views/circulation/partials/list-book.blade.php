@@ -1,34 +1,54 @@
-<?php $extra_times = Session::get('LibConfig.extra_times') ?>
+<?php
+$max_extra_times = Session::get('LibConfig.extra_times');
+$now = Carbon\Carbon::now();
 
+?>
+<?php if (isset($message)): ?>
+    <div class="alert alert-success">
+        <?php echo $message ?>
+        <button data-dismiss="alert" class="close" type="button">×</button>
+    </div>
+<?php endif; ?>
 <table cellpadding='0' cellspacing='0' class='bordered-b sort' width='100%'>
     <thead>
         <tr>
+            <th style='width:7%'>Mã vạch</th>
             <th style='width:20%'>Tiêu đề</th>
-            <th style='width:15%'>Ngày mượn</th>
-            <th style='width:15%'>Ngày hết hạn</th>
+            <th style='width:10%'>Ngày mượn</th>
+            <th style='width:15%'>Hết hạn</th>
             <th style='width:12%'>Ghi chú</th>
-            <th style='width:13%'>Thao tác</th>
         </tr>
     </thead>
     <tbody>
+
         <?php foreach ($circulations as $row): ?>
+            <?php
+            $ex_times = (int) $max_extra_times - $row->extensions;
+            $isNotExpired = $now->lt($row->expired_at);
+
+            ?>
             <tr>
+                <td>{{$row->bookItem->barcode}}</td>
                 <td>{{$row->bookItem->book->title}}</td>
-                <td>{{$row->created_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
-                <td>{{$row->expired_at->format('d \t\h\á\n\g m, Y')}}</td>
-                <td>Còn {{ (int)$extra_times[0] - $row->extensions }} lần gia hạn</td>
-                <td>
-                    <div class='row-actions'>
-                        <a class='text-info' href='#'>
-                            <i class='i-arrow-down-6'></i>
-                            Trả
-                        </a>
-                        <a class='text-disabled' href='#'>
-                            <i class='i-plus'></i>
-                            Gia hạn
-                        </a>
-                    </div>
-                </td>
+                <td>{{$row->created_at->format('d \t\h\á\n\g m, Y')}}</td>
+                <?php if ($isNotExpired): ?>
+                    <td>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') ?>
+                    </td>
+                <?php else: ?>
+                    <td style="color: red">
+                        <?php $diff = $now->diffInDays($row->expired_at); ?>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . $diff . ' ngày)'; ?>
+                    </td>
+                <?php endif; ?>
+                <?php if ($isNotExpired): ?>
+                    <td><?php echo $ex_times > 0 ? 'Còn ' . $ex_times . ' lần gia hạn' : 'Hết quyền gia hạn' ?></td>
+                <?php else: ?>
+                    <td style="color: red">
+                        <?php $book_expired_fine = Session::get('LibConfig.book_expired_fine'); ?>
+                        <?php echo 'Tiền phạt : ' . $diff * $book_expired_fine . ' (đồng)' ?>
+                    </td>
+                <?php endif; ?>
             </tr>
         <?php endforeach; ?>
     </tbody>

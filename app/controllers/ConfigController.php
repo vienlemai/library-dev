@@ -25,7 +25,7 @@ class ConfigController extends BaseController {
             }
             $configs = DB::table('configs')->get();
             foreach ($configs as $config) {
-                Session::push('LibConfig.' . $config->key, $config->value);
+                Session::set('LibConfig.' . $config->key, $config->value);
             }
             Session::flash('success', 'Lưu thành công cấu hình');
             return Redirect::to('configs');

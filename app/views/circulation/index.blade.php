@@ -55,9 +55,13 @@
         </div>
         <div class='row-fluid'>
             <div class='span12'>
+                <span class="loading" style="display: none">
+                    <img src="{{asset('img/loading.gif')}}"/>
+                    Đang tải . . .
+                </span>
                 <div class='block'>
                     <div class='head'>
-                        <h2>Tài liệu đang mượn</h2>
+                        <h2>Tài liệu đang mượn</h2>                        
                         <ul class='buttons'>
                             <li>
                                 <a class='block_toggle' href='#'>

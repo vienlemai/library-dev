@@ -23,8 +23,6 @@
 	/**
 	 * Circulation
 	 * */
-
-
 	var cirHandle = {
 		$circulationReader: $("#circulation-reader"),
 		$circulationBook: $("#circulation-book"),
@@ -32,6 +30,12 @@
 		ajaxFailMsg: 'Đã có lỗi xảy ra, vui lòng thử lại',
 		readerId: 0,
 		bookItemId: 0,
+		focusOnBook: function() {
+			cirHandle.$circulationBook.find('input.barcode-scanner').focus();
+		},
+		focusOnReader: function() {
+			cirHandle.$circulationReader.find('input.barcode-scanner').focus();
+		},
 		init: function() {
 			this.$circulationReader.find('input.barcode-scanner').focus();
 			//cirHandle.$circulationBook.find('input.barcode-scanner').attr('disabled','disabled');
@@ -47,33 +51,45 @@
 						type: 'POST',
 						dataType: 'json',
 						data: {barcode: barcode},
+						beforeSend: function() {
+							$(".loading").show();
+						},
 						success: function(result) {
+							$(".loading").hide();
 							if (result.status === true) {
-								cirHandle.$circulationBook.find('input.barcode-scanner').focus();
+								cirHandle.focusOnBook();
 								cirHandle.readerId = result.reader_id;
 								cirHandle.$circulationReader.html(result.reader_html);
 								cirHandle.$circulationListBook.html(result.list_book_html);
 							} else {
 								bootbox.alert(result.message);
 								cirHandle.readerId = 0;
+								cirHandle.focusOnReader();
 								cirHandle.$circulationReader.html(defaultCirReader);
 								cirHandle.$circulationListBook.html(defaultListBook);
+								cirHandle.$circulationBook.html(defaultCirBook);
 								return false;
 							}
 						},
 						error: function() {
+							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.readerId = 0;
+							cirHandle.focusOnReader();
 							cirHandle.$circulationReader.html(defaultCirReader);
+							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.$circulationListBook.html(defaultListBook);
 							return false;
 						}
 
 					});
 				} else {
+					$(".loading").hide();
 					cirHandle.readerId = 0;
 					cirHandle.$circulationReader.html(defaultCirReader);
+					cirHandle.$circulationBook.html(defaultCirBook);
 					cirHandle.$circulationListBook.html(defaultListBook);
+					cirHandle.focusOnReader();
 					return false;
 				}
 			});
@@ -87,25 +103,39 @@
 						type: 'POST',
 						dataType: 'json',
 						data: {barcode: barcode, readerId: cirHandle.readerId},
+						beforeSend: function() {
+							$(".loading").show();
+						},
 						success: function(result) {
+							$(".loading").hide();
 							if (result.status === true) {
 								cirHandle.bookItemId = result.book_item_id;
 								cirHandle.$circulationBook.html(result.book_html);
+								cirHandle.focusOnBook();
 							} else {
 								bootbox.alert(result.message);
 								cirHandle.bookItemId = 0;
 								cirHandle.$circulationBook.html(defaultCirBook);
+								cirHandle.focusOnBook();
 								return false;
 							}
 						},
 						error: function() {
+							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.bookItemId = 0;
-							cirHandle.$circulationBook.html(defaultCirReader);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
 							return false;
 						}
 
 					});
+				} else {
+					$(".loading").hide();
+					cirHandle.bookItemId = 0;
+					cirHandle.$circulationBook.html(defaultCirBook);
+					cirHandle.focusOnBook();
+					return false;
 				}
 			});
 
@@ -117,23 +147,101 @@
 						type: "POST",
 						dataType: "JSON",
 						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
+						beforeSend: function() {
+							$(".loading").show();
+						},
 						success: function(result) {
+							$(".loading").hide();
 							cirHandle.$circulationListBook.html(result.list_book_html);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
 						},
 						error: function() {
+							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
 							return false;
 						}
 					});
+				} else {
+					$(".loading").hide();
+					bootbox.alert('Thao tác mượn tài liệu không hợp lệ, vui lòng thử lai');
+					cirHandle.$circulationBook.html(defaultCirBook);
+					cirHandle.focusOnBook();
+					return false;
 				}
 			});
 			this.$circulationBook.on('click', '#btn-return-book', function() {
+				if (cirHandle.bookItemId !== 0 && cirHandle.readerId !== 0) {
+					var dataUrl = $(this).attr('data-url');
+					$.ajax({
+						url: dataUrl,
+						type: "POST",
+						dataType: "JSON",
+						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
+						beforeSend: function() {
+							$(".loading").show();
+						},
+						success: function(result) {
+							$(".loading").hide();
+							cirHandle.$circulationListBook.html(result.list_book_html);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
+						},
+						error: function() {
+							$(".loading").hide();
+							bootbox.alert(cirHandle.ajaxFailMsg);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
+							return false;
+						}
+					});
+				} else {
+					$(".loading").hide();
+					bootbox.alert('Thao tác mượn tài liệu không hợp lệ, vui lòng thử lai');
+					cirHandle.$circulationBook.html(defaultCirBook);
+					cirHandle.focusOnBook();
+					return false;
+				}
 
+			});
+
+			this.$circulationBook.on('click', '#btn-extra-book', function() {
+				if (cirHandle.bookItemId !== 0 && cirHandle.readerId !== 0) {
+					var dataUrl = $(this).attr('data-url');
+					$.ajax({
+						url: dataUrl,
+						type: "POST",
+						dataType: "JSON",
+						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
+						beforeSend: function() {
+							$(".loading").show();
+						},
+						success: function(result) {
+							$(".loading").hide();
+							cirHandle.$circulationListBook.html(result.list_book_html);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
+						},
+						error: function() {
+							$(".loading").hide();
+							bootbox.alert(cirHandle.ajaxFailMsg);
+							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.focusOnBook();
+							return false;
+						}
+					});
+				} else {
+					$(".loading").hide();
+					bootbox.alert('Thao tác gia hạn tài liệu không hợp lệ, vui lòng thử lai');
+					cirHandle.$circulationBook.html(defaultCirBook);
+					cirHandle.focusOnBook();
+					return false;
+				}
 			});
 		}
 	};
-
-
 	$("#btn-disapprove-book").on('click', function() {
 		$("#form-disapprove-book").toggle(300);
 	});

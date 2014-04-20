@@ -21,12 +21,12 @@ class Circulation extends Eloquent {
             $circulation->created_at = Carbon\Carbon::now();
             $circulation->created_by = Sentry::getUser()->id;
             $expired = Session::get('LibConfig.book_expired');
-            $circulation->expired_at = Carbon\Carbon::now()->addDays($expired[0]);
+            $circulation->expired_at = Carbon\Carbon::now()->addDays($expired);
         });
     }
 
     public function getDates() {
-        return array('created_at','expired_at');
+        return array('created_at', 'expired_at');
     }
 
     public function bookItem() {

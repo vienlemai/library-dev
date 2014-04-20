@@ -30,7 +30,7 @@
 							<?php endif; ?>
 							<li>Trạng thái: {{Book::$CAT_SS_LABELS[$book->status]}}</li>
 							<?php if ($book->status == Book::SS_PUBLISHED): ?>
-								<li>Người kiểm duyệt: {{json_decode($book->moderator)->last_nam}}</li>
+								<li>Người kiểm duyệt: {{json_decode($book->moderator)->last_name}}</li>
 								<li class="text-success">Ngày lưu thông: <?php echo $book->published_at->format('d/m/Y h:i') . '(' . $book->published_at->diffForHumans() . ')' ?></li>
 							<?php elseif ($book->status == Book::SS_DISAPPROVED): ?>
 								<li class="text-error">Thông tin lỗi : </li>
