@@ -59,14 +59,6 @@ class Activity extends Eloquent {
         'created_at'
     );
 
-    public function author() {
-        return $this->morphTo();
-    }
-
-    public function object() {
-        return $this->morphTo();
-    }
-
     public function toText($viewer = null) {
         # Determine view mode for activity
         $author_text = '';
@@ -132,7 +124,6 @@ class Activity extends Eloquent {
             'created_at' => date('Y-m-d H:i:s'),
         ));
     }
-
 }
 
 ?>
