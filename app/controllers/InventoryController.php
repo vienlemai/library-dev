@@ -22,15 +22,16 @@ class InventoryController extends \BaseController {
                 'reason' => Input::get('reason'),
             ));
             $inventory->save();
-            return Redirect::route('inventory.excute',$inventory->id);
+            return Redirect::route('inventory.excute', $inventory->id);
         } else {
             Former::withErrors($v->messages());
             return Redirect::route('inventory.create')->withInput()->withErrors($v->messages());
         }
     }
-    public function excute($id){
+
+    public function excute($id) {
         $inventory = Inventory::find($id);
-        return View::make('inventory.excute',array('inventory'=>$inventory));
+        return View::make('inventory.excute', array('inventory' => $inventory));
     }
 
 }

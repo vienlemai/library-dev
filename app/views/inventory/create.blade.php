@@ -14,10 +14,10 @@
                 </div>
                 <div class='content'>
                     {{ Former::horizontal_open(route('inventory.save'))->method('POST') }}
-                    {{Former::xlarge_text('title')
+                    {{Former::xxlarge_text('title')
 								->label('Tiêu đề(*)')
                     }}
-                    {{Former::textarea('title')
+                    {{Former::textarea('reason')
 								->label('Lý do(*)')
                                 ->class('input-xlarge editor')
                     }}

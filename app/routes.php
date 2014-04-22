@@ -160,6 +160,10 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'inventory.create',
         'uses' => 'InventoryController@create'
     ));
+    Route::get('inventory/excute/{id}',array(
+        'as' => 'inventory.excute',
+        'uses' =>'InventoryController@excute'
+    ));
     
 });
 
