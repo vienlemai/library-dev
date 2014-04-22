@@ -6,6 +6,8 @@
  * @author Lht
  */
 class Activity extends Eloquent {
+    public $timestamps = false;
+
     /*
      * Book cataloging activities
      */
@@ -48,6 +50,14 @@ class Activity extends Eloquent {
         self::ADDED_CARD => ":author_text tạo mới thẻ bạn đọc: :object_text, vào lúc :time",
         self::ADDED_STAFF => ":author_text thêm mới nhân viên: :object_text, vào lúc :time",
     );
+    protected $fillable = array(
+        'activity_code',
+        'author_id',
+        'author_class',
+        'object_id',
+        'object_class',
+        'created_at'
+    );
 
     public function author() {
         return $this->morphTo();
@@ -60,7 +70,7 @@ class Activity extends Eloquent {
     public function toText($viewer = null) {
         # Determine view mode for activity
         $author_text = '';
-        $author = $this->author;
+        $author = $this->getAuthor();
         if (($viewer != null) && ($viewer == $author)) {
             $author_text = 'Bạn'; # How do you think?
         } else {
@@ -69,7 +79,7 @@ class Activity extends Eloquent {
         # TODO: write representString function for models related with activities(User, Book, Card ...)
         # to get the represention text for object
         # Generate text
-        $object = $this->object;
+        $object = $this->getObject();
         $object_text = $object->representString();
 
         # Time of activity in string
@@ -87,26 +97,39 @@ class Activity extends Eloquent {
         return $text;
     }
 
-    private function textComposer($format, $arr) {
-        foreach ($arr as $key => $val) {
-            str_replace(':' . $key, $val, $format, 1);
-        }
-        return $format;
-    }
-
     public function getTime() {
         return date('D, d M Y \a\t H:i', strtotime($this->created_at));
+    }
+
+    public function getObject() {
+        $obj = new $this->object_class;
+        return $obj->find($this->object_id);
+    }
+
+    public function getAuthor() {
+         $obj = new $this->author_class;
+        return  $obj->find($this->author_id);
     }
 
     /**
      * Static function goes from here
      */
+    private static function textComposer($format, $arr) {
+        $clone = $format;
+        foreach ($arr as $key => $val) {
+            $clone = str_replace(':' . $key, $val, $clone);
+        }
+        return $clone;
+    }
+
     public static function createActivity($author, $activity_code, $object) {
         self::create(array(
             'activity_code' => $activity_code,
             'author_id' => $author->id,
+            'author_class' => get_class($author),
             'object_id' => $object->id,
-            'object_type' => get_class($object),
+            'object_class' => get_class($object),
+            'created_at' => date('Y-m-d H:i:s'),
         ));
     }
 
