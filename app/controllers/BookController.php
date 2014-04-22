@@ -20,9 +20,6 @@ class BookController extends \BaseController {
      * Display a listing of books that being catalog
      */
     public function catalog() {
-        // Just for test
-        Activity::createActivity(User::first(), Activity::DISAPPROVED_BOOK, Book::first());
-
         if (Request::ajax()) {
             $type = Input::get('book-type');
             switch ($type) {
