@@ -39,7 +39,7 @@ class Activity extends Eloquent {
     /*
      * Text formats for activity
      */
-    public static $ACTIVITY_FORMATS = [
+    private static $ACTIVITY_FORMATS = array(
         self::SUBMITED_BOOK => ":author_text gửi tài liệu mới: :object_text, vào lúc :time",
         self::DISAPPROVED_BOOK => ":author_text từ chối tài liệu: :object_text, vào lúc :time",
         self::PUBLISHED_BOOK => ":author_text cho phép lưu hành tài liệu: :object_text, vào lúc :time",
@@ -47,12 +47,20 @@ class Activity extends Eloquent {
         self::RETURNED_BOOK => ":author_text trả tài liệu: :object_text, vào lúc :time",
         self::ADDED_CARD => ":author_text tạo mới thẻ bạn đọc: :object_text, vào lúc :time",
         self::ADDED_STAFF => ":author_text thêm mới nhân viên: :object_text, vào lúc :time",
-    ];
+    );
+
+    public function author() {
+        return $this->morphTo();
+    }
+
+    public function object() {
+        return $this->morphTo();
+    }
 
     public function toText($viewer = null) {
         # Determine view mode for activity
         $author_text = '';
-        $author = $this->getAuthor();
+        $author = $this->author;
         if (($viewer != null) && ($viewer == $author)) {
             $author_text = 'Bạn'; # How do you think?
         } else {
@@ -61,7 +69,7 @@ class Activity extends Eloquent {
         # TODO: write representString function for models related with activities(User, Book, Card ...)
         # to get the represention text for object
         # Generate text
-        $object = $this->getObject();
+        $object = $this->object;
         $object_text = $object->representString();
 
         # Time of activity in string
@@ -69,29 +77,37 @@ class Activity extends Eloquent {
         $time = $this->getTime();
 
         # Generate text for activity by replacing texts into the corresponding format
-        $text_in_format = self::$ACTIVITY_FORMATS[$this->getActivityCode()];
-        
-        
+        $format = self::$ACTIVITY_FORMATS[$this->activity_code];
+
+        $text = self::textComposer($format, array(
+                'author_text' => $author_text,
+                'object_text' => $object_text,
+                'time' => $time
+        ));
+        return $text;
     }
 
-    # Return the author of activity
-
-    public function getAuthor() {
-        
-    }
-
-    # Return the object of activity
-
-    public function getObject() {
-        
+    private function textComposer($format, $arr) {
+        foreach ($arr as $key => $val) {
+            str_replace(':' . $key, $val, $format, 1);
+        }
+        return $format;
     }
 
     public function getTime() {
-        
+        return date('D, d M Y \a\t H:i', strtotime($this->created_at));
     }
 
-    public function getActivityCode() {
-        
+    /**
+     * Static function goes from here
+     */
+    public static function createActivity($author, $activity_code, $object) {
+        self::create(array(
+            'activity_code' => $activity_code,
+            'author_id' => $author->id,
+            'object_id' => $object->id,
+            'object_type' => get_class($object),
+        ));
     }
 
 }

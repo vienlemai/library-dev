@@ -52,6 +52,10 @@ class User extends SentryModel {
         ),
     );
 
+    public function activities() {
+        return $this->morphMany('Activity', 'author');
+    }
+
     public static function getDefaultPermission() {
         $sharedPermissions = array('home', 'error', 'logout');
         $catalogerPermissions = array('book.create', 'book.catalog', 'book.preview');

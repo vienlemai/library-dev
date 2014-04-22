@@ -48,6 +48,10 @@ class Reader extends Eloquent {
         return $this->hasMany('BookItem');
     }
 
+    public function activities() {
+        return $this->morphMany('Activity', 'author');
+    }
+
     /**
      * Security fillable
      */
@@ -84,11 +88,11 @@ class Reader extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($reader) {
-            $reader->status = Reader::SS_CIRCULATED;
-            $reader->created_by = Sentry::getUser()->id;
-            $expired = Session::get('LibConfig.reader_expired');
-            $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
-        });
+                $reader->status = Reader::SS_CIRCULATED;
+                $reader->created_by = Sentry::getUser()->id;
+                $expired = Session::get('LibConfig.reader_expired');
+                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
+            });
     }
 
     public function creater() {
