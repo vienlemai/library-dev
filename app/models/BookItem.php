@@ -31,4 +31,8 @@ class BookItem extends Eloquent {
     public function book() {
         return $this->belongsTo('Book');
     }
+    
+//    public function circulations (){
+//        return $this->hasMany('Circulation');
+//    }
 }

@@ -103,7 +103,9 @@ class BookController extends \BaseController {
     }
 
     public function library() {
-        $books = Book::where('status', '=', Book::SS_PUBLISHED)->orderBy('published_at', 'desc')->paginate(self::ITEMS_PER_PAGE);
+        $books = Book::where('status', '=', Book::SS_PUBLISHED)
+            ->orderBy('published_at', 'desc')
+            ->paginate(self::ITEMS_PER_PAGE);
         if (Request::ajax()) {
             return View::make('book.partials.library.library', array('books' => $books));
         } else {
@@ -403,13 +405,15 @@ class BookController extends \BaseController {
                     . Input::get('number') . ' cuốn</strong>');
             }
             if ($book->save()) {
-                BookItem::where('book_id', '=', $book->id)->delete();
-                $barcode = $book->barcode;
-                for ($i = 1; $i <= $book->number; $i++) {
-                    $code = $barcode . sprintf("%03s", $i);
-                    $fullCode = $this->ean13_check_digit($code);
-                    $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
-                    $book->bookItems()->save($bItem);
+                if ($book->number != Input::get('number')) {
+                    BookItem::where('book_id', '=', $book->id)->delete();
+                    $barcode = $book->barcode;
+                    for ($i = 1; $i <= $book->number; $i++) {
+                        $code = $barcode . sprintf("%03s", $i);
+                        $fullCode = $this->ean13_check_digit($code);
+                        $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
+                        $book->bookItems()->save($bItem);
+                    }
                 }
                 return Redirect::route('book.catalog.view', $book->id);
             } else {
@@ -466,7 +470,5 @@ class BookController extends \BaseController {
         Session::flash('success', 'Đã báo lỗi thành công tài liệu ' . $book->title);
         return Redirect::route('book.moderate');
     }
-
-    
 
 }

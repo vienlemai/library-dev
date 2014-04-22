@@ -38,7 +38,6 @@
 						<tbody>					
 							<?php $stt = $books->getFrom() ?>
 							<?php foreach ($books as $book): ?>
-
 								<tr>
 									<td>
 										{{$stt++}}
@@ -46,7 +45,7 @@
 									<td>{{$book->title }}</td>
 									<td>{{$book->author}}</td>
 									<td>{{$book->number}}</td>
-									<td>0</td>
+									<td>{{$book->bookItems->count()}}</td>
 									<td>{{$book->published_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
 									<td>
 										<div class='row-actions'>

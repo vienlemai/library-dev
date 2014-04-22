@@ -13,7 +13,7 @@
                     Tài khoản
                 </a>
                 <a class='fr' href='{{{ route('logout') }}}'>
-					<span class='i-forward'></span>
+                    <span class='i-forward'></span>
                     Đăng xuất
                 </a>
             </div>
@@ -38,12 +38,12 @@
                 <li class=''>
                     <a href='{{route('reader.create')}}'>Thêm bạn đọc</a>
                 </li>
-                <li class=''>
-                    <a href='#'>Độc giả trễ hạn</a>
-                </li>
-                <li class=''>
-                    <a href='#'>Lịch sử lưu thông</a>
-                </li>
+                <!--                <li class=''>
+                                    <a href='#'>Độc giả trễ hạn</a>
+                                </li>
+                                <li class=''>
+                                    <a href='#'>Lịch sử lưu thông</a>
+                                </li>-->
             </ul>
         </li>
         <li class='openable open'>
@@ -68,25 +68,25 @@
                 </li>
             </ul>
         </li>
-        <li class='disabled'>
+         <li class='openable open'>
             <a href='#'>
                 Kiểm kê
             </a>
             <ul>
                 <li class=''>
-                    <a href='lich_su_kiem_ke.html'>Lich sử kiểm kê</a>
+                    <a href='{{route('inventory.index')}}'>Lich sử kiểm kê</a>
                 </li>
                 <li class=''>
-                    <a href='tao_moi_kiem_ke.html'>Tạo mới kiểm kê</a>
+                    <a href='{{route('inventory.create')}}'>Tạo mới kiểm kê</a>
                 </li>
             </ul>
         </li>
         <li class='openable open'>
             <a href='#'>Quản lý hệ thống</a>
             <ul>
-                <li class=''>
-                    <a href='{{route('user.create')}}'>Nhân viên</a>
-                </li>
+                <!--                <li class=''>
+                                    <a href='{{route('user.create')}}'>Nhân viên</a>
+                                </li>-->
                 <li class=''>
                     <a href='{{route('configs')}}'>Cấu hình</a>
                 </li>

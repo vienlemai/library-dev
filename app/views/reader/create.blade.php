@@ -20,7 +20,7 @@
 		<div class='row-fluid'>
 			<div class='block'>
 				<div class='head'>
-					<h2>Nhập thông bạn đọc</h2>
+					<h2>Nhập thông tin bạn đọc</h2>
 				</div>
 				<div class='content'>
 					<div class="span4">

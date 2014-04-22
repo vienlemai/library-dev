@@ -150,6 +150,17 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'circulation.extra',
         'uses' => 'CirculationController@extra',
     ));
+    //inventory
+    Route::get('inventory/index',array(
+        'as' =>'inventory.index',
+        'uses' =>'InventoryController@index'
+    ));
+    
+    Route::get('inventory/create',array(
+        'as' => 'inventory.create',
+        'uses' => 'InventoryController@create'
+    ));
+    
 });
 
 
@@ -197,7 +208,15 @@ Route::group(array('before' => 'auth|csrf'), function () {
         'as' => 'upload.image',
         'uses' => 'FileController@uploadImage'
     ));
+    
+    Route::post('inventory/save',array(
+        'as' => 'inventory.save',
+        'uses' => 'InventoryController@save'
+    ));
 });
 Event::listen("illuminate.query", function($query, $bindings, $time, $name) {
     Log::info($query);
 });
+$throttleProvider = Sentry::getThrottleProvider();
+$throttleProvider->disable();
+

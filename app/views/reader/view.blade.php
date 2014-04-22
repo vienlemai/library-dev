@@ -20,7 +20,7 @@
         <div class='row-fluid'>
             <div class='block'>
                 <div class='head'>
-                    <h2>Nhập thông bạn đọc</h2>
+                    <h2>Thông bạn đọc</h2>
                 </div>
                 <div class='content'>
                     <div class="span4">
@@ -33,7 +33,7 @@
                                                         </div>-->
                             <div class="control-group">
                                 <div class="controls">
-                                    <img class="image-preview" src="{{$reader->avatar}}" width="100" height="100"/>
+                                    <img class="image-preview reader-avatar" src="{{$reader->avatar}}" width="100" height="100"/>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -43,7 +43,12 @@
                                         <li>Ngày tạo: {{$reader->created_at->format('d/m/Y')}}</li>
                                         <li>Ngày hết hạn: {{$reader->expired_at->format('d/m/Y')}}</li>
                                         <li>Người tạo: {{json_decode($reader->creater)->last_name }}</li>
-                                        <li>Trạng thái: {{Reader::$SS_LABELS[$reader->status]}}</li>
+                                        <?php if ($reader->expired): ?>
+                                            <li style="color: red">Trạng thái: Hết hạn ({{$reader->status->expired_at->diffForHumans()}})</li>
+                                        <?php else : ?>
+                                            <li>Trạng thái: {{Reader::$SS_LABELS[$reader->status]}}</li>
+                                        <?php endif; ?>
+
                                     </ul>
                                 </div>
                             </div>
@@ -118,10 +123,10 @@
 								->disabled()
                         }}
                         <div class="form-actions">
-                            <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo mã thẻ</a>
+                            <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo thẻ</a>
                             <a class="btn btn-success" href="#">Lịch sử mượn trả</a>
                             @if($reader->status === Reader::SS_CIRCULATED)
-                            <button class="btn btn-danger" btn-confirm="confirm" data-url="{{route('reader.pause',array($reader->id))}}" data-confirm="Bạn có chắc chắn muốn khóa bạn đọc {{$reader->full_name}}">Khóa thẻ</button>
+                            <button class="btn btn-danger" btn-confirm="confirm" data-url="{{route('reader.pause',array($reader->id))}}" data-confirm="Bạn có chắc chắn muốn khóa bạn đọc <strong>{{$reader->full_name}}</strong>">Khóa thẻ</button>
                             @elseif($reader->status == Reader::SS_PAUSED)
                             <button class="btn btn-warning" btn-confirm="confirm" data-url="{{route('reader.unpause',array($reader->id))}}" data-confirm="Bạn có chắc chắn muốn mở khóa cho bạn đọc {{$reader->full_name}}">Mở khóa thẻ</button>
                             @endif

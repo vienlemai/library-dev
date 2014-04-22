@@ -15,11 +15,6 @@ class BaseController extends Controller {
                 }
             }
         });
-
-        //$reader = Reader::with('circulations', 'circulations.bookItem', 'circulations.bookItem.book')
-        //      ->get()->find(100);
-        //var_dump($reader->circulations);
-        //var_dump($reader);exit();
     }
 
     /**

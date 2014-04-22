@@ -94,6 +94,7 @@ class Book extends Eloquent {
         'another_infor',
         'status',
     );
+    
 
     public static function boot() {
         parent::boot();

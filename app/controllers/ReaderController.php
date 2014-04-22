@@ -79,7 +79,7 @@ class ReaderController extends \BaseController {
 
     public function card($id) {
         $reader = Reader::findOrFail($id);
-        $barcode = DNS1D::getBarcodePNGPath($reader->barcode, "UPCA");
+        $barcode = DNS1D::getBarcodePNGPath($reader->barcode, "EAN13", 1.5, 33);
         return View::make('reader.card', array('reader' => $reader, 'barcode' => $barcode));
     }
 
