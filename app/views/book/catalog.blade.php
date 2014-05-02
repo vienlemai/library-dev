@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('currentMenu','catalog')
 @section('content')
 <div class="wrap">
 	<div class='head'>

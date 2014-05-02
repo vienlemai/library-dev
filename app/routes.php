@@ -33,7 +33,7 @@ Route::get('error/{type}', array(
     'as' => 'error',
     'uses' => 'AdminController@error'
 ));
-Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'BookController@catalog'));
+Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'AdminController@index'));
 //logout
 Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
 
@@ -127,7 +127,7 @@ Route::group(array('before' => 'auth'), function () {
     //readers
     Route::get('reader/create', array(
         'as' => 'reader.create',
-        'uses' => 'BookController@create'
+        'uses' => 'ReaderController@create'
     ));
     Route::get('readers', array(
         'as' => 'readers',

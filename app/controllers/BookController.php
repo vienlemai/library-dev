@@ -4,7 +4,7 @@ class BookController extends \BaseController {
     /**
      * The layout that should be used for responses.
      */
-    protected $layout = 'layouts.admin';
+    public $layout = 'layouts.admin';
 
     /**
      * Display a listing of the resource.
@@ -351,7 +351,7 @@ class BookController extends \BaseController {
         $v = Book::validate(Input::all());
         $time = time();
         $vnCode = '893';
-        # Why we dont's use the old barcode ?
+        # Why we don't use the old barcode ?
         $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
             $book = Book::find($id);

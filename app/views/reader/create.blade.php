@@ -1,4 +1,5 @@
 @extends('layouts.admin')
+@section('currentMenu','create_reader')
 @section('content')
 <div class="wrap">
 	<div class='head'>

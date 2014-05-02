@@ -1,3 +1,4 @@
+<?php $currentMenu = trim($__env->yieldContent('currentMenu', 'dashboard')); ?>
 <div id='sidebar'>
     <div class='user'>
         <div class='pic'>
@@ -13,29 +14,29 @@
                     Tài khoản
                 </a>
                 <a class='fr' href='{{{ route('logout') }}}'>
-                    <span class='i-forward'></span>
+                   <span class='i-forward'></span>
                     Đăng xuất
                 </a>
             </div>
         </div>
     </div>
     <ul class='navigation'>
-        <li class='active'>
+        <li class='<?php echo setActiveMenu($currentMenu, 'dashboard') ?>'>
             <a href='{{route('home')}}'>Bảng điều khiển</a>
         </li>
         <li class='openable open'>
             <a href='#'>Lưu hành</a>
             <ul>
-                <li class=''>
+                <li class='<?php echo setActiveMenu($currentMenu, 'circulation') ?>'>
                     <a href='{{route('circulation')}}'>Mượn trả tài liệu</a>
                 </li>
-                <li class=''>
+                <li class='<?php echo setActiveMenu($currentMenu, 'library') ?>'>
                     <a href='{{route('book.library')}}'>Danh sách tài liệu</a>
                 </li>
-                <li class=''>
+                <li class='<?php echo setActiveMenu($currentMenu, 'readers') ?>'>
                     <a href='{{route('readers')}}'>Danh sách bạn đọc</a>
                 </li>
-                <li class=''>
+                <li class='<?php echo setActiveMenu($currentMenu, 'create_reader') ?>'>
                     <a href='{{route('reader.create')}}'>Thêm bạn đọc</a>
                 </li>
                 <!--                <li class=''>
@@ -49,10 +50,10 @@
         <li class='openable open'>
             <a href='#'>Biên mục</a>
             <ul>
-                <li class=''>
+                <li class='<?php echo setActiveMenu($currentMenu, 'catalog') ?>'>
                     <a href="{{route('book.catalog')}}">Biên mục tài liệu</a>
                 </li>
-                <li class=''>
+                <li class='<?php echo setActiveMenu($currentMenu, 'moderate') ?>'>
                     <a href='{{route('book.moderate')}}'>Xác nhận tài liệu</a>
                 </li>
             </ul>
@@ -68,7 +69,7 @@
                 </li>
             </ul>
         </li>
-         <li class='openable open'>
+        <li class='openable open'>
             <a href='#'>
                 Kiểm kê
             </a>
