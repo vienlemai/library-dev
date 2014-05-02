@@ -71,6 +71,9 @@ class Book extends Eloquent {
     /**
      * Security fillable
      */
+    protected $guard = array(
+        'id', 'barcode', 'created_by', 'status'
+    );
     protected $fillable = array(
         'barcode',
         'title',
@@ -94,7 +97,6 @@ class Book extends Eloquent {
         'another_infor',
         'status',
     );
-    
 
     public static function boot() {
         parent::boot();

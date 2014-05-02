@@ -9,13 +9,7 @@
         <![endif]-->
         <title>Thư viện online - Quản trị</title>
         <link rel="icon" type="image/ico" href="favicon.ico"/>
-        <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/jquery.iframe-transport.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/jquery.fileupload.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/bootbox.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/jquery.validate.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>
+ 
         <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
         <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
         <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
@@ -49,7 +43,15 @@
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/jquery.iframe-transport.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/jquery.fileupload.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/bootbox.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/jquery.validate.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>        
         <script type="text/javascript" src="{{{asset('js/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/app.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/common.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/vlm.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/lht.js')}}}"></script>

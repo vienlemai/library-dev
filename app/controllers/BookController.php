@@ -240,31 +240,14 @@ class BookController extends \BaseController {
     public function save() {
         $v = Book::validate(Input::all());
         $time = time();
+        // FIXME: Please constantize the numbers below
         $vnCode = '893';
         $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
-            $book = new Book(array(
-                'title' => Input::get('title'),
-                'sub_title' => Input::get('sub_title'),
-                'author' => Input::get('author'),
-                'translator' => Input::get('translator'),
-                'publish_info' => Input::get('publish_info'),
-                'publisher' => Input::get('publisher'),
-                'printer' => Input::get('printer'),
-                'pages' => Input::get('pages'),
-                'size' => Input::get('size'),
-                'attach' => Input::get('attach'),
-                'organization' => Input::get('organization'),
-                'language' => Input::get('language'),
-                'cutter' => Input::get('cutter'),
-                'type_number' => Input::get('type_number'),
-                'price' => Input::get('price'),
-                'storage' => Input::get('storage'),
-                'number' => Input::get('number'),
-                'level' => Input::get('level'),
-                'another_infor' => Input::get('another_infor'),
-                'barcode' => $random,
-            ));
+            // If the 'fillable' array is defined, 
+            // I think we don't need to assign the fields one by one from Input
+            $book = new Book(Input::all());
+            $book->barcode = $random;
             if ($book->save()) {
                 for ($i = 1; $i <= $book->number; $i++) {
                     $code = $random . sprintf("%03s", $i);
@@ -272,7 +255,6 @@ class BookController extends \BaseController {
                     $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
                     $book->bookItems()->save($bItem);
                 }
-
                 Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'

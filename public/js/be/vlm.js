@@ -2,7 +2,7 @@
 	$('[btn-confirm="confirm"]').on('click', function() {
 		var dataConfirm = $(this).attr('data-confirm');
 		console.log(dataConfirm);
-		if (typeof dataConfirm == "undefined") {
+		if (typeof dataConfirm === "undefined") {
 			dataConfirm = "Bạn có chắc chắn ?";
 		}
 		var dataUrl = $(this).attr('data-url');

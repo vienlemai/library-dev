@@ -8,13 +8,26 @@ class BaseController extends Controller {
 
     public function __construct() {
         $this->beforeFilter(function() {
-            if (!Session::has('LibConfig')) {
-                $configs = DB::table('configs')->get();
-                foreach ($configs as $config) {
-                    Session::set('LibConfig.' . $config->key, $config->value);
+                if (!Session::has('LibConfig')) {
+                    $configs = DB::table('configs')->get();
+                    foreach ($configs as $config) {
+                        Session::set('LibConfig.' . $config->key, $config->value);
+                    }
                 }
-            }
-        });
+            });
+        // Log request infor to the output of artisan serve 
+        $this->afterFilter(function($route, $request, $response) {
+                $log = "=========================================================================================\n";
+                $log .= "Started " . Request::getMethod() . ' ' . Request::url() . "\n";
+                $log .= "Processing by " . Route::currentRouteAction(). "\n";
+                $requestType = 'HTML';
+                if (Request::ajax()) {
+                    $requestType = 'AJAX';
+                }
+                $log .= "Type: " . $requestType . "\n";
+                $log .= "=========================================================================================\n";
+                file_put_contents('php://stdout', $log);
+            });
     }
 
     /**

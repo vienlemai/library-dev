@@ -57,7 +57,7 @@
                 </li>
             </ul>
         </li>
-        <li class='disabled'>
+        <li class='openable open'>
             <a href='#'>Thống kê</a>
             <ul>
                 <li class=''>
