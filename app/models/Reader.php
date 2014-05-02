@@ -29,6 +29,11 @@ class Reader extends Eloquent {
      */
     const SS_EXPIRED_BOOK = 3;
 
+    /**
+     * Avatar directory relative path
+     */
+    const AVATAR_DIR_PATH = 'img/readers/';
+
     public static $LABELS = array(
         self::SS_CIRCULATED => 'Đang lưu thông',
         self::SS_PAUSED => 'Đang bị khóa'
@@ -93,6 +98,10 @@ class Reader extends Eloquent {
                 $expired = Session::get('LibConfig.reader_expired');
                 $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
             });
+        // Write create reader event
+        static::saved(function($reader) {
+                Activity::write(Sentry::getUser(), Activity::ADDED_CARD, $reader);
+            });
     }
 
     public function creator() {
@@ -101,11 +110,10 @@ class Reader extends Eloquent {
 
     public function circulations() {
         return $this->hasMany('Circulation');
-        //->where('returned', '=', false);
     }
 
     public function representString() {
-        # "Bạn đọc <Fullname>"
+       return $this->full_name;
     }
 
 }

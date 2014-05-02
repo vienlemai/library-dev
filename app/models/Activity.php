@@ -42,7 +42,7 @@ class Activity extends Eloquent {
      * Text formats for activity
      */
     private static $ACTIVITY_CODES_TO_STRINGS = array(
-        self::SUBMITED_BOOK => "gửi tài liệu mới",
+        self::SUBMITED_BOOK => "thêm mới tài liệu",
         self::DISAPPROVED_BOOK => "từ chối tài liệu",
         self::PUBLISHED_BOOK => "cho phép lưu hành tài liệu",
         self::BORROWED_BOOK => "mượn tài liệu",
@@ -70,7 +70,7 @@ class Activity extends Eloquent {
     }
 
     public function getTime() {
-        return date('H:i - d \t\h\á\n\g m, Y', strtotime($this->created_at));
+        return date('H:i - d \T\h\á\n\g m, Y', strtotime($this->created_at));
     }
 
     public function actionInString() {
@@ -80,7 +80,7 @@ class Activity extends Eloquent {
     /**
      * Static function goes from here
      */
-    public static function createActivity($author, $activity_code, $object) {
+    public static function write($author, $activity_code, $object) {
         self::create(array(
             'activity_code' => $activity_code,
             'author_id' => $author->id,

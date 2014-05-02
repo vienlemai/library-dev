@@ -105,6 +105,10 @@ class Book extends Eloquent {
                 $book->created_by = Sentry::getUser()->id;
                 $book->barcode_printed = 0;
             });
+        // Write submit book event
+        static::created(function($book) {
+                Activity::write(Sentry::getUser(), Activity::SUBMITED_BOOK, $book);
+            });
     }
 
     public static function validate($input) {
@@ -113,6 +117,7 @@ class Book extends Eloquent {
             'author' => 'required',
             'number' => 'required|integer|min:1',
             'pages' => 'required|integer|min:1',
+            'storage' => 'required',
         );
 
         $messages = array(
