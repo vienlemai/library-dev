@@ -14,6 +14,12 @@
 //exit();
 //users routers
 //Route::get('/user/create', 'UserController@create');
+Route::get('test', function() {
+    
+});
+/**
+ * Common routes
+ */
 Route::post('login', array(
     'as' => 'login',
     'uses' => 'AdminController@postLogin'
@@ -27,29 +33,69 @@ Route::get('error/{type}', array(
     'as' => 'error',
     'uses' => 'AdminController@error'
 ));
-//home
 Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'BookController@catalog'));
 //logout
 Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
+
+/**
+ * Ajax routes, dont need to authenticate
+ */
+Route::get('book/catalog/search', array(
+    'as' => 'book.catalog.search',
+    'uses' => 'BookController@catalogSearch'
+));
+Route::get('book/moderate/search', array(
+    'as' => 'book.moderate.search',
+    'uses' => 'BookController@moderateSearch'
+));
+Route::get('book/library/search', array(
+    'as' => 'book.library.search',
+    'uses' => 'BookController@librarySearch'
+));
+Route::get('reader/search', array(
+    'as' => 'reader.search',
+    'uses' => 'ReaderController@search',
+));
+Route::post('circulation/reader', array(
+    'as' => 'circulation.reader',
+    'uses' => 'CirculationController@loadReader',
+));
+Route::post('circulation/book', array(
+    'as' => 'circulation.book',
+    'uses' => 'CirculationController@loadBook',
+));
+Route::post('circulation/borrow', array(
+    'as' => 'circulation.borrow',
+    'uses' => 'CirculationController@borrow',
+));
+Route::post('circulation/return', array(
+    'as' => 'circulation.return',
+    'uses' => 'CirculationController@returnBook',
+));
+Route::post('circulation/extra', array(
+    'as' => 'circulation.extra',
+    'uses' => 'CirculationController@extra',
+));
 /**
  * routers for get request that need to authenticate to continute
  */
 Route::group(array('before' => 'auth'), function () {
-    foreach (User::$get_actions as $action) {
-        Route::get($action['path'], array(
-            'as' => $action['name'],
-            'uses' => $action['controller'] . '@' . $action['action']
-        ));
-    }
-    Route::get('book/catalog/search', array(
-        'as' => 'book.catalog.search',
-        'uses' => 'BookController@catalogSearch'
+    Route::get('book/create', array(
+        'as' => 'book.create',
+        'uses' => 'BookController@create'
     ));
-    Route::get('book/moderate/search', array(
-        'as' => 'book.moderate.search',
-        'uses' => 'BookController@moderateSearch'
+    Route::get('book/catalog', array(
+        'as' => 'book.catalog',
+        'uses' => 'BookController@catalog'
     ));
-
+    Route::get('book/moderate', array(
+        'as' => 'book.moderate',
+        'uses' => 'BookController@moderate'
+    ));
+    Route::get('book/{id}/edit', array(
+        'as' => 'book.edit',
+        'uses' => 'BookController@edit'
+    ));
     Route::get('book/moderate/{id}', array(
         'as' => 'book.moderate.view',
         'uses' => 'BookController@moderateView'
@@ -74,33 +120,19 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'book.barcode',
         'uses' => 'BookController@barcode'
     ));
-
-    Route::get('book/library/search', array(
-        'as' => 'book.library.search',
-        'uses' => 'BookController@librarySearch'
-    ));
     Route::get('book/circulate', array(
         'as' => 'book.circulate',
         'uses' => 'BookController@circulate'
     ));
-    Route::get('user/create', array(
-        'as' => 'user.create',
-        'uses' => 'UserController@create',
+    //readers
+    Route::get('reader/create', array(
+        'as' => 'reader.create',
+        'uses' => 'BookController@create'
     ));
-
-    /**
-     * Readers
-     */
     Route::get('readers', array(
         'as' => 'readers',
         'uses' => 'ReaderController@index',
     ));
-
-    Route::get('reader/search', array(
-        'as' => 'reader.search',
-        'uses' => 'ReaderController@search',
-    ));
-
     Route::get('reader/view/{id}', array(
         'as' => 'reader.view',
         'uses' => 'ReaderController@view'
@@ -118,7 +150,6 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'reader.unpause',
         'uses' => 'ReaderController@unpause',
     ));
-
     //configs
     Route::get('configs', array(
         'as' => 'configs',
@@ -130,41 +161,39 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'circulation',
         'uses' => 'CirculationController@index',
     ));
-    Route::post('circulation/reader', array(
-        'as' => 'circulation.reader',
-        'uses' => 'CirculationController@loadReader',
-    ));
-    Route::post('circulation/book', array(
-        'as' => 'circulation.book',
-        'uses' => 'CirculationController@loadBook',
-    ));
-    Route::post('circulation/borrow', array(
-        'as' => 'circulation.borrow',
-        'uses' => 'CirculationController@borrow',
-    ));
-    Route::post('circulation/return', array(
-        'as' => 'circulation.return',
-        'uses' => 'CirculationController@returnBook',
-    ));
-    Route::post('circulation/extra', array(
-        'as' => 'circulation.extra',
-        'uses' => 'CirculationController@extra',
-    ));
     //inventory
-    Route::get('inventory/index',array(
-        'as' =>'inventory.index',
-        'uses' =>'InventoryController@index'
+    Route::get('inventory/index', array(
+        'as' => 'inventory.index',
+        'uses' => 'InventoryController@index'
     ));
-    
-    Route::get('inventory/create',array(
+
+    Route::get('inventory/search', array(
+        'as' => 'inventory.search',
+        'uses' => 'InventoryController@search'
+    ));
+
+    Route::get('inventory/create', array(
         'as' => 'inventory.create',
         'uses' => 'InventoryController@create'
     ));
-    Route::get('inventory/excute/{id}',array(
-        'as' => 'inventory.excute',
-        'uses' =>'InventoryController@excute'
+    Route::get('inventory/execute/{id}', array(
+        'as' => 'inventory.execute',
+        'uses' => 'InventoryController@execute'
     ));
-    
+
+    Route::get('inventory/result/{id}', array(
+        'as' => 'inventory.result',
+        'uses' => 'InventoryController@result'
+    ));
+    Route::get('inventory/result/{id}', array(
+        'as' => 'inventory.result',
+        'uses' => 'InventoryController@result'
+    ));    
+    //user    
+    Route::get('user/create', array(
+        'as' => 'user.create',
+        'uses' => 'UserController@create',
+    ));
 });
 
 
@@ -212,10 +241,19 @@ Route::group(array('before' => 'auth|csrf'), function () {
         'as' => 'upload.image',
         'uses' => 'FileController@uploadImage'
     ));
-    
-    Route::post('inventory/save',array(
+
+    Route::post('inventory/save', array(
         'as' => 'inventory.save',
         'uses' => 'InventoryController@save'
+    ));
+
+    Route::post('inventory.finish', array(
+        'as' => 'inventory.finish',
+        'uses' => 'InventoryController@finish'
+    ));
+    Route::post('inventory/book/{id}', array(
+        'as' => 'inventory.book',
+        'uses' => 'InventoryController@getBookItem'
     ));
 });
 Event::listen("illuminate.query", function($query, $bindings, $time, $name) {

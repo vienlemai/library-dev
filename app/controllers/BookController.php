@@ -127,7 +127,7 @@ class BookController extends \BaseController {
     }
 
     public function libraryView($id) {
-        $book = Book::findOrFail($id);
+        $book = Book::with('moderator', 'cataloger')->find($id);
         $storageOptions = new Storage();
         $node = Storage::where('id', '=', $book->storage)->first();
         $path = $storageOptions->getPath($node);
@@ -291,7 +291,7 @@ class BookController extends \BaseController {
      * Moderator view book when book is submitted
      */
     public function moderateView($bookId) {
-        $book = Book::findOrFail($bookId);
+        $book = Book::with('cataloger')->find($bookId);
         if ($book->status != Book::SS_SUBMITED) {
             Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
             return Redirect::route('book.moderate');

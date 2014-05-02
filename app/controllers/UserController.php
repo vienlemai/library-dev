@@ -15,8 +15,7 @@ class UserController extends BaseController {
 		$this->layout->content = View::make('user.create', array('groups' => $groups));
 	}
 	
-	public function save(){
-		
+	public function save(){		
 	}
 
 	public function createGroup() {

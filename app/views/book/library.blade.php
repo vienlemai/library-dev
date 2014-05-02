@@ -45,7 +45,7 @@
 									<td>{{$book->title }}</td>
 									<td>{{$book->author}}</td>
 									<td>{{$book->number}}</td>
-									<td>{{$book->bookItems->count()}}</td>
+									<td>{{'0'}}</td>
 									<td>{{$book->published_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
 									<td>
 										<div class='row-actions'>
