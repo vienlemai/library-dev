@@ -24,7 +24,7 @@
         <div id="wrapper" class="screen_wide ">
             <div id='header'>
                 <div class='wrap'>
-                    <a class='logo' href='index.html'>
+                    <a class='logo' href='{{route('home')}}'>
                         Thư viện online | Quản trị
                     </a>
                     <div class='buttons fl'>

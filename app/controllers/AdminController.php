@@ -7,7 +7,9 @@ class AdminController extends BaseController {
     protected $layout = 'layouts.admin';
 
     public function index() {
-        $this->layout->content = View::make('admin.index');
+        $activities = Activity::recent();
+        $this->layout->content = View::make('admin.index')
+            ->with('activities', $activities);
     }
 
     public function error($type) {
@@ -71,4 +73,5 @@ class AdminController extends BaseController {
         }
         return Redirect::route('login');
     }
+
 }

@@ -22,8 +22,7 @@ class User extends SentryModel {
             'book.catalog.view',
             'book.barcode',
         ),
-        self::MODERATOR =>array(
-            
+        self::MODERATOR => array(
         ),
     );
 
@@ -52,8 +51,18 @@ class User extends SentryModel {
         
     }
 
-    public function representString() {
-        # "<self::$groups[$this->$group]> <Fullname>"
+    public function fullName() {
+        return $this->first_name . $this->last_name;
+    }
+
+    public function groupName() {
+        $group_name = $this->group()->name;
+        return self::$groups[$group_name];
+    }
+
+    public function group() {
+        $group_id = UserGroup::where('user_id', '=', $this->id)->first()->group_id;
+        return Group::find($group_id);
     }
 
 }
