@@ -67,7 +67,6 @@ class ReaderController extends \BaseController {
                 return Redirect::route('reader.create');
             }
         } else {
-            Former::withErrors($v->messages());
             return Redirect::route('reader.create')->withInput()->withErrors($v->messages());
         }
     }
