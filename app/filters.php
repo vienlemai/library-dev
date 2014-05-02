@@ -36,7 +36,6 @@ Route::filter('auth', function() {
 	//use Sentry authenticate
 	if (!Sentry::check()) {
 		Session::put('url.intended', URL::full());
-
 		return Redirect::route('login');
 	}
 	//list($prefix, $module, $rule) = explode('.', Route::currentRouteName());

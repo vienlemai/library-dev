@@ -14,41 +14,16 @@ class User extends SentryModel {
         self::MODERATOR => 'Kiểm duyệt',
         self::LIBRARIAN => 'Thủ thư'
     );
-    public static $get_actions = array(
-        array(
-            'path' => 'book/create',
-            'displayName' => 'Thêm mới tài liệu',
-            'name' => 'book.create',
-            'controller' => 'BookController',
-            'action' => 'create'
+    public static $PERMISSIONS = array(
+        self::CATOLOGER => array(
+            'book/create',
+            'book/catalog',
+            'book/{id}/edit',
+            'book.catalog.view',
+            'book.barcode',
         ),
-        array(
-            'path' => 'book/catalog',
-            'displayName' => 'Biên mục tài liệu',
-            'name' => 'book.catalog',
-            'controller' => 'BookController',
-            'action' => 'catalog',
-        ),
-        array(
-            'path' => 'book/moderate',
-            'displayName' => 'Kiểm duyệt tài liệu',
-            'name' => 'book.moderate',
-            'controller' => 'BookController',
-            'action' => 'moderate'
-        ),
-        array(
-            'path' => 'book/{id}/edit',
-            'displayName' => 'Chỉnh sửa tài liệu',
-            'name' => 'book.edit',
-            'controller' => 'BookController',
-            'action' => 'edit'
-        ),
-        array(
-            'path' => 'reader/create',
-            'displayName' => 'Thêm mới bạn đọc',
-            'name' => 'reader.create',
-            'controller' => 'ReaderController',
-            'action' => 'create',
+        self::MODERATOR =>array(
+            
         ),
     );
 

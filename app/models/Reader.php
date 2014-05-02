@@ -95,7 +95,7 @@ class Reader extends Eloquent {
             });
     }
 
-    public function creater() {
+    public function creator() {
         return $this->belongsTo('User', 'created_by');
     }
 

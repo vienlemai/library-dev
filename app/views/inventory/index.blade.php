@@ -1,3 +1,5 @@
+@extends('layouts.admin')
+@section('content')
 <div class="wrap">
     <div class='head'>
         <div class='page-title'>
@@ -16,9 +18,9 @@
     </div>
     <div class='content'>
         <div class='row-fluid'>
-            <div class='block'>
+            <div class='block table-container'>
                 <div class='head'>
-                    <h2></h2>
+                    <h2>Hiển thị {{$inventories->count()}}/{{$inventories->getTotal()}} lần kiểm kê</h2>
                     <div class='toolbar-table-right'>
                         <div class='input-append'>
                             <input placeholder='Tìm kiếm ...' type="text" class="table-search-input" data-url="{{route('inventory.search')}}">
@@ -34,60 +36,60 @@
                             <tr>
                                 <th style='width:5%'>TT</th>
                                 <th style='width:20%'>Tiêu đề</th>
-                                <th style='width:15%'>Ngày bắt đầu</th>
-                                <th style='width:15%'>Ngày kết thúc</th>
-                                <th style='width:15%'>Người tạo</th>
+                                <th style='width:18%'>Ngày bắt đầu</th>
+                                <th style='width:18%'>Ngày kết thúc</th>
+                                <th style='width:10%'>Người tạo</th>
                                 <th style='width:10%'>Trạng thái</th>
-                                <th style='width:10%'>Thao tác</th>
+                                <th style='width:7%'>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Kiểm kê lần 1 năm học 2013-2014</td>
-                                <td>07:50, 12 Tháng 3, 2014</td>
-                                <td>07:50, 12 Tháng 3, 2014</td>
-                                <td>Nguyễn Văn A(Thủ thư)</td>
-                                <td>Đang diễn ra</td>
-                                <td>
-                                    <div class='row-actions'>
-                                        <a class='text-info' href='chi_tiet_kiem_ke.html'>
-                                            <i class='i-zoom-in'></i>
-                                            Chi tiết
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
+                            <?php $index = $inventories->getFrom() ?>
+                            <?php foreach ($inventories as $row): ?>
+                                <?php $isFinish = $row->status == Inventory::SS_FINISHED; ?>
+                                <tr>
+                                    <td>{{$index++}}</td>
+                                    <td>{{$row->title}}</td>
+                                    <td>{{$row->created_at->format('h:i, d \t\h\á\n\g m, Y').' ('.$row->created_at->diffForHumans().')'}}</td>
+                                    <?php if ($isFinish): ?>
+                                        <td>{{$row->end_at->format('h:i, d t\h\á\n\g m, Y')}}</td>
+                                    <?php else: ?>
+                                        <td></td>
+                                    <?php endif; ?>
+                                    <td>{{json_decode($row->creator)->last_name}}</td>
+                                    <?php if ($isFinish): ?>
+                                        <td>Đã kết thúc</td>
+                                    <?php else: ?>
+                                        <td style="color: red">Đang diễn ra</td>
+                                    <?php endif; ?>
+                                    <td>
+                                        <div class='row-actions'>
+                                            <?php if ($isFinish): ?>
+                                                <a class='text-info' href='{{route('inventory.result',$row->id)}}'>
+                                                    <i class='i-zoom-in'></i>
+                                                    Xem kết quả
+                                                </a>
+                                            <?php else: ?>
+                                                <a class='text-warning' href='{{route('inventory.execute',$row->id)}}'>
+                                                    <i class='i-zoom-in'></i>
+                                                    Tiếp tục
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
-                    </table>
-                    <div class='table-info fl'>
-                        Đang hiển thị 4/15
-                    </div>
+                    </table>                    
+                </div>
+                <div class="footer">
+                    <span class="loading" style="margin-left: 50px; display: none">
+                        <img src="{{asset('img/loading.gif')}}"/>
+                        Đang tải . . .
+                    </span>
                     <div class='side fr'>
                         <div class='pagination'>
-                            <ul>
-                                <li class='disabled'>
-                                    <a href='#'>«</a>
-                                </li>
-                                <li class='active'>
-                                    <a href='#'>1</a>
-                                </li>
-                                <li>
-                                    <a href='#'>2</a>
-                                </li>
-                                <li class='disabled'>
-                                    <a href='#'>...</a>
-                                </li>
-                                <li>
-                                    <a href='#'>6</a>
-                                </li>
-                                <li>
-                                    <a href='#'>7</a>
-                                </li>
-                                <li>
-                                    <a href='#'>»</a>
-                                </li>
-                            </ul>
+                            {{$inventories->links()}}
                         </div>
                     </div>
                 </div>
@@ -96,3 +98,4 @@
     </div>
 
 </div>
+@stop

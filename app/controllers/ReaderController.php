@@ -73,7 +73,7 @@ class ReaderController extends \BaseController {
     }
 
     public function view($id) {
-        $reader = Reader::findOrFail($id);
+        $reader = Reader::with('creator')->find($id);
         return View::make('reader.view', array('reader' => $reader));
     }
 
