@@ -16,7 +16,7 @@
                     </div>
                     <div class='content'>
                         <?php foreach ($activities as $activity) : ?>
-                            <?php $author = $activity->getAuthor() ?>
+                            <?php $author = $activity->author ?>
                             <?php $object = $activity->getObject() ?>
                             <p>
                                 <span class='muted activity-time'>

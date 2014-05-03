@@ -53,20 +53,18 @@ class Activity extends Eloquent {
     protected $fillable = array(
         'activity_code',
         'author_id',
-        'author_class',
         'object_id',
         'object_class',
         'created_at'
     );
 
+    public function author() {
+        return $this->belongsTo('User', 'author_id', 'id');
+    }
+
     public function getObject() {
         $obj = new $this->object_class;
         return $obj->find($this->object_id);
-    }
-
-    public function getAuthor() {
-        $obj = new $this->author_class;
-        return $obj->find($this->author_id);
     }
 
     public function getTime() {
@@ -84,7 +82,6 @@ class Activity extends Eloquent {
         self::create(array(
             'activity_code' => $activity_code,
             'author_id' => $author->id,
-            'author_class' => get_class($author),
             'object_id' => $object->id,
             'object_class' => get_class($object),
             'created_at' => date('Y-m-d H:i:s'),
@@ -94,6 +91,7 @@ class Activity extends Eloquent {
     public static function recent($count = 10) {
         return self::all();
     }
+
 }
 
 ?>

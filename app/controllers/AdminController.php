@@ -7,7 +7,7 @@ class AdminController extends BaseController {
     protected $layout = 'layouts.admin';
 
     public function index() {
-        $activities = Activity::recent();
+        $activities = Activity::with('author')->get();
         $this->layout->content = View::make('admin.index')
             ->with('activities', $activities);
     }

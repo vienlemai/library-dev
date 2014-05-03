@@ -78,3 +78,8 @@ App::down(function() {
 
 require app_path() . '/filters.php';
 require app_path() . '/helpers/functions.php';
+// Put sql queries artisan serve log
+DB::listen(function($sql, $bindings, $time) {
+        file_put_contents('php://stdout', "[SQL] {$sql} \n" .
+            " -> Time: {$time} ms\n");
+    });
