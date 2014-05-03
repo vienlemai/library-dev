@@ -43,73 +43,48 @@
                 </div>
                 <div class='content'>
                     <div class='span12'>
-                        <form url='/'>
-                            <div class='span4'>
-                                <div class='controls-row'>
-                                    <div class='span4'>
-                                        Từ ngày:
-                                    </div>
-                                    <div class='span8'>
-                                        <input name='start_date' type='text'>
-                                    </div>
+                        <?php
+                        echo Former::horizontal_open(route('statistics.reader'))->method('POST')
+                            ->class('form-ajax')->data_update_html_for('#result-container')
+
+                        ?>
+                        <div class='span4'>
+                            <div class='controls-row'>
+                                <div class='span3'>
+                                    Từ ngày:
+                                </div>
+                                <div class='span8'>
+                                    <input class='datepicker' name='start_date' type='text'>
                                 </div>
                             </div>
-                            <div class='span4'>
-                                <div class='controls-row'>
-                                    <div class='span4'>
-                                        Đến ngày:
-                                    </div>
-                                    <div class='span8'>
-                                        <input class='datepicker' name='end_date' type='text'>
-                                    </div>
+                        </div>
+                        <div class='span4'>
+                            <div class='controls-row'>
+                                <div class='span3'>
+                                    Đến ngày:
+                                </div>
+                                <div class='span8'>
+                                    <input class='datepicker' name='end_date' type='text'>
                                 </div>
                             </div>
-                            <div class='span2'>
-                                <div class='controls-row'>
-                                    <label class='checkbox inline'>
-                                        <input class='datepicker' name='whole' type='checkbox'>
-                                        Toàn bộ
-                                    </label>
-                                </div>
+                        </div>
+                        <div class='span2'>
+                            <div class='controls-row'>
+                                <label class='checkbox inline'>
+                                    <input name='whole' type='checkbox'>
+                                    Toàn bộ
+                                </label>
                             </div>
-                            <div class='span2'>
-                                <div class='controls-row'>
-                                    <button class='btn btn-primary' type='submit'>Xem thống kê</button>
-                                </div>
+                        </div>
+                        <div class='span2'>
+                            <div class='controls-row'>
+                                <button class='btn btn-primary' type='submit'>Xem thống kê</button>
                             </div>
-                        </form>
+                        </div>
+                        <?php Former::token() ?>
+                        <?php Former::close() ?>
                     </div>
-                    <div class='result-wrapper span5'>
-                        <div class='content-row'>
-                            <div class='span5'>
-                                Đăng ký mới:
-                            </div>
-                            <div class='span4'>
-                                145
-                            </div>
-                        </div>
-                        <div class='content-row'>
-                            <div class='span5'>
-                                Trễ hạn:
-                            </div>
-                            <div class='span4'>
-                                10
-                            </div>
-                        </div>
-                        <div class='content-row'>
-                            <div class='span5'>
-                                Số lượt mượn:
-                            </div>
-                            <div class='span4'>
-                                1500
-                            </div>
-                        </div>
-                        <div class='content-row'>
-                            <button class='btn btn-primary'>
-                                <i class='i-printer'></i>
-                                In báo cáo
-                            </button>
-                        </div>
+                    <div class='span5' id="result-container">
                     </div>
                 </div>
             </div>

@@ -184,11 +184,11 @@ Route::group(array('before' => 'auth'), function () {
             'as' => 'user.create',
             'uses' => 'UserController@create',
         ));
-        Route::get('statistics/reader', array(
+        Route::match(array('GET', 'POST'), 'statistics/reader', array(
             'as' => 'statistics.reader',
             'uses' => 'StatisticsController@reader',
         ));
-        Route::get('statistics/book', array(
+        Route::match(array('GET', 'POST'), 'statistics/book', array(
             'as' => 'statistics.book',
             'uses' => 'StatisticsController@book',
         ));
