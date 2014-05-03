@@ -49,11 +49,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         
     }
 
-    public function groupName() {
-        $group_name = $this->group()->name;
-        return self::$groups[$group_name];
-    }
-
     public function group() {
         return $this->belongsTo('Group');
     }
