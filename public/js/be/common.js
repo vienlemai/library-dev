@@ -22,5 +22,13 @@ $(function() {
 
 	/* Date picket input */
 	$('.datepicker').datepicker(AppConfig.defaultDatepickerOptions);
+
+	/* Toggle loading indicator */
+	$(document).ajaxStart(function() {
+		Helper.togglePageLoadingIndicator(true);
+	});
+	$(document).ajaxComplete(function() {
+		Helper.togglePageLoadingIndicator(false);
+	});
 });
 

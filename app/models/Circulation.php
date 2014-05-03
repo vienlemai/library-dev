@@ -19,7 +19,7 @@ class Circulation extends Eloquent {
         parent::boot();
         static::creating(function($circulation) {
             $circulation->created_at = Carbon\Carbon::now();
-            $circulation->created_by = Sentry::getUser()->id;
+            $circulation->created_by = Auth::user()->id;
             $expired = Session::get('LibConfig.book_expired');
             $circulation->expired_at = Carbon\Carbon::now()->addDays($expired);
         });

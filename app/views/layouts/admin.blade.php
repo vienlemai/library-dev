@@ -14,6 +14,7 @@
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/vlm.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/addon.css') }}}"/>
 
         <!--[if lte IE 7]>
         <script type='text/javascript' src='js/other/lte-ie7.js'></script>
@@ -51,6 +52,7 @@
         <script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>        
         <script type="text/javascript" src="{{{asset('js/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/helper.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/app.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/common.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/vlm.js')}}}"></script>

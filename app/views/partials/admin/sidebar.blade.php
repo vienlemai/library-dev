@@ -61,11 +61,11 @@
         <li class='openable open'>
             <a href='#'>Thống kê</a>
             <ul>
-                <li class=''>
-                    <a href='thong_ke_ban_doc.html'>Thống kê bạn đọc</a>
+                <li class='<?php echo setActiveMenu($currentMenu, 'statistics_reader') ?>'>
+                    <a href='{{route('statistics.reader')}}'>Thống kê bạn đọc</a>
                 </li>
-                <li class=''>
-                    <a href='thong_ke_tai_lieu.html'>Thống kê tài liệu</a>
+                <li class='<?php echo setActiveMenu($currentMenu, 'statistics_book') ?>'>
+                    <a href='{{route('statistics.book')}}'>Thống kê tài liệu</a>
                 </li>
             </ul>
         </li>

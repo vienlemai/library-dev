@@ -7,7 +7,14 @@ class StatisticsController extends \BaseController {
     public $layout = 'layouts.admin';
 
     public function reader() {
-        return View::make('statistics.reader');
+        if (Request::isMethod('GET')) {
+            return View::make('statistics.reader');
+        } else {
+            $response = [];
+            $response['success'] = true;
+            $response['html'] = View::make('statistics._reader_result')->render();
+            return Response::json($response);
+        }
     }
 
     public function book() {

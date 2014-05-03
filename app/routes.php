@@ -197,6 +197,14 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'user.permission',
         'uses' => 'UserController@getPermission',
     ));
+    Route::match(array('GET', 'POST'), 'statistics/reader', array(
+        'as' => 'statistics.reader',
+        'uses' => 'StatisticsController@reader',
+    ));
+    Route::match(array('GET', 'POST'), 'statistics/book', array(
+        'as' => 'statistics.book',
+        'uses' => 'StatisticsController@book',
+    ));
 });
 
 
