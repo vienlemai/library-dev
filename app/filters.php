@@ -12,13 +12,37 @@
  */
 
 App::before(function($request) {
-    //
-});
+        
+    });
 
 
 App::after(function($request, $response) {
-    //
-});
+        $log = "=================================================================================================\n";
+        $log .= "Started   [" . Request::getMethod() . "] " . Request::url() . "\n";
+        $log .= "Process   " . Route::currentRouteAction() . "\n";
+        $requestType = 'HTML';
+        if (Request::ajax()) {
+            $requestType = 'AJAX';
+        }
+        $log .= "Type      " . $requestType . "\n";
+        $log .= "Params    " . json_encode(Input::all()) . "\n";
+        $queries = DB::getQueryLog();
+        // Put sql queries artisan serve log
+        $sql_log = '';
+//        dd(DB::getQueryLog());
+        $sql_log = "Queries   " . count($queries) . "\n";
+        foreach ($queries as $query) {
+            $sql_log .= "\n[" . $query['time'] . "ms] ";
+            $bindings = $query['bindings'];
+            $query_str = $query['query'];
+            $query_str = str_replace(array('%', '?'), array('%%', '%s'), $query_str);
+            $query_str = vsprintf($query_str, $bindings);
+            $sql_log .= ucfirst($query_str);
+        }
+        $log .= $sql_log . "\n";
+        $log .= "=================================================================================================\n";
+        file_put_contents('php://stdout', $log);
+    });
 
 /*
   |--------------------------------------------------------------------------
@@ -32,24 +56,24 @@ App::after(function($request, $response) {
  */
 
 Route::filter('auth', function() {
-    //if (Auth::guest()) return Redirect::guest('login');
-    //use Sentry authenticate
-    if (!Auth::check()) {
-        Session::put('url.intended', URL::full());
-        return Redirect::route('login');
-    }
+        //if (Auth::guest()) return Redirect::guest('login');
+        //use Sentry authenticate
+        if (!Auth::check()) {
+            Session::put('url.intended', URL::full());
+            return Redirect::route('login');
+        }
 //	//list($prefix, $module, $rule) = explode('.', Route::currentRouteName());
 //	//var_dump(Route::currentRouteName());
 //	$action = Route::currentRouteName();
 //	if (!Sentry::hasAccess($action)) {
 //		return Redirect::route('error', array('permission'));
 //	}
-});
+    });
 
 
 Route::filter('auth.basic', function() {
-    return Auth::basic();
-});
+        return Auth::basic();
+    });
 
 /*
   |--------------------------------------------------------------------------
@@ -63,9 +87,9 @@ Route::filter('auth.basic', function() {
  */
 
 Route::filter('guest', function() {
-    if (Auth::check())
-        return Redirect::to('/');
-});
+        if (Auth::check())
+            return Redirect::to('/');
+    });
 
 /*
   |--------------------------------------------------------------------------
@@ -79,8 +103,8 @@ Route::filter('guest', function() {
  */
 
 Route::filter('csrf', function() {
-    if (Session::token() != Input::get('_token')) {
-        //throw new Illuminate\Session\TokenMismatchException;
-        App::abort(404);
-    }
-});
+        if (Session::token() != Input::get('_token')) {
+            //throw new Illuminate\Session\TokenMismatchException;
+            App::abort(404);
+        }
+    });
