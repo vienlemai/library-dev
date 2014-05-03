@@ -76,6 +76,10 @@ Route::post('circulation/extra', array(
     'as' => 'circulation.extra',
     'uses' => 'CirculationController@extra',
 ));
+Route::get('inventory/search', array(
+    'as' => 'inventory.search',
+    'uses' => 'InventoryController@search'
+));
 /**
  * routers for get request that need to authenticate to continute
  */
@@ -120,10 +124,6 @@ Route::group(array('before' => 'auth'), function () {
             'as' => 'book.barcode',
             'uses' => 'BookController@barcode'
         ));
-        Route::get('book/circulate', array(
-            'as' => 'book.circulate',
-            'uses' => 'BookController@circulate'
-        ));
         //readers
         Route::get('reader/create', array(
             'as' => 'reader.create',
@@ -166,12 +166,6 @@ Route::group(array('before' => 'auth'), function () {
             'as' => 'inventory.index',
             'uses' => 'InventoryController@index'
         ));
-
-        Route::get('inventory/search', array(
-            'as' => 'inventory.search',
-            'uses' => 'InventoryController@search'
-        ));
-
         Route::get('inventory/create', array(
             'as' => 'inventory.create',
             'uses' => 'InventoryController@create'
@@ -181,10 +175,6 @@ Route::group(array('before' => 'auth'), function () {
             'uses' => 'InventoryController@execute'
         ));
 
-        Route::get('inventory/result/{id}', array(
-            'as' => 'inventory.result',
-            'uses' => 'InventoryController@result'
-        ));
         Route::get('inventory/result/{id}', array(
             'as' => 'inventory.result',
             'uses' => 'InventoryController@result'
@@ -267,6 +257,3 @@ Route::group(array('before' => 'auth|csrf'), function () {
 Event::listen("illuminate.query", function($query, $bindings, $time, $name) {
         Log::info($query);
     });
-$throttleProvider = Sentry::getThrottleProvider();
-$throttleProvider->disable();
-

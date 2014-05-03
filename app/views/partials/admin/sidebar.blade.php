@@ -6,7 +6,7 @@
         </div>
         <div class='info'>
             <div class='name'
-                 <a href='#'>{{ucfirst(Sentry::check()?Sentry::getUser()->email:'')}}</a>
+                 <a href='#'></a>
             </div>
             <div class='buttons'>
                 <a href='#'>
