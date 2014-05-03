@@ -215,13 +215,6 @@ class BookController extends \BaseController {
     }
 
     /**
-     * Book circulation
-     */
-    public function circulate() {
-        return View::make('book.circulate');
-    }
-
-    /**
      * Add new book
      *
      * @return Response

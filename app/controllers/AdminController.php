@@ -22,8 +22,7 @@ class AdminController extends BaseController {
     }
 
     public function login() {
-        $login_attribute = Config::get('cartalyst/sentry::users.login_attribute');
-        return View::make('admin.login', compact('login_attribute'));
+        return View::make('admin.login');
     }
 
     /**
@@ -36,41 +35,20 @@ class AdminController extends BaseController {
      * @return Response
      */
     public function postLogin() {
-        try {
-            $login_attribute = Config::get('cartalyst/sentry::users.login_attribute');
-            $remember = Input::get('remember_me', false);
-            $userdata = array(
-                Config::get('cartalyst/sentry::users.login_attribute') => Input::get($login_attribute),
-                'password' => Input::get('password')
-            );
-
-            $user = Sentry::authenticate($userdata, $remember);
-            Event::fire('users.login', array($user));
-            return Redirect::to('/');
-        } catch (LoginRequiredException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
-        } catch (PasswordRequiredException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
-        } catch (WrongPasswordException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
-        } catch (UserNotActivatedException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
-        } catch (UserNotFoundException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
-        } catch (UserSuspendedException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
-        } catch (UserBannedException $e) {
-            return Redirect::back()->withInput()->with('login_error', $e->getMessage());
+        $remember = false;
+        if (Input::has('remember')) {
+            $remember = true;
+        }
+        if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), $remember)) {
+            return Redirect::intended('/');
+        } else {
+            Session::flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng');
+            return Redirect::to('/login')->withInput();
         }
     }
 
     public function getLogout() {
-        if (Sentry::check()) {
-            $user = Sentry::getUser();
-            Sentry::logout();
-            Event::fire('users.logout', array($user));
-            return Redirect::to('login');
-        }
+        Auth::logout();
         return Redirect::route('login');
     }
 
