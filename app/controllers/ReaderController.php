@@ -12,7 +12,7 @@ class ReaderController extends \BaseController {
      * @return Response
      */
     public function index() {
-        $readers = Reader::paginate(self::ITEMS_PER_PAGE);
+        $readers = Reader::orderBy('created_at', 'desc')->paginate(self::ITEMS_PER_PAGE);
         if (Request::ajax()) {
             return View::make('reader.partials.index', array('readers' => $readers));
         } else {
@@ -47,18 +47,8 @@ class ReaderController extends \BaseController {
             $vnCode = '893';
             $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 9);
             $fullCode = $this->ean13_check_digit($random);
-            $reader = new Reader(array(
-                'barcode' => $fullCode,
-                'full_name' => Input::get('full_name'),
-                'class' => Input::get('class'),
-                'year_of_birth' => Input::get('year_of_birth'),
-                'hometown' => Input::get('hometown'),
-                'school_year' => Input::get('school_year'),
-                'subject' => Input::get('subject'),
-                'email' => Input::get('email'),
-                'phone' => Input::get('phone'),
-                'avatar' => Input::get('avatar')
-            ));
+            $reader = new Reader(Input::all());
+            $reader->barcode = $fullCode;
             if ($reader->save()) {
                 Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
                 return Redirect::route('readers');

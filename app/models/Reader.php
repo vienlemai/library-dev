@@ -61,7 +61,6 @@ class Reader extends Eloquent {
      * Security fillable
      */
     protected $fillable = array(
-        'barcode',
         'full_name',
         'class',
         'year_of_birth',

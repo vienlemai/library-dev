@@ -10,10 +10,10 @@
         <title>Thư viện online - Quản trị</title>
         <link rel="icon" type="image/ico" href="favicon.ico"/>
  
-        <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
-        <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
-        <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
-        <link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/be/vlm.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/vlm.css') }}}"/>
 
         <!--[if lte IE 7]>
         <script type='text/javascript' src='js/other/lte-ie7.js'></script>
