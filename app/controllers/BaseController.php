@@ -15,21 +15,6 @@ class BaseController extends Controller {
                     }
                 }
             });
-        // Log request infor to the output of artisan serve 
-//        $this->afterFilter(function($route, $request, $response) {
-//                $log = "=========================================================================================\n";
-//                $log .= "Started " . Request::getMethod() . ' ' . Request::url() . "\n";
-//                $log .= "Processing by " . Route::currentRouteAction(). "\n";
-//                $requestType = 'HTML';
-//                if (Request::ajax()) {
-//                    $requestType = 'AJAX';
-//                }
-//                $log .= "Type: " . $requestType . "\n";
-//                $log .= "Parameters: " . json_encode(Input::all()) . "\n";
-//                
-//                $log .= "=========================================================================================\n";
-//                file_put_contents('php://stdout', $log);
-//            });
     }
 
     /**

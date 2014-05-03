@@ -17,7 +17,7 @@ App::before(function($request) {
 
 
 App::after(function($request, $response) {
-        $log = "=================================================================================================\n";
+        $log = str_repeat('=', 100) . "\n";
         $log .= "Started   [" . Request::getMethod() . "] " . Request::url() . "\n";
         $log .= "Process   " . Route::currentRouteAction() . "\n";
         $requestType = 'HTML';
@@ -40,7 +40,7 @@ App::after(function($request, $response) {
             $sql_log .= ucfirst($query_str);
         }
         $log .= $sql_log . "\n";
-        $log .= "=================================================================================================\n";
+        $log .= str_repeat('=', 100) . "\n";
         file_put_contents('php://stdout', $log);
     });
 
