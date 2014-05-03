@@ -25,6 +25,8 @@ class BaseController extends Controller {
                     $requestType = 'AJAX';
                 }
                 $log .= "Type: " . $requestType . "\n";
+                $log .= "Parameters: " . json_encode(Input::all()) . "\n";
+                
                 $log .= "=========================================================================================\n";
                 file_put_contents('php://stdout', $log);
             });
