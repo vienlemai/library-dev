@@ -14,7 +14,8 @@
 					<h2>Thêm mới nhân viên</h2>
 				</div>
 				<div class='content'>
-					{{ Former::horizontal_open(route('book.save'))->method('POST') }}
+                    @include('partials.flash')
+					{{ Former::horizontal_open(route('user.save'))->method('POST') }}
 					{{Former::xlarge_text('full_name')
 								->label('Họ tên (*)')
 					}}
@@ -22,11 +23,15 @@
 								->label('Địa chỉ email (*)')
 								->autocomplete('off')
 					}}
+					{{Former::xlarge_text('username')
+								->label('Tên đăng nhập (*)')
+								->autocomplete('off')
+					}}
 					{{Former::xlarge_password('password')
 								->label('Mật khẩu (*)')
 								->autocomplete('off')
 					}}
-					{{Former::xlarge_password('confirm_password')
+					{{Former::xlarge_password('password_confirmation')
 								->label('Nhập lại mật khẩu (*)')
 								->autocomplete('off')
 					}}
@@ -44,11 +49,8 @@
 								  'Nam' => array('name' => 'sex', 'value' => 0),
 								  'Nu' => array('name' => 'sex', 'value' => 1),
 								))
-					  }}	
-
-					{{Former::xxlarge_text('')
-								->label('Quê quán')
-					}}									
+					  }}
+                      {{Former::token()}}
 
 					<div class='content-row'>
 						<button class='btn btn-primary offset3'>Tạo mới</button>

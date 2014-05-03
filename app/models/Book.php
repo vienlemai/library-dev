@@ -101,14 +101,14 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                $book->status = Book::SS_ADDED;
-                $book->created_by = Sentry::getUser()->id;
-                $book->barcode_printed = 0;
-            });
+            $book->status = Book::SS_ADDED;
+            $book->created_by = Auth::user()->id;
+            $book->barcode_printed = 0;
+        });
         // Write submit book event
         static::created(function($book) {
-                Activity::write(Sentry::getUser(), Activity::SUBMITED_BOOK, $book);
-            });
+            Activity::write(Auth::user(), Activity::SUBMITED_BOOK, $book);
+        });
     }
 
     public static function validate($input) {

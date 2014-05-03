@@ -25,19 +25,19 @@ class BookController extends \BaseController {
             switch ($type) {
                 case Book::SS_SUBMITED:
                     $books = Book::where('status', '=', $type)
-                        ->where('created_by', '=', Sentry::getUser()->id)
+                        ->where('created_by', '=', Auth::user()->id)
                         ->orderBy('submitted_at', 'desc')
                         ->paginate(self::ITEMS_PER_PAGE);
                     break;
                 case Book::SS_PUBLISHED:
                     $books = Book::where('status', '=', $type)
-                        ->where('created_by', '=', Sentry::getUser()->id)
+                        ->where('created_by', '=', Auth::user()->id)
                         ->orderBy('published_at', 'desc')
                         ->paginate(self::ITEMS_PER_PAGE);
                     break;
                 default:
                     $books = Book::where('status', '=', $type)
-                        ->where('created_by', '=', Sentry::getUser()->id)
+                        ->where('created_by', '=', Auth::user()->id)
                         ->orderBy('updated_at', 'desc')
                         ->paginate(self::ITEMS_PER_PAGE);
                     break;
@@ -51,19 +51,19 @@ class BookController extends \BaseController {
                 switch ($k) {
                     case Book::SS_SUBMITED:
                         $books[$k] = Book::where('status', '=', $k)
-                            ->where('created_by', '=', Sentry::getUser()->id)
+                            ->where('created_by', '=', Auth::user()->id)
                             ->orderBy('submitted_at', 'desc')
                             ->paginate(self::ITEMS_PER_PAGE);
                         break;
                     case Book::SS_PUBLISHED:
                         $books[$k] = Book::where('status', '=', $k)
-                            ->where('created_by', '=', Sentry::getUser()->id)
+                            ->where('created_by', '=', Auth::user()->id)
                             ->orderBy('published_at', 'desc')
                             ->paginate(self::ITEMS_PER_PAGE);
                         break;
                     default:
                         $books[$k] = Book::where('status', '=', $k)
-                            ->where('created_by', '=', Sentry::getUser()->id)
+                            ->where('created_by', '=', Auth::user()->id)
                             ->orderBy('updated_at', 'desc')
                             ->paginate(self::ITEMS_PER_PAGE);
                         break;
@@ -82,7 +82,7 @@ class BookController extends \BaseController {
         if (Request::ajax()) {
 
             $books = Book::where('status', '=', $type)
-                ->where('created_by', '=', Sentry::getUser()->id)
+                ->where('created_by', '=', Auth::user()->id)
                 ->where('title', 'LIKE', '%' . $keyword . '%')
                 ->orderBy('updated_at', 'desc')
                 ->paginate(self::ITEMS_PER_PAGE);
@@ -93,7 +93,7 @@ class BookController extends \BaseController {
             }
             foreach (Book::$CAT_SS_LABELS as $k => $v) {
                 $books[$k] = Book::where('status', '=', $k)
-                    ->where('created_by', '=', Sentry::getUser()->id)
+                    ->where('created_by', '=', Auth::user()->id)
                     ->where('title', 'LIKE', '%' . $keyword . '%')
                     ->orderBy('created_at', 'desc')
                     ->paginate(self::ITEMS_PER_PAGE);
@@ -194,7 +194,7 @@ class BookController extends \BaseController {
         $keyword = Input::get('keyword');
         if (Request::ajax()) {
             $books = Book::where('status', '=', $type)
-                ->where('created_by', '=', Sentry::getUser()->id)
+                ->where('created_by', '=', Auth::user()->id)
                 ->where('title', 'LIKE', '%' . $keyword . '%')
                 ->orderBy('updated_at', 'desc')
                 ->paginate(self::ITEMS_PER_PAGE);
@@ -205,7 +205,7 @@ class BookController extends \BaseController {
             }
             foreach (Book::$CAT_SS_LABELS as $k => $v) {
                 $books[$k] = Book::where('status', '=', $k)
-                    ->where('created_by', '=', Sentry::getUser()->id)
+                    ->where('created_by', '=', Auth::user()->id)
                     ->where('title', 'LIKE', '%' . $keyword . '%')
                     ->orderBy('created_at', 'desc')
                     ->paginate(self::ITEMS_PER_PAGE);
@@ -272,7 +272,7 @@ class BookController extends \BaseController {
             return Redirect::route('book.moderate');
         }
 
-        //$user = Sentry::getUser();
+        //$user = Auth::user();
 //		if ($book->created_by == $user->id) {
 //			App::abort(404);
 //		}
@@ -284,7 +284,7 @@ class BookController extends \BaseController {
 
     public function catalogView($bookId) {
         $book = Book::findOrFail($bookId);
-        $user = Sentry::getUser();
+        $user = Auth::user();
         if ($book->created_by != $user->id) {
             App::abort(404);
         }
@@ -318,7 +318,7 @@ class BookController extends \BaseController {
      */
     public function edit($bookId) {
         $book = Book::findOrFail($bookId);
-        $user = Sentry::getUser();
+        $user = Auth::user();
         if ($book->created_by != $user->id) {
             Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
             return Redirect::route('book.moderate');
@@ -428,7 +428,7 @@ class BookController extends \BaseController {
      * Moderator publish a book
      */
     public function publish($id) {
-        $user = Sentry::getUser();
+        $user = Auth::user();
         $book = Book::findOrFail($id);
         Book::where('id', '=', $id)->update(array('status' => Book::SS_PUBLISHED, 'published_at' => Carbon\Carbon::now(), 'published_by' => $user->id));
         Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
