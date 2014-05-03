@@ -22,9 +22,9 @@
                                 <span class='muted activity-time'>
                                     <?php echo $activity->getTime() ?>
                                 </span>
-                                <?php echo $author->groupName() ?>
+                                <?php echo $author->group->name ?>
                                 <span class='username'>
-                                    <?php echo $author->fullName() ?>
+                                    <?php echo $author->full_name ?>
                                 </span>
                                 <?php echo $activity->actionInString() ?>
                                 <span class='document-title'>
