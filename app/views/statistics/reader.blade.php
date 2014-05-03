@@ -14,24 +14,24 @@
                     <div class='span5'>
                         Tổng số bạn đọc:
                     </div>
-                    <div class='span7'>
-                        760
-                    </div>
-                </div>
-                <div class='content-row'>
-                    <div class='span5'>
-                        Số thẻ hết hạn:
-                    </div>
-                    <div class='span7'>
-                        15
+                    <div class='span4'>
+                        <?php echo $result['readers_count'] ?>
                     </div>
                 </div>
                 <div class='content-row'>
                     <div class='span5'>
                         Bạn đọc đang mượn:
                     </div>
-                    <div class='span7'>
-                        200
+                    <div class='span4'>
+                        <?php echo $result['borrowing_readers_count'] ?>
+                    </div>
+                </div>
+                <div class='content-row'>
+                    <div class='span5'>
+                        Số lượt mượn:
+                    </div>
+                    <div class='span4'>
+                        <?php echo $result['borrow_times_count'] ?>
                     </div>
                 </div>
             </div>

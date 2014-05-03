@@ -18,9 +18,7 @@
         <?php if ($borrow): ?>
             <div class='span5'>
                 <button class='btn btn-primary' id="btn-borrow-book" data-url='{{route('circulation.borrow')}}'>
-                    <i class='i-arrow-up-6'></i>
-                    Mượn
-                </button>
+                    <i class='i-arrow-up-6'></i>Mượn</button>
 
             </div>
         <?php elseif ($return): ?>

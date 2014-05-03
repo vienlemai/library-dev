@@ -1,17 +1,17 @@
 <div class='content-row'>
     <div class='span5'>
-        Tổng số bạn đọc:
+        Tài liệu mới:
     </div>
     <div class='span4'>
-        145
+        598
     </div>
 </div>
 <div class='content-row'>
     <div class='span5'>
-        Bạn đọc đang mượn:
+        Số lượng lưu hành:
     </div>
     <div class='span4'>
-        10
+        500
     </div>
 </div>
 <div class='content-row'>
