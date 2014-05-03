@@ -13,20 +13,20 @@
 				<div class='block'>
 					<div class='content closed'>
 						<ul class='boxes nmt'>
-							<li style="width: 24%">
+							<li>
 								<div class='text-warning'>
 									<?php echo ($count[Book::SS_SUBMITED]) ?>
 									<span><?php echo Book::$MOD_SS_LABEL[Book::SS_SUBMITED] ?></span>
 								</div>
 							</li>
-							<li style="width: 24%">
+							<li>
 								<div class='text-error'>
 									<?php echo ($count[Book::SS_DISAPPROVED]) ?>
 									<span><?php echo Book::$MOD_SS_LABEL[Book::SS_DISAPPROVED] ?></span>
 								</div>
 							</li>
 
-							<li style="width: 24%">
+							<li>
 								<div class='text-success'>
 									<?php echo ($count[Book::SS_PUBLISHED]) ?>
 									<span><?php echo Book::$MOD_SS_LABEL[Book::SS_PUBLISHED] ?></span>

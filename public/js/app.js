@@ -1,7 +1,7 @@
 /* 
  */
 AppConfig = {
-	defaultDateFormat: {
+	defaultDatepickerOptions: {
 		changeMonth: true,
 		changeYear: true,
 		showOtherMonths: true,

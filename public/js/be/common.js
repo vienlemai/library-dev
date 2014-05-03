@@ -21,6 +21,6 @@ $(function() {
 	});
 
 	/* Date picket input */
-	$('.datepicker').datepicker(AppConfig.defaultDateFormat);
+	$('.datepicker').datepicker(AppConfig.defaultDatepickerOptions);
 });
 
