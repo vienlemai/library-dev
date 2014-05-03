@@ -8,8 +8,7 @@ $(function() {
 		selector: ".editor",
 		menubar: false,
 		statusbar: false,
-		toolbar: false,
-		//toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+		toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright"
 	});
 	/* width:resolve option for makes select2 same width with select tag*/
 	$(".select2").select2({
