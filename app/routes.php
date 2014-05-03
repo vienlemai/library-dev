@@ -15,8 +15,8 @@
 //users routers
 //Route::get('/user/create', 'UserController@create');
 Route::get('test', function() {
-        
-    });
+    
+});
 /**
  * Common routes
  */
@@ -84,115 +84,128 @@ Route::get('inventory/search', array(
  * routers for get request that need to authenticate to continute
  */
 Route::group(array('before' => 'auth'), function () {
-        Route::get('book/create', array(
-            'as' => 'book.create',
-            'uses' => 'BookController@create'
-        ));
-        Route::get('book/catalog', array(
-            'as' => 'book.catalog',
-            'uses' => 'BookController@catalog'
-        ));
-        Route::get('book/moderate', array(
-            'as' => 'book.moderate',
-            'uses' => 'BookController@moderate'
-        ));
-        Route::get('book/{id}/edit', array(
-            'as' => 'book.edit',
-            'uses' => 'BookController@edit'
-        ));
-        Route::get('book/moderate/{id}', array(
-            'as' => 'book.moderate.view',
-            'uses' => 'BookController@moderateView'
-        ));
-        Route::get('book/publish/{id}', array(
-            'as' => 'book.publish',
-            'uses' => 'BookController@publish'
-        ));
-        Route::get('book/catalog/{id}', array(
-            'as' => 'book.catalog.view',
-            'uses' => 'BookController@catalogView'
-        ));
-        Route::get('book/library', array(
-            'as' => 'book.library',
-            'uses' => 'BookController@library'
-        ));
-        Route::get('book/library/view/{id}', array(
-            'as' => 'book.library.view',
-            'uses' => 'BookController@libraryView'
-        ));
-        Route::get('book/barcode/{id}', array(
-            'as' => 'book.barcode',
-            'uses' => 'BookController@barcode'
-        ));
-        //readers
-        Route::get('reader/create', array(
-            'as' => 'reader.create',
-            'uses' => 'ReaderController@create'
-        ));
-        Route::get('readers', array(
-            'as' => 'readers',
-            'uses' => 'ReaderController@index',
-        ));
-        Route::get('reader/view/{id}', array(
-            'as' => 'reader.view',
-            'uses' => 'ReaderController@view'
-        ));
+    Route::get('book/create', array(
+        'as' => 'book.create',
+        'uses' => 'BookController@create'
+    ));
+    Route::get('book/catalog', array(
+        'as' => 'book.catalog',
+        'uses' => 'BookController@catalog'
+    ));
+    Route::get('book/moderate', array(
+        'as' => 'book.moderate',
+        'uses' => 'BookController@moderate'
+    ));
+    Route::get('book/{id}/edit', array(
+        'as' => 'book.edit',
+        'uses' => 'BookController@edit'
+    ));
+    Route::get('book/moderate/{id}', array(
+        'as' => 'book.moderate.view',
+        'uses' => 'BookController@moderateView'
+    ));
+    Route::get('book/publish/{id}', array(
+        'as' => 'book.publish',
+        'uses' => 'BookController@publish'
+    ));
+    Route::get('book/catalog/{id}', array(
+        'as' => 'book.catalog.view',
+        'uses' => 'BookController@catalogView'
+    ));
+    Route::get('book/library', array(
+        'as' => 'book.library',
+        'uses' => 'BookController@library'
+    ));
+    Route::get('book/library/view/{id}', array(
+        'as' => 'book.library.view',
+        'uses' => 'BookController@libraryView'
+    ));
+    Route::get('book/barcode/{id}', array(
+        'as' => 'book.barcode',
+        'uses' => 'BookController@barcode'
+    ));
+    //readers
+    Route::get('reader/create', array(
+        'as' => 'reader.create',
+        'uses' => 'ReaderController@create'
+    ));
+    Route::get('readers', array(
+        'as' => 'readers',
+        'uses' => 'ReaderController@index',
+    ));
+    Route::get('reader/view/{id}', array(
+        'as' => 'reader.view',
+        'uses' => 'ReaderController@view'
+    ));
 
-        Route::get('reader/card/{id}', array(
-            'as' => 'reader.card',
-            'uses' => 'ReaderController@card'
-        ));
-        Route::get('reader/pause/{id}', array(
-            'as' => 'reader.pause',
-            'uses' => 'ReaderController@pause'
-        ));
-        Route::get('reader/unpause/{id}', array(
-            'as' => 'reader.unpause',
-            'uses' => 'ReaderController@unpause',
-        ));
-        //configs
-        Route::get('configs', array(
-            'as' => 'configs',
-            'uses' => 'ConfigController@edit',
-        ));
+    Route::get('reader/card/{id}', array(
+        'as' => 'reader.card',
+        'uses' => 'ReaderController@card'
+    ));
+    Route::get('reader/pause/{id}', array(
+        'as' => 'reader.pause',
+        'uses' => 'ReaderController@pause'
+    ));
+    Route::get('reader/unpause/{id}', array(
+        'as' => 'reader.unpause',
+        'uses' => 'ReaderController@unpause',
+    ));
+    //configs
+    Route::get('configs', array(
+        'as' => 'configs',
+        'uses' => 'ConfigController@edit',
+    ));
 
-        //circulations
-        Route::get('circulation', array(
-            'as' => 'circulation',
-            'uses' => 'CirculationController@index',
-        ));
-        //inventory
-        Route::get('inventory/index', array(
-            'as' => 'inventory.index',
-            'uses' => 'InventoryController@index'
-        ));
-        Route::get('inventory/create', array(
-            'as' => 'inventory.create',
-            'uses' => 'InventoryController@create'
-        ));
-        Route::get('inventory/execute/{id}', array(
-            'as' => 'inventory.execute',
-            'uses' => 'InventoryController@execute'
-        ));
+    //circulations
+    Route::get('circulation', array(
+        'as' => 'circulation',
+        'uses' => 'CirculationController@index',
+    ));
+    //inventory
+    Route::get('inventory/index', array(
+        'as' => 'inventory.index',
+        'uses' => 'InventoryController@index'
+    ));
+    Route::get('inventory/create', array(
+        'as' => 'inventory.create',
+        'uses' => 'InventoryController@create'
+    ));
+    Route::get('inventory/execute/{id}', array(
+        'as' => 'inventory.execute',
+        'uses' => 'InventoryController@execute'
+    ));
 
-        Route::get('inventory/result/{id}', array(
-            'as' => 'inventory.result',
-            'uses' => 'InventoryController@result'
-        ));
-        //user    
-        Route::get('user/create', array(
-            'as' => 'user.create',
-            'uses' => 'UserController@create',
-        ));
-        Route::match(array('GET', 'POST'), 'statistics/reader', array(
-            'as' => 'statistics.reader',
-            'uses' => 'StatisticsController@reader',
-        ));
-        Route::match(array('GET', 'POST'), 'statistics/book', array(
-            'as' => 'statistics.book',
-            'uses' => 'StatisticsController@book',
-        ));
-    });
+    Route::get('inventory/result/{id}', array(
+        'as' => 'inventory.result',
+        'uses' => 'InventoryController@result'
+    ));
+    //user    
+    Route::get('user/create', array(
+        'as' => 'user.create',
+        'uses' => 'UserController@create',
+    ));
+    Route::get('statistics/reader', array(
+        'as' => 'statistics.reader',
+        'uses' => 'StatisticsController@reader',
+    ));
+    Route::get('statistics/book', array(
+        'as' => 'statistics.book',
+        'uses' => 'StatisticsController@book',
+    ));
+
+    Route::get('user/permission/{id}', array(
+        'as' => 'user.permission',
+        'uses' => 'UserController@getPermission',
+    ));
+    Route::match(array('GET', 'POST'), 'statistics/reader', array(
+        'as' => 'statistics.reader',
+        'uses' => 'StatisticsController@reader',
+    ));
+    Route::match(array('GET', 'POST'), 'statistics/book', array(
+        'as' => 'statistics.book',
+        'uses' => 'StatisticsController@book',
+    ));
+});
 
 
 /**
@@ -200,60 +213,64 @@ Route::group(array('before' => 'auth'), function () {
  */
 Route::group(array('before' => 'auth|csrf'), function () {
 //book save
-        Route::post('book/save', array(
-            'as' => 'book.save',
-            'uses' => 'BookController@save',
-        ));
-        Route::post('book/{id}/update', array(
-            'as' => 'book.update',
-            'uses' => 'BookController@update',
-        ));
-        Route::post('book/submit', array(
-            'as' => 'book.submit',
-            'uses' => 'BookController@submit',
-        ));
-        Route::delete('book/{id}/delete', array(
-            'as' => 'book.delete',
-            'uses' => 'BookController@destroy',
-        ));
+    Route::post('book/save', array(
+        'as' => 'book.save',
+        'uses' => 'BookController@save',
+    ));
+    Route::post('book/{id}/update', array(
+        'as' => 'book.update',
+        'uses' => 'BookController@update',
+    ));
+    Route::post('book/submit', array(
+        'as' => 'book.submit',
+        'uses' => 'BookController@submit',
+    ));
+    Route::delete('book/{id}/delete', array(
+        'as' => 'book.delete',
+        'uses' => 'BookController@destroy',
+    ));
 
-        Route::post('book/disapprove/{id}', array(
-            'as' => 'book.disapprove',
-            'uses' => 'BookController@disapprove'
-        ));
+    Route::post('book/disapprove/{id}', array(
+        'as' => 'book.disapprove',
+        'uses' => 'BookController@disapprove'
+    ));
 
-        Route::post('user/save', array(
-            'as' => 'user.save',
-            'uses' => 'UserController@save',
-        ));
-        Route::post('reader/save', array(
-            'as' => 'reader.save',
-            'uses' => 'ReaderController@save',
-        ));
+    Route::post('user/save', array(
+        'as' => 'user.save',
+        'uses' => 'UserController@save',
+    ));
+    Route::post('reader/save', array(
+        'as' => 'reader.save',
+        'uses' => 'ReaderController@save',
+    ));
 //configs
-        Route::post('config/update', array(
-            'as' => 'config.update',
-            'uses' => 'ConfigController@update'
-        ));
-        Route::post('upload/image', array(
-            'as' => 'upload.image',
-            'uses' => 'FileController@uploadImage'
-        ));
+    Route::post('config/update', array(
+        'as' => 'config.update',
+        'uses' => 'ConfigController@update'
+    ));
+    Route::post('upload/image', array(
+        'as' => 'upload.image',
+        'uses' => 'FileController@uploadImage'
+    ));
 
-        Route::post('inventory/save', array(
-            'as' => 'inventory.save',
-            'uses' => 'InventoryController@save'
-        ));
+    Route::post('inventory/save', array(
+        'as' => 'inventory.save',
+        'uses' => 'InventoryController@save'
+    ));
 
-        Route::post('inventory.finish', array(
-            'as' => 'inventory.finish',
-            'uses' => 'InventoryController@finish'
-        ));
-        Route::post('inventory/book/{id}', array(
-            'as' => 'inventory.book',
-            'uses' => 'InventoryController@getBookItem'
-        ));
-    });
+    Route::post('inventory.finish', array(
+        'as' => 'inventory.finish',
+        'uses' => 'InventoryController@finish'
+    ));
+    Route::post('inventory/book/{id}', array(
+        'as' => 'inventory.book',
+        'uses' => 'InventoryController@getBookItem'
+    ));
+    Route::post('user/permission/{id}', array(
+        'as' => 'user.permission',
+        'uses' => 'UserController@postPermission',
+    ));
+});
 Event::listen("illuminate.query", function($query, $bindings, $time, $name) {
-        Log::info($query);
-    });
+    Log::info($query);
+});

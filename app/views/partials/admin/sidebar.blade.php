@@ -14,7 +14,7 @@
                     Tài khoản
                 </a>
                 <a class='fr' href='{{{ route('logout') }}}'>
-                   <span class='i-forward'></span>
+                    <span class='i-forward'></span>
                     Đăng xuất
                 </a>
             </div>
@@ -85,9 +85,9 @@
         <li class='openable open'>
             <a href='#'>Quản lý hệ thống</a>
             <ul>
-                <!--                <li class=''>
-                                    <a href='{{route('user.create')}}'>Nhân viên</a>
-                                </li>-->
+                <li class=''>
+                    <a href='{{route('user.create')}}'>Nhân viên</a>
+                </li>
                 <li class=''>
                     <a href='{{route('configs')}}'>Cấu hình</a>
                 </li>

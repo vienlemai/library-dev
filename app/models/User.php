@@ -5,29 +5,6 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
     protected $table = 'users';
-
-    const ADMIN = 'admin';
-    const CATOLOGER = 'cataloger';
-    const MODERATOR = 'moderator';
-    const LIBRARIAN = 'librarian';
-
-    public static $groups = array(
-        self::ADMIN => 'Quản trị',
-        self::CATOLOGER => 'Biên mục',
-        self::MODERATOR => 'Kiểm duyệt',
-        self::LIBRARIAN => 'Thủ thư'
-    );
-    public static $PERMISSIONS = array(
-        self::CATOLOGER => array(
-            'book/create',
-            'book/catalog',
-            'book/{id}/edit',
-            'book.catalog.view',
-            'book.barcode',
-        ),
-        self::MODERATOR => array(
-        ),
-    );
     protected $fillable = array(
         'username',
         'password',
@@ -36,9 +13,28 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'sex',
         'permissions',
         'group_id',
-        'remember_token'
+        'remember_token',
+        'email'
     );
     protected $hidden = array('password');
+
+    public static function validate($input) {
+        $rules = array(
+            'username' => 'required|min:5',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|same:password',
+            'full_name' => 'required',
+        );
+
+        $messages = array(
+            'min' => 'xin nhập tối thiểu :min',
+            'required' => 'không được để trống',
+            'email' => 'Email không đúng',
+            'password_confirmation.same' => 'Mật khẩu phải giống nhau'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
 
     public static function boot() {
         parent::boot();
@@ -46,29 +42,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             $user->created_at = Carbon\Carbon::now();
             $user->updated_at = Carbon\Carbon::now();
         });
-    }
-
-    public static function getDefaultPermission() {
-
-
-        $sharedPermissions = array('home', 'error', 'logout');
-        $catalogerPermissions = array('book.create', 'book.catalog', 'book.preview');
-        $moderationPermissions = array();
-        $librarianPermissions = array();
-        return array(
-            array(
-                'name' => 'cataloger',
-                'permissions' => array_merge($sharedPermissions, $catalogerPermissions)
-            ),
-            array(
-                'name' => 'moderator',
-                'permissions' => array_merge($sharedPermissions, $moderationPermissions)
-            ),
-            array(
-                'name' => 'librarian',
-                'permissions' => array_merge($sharedPermissions, $librarianPermissions)
-            )
-        );
     }
 
     public function catalogers() {

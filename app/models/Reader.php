@@ -92,15 +92,15 @@ class Reader extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($reader) {
-                $reader->status = Reader::SS_CIRCULATED;
-                $reader->created_by = Sentry::getUser()->id;
-                $expired = Session::get('LibConfig.reader_expired');
-                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
-            });
+            $reader->status = Reader::SS_CIRCULATED;
+            $reader->created_by = Auth::user()->id;
+            $expired = Session::get('LibConfig.reader_expired');
+            $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
+        });
         // Write create reader event
         static::saved(function($reader) {
-                Activity::write(Sentry::getUser(), Activity::ADDED_CARD, $reader);
-            });
+            Activity::write(Auth::user(), Activity::ADDED_CARD, $reader);
+        });
     }
 
     public function creator() {
@@ -112,7 +112,7 @@ class Reader extends Eloquent {
     }
 
     public function representString() {
-       return $this->full_name;
+        return $this->full_name;
     }
 
 }
