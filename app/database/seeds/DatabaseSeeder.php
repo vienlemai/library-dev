@@ -125,6 +125,7 @@ class UserTableSeeder extends Seeder {
             'sex' => 1,
             'date_of_birth' => '',
             'group_id' => $group->id,
+            'remember_token' => '',
             'permissions' => json_encode(array())
         ));
         $user->save();
@@ -140,6 +141,7 @@ class UserTableSeeder extends Seeder {
             'sex' => 1,
             'date_of_birth' => '',
             'group_id' => $group->id,
+            'remember_token' => '',
             'permissions' => json_encode(array())
         ));
         $user->save();
@@ -150,11 +152,12 @@ class UserTableSeeder extends Seeder {
         $group->save();
         $user = new User(array(
             'username' => 'kiemduyet',
-            'password' => Hash::make('123456'),            
+            'password' => Hash::make('123456'),
             'full_name' => 'Kiểm duyệt viên',
             'sex' => 1,
             'date_of_birth' => '',
             'group_id' => $group->id,
+            'remember_token' => '',
             'permissions' => json_encode(array())
         ));
         $user->save();
@@ -170,6 +173,7 @@ class UserTableSeeder extends Seeder {
             'sex' => 1,
             'date_of_birth' => '',
             'group_id' => $group->id,
+            'remember_token' => '',
             'permissions' => json_encode(array())
         ));
         $user->save();
