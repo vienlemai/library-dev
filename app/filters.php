@@ -38,12 +38,11 @@ Route::filter('auth', function() {
         Session::put('url.intended', URL::full());
         return Redirect::route('login');
     }
-//	//list($prefix, $module, $rule) = explode('.', Route::currentRouteName());
-//	//var_dump(Route::currentRouteName());
-//	$action = Route::currentRouteName();
-//	if (!Sentry::hasAccess($action)) {
-//		return Redirect::route('error', array('permission'));
-//	}
+    $action = Route::currentRouteName();
+    $permission = new Permission();
+    if (!$permission->check($action)) {
+        return Redirect::route('error', array('permission'));
+    }
 });
 
 

@@ -6,6 +6,11 @@ class UserController extends BaseController {
      */
     protected $layout = 'layouts.admin';
 
+    public function index() {
+        $users = User::with('group')->orderBy('created_at', 'DESC')->paginate(self::ITEMS_PER_PAGE);
+        return View::make('user.index', array('users' => $users));
+    }
+
     public function create() {
         $groupsTmp = Group::all();
         foreach ($groupsTmp as $tmp) {
@@ -38,19 +43,71 @@ class UserController extends BaseController {
         foreach ($groupsTmp as $tmp) {
             $groups[$tmp->id] = $tmp->name;
         }
-        foreach (Group::$ACTIONS as $k => $v) {
+        foreach (Permission::$ACTIONS as $k => $v) {
             $permissions[$k] = $v['title'];
         }
         $defaultPermissions = json_decode($user->group->permissions);
+        $curentPermissions = $user->permissions;
         foreach ($defaultPermissions as $k) {
             unset($permissions[$k]);
         }
-        return View::make('user.permission', array('user' => $user, 'groups' => $groups, 'permissions' => $permissions));
+        return View::make('user.permission', array(
+                'user' => $user,
+                'groups' => $groups,
+                'permissions' => $permissions,
+                'curentPermissions' => json_decode($curentPermissions)
+        ));
     }
 
     public function postPermission($id) {
-        var_dump(Input::all());
-        exit();
+        $permissions = array();
+        $user = User::findOrFail($id);
+        if (Input::has('permissions')) {
+            foreach (Input::get('permissions') as $p) {
+                array_push($permissions, (int) $p);
+            }
+        }
+        $user->permissions = json_encode($permissions);
+        $user->save();
+        Session::flash('success', 'Phân quyền thành công');
+        return Redirect::route('users');
+    }
+
+    public function view($id) {
+        $user = User::findOrFail($id);
+        return View::make('user.view', array('user' => $user));
+    }
+
+    public function edit($id) {
+        $user = User::findOrFail($id);
+        $groupsTmp = Group::all();
+        foreach ($groupsTmp as $tmp) {
+            $groups[$tmp->id] = $tmp->name;
+        }
+        return View::make('user.edit', array('user' => $user, 'groups' => $groups));
+    }
+
+    public function update($id) {
+        $user = User::findOrFail($id);
+        $v = User::validate(Input::all());
+        if ($v->passes()) {
+            $user->full_name = Input::get('full_name');
+            $user->email = Input::get('email');
+            $user->password = Hash::make(Input::get('password'));
+            $user->sex = Input::get('sex');
+            $user->save();
+            Session::flash('success', 'Sửa thành công thông tin nhân viên "' . $user->full_name . '"');
+            return Redirect::route('users');
+        } else {
+            return Redirect::back()->withInput()->withErrors($v->messages());
+        }
+    }
+
+    public function delete($id) {
+        $user = User::findOrFail($id);
+        User::where('id', '=', $id)->delete();
+        Session::flash('error', 'Đã xóa nhân viên "' . $user->full_name . '"');
+        return Redirect::route('users');
     }
 
 }

@@ -8,28 +8,34 @@ class BaseController extends Controller {
 
     public function __construct() {
         $this->beforeFilter(function() {
-                if (!Session::has('LibConfig')) {
-                    $configs = DB::table('configs')->get();
-                    foreach ($configs as $config) {
-                        Session::set('LibConfig.' . $config->key, $config->value);
-                    }
+            if (!Session::has('LibConfig')) {
+                $configs = DB::table('configs')->get();
+                foreach ($configs as $config) {
+                    Session::set('LibConfig.' . $config->key, $config->value);
                 }
-            });
+            }
+            $modules = array();
+            if (Auth::check()) {
+                $user = Auth::user();
+                $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
+            }
+            View::share('modules', $modules);
+        });
         // Log request infor to the output of artisan serve 
         $this->afterFilter(function($route, $request, $response) {
-                $log = "=========================================================================================\n";
-                $log .= "Started " . Request::getMethod() . ' ' . Request::url() . "\n";
-                $log .= "Processing by " . Route::currentRouteAction(). "\n";
-                $requestType = 'HTML';
-                if (Request::ajax()) {
-                    $requestType = 'AJAX';
-                }
-                $log .= "Type: " . $requestType . "\n";
-                $log .= "Parameters: " . json_encode(Input::all()) . "\n";
-                
-                $log .= "=========================================================================================\n";
-                file_put_contents('php://stdout', $log);
-            });
+            $log = "=========================================================================================\n";
+            $log .= "Started " . Request::getMethod() . ' ' . Request::url() . "\n";
+            $log .= "Processing by " . Route::currentRouteAction() . "\n";
+            $requestType = 'HTML';
+            if (Request::ajax()) {
+                $requestType = 'AJAX';
+            }
+            $log .= "Type: " . $requestType . "\n";
+            $log .= "Parameters: " . json_encode(Input::all()) . "\n";
+
+            $log .= "=========================================================================================\n";
+            file_put_contents('php://stdout', $log);
+        });
     }
 
     /**

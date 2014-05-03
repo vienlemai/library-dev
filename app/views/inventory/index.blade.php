@@ -36,8 +36,8 @@
                             <tr>
                                 <th style='width:5%'>TT</th>
                                 <th style='width:20%'>Tiêu đề</th>
-                                <th style='width:18%'>Ngày bắt đầu</th>
-                                <th style='width:18%'>Ngày kết thúc</th>
+                                <th style='width:15%'>Ngày bắt đầu</th>
+                                <th style='width:10%'>Ngày kết thúc</th>
                                 <th style='width:10%'>Người tạo</th>
                                 <th style='width:10%'>Trạng thái</th>
                                 <th style='width:7%'>Thao tác</th>
@@ -50,13 +50,13 @@
                                 <tr>
                                     <td>{{$index++}}</td>
                                     <td>{{$row->title}}</td>
-                                    <td>{{$row->created_at->format('h:i, d \t\h\á\n\g m, Y').' ('.$row->created_at->diffForHumans().')'}}</td>
+                                    <td>{{$row->created_at->format('d \t\h\á\n\g m, Y').' ('.$row->created_at->diffForHumans().')'}}</td>
                                     <?php if ($isFinish): ?>
-                                        <td>{{$row->end_at->format('h:i, d t\h\á\n\g m, Y')}}</td>
+                                        <td>{{$row->end_at->format('d \t\h\á\n\g m, Y')}}</td>
                                     <?php else: ?>
                                         <td></td>
                                     <?php endif; ?>
-                                    <td>{{json_decode($row->creator)->last_name}}</td>
+                                    <td>{{$row->creator->full_name}}</td>
                                     <?php if ($isFinish): ?>
                                         <td>Đã kết thúc</td>
                                     <?php else: ?>

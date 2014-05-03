@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-@section('currentMenu','library')
 @section('content')
 <div class="wrap">
 	<div class='head'>

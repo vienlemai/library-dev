@@ -19,13 +19,14 @@
                     {{Former::select('group_id')
 								->label('Quyền mặc định')
 								->options($groups,$user->group_id)	
+                                ->disabled()
                     }}
                     <div class="control-group">
                         <label for="permissions" class="control-label">Các quyền khác</label>
                         <div class="controls">
                             <?php foreach ($permissions as $k => $v): ?>
                                 <label  class="checkbox">                                
-                                    <input type="checkbox" name="permissions[]" value="<?php echo $k ?>"><?php echo $v ?>
+                                    <input type="checkbox" name="permissions[]" value="<?php echo $k ?>" <?php echo in_array($k, $curentPermissions) ? 'checked' : '' ?>><?php echo $v ?>
                                 </label>
                             <?php endforeach; ?>
                         </div>

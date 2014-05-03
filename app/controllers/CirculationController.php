@@ -166,7 +166,7 @@ class CirculationController extends \BaseController {
         ));
         $circulation->save();
         $circulations = Circulation::where('reader_id', '=', $readerId)
-            //->where('returned', '=', false)
+            ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_LENDED));
@@ -184,10 +184,10 @@ class CirculationController extends \BaseController {
         $bookItemId = Input::get('bookItemId');
         Circulation::where('reader_id', '=', $readerId)
             ->where('book_item_id', '=', $bookItemId)
-            // ->where('returned', '=', false)
-            ->delete();
+            ->where('returned', '=', false)
+            ->update(array('returned' => true));
         $circulations = Circulation::where('reader_id', '=', $readerId)
-            // ->where('returned', '=', false)
+            ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_STORAGED));
@@ -214,7 +214,7 @@ class CirculationController extends \BaseController {
             ->where('reader_id', '=', $readerId)
             ->update(array('expired_at' => $circulation->expired_at->addDays($book_more_time)));
         $circulations = Circulation::where('reader_id', '=', $readerId)
-            // ->where('returned', '=', false)
+            ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
         $result['status'] = true;

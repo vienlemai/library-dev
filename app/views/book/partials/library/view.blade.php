@@ -10,11 +10,11 @@
 			<dt>Ngày nhập:</dt>
 			<dd>{{$book->created_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</dd>
 			<dt>Người nhập:</dt>
-			<dd>{{json_decode($book->cataloger)->last_name}}</dd>
+			<dd>{{$book->cataloger->full_name}}</dd>
 			<dt>Ngày lưu hành</dt>
 			<dd>{{$book->published_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</dd>
 			<dt>Người kiểm duyệt:</dt>
-			<dd>{{json_decode($book->moderator)->last_name}}</dd>
+			<dd>{{$book->moderator->full_name}}</dd>
 		</dl>
 		<hr>
 		<h5 class="text-success">Thông tin tài liệu</h5>

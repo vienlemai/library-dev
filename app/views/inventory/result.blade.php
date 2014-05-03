@@ -19,7 +19,7 @@
                             </tr>
                             <tr>
                                 <td>Người tạo: </td>
-                                <td>{{json_decode($inventory->creator)->last_name}}</td>
+                                <td>{{$inventory->creator->full_name}}</td>
                             </tr>
                             <tr>
                                 <td>Lý do: </td>

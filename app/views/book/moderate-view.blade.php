@@ -24,7 +24,7 @@
 					<div class="span4">
 						<h4>{{$book->title}}</h4>
 						<ul>
-							<li>Người gửi : {{json_decode($book->cataloger)->last_name}}</li>
+							<li>Người gửi : {{$book->cataloger->full_name}}</li>
 							<li>Ngày gửi : {{$book->submitted_at->format('d/m/Y h:i').' ('.$book->submitted_at->diffForHumans().')'}}</li>
 						</ul>
 					</div>

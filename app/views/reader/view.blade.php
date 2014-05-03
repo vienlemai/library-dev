@@ -42,7 +42,7 @@
                                     <ul>
                                         <li>Ngày tạo: {{$reader->created_at->format('d/m/Y')}}</li>
                                         <li>Ngày hết hạn: {{$reader->expired_at->format('d/m/Y')}}</li>
-                                        <li>Người tạo: {{json_decode($reader->creator)->last_name }}</li>
+                                        <li>Người tạo: {{$reader->creator->full_name }}</li>
                                         <?php if ($reader->expired): ?>
                                             <li style="color: red">Trạng thái: Hết hạn ({{$reader->status->expired_at->diffForHumans()}})</li>
                                         <?php else : ?>

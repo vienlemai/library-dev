@@ -39,6 +39,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public static function boot() {
         parent::boot();
         static::creating(function($user) {
+            $user->permissions = json_encode(array());
             $user->created_at = Carbon\Carbon::now();
             $user->updated_at = Carbon\Carbon::now();
         });
@@ -82,6 +83,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
      */
     public function getReminderEmail() {
         return $this->email;
+    }
+
+    public function getSexAttribute($value) {
+        return $value == 0 ? 'Nam' : 'Nữ';
     }
 
 }

@@ -80,6 +80,8 @@ Route::get('inventory/search', array(
     'as' => 'inventory.search',
     'uses' => 'InventoryController@search'
 ));
+
+
 /**
  * routers for get request that need to authenticate to continute
  */
@@ -205,6 +207,21 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'statistics.book',
         'uses' => 'StatisticsController@book',
     ));
+
+    Route::get('users', array(
+        'as' => 'users',
+        'uses' => 'UserController@index'
+    ));
+
+    Route::get('user/view/{id}', array(
+        'as' => 'user.view',
+        'uses' => 'UserController@view'
+    ));
+
+    Route::get('user/edit/{id}', array(
+        'as' => 'user.edit',
+        'uses' => 'UserController@edit',
+    ));
 });
 
 
@@ -228,6 +245,11 @@ Route::group(array('before' => 'auth|csrf'), function () {
     Route::delete('book/{id}/delete', array(
         'as' => 'book.delete',
         'uses' => 'BookController@destroy',
+    ));
+
+    Route::delete('user/{id}/delete', array(
+        'as' => 'user.delete',
+        'uses' => 'UserController@delete'
     ));
 
     Route::post('book/disapprove/{id}', array(
@@ -269,6 +291,11 @@ Route::group(array('before' => 'auth|csrf'), function () {
     Route::post('user/permission/{id}', array(
         'as' => 'user.permission',
         'uses' => 'UserController@postPermission',
+    ));
+
+    Route::post('user/update/{id}', array(
+        'as' => 'user.update',
+        'uses' => 'UserController@update',
     ));
 });
 Event::listen("illuminate.query", function($query, $bindings, $time, $name) {

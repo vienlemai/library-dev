@@ -97,7 +97,6 @@ return array(
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 		'Former\FormerServiceProvider',
 		'Dinesh\Barcode\BarcodeServiceProvider',
-		'Cartalyst\Sentry\SentryServiceProvider',
 		'Baum\BaumServiceProvider',
        // 'Bkwld\LaravelHaml\ServiceProvider' //https://github.com/BKWLD/laravel-haml
 	),

@@ -10,7 +10,7 @@
             <ul>
                 <li>
                     <a class='btn btn-small btn-primary' href='{{route('reader.create')}}'>
-                       <i class='i-plus-2'></i>
+                        <i class='i-plus-2'></i>
                         Thêm mới bạn đọc
                     </a>
                 </li>
@@ -25,7 +25,7 @@
                         <ul class='boxes nmt'>
                             <li>
                                 <div class='text-info'>
-                                    <?php echo $count[Reader::SS_CIRCULATED] + $count[Reader::SS_PAUSED]?>
+                                    <?php echo $count[Reader::SS_CIRCULATED] + $count[Reader::SS_PAUSED] ?>
                                     <span>Tất cả</span>
                                 </div>
                             </li>
@@ -79,7 +79,11 @@
                                     <td>{{$reader->full_name}}</td>
                                     <td>{{$reader->class}}</td>
                                     <td>{{$reader->created_at->format('d/m/Y')}}</td>
-                                    <td>{{Reader::$LABELS[$reader->status]}}</td>
+                                    <?php if ($reader->status != Reader::SS_CIRCULATED): ?>
+                                        <td style="color: red;text-decoration: line-through">{{Reader::$LABELS[$reader->status]}}</td>
+                                    <?php else: ?>
+                                        <td style="color: green">{{Reader::$LABELS[$reader->status]}}</td>
+                                    <?php endif; ?>
                                     <td>
                                         <a class='text-info' href="{{route('reader.view',$reader->id)}}">
                                             <i class='i-magnifier'></i>
