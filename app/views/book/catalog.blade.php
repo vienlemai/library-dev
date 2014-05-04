@@ -134,17 +134,19 @@
 							</table>
 						</div>
 						<div class='footer'>
-							<button class="btn btn-primary btn-check-submit" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
-							<span class="check-info" style="display: none"></span>
-							<span class="loading" style="margin-left: 50px; display: none">
-								<img src="{{asset('img/loading.gif')}}"/>
-								Đang tải . . .
-							</span>
-							<div class='side fr'>
-								<div class='pagination'>
-									{{$books[Book::SS_ADDED]->appends(array('book-type'=>Book::SS_ADDED))->links()}}
-								</div>
-							</div>
+                            <div class='side'>
+                                <button class="btn btn-primary btn-check-submit" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
+                                <span class="check-info" style="display: none"></span>
+                                <span class="loading" style="margin-left: 50px; display: none">
+                                    <img src="{{asset('img/loading.gif')}}"/>
+                                    Đang tải . . .
+                                </span>
+                                <div class='side fr'>
+                                    <div class='pagination'>
+                                        {{$books[Book::SS_ADDED]->appends(array('book-type'=>Book::SS_ADDED))->links()}}
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 

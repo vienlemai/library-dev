@@ -114,6 +114,7 @@ class Activity extends Eloquent {
         if (isset($params['range']) && trim($params['range']) != '') {
             $query->whereBetween('created_at', self::parseDateRangeParam($params['range']));
         }
+        $query->orderBy('created_at','desc');
         return $query;
     }
 

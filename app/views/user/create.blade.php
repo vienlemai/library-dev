@@ -49,7 +49,7 @@
 								->label('Phân quyền (*)')
 								->options($groups)	
 					}}
-					{{Former::xxlarge_text('day_of_birth')
+					{{Former::xxlarge_text('date_of_birth')
 								->label('Ngày sinh')
 								->class('datepicker')
 					}}	

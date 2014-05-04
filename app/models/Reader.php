@@ -122,5 +122,4 @@ class Reader extends Eloquent implements IActivityAuthor {
     public function authorType() {
         return 'Bạn đọc';
     }
-
 }

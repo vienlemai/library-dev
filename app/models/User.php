@@ -56,7 +56,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
             }
             $routes = array_merge($routes, Permission::$SHARED_ROUTES);
             $user->routes = json_encode($routes);
+            $user->remember_token = '';
         });
+        static::saved(function($user) {
+            Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
+        });
+          
     }
 
     public function catalogers() {
@@ -105,5 +110,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
     public function authorType() {
         return $this->group->name;
     }
-
+    public function representString(){
+        return $this->full_name;
+    }
 }
