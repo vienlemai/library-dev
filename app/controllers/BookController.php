@@ -415,12 +415,11 @@ class BookController extends \BaseController {
      */
     public function submit() {
         $input = Input::all();
-        $count = 0;
-        foreach ($input['bookId'] as $bookId) {
-            $count++;
-            Book::where('id', '=', $bookId)->update(array('status' => Book::SS_SUBMITED, 'submitted_at' => Carbon\Carbon::now()));
+        $books = Book::whereIn('id', $input['bookId'])->get();
+        foreach ($books as $book) {
+            $book->submit();
         }
-        Session::flash('success', 'Gửi thành công ' . $count . ' tài liệu');
+        Session::flash('success', 'Gửi thành công ' . $books->count() . ' tài liệu');
         return Redirect::route('book.catalog');
     }
 
@@ -428,9 +427,8 @@ class BookController extends \BaseController {
      * Moderator publish a book
      */
     public function publish($id) {
-        $user = Auth::user();
         $book = Book::findOrFail($id);
-        Book::where('id', '=', $id)->update(array('status' => Book::SS_PUBLISHED, 'published_at' => Carbon\Carbon::now(), 'published_by' => $user->id));
+        $book->publish();
         Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
         return Redirect::route('book.moderate');
     }
@@ -440,11 +438,8 @@ class BookController extends \BaseController {
      */
     public function disapprove($id) {
         $book = Book::findOrFail($id);
-        $book->status = Book::SS_DISAPPROVED;
-        $book->error_reason = Input::get('reason');
-        $book->save();
+        $book->disapprove(Input::get('reason'));
         Session::flash('success', 'Đã báo lỗi thành công tài liệu ' . $book->title);
         return Redirect::route('book.moderate');
     }
-
 }

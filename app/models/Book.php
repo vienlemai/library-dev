@@ -95,21 +95,49 @@ class Book extends Eloquent {
         'number',
         'level',
         'another_infor',
-        'status',
+        'status'
     );
 
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-            $book->status = Book::SS_ADDED;
-            $book->created_by = Auth::user()->id;
-            $book->barcode_printed = 0;
-        });
-        // Write submit book event
-        static::created(function($book) {
-            Activity::write(Auth::user(), Activity::SUBMITED_BOOK, $book);
-        });
+                $book->status = Book::SS_ADDED;
+                $book->created_by = Auth::user()->id;
+                $book->barcode_printed = 0;
+            });
     }
+
+    /*
+     * Instance functions goes from here
+     */
+
+    public function submit() {
+        $this->status = self::SS_SUBMITED;
+        $this->submitted_at = Carbon\Carbon::now();
+        $this->save();
+        // Write submit book event
+        Activity::write(Auth::user(), Activity::SUBMITED_BOOK, $this);
+    }
+
+    public function publish() {
+        $this->status = self::SS_PUBLISHED;
+        $this->published_at = Carbon\Carbon::now();
+        $this->published_by = Auth::user()->id;
+        $this->save();
+        // Write publish book event
+        Activity::write(Auth::user(), Activity::PUBLISHED_BOOK, $this);
+    }
+    
+    public function disapprove($reason) {
+        $this->status = self::SS_DISAPPROVED;
+        $this->error_reason = $reason;
+        $this->save();
+        // Write disapprove book event
+        Activity::write(Auth::user(), Activity::DISAPPROVED_BOOK, $this);
+    }
+    /*
+     * Static functions goes from here
+     */
 
     public static function validate($input) {
         $rules = array(
