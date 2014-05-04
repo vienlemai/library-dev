@@ -131,7 +131,6 @@ class Book extends Eloquent {
 
     public function representString() {
         return $this->title;
-        # "<cutter or barcode> <Title>"
     }
 
 }

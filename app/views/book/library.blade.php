@@ -61,10 +61,6 @@
 					</table>
 				</div>
 				<div class='footer'>
-					<span class="loading" style="margin-left: 50px; display: none">
-						<img src="{{asset('img/loading.gif')}}"/>
-						Đang tải . . .
-					</span>
 					<div class='side fr'>
 						<div class='pagination'>
 							{{$books->links()}}

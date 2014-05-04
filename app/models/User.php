@@ -3,7 +3,7 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends Eloquent implements UserInterface, RemindableInterface, IActivityAuthor {
     protected $table = 'users';
     protected $fillable = array(
         'username',
@@ -39,10 +39,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public static function boot() {
         parent::boot();
         static::creating(function($user) {
-            $user->permissions = json_encode(array());
-            $user->created_at = Carbon\Carbon::now();
-            $user->updated_at = Carbon\Carbon::now();
-        });
+                $user->permissions = json_encode(array());
+                $user->created_at = Carbon\Carbon::now();
+                $user->updated_at = Carbon\Carbon::now();
+            });
     }
 
     public function catalogers() {
@@ -82,6 +82,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function getSexAttribute($value) {
         return $value == 0 ? 'Nam' : 'Nữ';
+    }
+
+    public function authorName() {
+        return $this->full_name;
+    }
+
+    public function authorType() {
+        return $this->group->name;
     }
 
 }

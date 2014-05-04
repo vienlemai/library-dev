@@ -18,11 +18,14 @@ class Circulation extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($circulation) {
-            $circulation->created_at = Carbon\Carbon::now();
-            $circulation->created_by = Auth::user()->id;
-            $expired = Session::get('LibConfig.book_expired');
-            $circulation->expired_at = Carbon\Carbon::now()->addDays($expired);
-        });
+                $circulation->created_at = Carbon\Carbon::now();
+                $circulation->created_by = Auth::user()->id;
+                $expired = Session::get('LibConfig.book_expired');
+                $circulation->expired_at = Carbon\Carbon::now()->addDays($expired);
+            });
+        static::created(function($circulation) {
+                Activity::write($circulation->reader, Activity::BORROWED_BOOK, $circulation->bookItem->book);
+            });
     }
 
     public function getDates() {

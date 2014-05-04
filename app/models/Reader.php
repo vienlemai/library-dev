@@ -1,6 +1,6 @@
 <?php
 
-class Reader extends Eloquent {
+class Reader extends Eloquent implements IActivityAuthor {
     /**
      * Table name
      */
@@ -113,6 +113,14 @@ class Reader extends Eloquent {
 
     public function representString() {
         return $this->full_name;
+    }
+
+    public function authorName() {
+        return $this->full_name;
+    }
+
+    public function authorType() {
+        return 'Bạn đọc';
     }
 
 }

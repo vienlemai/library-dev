@@ -8,6 +8,7 @@
 class Activity extends Eloquent {
     public $timestamps = false;
 
+    const PER_PAGE = 10;
     /*
      * Book cataloging activities
      */
@@ -20,7 +21,6 @@ class Activity extends Eloquent {
      */
     const BORROWED_BOOK = 'borrowed_book';
     const RETURNED_BOOK = 'returned_book';
-    //const LENT_BOOK = 'lent_book'; I think we don't need it
 
     /*
      * Cart activities
@@ -33,16 +33,43 @@ class Activity extends Eloquent {
     const ADDED_STAFF = 'added_staff';
 
     /*
-     * Visibilities of activity
+     * Activity groups
      */
-    const VISIBILITY_ADMIN = 'admin'; # only visible with the author of activty, example: admin
-    const VISIBILITY_GROUP = 'group'; # visible to users same group with author, example: admin
+    const CATOLOG_GROUP = 'catolog';
+    const CIRCULATION_GROUP = 'circulation';
+    const MANAGEMENT_GROUP = 'management';
+
+    public static $GROUPS_TO_NAMES = array(
+        self::CATOLOG_GROUP => 'Biên mục',
+        self::CIRCULATION_GROUP => 'Lưu thông',
+        self::MANAGEMENT_GROUP => 'Quản lý'
+    );
+
+    /*
+     * Date ranges for filter
+     */
+    public static $DATE_RANGES = array(
+        0 => 'Hôm nay',
+        1 => 'Hôm qua',
+        3 => '3 ngày trước',
+        7 => '1 tuần trước',
+        30 => '1 tháng trước'
+    );
+    /*
+     * Activities in groups
+     */
+    public static $ACTIVITIES_GROUPS = array(
+        self::CATOLOG_GROUP => array(self::SUBMITED_BOOK, self::DISAPPROVED_BOOK, self::PUBLISHED_BOOK),
+        self::CIRCULATION_GROUP => array(self::BORROWED_BOOK, self::RETURNED_BOOK),
+        self::MANAGEMENT_GROUP => array(self::ADDED_CARD, self::ADDED_STAFF)
+    );
+
 
     /*
      * Text formats for activity
      */
-    private static $ACTIVITY_CODES_TO_STRINGS = array(
-        self::SUBMITED_BOOK => "thêm mới tài liệu",
+    private static $CODES_TO_STRINGS = array(
+        self::SUBMITED_BOOK => "gửi lên tài liệu",
         self::DISAPPROVED_BOOK => "từ chối tài liệu",
         self::PUBLISHED_BOOK => "cho phép lưu hành tài liệu",
         self::BORROWED_BOOK => "mượn tài liệu",
@@ -51,20 +78,21 @@ class Activity extends Eloquent {
         self::ADDED_STAFF => "thêm mới nhân viên",
     );
     protected $fillable = array(
-        'activity_code',
+        'code',
+        'group',
         'author_id',
+        'author_type',
         'object_id',
-        'object_class',
-        'created_at'
+        'object_type',
+        'created_at',
     );
 
     public function author() {
-        return $this->belongsTo('User', 'author_id', 'id');
+        return $this->morphTo();
     }
 
-    public function getObject() {
-        $obj = new $this->object_class;
-        return $obj->find($this->object_id);
+    public function object() {
+        return $this->morphTo();
     }
 
     public function getTime() {
@@ -72,24 +100,54 @@ class Activity extends Eloquent {
     }
 
     public function actionInString() {
-        return self::$ACTIVITY_CODES_TO_STRINGS[$this->activity_code];
+        return self::$CODES_TO_STRINGS[$this->code];
     }
 
     /**
      * Static function goes from here
      */
+    public static function search($params = array()) {
+        $query = self::with('author.group', 'object');
+        if (isset($params['group']) && trim($params['group']) != '') {
+            $query->where('group', trim($params['group']));
+        }
+        if (isset($params['range']) && trim($params['range']) != '') {
+            $query->whereBetween('created_at', self::parseDateRangeParam($params['range']));
+        }
+        return $query;
+    }
+
     public static function write($author, $activity_code, $object) {
         self::create(array(
-            'activity_code' => $activity_code,
+            'code' => $activity_code,
             'author_id' => $author->id,
+            'author_type' => get_class($author),
             'object_id' => $object->id,
-            'object_class' => get_class($object),
+            'object_type' => get_class($object),
+            'group' => self::groupOfActivity($activity_code),
             'created_at' => date('Y-m-d H:i:s'),
         ));
     }
 
+    private static function parseDateRangeParam($range) {
+        $endDate = Carbon\Carbon::now()->endOfDay()->toDateTimeString();
+        $startDate = $startDate = Carbon\Carbon::now()->subDays($range)->startOfDay()->toDateTimeString();
+        return [$startDate, $endDate];
+    }
+
+    public static function groupOfActivity($activity_code) {
+        $group = 'other';
+        foreach (self::$ACTIVITIES_GROUPS as $g => $activities) {
+            if (in_array($activity_code, $activities)) {
+                $group = $g;
+                break;
+            }
+        }
+        return $group;
+    }
+
     public static function recent($count = 10) {
-        return self::all();
+        return self::with('author.group', 'object')->orderBy('created_at', 'desc')->take($count)->get();
     }
 
 }
