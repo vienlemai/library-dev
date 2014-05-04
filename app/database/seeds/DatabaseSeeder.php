@@ -120,6 +120,7 @@ class UserTableSeeder extends Seeder {
         $group->save();
         $user = new User(array(
             'username' => 'admin',
+            'email' => 'admin@email.com',
             'full_name' => 'Quản trị viên',
             'password' => Hash::make('123456'),
             'sex' => 1,
@@ -136,6 +137,7 @@ class UserTableSeeder extends Seeder {
         $group->save();
         $user = new User(array(
             'username' => 'bienmuc',
+            'email' => 'bienmuc@email.com',
             'password' => Hash::make('123456'),
             'full_name' => 'Biên mục viên',
             'sex' => 1,
@@ -152,6 +154,7 @@ class UserTableSeeder extends Seeder {
         $group->save();
         $user = new User(array(
             'username' => 'kiemduyet',
+            'email' => 'kiemduyet@email.com',
             'password' => Hash::make('123456'),
             'full_name' => 'Kiểm duyệt viên',
             'sex' => 1,
@@ -168,6 +171,7 @@ class UserTableSeeder extends Seeder {
         $group->save();
         $user = new User(array(
             'username' => 'thuthu',
+            'email' => 'thuthu@email.com',
             'password' => Hash::make('123456'),
             'full_name' => 'Thủ thư',
             'sex' => 1,
