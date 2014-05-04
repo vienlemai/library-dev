@@ -124,7 +124,7 @@
                         }}
                         <div class="form-actions">
                             <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo thẻ</a>
-                            <a class="btn btn-success" href="#">Lịch sử mượn trả</a>
+                            <a class="btn btn-success" href="javascript:void(0)" data-url="{{route('reader.history',$reader->id)}}" data-modal="show-modal">Lịch sử mượn trả</a>
                             @if($reader->status === Reader::SS_CIRCULATED)
                             <button class="btn btn-danger" btn-confirm="confirm" data-url="{{route('reader.pause',array($reader->id))}}" data-confirm="Bạn có chắc chắn muốn khóa bạn đọc <strong>{{$reader->full_name}}</strong>">Khóa thẻ</button>
                             @elseif($reader->status == Reader::SS_PAUSED)

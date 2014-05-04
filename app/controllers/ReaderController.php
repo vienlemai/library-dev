@@ -86,4 +86,12 @@ class ReaderController extends \BaseController {
         return Redirect::route('reader.view', array($reader->id));
     }
 
+    public function history($id) {
+        $reader = Reader::findOrFail($id);
+        $circulations = Circulation::where('reader_id', '=', $id)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        return View::make('reader.partials.history', array('reader' => $reader, 'circulations' => $circulations));
+    }
+
 }

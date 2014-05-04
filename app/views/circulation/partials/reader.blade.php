@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class='content-row'>
-        <a class='btn btn-primary' href='#'>
+        <a class='btn btn-primary' id="reader-history" href='javascript:void(0)' data-url="{{route('reader.history',$reader->id)}}" data-modal="show-modal" >
             <i class='i-time'></i>
             Lịch sử
         </a>

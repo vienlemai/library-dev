@@ -5,6 +5,16 @@
 		<div class='page-title'>
 			Quản lý nhân viên
 		</div>
+        <div class='page-tools'>
+			<ul>
+				<li>
+					<a class='btn btn-small' href='{{route('users')}}'>
+						<i class='i-reply'></i>
+						Quay lại danh sách
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<div class='content'>
 		<div class='space'></div>
