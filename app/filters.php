@@ -55,16 +55,16 @@ App::after(function($request, $response) {
  */
 
 Route::filter('auth', function() {
-    //if (Auth::guest()) return Redirect::guest('login');
-    //use Sentry authenticate
     if (!Auth::check()) {
         Session::put('url.intended', URL::full());
         return Redirect::route('login');
     }
-    $action = Route::currentRouteName();
-    $permission = new Permission();
-    if (!$permission->check($action)) {
-        return Redirect::route('error', array('permission'));
+    if (Request::isMethod('get')) {
+        $action = Route::currentRouteName();
+        $permission = new Permission();
+        if (!$permission->check($action)) {
+            return Redirect::route('error', array('permission'));
+        }
     }
 });
 

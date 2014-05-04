@@ -27,7 +27,8 @@ class UserController extends BaseController {
                 $user = new User(Input::all());
                 $user->password = Hash::make(Input::get('password'));
                 $user->save();
-                return Redirect::back()->withInput();
+                Session::flash('success', 'Tạo mới thành công nhân viên "' . $user->full_name . '"');
+                return Redirect::route('uses');
             } else {
                 Session::flash('error', 'Tên đăng nhập này đã tồn tại');
                 return Redirect::back()->withInput();
@@ -61,13 +62,14 @@ class UserController extends BaseController {
 
     public function postPermission($id) {
         $permissions = array();
-        $user = User::findOrFail($id);
+        $user = User::with('group')->findOrFail($id);
         if (Input::has('permissions')) {
             foreach (Input::get('permissions') as $p) {
                 array_push($permissions, (int) $p);
             }
         }
         $user->permissions = json_encode($permissions);
+
         $user->save();
         Session::flash('success', 'Phân quyền thành công');
         return Redirect::route('users');
@@ -95,6 +97,7 @@ class UserController extends BaseController {
             $user->email = Input::get('email');
             $user->password = Hash::make(Input::get('password'));
             $user->sex = Input::get('sex');
+            $user->group_id = Input::get('group_id');
             $user->save();
             Session::flash('success', 'Sửa thành công thông tin nhân viên "' . $user->full_name . '"');
             return Redirect::route('users');

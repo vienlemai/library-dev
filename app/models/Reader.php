@@ -108,7 +108,7 @@ class Reader extends Eloquent {
     }
 
     public function circulations() {
-        return $this->hasMany('Circulation');
+        return $this->hasMany('Circulation')->where('returned','=',false);
     }
 
     public function representString() {

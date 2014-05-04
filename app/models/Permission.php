@@ -87,12 +87,7 @@ class Permission {
 
     public function check($action) {
         $user = Auth::user();
-        $permisions = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
-        $availbleRoutes = array();
-        foreach ($permisions as $p) {
-            $availbleRoutes = array_merge($availbleRoutes, self::$ACTIONS[$p]['routes']);
-        }
-        $availbleRoutes = array_merge($availbleRoutes, self::$SHARED_ROUTES);
+        $availbleRoutes = json_decode($user->routes);
         return in_array($action, $availbleRoutes);
     }
 

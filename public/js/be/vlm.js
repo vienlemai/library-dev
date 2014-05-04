@@ -27,7 +27,7 @@
 		return false;
 	});
 	$('[data-modal="show-modal"]').on('click', function(e) {
-		dataUrl = $(this).attr('data-url');
+		var dataUrl = $(this).attr('data-url');
 		$.get(dataUrl, function(result) {
 			$(result).modal();
 		});
@@ -79,11 +79,7 @@
 						type: 'POST',
 						dataType: 'json',
 						data: {barcode: barcode},
-						beforeSend: function() {
-							$(".loading").show();
-						},
 						success: function(result) {
-							$(".loading").hide();
 							if (result.status === true) {
 								cirHandle.focusOnBook();
 								cirHandle.readerId = result.reader_id;
@@ -100,7 +96,6 @@
 							}
 						},
 						error: function() {
-							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.readerId = 0;
 							cirHandle.focusOnReader();
@@ -112,7 +107,6 @@
 
 					});
 				} else {
-					$(".loading").hide();
 					cirHandle.readerId = 0;
 					cirHandle.$circulationReader.html(defaultCirReader);
 					cirHandle.$circulationBook.html(defaultCirBook);
@@ -131,11 +125,7 @@
 						type: 'POST',
 						dataType: 'json',
 						data: {barcode: barcode, readerId: cirHandle.readerId},
-						beforeSend: function() {
-							$(".loading").show();
-						},
 						success: function(result) {
-							$(".loading").hide();
 							if (result.status === true) {
 								cirHandle.bookItemId = result.book_item_id;
 								cirHandle.$circulationBook.html(result.book_html);
@@ -149,7 +139,6 @@
 							}
 						},
 						error: function() {
-							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.bookItemId = 0;
 							cirHandle.$circulationBook.html(defaultCirBook);
@@ -159,7 +148,6 @@
 
 					});
 				} else {
-					$(".loading").hide();
 					cirHandle.bookItemId = 0;
 					cirHandle.$circulationBook.html(defaultCirBook);
 					cirHandle.focusOnBook();
@@ -175,17 +163,12 @@
 						type: "POST",
 						dataType: "JSON",
 						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
-						beforeSend: function() {
-							$(".loading").show();
-						},
 						success: function(result) {
-							$(".loading").hide();
 							cirHandle.$circulationListBook.html(result.list_book_html);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
 						},
 						error: function() {
-							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
@@ -193,7 +176,6 @@
 						}
 					});
 				} else {
-					$(".loading").hide();
 					bootbox.alert('Thao tác mượn tài liệu không hợp lệ, vui lòng thử lai');
 					cirHandle.$circulationBook.html(defaultCirBook);
 					cirHandle.focusOnBook();
@@ -208,17 +190,12 @@
 						type: "POST",
 						dataType: "JSON",
 						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
-						beforeSend: function() {
-							$(".loading").show();
-						},
 						success: function(result) {
-							$(".loading").hide();
 							cirHandle.$circulationListBook.html(result.list_book_html);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
 						},
 						error: function() {
-							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
@@ -226,7 +203,6 @@
 						}
 					});
 				} else {
-					$(".loading").hide();
 					bootbox.alert('Thao tác mượn tài liệu không hợp lệ, vui lòng thử lai');
 					cirHandle.$circulationBook.html(defaultCirBook);
 					cirHandle.focusOnBook();
@@ -243,17 +219,12 @@
 						type: "POST",
 						dataType: "JSON",
 						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
-						beforeSend: function() {
-							$(".loading").show();
-						},
 						success: function(result) {
-							$(".loading").hide();
 							cirHandle.$circulationListBook.html(result.list_book_html);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
 						},
 						error: function() {
-							$(".loading").hide();
 							bootbox.alert(cirHandle.ajaxFailMsg);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
@@ -261,12 +232,19 @@
 						}
 					});
 				} else {
-					$(".loading").hide();
 					bootbox.alert('Thao tác gia hạn tài liệu không hợp lệ, vui lòng thử lai');
 					cirHandle.$circulationBook.html(defaultCirBook);
 					cirHandle.focusOnBook();
 					return false;
 				}
+			});
+
+			this.$circulationReader.on('click', '#reader-history', function() {
+				var dataUrl = $(this).attr('data-url');
+				$.get(dataUrl, function(result) {
+					$(result).modal();
+				});
+				return false;
 			});
 		}
 	};
@@ -359,11 +337,7 @@
 						url: $(this).attr('href'),
 						data: null,
 						type: "GET",
-						beforeSend: function() {
-							$paging.parents(tableHandle.contanerClass).find('span.loading').show();
-						},
 						success: function(result) {
-							$paging.parents(tableHandle.contanerClass).find('span.loading').hide();
 							$paging.parents(tableHandle.contanerClass).html(result);
 						},
 						error: function() {
@@ -394,11 +368,7 @@
 						url: dataUrl,
 						type: "GET",
 						data: searchParmas,
-						beforeSend: function() {
-							$input.parents(tableHandle.contanerClass).find('span.loading').show();
-						},
 						success: function(result) {
-							$input.parents(tableHandle.contanerClass).find('span.loading').hide();
 							$input.parents(tableHandle.contanerClass).html(result);
 						},
 						error: function() {
@@ -464,24 +434,31 @@
 
 							var form =
 									$('<form>', {
-								'method': 'POST',
-								'action': action,
-							});
+										'method': 'POST',
+										'action': action,
+									});
 							var tokenInput =
 									$('<input>', {
-								'type': 'hidden',
-								'name': '_token',
-								'value': token
-							});
+										'type': 'hidden',
+										'name': '_token',
+										'value': token
+									});
 							var hiddenInput =
 									$('<input>', {
-								'name': '_method',
-								'type': 'hidden',
-								'value': 'delete'
-							});
+										'name': '_method',
+										'type': 'hidden',
+										'value': 'delete'
+									});
 							form.append(tokenInput, hiddenInput).hide().appendTo('body').submit();
 							//console.log(form.html());
 						}
+					});
+					return false;
+				});
+				$(this).on('click', '[data-modal="show-modal"]', function() {
+					var dataUrl = $(this).attr('data-url');
+					$.get(dataUrl, function(result) {
+						$(result).modal();
 					});
 					return false;
 				});

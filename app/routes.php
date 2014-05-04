@@ -81,6 +81,11 @@ Route::get('inventory/search', array(
     'uses' => 'InventoryController@search'
 ));
 
+Route::get('reader/history/{id}', array(
+    'as' => 'reader.history',
+    'uses' => 'ReaderController@history'
+));
+
 
 /**
  * routers for get request that need to authenticate to continute

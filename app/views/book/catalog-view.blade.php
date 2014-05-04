@@ -42,9 +42,9 @@
                         <?php if ($book->status == Book::SS_DISAPPROVED) : ?>
                             <a href="{{route('book.edit',$book->id)}}" class="btn btn-primary">Sửa lỗi</a>
                         <?php elseif ($book->status == Book::SS_ADDED): ?>
-                            <a href="{{route('book.edit',$book->id)}}" class="btn btn-primary">Chỉnh sửa</a>
-                            <a href="#" onclick="window.open('{{route('book.barcode',$book->id)}}')" class="btn btn-primary"><i class="icon-print"></i> In mã vạch</a>
+                            <a href="{{route('book.edit',$book->id)}}" class="btn btn-primary">Chỉnh sửa</a>                            
                         <?php endif; ?>
+                        <a href="#" onclick="window.open('{{route('book.barcode',$book->id)}}')" class="btn btn-primary"><i class="icon-print"></i> In mã vạch</a>
                     </div>
 
                 </div>
