@@ -80,12 +80,19 @@ Route::get('inventory/search', array(
     'as' => 'inventory.search',
     'uses' => 'InventoryController@search'
 ));
+<<<<<<< HEAD
+Route::get('activity/search', array(
+    'as' => 'activity.search',
+    'uses' => 'ActivityController@search',
+));
+=======
 
 Route::get('reader/history/{id}', array(
     'as' => 'reader.history',
     'uses' => 'ReaderController@history'
 ));
 
+>>>>>>> 55a153eb060f29103cb852ebf8ba126c94416690
 
 /**
  * routers for get request that need to authenticate to continute
@@ -217,7 +224,6 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'statistics.book',
         'uses' => 'StatisticsController@book',
     ));
-
     Route::get('users', array(
         'as' => 'users',
         'uses' => 'UserController@index'

@@ -134,3 +134,6 @@
     opacity:0.1}
 
 } 
+ul.pagination {
+	margin: 0;
+}

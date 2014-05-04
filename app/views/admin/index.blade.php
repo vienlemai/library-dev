@@ -9,33 +9,12 @@
     </div>
     <div class='content'>
         <div class='row-fluid'>
-            <div class='span7'>
-                <div class='block'>
-                    <div class='head'>
-                        <h2>Hoạt động gần nhất</h2>
-                    </div>
-                    <div class='content'>
-                        <?php foreach ($activities as $activity) : ?>
-                            <?php $author = $activity->author ?>
-                            <?php $object = $activity->getObject() ?>
-                            <p>
-                                <span class='muted activity-time'>
-                                    <?php echo $activity->getTime() ?>
-                                </span>
-                                <?php echo $author->group->name ?>
-                                <span class='username'>
-                                    <?php echo $author->full_name ?>
-                                </span>
-                                <?php echo $activity->actionInString() ?>
-                                <span class='document-title'>
-                                    <?php echo $object->representString() ?>
-                                </span>
-                            </p>
-                        <?php endforeach; ?>
-                    </div>
+            <div class='span9'>
+                <div class='block table-container'>
+                  @include('activity._listing')
                 </div>
             </div>
-            <div class='span5'>
+            <div class='span3'>
                 <div class='block'>
                     <div class='head'>
                         <h2>

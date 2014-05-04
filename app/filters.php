@@ -55,6 +55,7 @@ App::after(function($request, $response) {
  */
 
 Route::filter('auth', function() {
+
     if (!Auth::check()) {
         Session::put('url.intended', URL::full());
         return Redirect::route('login');
