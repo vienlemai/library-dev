@@ -50,6 +50,7 @@ class Permission {
                 'readers',
                 'reader.create',
                 'reader.view',
+                'reader.edit',
                 'reader.card',
                 'reader.pause',
                 'reader.unpause',

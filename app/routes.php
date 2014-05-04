@@ -153,6 +153,11 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'reader.pause',
         'uses' => 'ReaderController@pause'
     ));
+    Route::get('reader/edit/{id}', array(
+        'as' => 'reader.edit',
+        'uses' => 'ReaderController@edit'
+    ));
+
     Route::get('reader/unpause/{id}', array(
         'as' => 'reader.unpause',
         'uses' => 'ReaderController@unpause',
@@ -269,6 +274,10 @@ Route::group(array('before' => 'auth|csrf'), function () {
     Route::post('reader/save', array(
         'as' => 'reader.save',
         'uses' => 'ReaderController@save',
+    ));
+    Route::post('reader/update/{id}', array(
+        'as' => 'reader.update',
+        'uses' => 'ReaderController@update'
     ));
 //configs
     Route::post('config/update', array(

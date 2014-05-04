@@ -94,4 +94,16 @@ class ReaderController extends \BaseController {
         return View::make('reader.partials.history', array('reader' => $reader, 'circulations' => $circulations));
     }
 
+    public function edit($id) {
+        $reader = Reader::findOrFail($id);
+        return View::make('reader.edit', array('reader' => $reader));
+    }
+
+    public function update($id) {
+        $reader = Reader::findOrFail($id);
+        $reader->update(Input::all());
+        Session::flash('success', 'Lưu thành công thông tin bạn đọc "' . $reader->full_name . '"');
+        return Redirect::route('readers');
+    }
+
 }

@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class='space'></div>
+        @include('partials.flash')	
         <div class='row-fluid'>
             <div class='block table-container'>
                 <div class='head'>
@@ -88,6 +88,10 @@
                                         <a class='text-info' href="{{route('reader.view',$reader->id)}}">
                                             <i class='i-magnifier'></i>
                                             Xem
+                                        </a>
+                                        <a class='text-warning' href="{{route('reader.edit',$reader->id)}}">
+                                            <i class='i-pencil'></i>
+                                            Sửa
                                         </a>
                                     </td>
                                 </tr>

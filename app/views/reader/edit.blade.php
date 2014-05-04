@@ -4,7 +4,7 @@
 <div class="wrap">
     <div class='head'>
         <div class='page-title'>
-            Thêm mới bạn đọc
+            Chỉnh sửa thông tin bạn đọc
         </div>
         <div class='page-tools'>
             <ul>
@@ -24,7 +24,13 @@
                     <h2>Nhập thông tin bạn đọc</h2>
                 </div>
                 <div class='content'>
-                    @include('partials.flash')                   
+                    @include('partials.flash')
+                    <?php if ($errors->has('avatar')): ?>
+                        <div class="alert alert-error upload-error">           
+                            {{$errors->first('avatar')}}
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                        </div>
+                    <?php endif; ?>
                     <div class="span4">
                         <form action="{{route('upload.image')}}" upload-type="readers" class="form-horizontal form-upload-image" method="POST">
                             <div class="control-group">
@@ -35,7 +41,7 @@
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <img class="image-preview" src="{{asset('img/no_avatar.gif')}}" width="100" height="100"/>
+                                    <img class="image-preview" src="{{asset($reader->avatar)}}" width="100" height="100"/>
                                 </div>
                             </div>
                             <input type="hidden" class="crsf-token" name="token" value="{{Session::token()}}"/>	
@@ -50,53 +56,57 @@
                         </div>
                     </div>
                     <div class="span8">
-                        <?php if ($errors->has('avatar')): ?>
-                            <div class="alert alert-error upload-error">           
-                                {{$errors->first('avatar')}}
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                            </div>
-                        <?php endif; ?>
 
-                        {{ Former::horizontal_open(route('reader.save'))->method('POST') }}
+                        {{ Former::horizontal_open(route('reader.update',$reader->id))->method('POST') }}
                         {{Former::xlarge_text('full_name')
-                        ->label('Họ tên (*)')
+                            ->label('Họ tên (*)')
+                            ->value($reader->full_name)
                         }}
 
                         {{Former::xlarge_text('year_of_birth')
-                        ->label('Ngày sinh')
-                        ->class('datepicker')
+                            ->label('Ngày sinh')
+                            ->class('datepicker')
+                            ->value($reader->year_of_birth)
                         }}
 
                         {{Former::xlarge_text('hometown')
-                        ->label('Quê quán')
+                            ->label('Quê quán')
+                            ->value($reader->hometown)
                         }}
 
                         {{Former::xlarge_text('class')
-                        ->label('Lớp (*)')
+                            ->label('Lớp (*)')
+                            ->value($reader->class)
                         }}
 
                         {{Former::xlarge_text('school_year')
-                        ->label('Niên khóa')
+                            ->label('Niên khóa')
+                            ->value($reader->school_year)
                         }}
 
                         {{Former::xlarge_text('subject')
-                        ->label('Chuyên ngành')
+                            ->label('Chuyên ngành')
+                            ->value($reader->subject)
                         }}
 
                         {{Former::xlarge_text('email')
-                        ->label('Email (*)')
+                            ->label('Email (*)')
+                            ->value($reader->email)
                         }}
 
                         {{Former::xlarge_text('phone')
-                        ->label('Điện thoại')
+                            ->label('Điện thoại')
+                            ->value($reader->phone)
                         }}
 
                         {{Former::actions()
-                        ->primary_submit('Lưu')
-                        ->inverse_reset('Nhập lại')
+                            ->primary_submit('Lưu')
+                            ->inverse_reset('Nhập lại')
                         }}
                         {{Former::hidden('avatar')
-                        ->class('image_path')
+                            ->class('image_path')
+                            ->value($reader->avatar)
+                            
                         }}
 
                         {{Former::close();
