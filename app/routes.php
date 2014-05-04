@@ -85,6 +85,11 @@ Route::get('reader/history/{id}', array(
     'as' => 'reader.history',
     'uses' => 'ReaderController@history'
 ));
+//activities
+Route::get('activity/search', array(
+    'as' => 'activity.search',
+    'uses' => 'ActivityController@search',
+));
 
 
 /**
@@ -231,11 +236,6 @@ Route::group(array('before' => 'auth'), function () {
     Route::get('user/edit/{id}', array(
         'as' => 'user.edit',
         'uses' => 'UserController@edit',
-    ));
-    //activities
-    Route::get('activity/search', array(
-        'as' => 'activity.search',
-        'uses' => 'ActivityController@search',
     ));
 });
 
