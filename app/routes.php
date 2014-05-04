@@ -80,7 +80,10 @@ Route::get('inventory/search', array(
     'as' => 'inventory.search',
     'uses' => 'InventoryController@search'
 ));
-
+Route::get('activity/search', array(
+    'as' => 'activity.search',
+    'uses' => 'ActivityController@search',
+));
 
 /**
  * routers for get request that need to authenticate to continute
@@ -207,7 +210,6 @@ Route::group(array('before' => 'auth'), function () {
         'as' => 'statistics.book',
         'uses' => 'StatisticsController@book',
     ));
-
     Route::get('users', array(
         'as' => 'users',
         'uses' => 'UserController@index'
