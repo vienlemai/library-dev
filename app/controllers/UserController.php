@@ -28,7 +28,7 @@ class UserController extends BaseController {
                 $user->password = Hash::make(Input::get('password'));
                 $user->save();
                 Session::flash('success', 'Tạo mới thành công nhân viên "' . $user->full_name . '"');
-                return Redirect::route('uses');
+                return Redirect::route('users');
             } else {
                 Session::flash('error', 'Tên đăng nhập này đã tồn tại');
                 return Redirect::back()->withInput();
