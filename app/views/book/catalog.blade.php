@@ -98,7 +98,7 @@
         </div>
     </div>
 
-</div>
+</div> 
 @stop
 @if(false)
 <div class='head'>
