@@ -2,7 +2,7 @@
 	<h2>Hiển thị {{$books->count()}}/{{$books->getTotal()}} tài liệu</h2>
 	<div class='toolbar-table-right'>
 		<div class='input-append'>
-			<input placeholder='Tìm kiếm ...' type="text" value="<?php echo isset($keyword) ? $keyword : '' ?>" class="table-search-input" book-type="{{Book::SS_ADDED }}" data-url="{{route('book.catalog.search')}}">
+			<input placeholder='Tìm kiếm ...' type="text" value="<?php echo isset($keyword) ? $keyword : '' ?>" class="table-search-input" book-type="{{Book::SS_SUBMITED }}" data-url="{{route('book.catalog.search')}}">
 			<button class="btn" type="button">
 				<span class='icon-search'></span>
 			</button>
@@ -37,10 +37,6 @@
 	</table>
 </div>
 <div class='footer'>
-	<span class="loading" style="margin-left: 50px; display: none">
-		<img src="{{asset('img/loading.gif')}}"/>
-		Đang tải . . .
-	</span>
 	<div class='side fr'>
 		<div class='pagination'>
 			@if(isset($keyword))

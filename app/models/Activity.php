@@ -119,6 +119,7 @@ class Activity extends Eloquent {
     }
 
     public static function write($author, $activity_code, $object) {
+        # FIXME, check the class of $author is IAuthorActivity
         self::create(array(
             'code' => $activity_code,
             'author_id' => $author->id,
