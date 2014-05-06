@@ -131,7 +131,11 @@ class BookController extends \BaseController {
         $storageOptions = new Storage();
         $node = Storage::where('id', '=', $book->storage)->first();
         $path = $storageOptions->getPath($node);
-        return View::make('book.partials.library.view', array('book' => $book, 'path' => $path));
+        if ($book->isBook()) {
+            return View::make('book.partials.library.view_book', array('book' => $book, 'path' => $path));
+        } else {
+            return View::make('book.partials.library.view_magazine', array('book' => $book, 'path' => $path));
+        }
     }
 
     /**
@@ -219,28 +223,41 @@ class BookController extends \BaseController {
      *
      * @return Response
      */
-    public function create() {
+    public function create($type) {
         $storageOptions = new Storage();
-        $this->layout->content = View::make('book.create', array(
-                'storageOptions' => $storageOptions->render(),
-                'levels' => Book::$LEVELS,
-        ));
+        if ($type == Book::TYPE_BOOK) {
+            return View::make('book.partials.create_book', array(
+                    'storageOptions' => $storageOptions->render(),
+                    'levels' => Book::$LEVELS,
+                    'type' => $type
+            ));
+        } else {
+            return View::make('book.partials.create_magazine', array(
+                    'storageOptions' => $storageOptions->render(),
+                    'levels' => Book::$LEVELS,
+                    'type' => $type
+            ));
+        }
     }
 
     /**
      * Validate book data from from, if pass then save data to database
      */
-    public function save() {
-        $v = Book::validate(Input::all());
-        $time = time();
-        // FIXME: Please constantize the numbers below
-        $vnCode = '893';
-        $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+    public function save($type) {
+        if ($type == Book::TYPE_BOOK) {
+            $v = Book::bookValidate(Input::all());
+        } else {
+            $v = Book::magazineValidate(Input::all());
+        }
         if ($v->passes()) {
+            $time = time();
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
             // If the 'fillable' array is defined, 
             // I think we don't need to assign the fields one by one from Input
             $book = new Book(Input::all());
             $book->barcode = $random;
+            $book->book_type = $type;
             if ($book->save()) {
                 for ($i = 1; $i <= $book->number; $i++) {
                     $code = $random . sprintf("%03s", $i);
@@ -258,7 +275,7 @@ class BookController extends \BaseController {
                 return Redirect::route('book.create');
             }
         } else {
-            return Redirect::route('book.create')->withInput()->withErrors($v->messages());
+            return Redirect::back()->withInput()->withErrors($v->messages());
         }
     }
 
@@ -291,7 +308,7 @@ class BookController extends \BaseController {
         $storageOptions = new Storage();
         $node = Storage::where('id', '=', $book->storage)->first();
         $path = $storageOptions->getPath($node);
-        $this->layout->content = View::make('book.catalog-view', array(
+        $this->layout->content = View::make('book.catalog_view', array(
                 'book' => $book,
                 'levels' => Book::$LEVELS,
                 'path' => $path,
@@ -341,32 +358,19 @@ class BookController extends \BaseController {
      * @return Response
      */
     public function update($id) {
-        $v = Book::validate(Input::all());
+        $book = Book::findOrFail($id);
+        if ($book->isBook()) {
+            $v = Book::bookValidate(Input::all());
+        } else {
+            $v = Book::magazineValidate(Input::all());
+        }
+
         $time = time();
         $vnCode = '893';
         # Why we don't use the old barcode ?
         $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
-            $book = Book::find($id);
-            $book->title = Input::get('title');
-            $book->sub_title = Input::get('sub_title');
-            $book->author = Input::get('author');
-            $book->translator = Input::get('translator');
-            $book->publish_info = Input::get('publish_info');
-            $book->publisher = Input::get('publisher');
-            $book->printer = Input::get('printer');
-            $book->pages = Input::get('pages');
-            $book->size = Input::get('size');
-            $book->attach = Input::get('attach');
-            $book->organization = Input::get('organization');
-            $book->language = Input::get('language');
-            $book->cutter = Input::get('cutter');
-            $book->type_number = Input::get('type_number');
-            $book->price = Input::get('price');
-            $book->storage = Input::get('storage');
-            $book->number = Input::get('number');
-            $book->level = Input::get('level');
-            $book->another_infor = Input::get('another_infor');
+            $book->update(Input::all());
             $book->barcode = $random;
             if ($book->status == Book::SS_DISAPPROVED) {
                 $book->status = Book::SS_SUBMITED;
@@ -442,4 +446,5 @@ class BookController extends \BaseController {
         Session::flash('success', 'Đã báo lỗi thành công tài liệu ' . $book->title);
         return Redirect::route('book.moderate');
     }
+
 }

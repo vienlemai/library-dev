@@ -29,6 +29,16 @@ class Book extends Eloquent {
      */
     const SS_PUBLISHED = 3;
 
+    /**
+     * type book
+     */
+    const TYPE_BOOK = 1;
+
+    /**
+     * type magazine
+     */
+    const TYPE_MAGAZINE = 2;
+
     //labels of a book for cataloger
     public static $CAT_SS_LABELS = array(
         0 => 'Đang biên mục',
@@ -95,16 +105,22 @@ class Book extends Eloquent {
         'number',
         'level',
         'another_infor',
-        'status'
+        'status',
+        'magazine_number',
+        'magazine_publish_day',
+        'magazine_additional',
+        'magazine_special',
+        'magazine_local',
+        'book_type',
     );
 
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                $book->status = Book::SS_ADDED;
-                $book->created_by = Auth::user()->id;
-                $book->barcode_printed = 0;
-            });
+            $book->status = Book::SS_ADDED;
+            $book->created_by = Auth::user()->id;
+            $book->barcode_printed = 0;
+        });
     }
 
     /*
@@ -127,7 +143,7 @@ class Book extends Eloquent {
         // Write publish book event
         Activity::write(Auth::user(), Activity::PUBLISHED_BOOK, $this);
     }
-    
+
     public function disapprove($reason) {
         $this->status = self::SS_DISAPPROVED;
         $this->error_reason = $reason;
@@ -135,11 +151,12 @@ class Book extends Eloquent {
         // Write disapprove book event
         Activity::write(Auth::user(), Activity::DISAPPROVED_BOOK, $this);
     }
+
     /*
      * Static functions goes from here
      */
 
-    public static function validate($input) {
+    public static function bookValidate($input) {
         $rules = array(
             'title' => 'required|min:5',
             'author' => 'required',
@@ -157,8 +174,32 @@ class Book extends Eloquent {
         return Validator::make($input, $rules, $messages);
     }
 
+    public static function magazineValidate($input) {
+        $rules = array(
+            'title' => 'required|min:5',
+            'number' => 'required|integer|min:1',
+            'storage' => 'required',
+        );
+
+        $messages = array(
+            'title.min' => 'tối thiểu :min ký tự',
+            'min' => 'xin nhập tối thiểu :min',
+            'required' => 'không được để trống',
+            'integer' => 'xin nhập vào số nguyên'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
+
     public function representString() {
         return $this->title;
+    }
+
+    public function isBook() {
+        return $this->book_type == self::TYPE_BOOK ? true : false;
+    }
+
+    public function isMagazine() {
+        return $this->book_type == self::TYPE_MAGAZINE ? true : false;
     }
 
 }

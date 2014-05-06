@@ -61,7 +61,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
         static::saved(function($user) {
             Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
         });
-          
     }
 
     public function catalogers() {
@@ -99,6 +98,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
         return $this->email;
     }
 
+    public function getRememberToken() {
+        
+    }
+
+    public function getRememberTokenName() {
+        
+    }
+
+    public function setRememberToken($value) {
+        
+    }
+
     public function getSexAttribute($value) {
         return $value == 0 ? 'Nam' : 'Nữ';
     }
@@ -110,7 +121,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
     public function authorType() {
         return $this->group->name;
     }
-    public function representString(){
+
+    public function representString() {
         return $this->full_name;
     }
+
 }

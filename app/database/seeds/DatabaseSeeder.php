@@ -115,7 +115,7 @@ class UserTableSeeder extends Seeder {
         DB::table('groups')->truncate();
         $group = new Group(array(
             'name' => 'Quản trị',
-            'permissions' => json_encode(array(1, 2, 3, 4, 5)),
+            'permissions' => json_encode(array(1, 2, 3, 4, 5, 6)),
         ));
         $group->save();
         $user = new User(array(
@@ -135,52 +135,16 @@ class UserTableSeeder extends Seeder {
             'permissions' => json_encode(array(1)),
         ));
         $group->save();
-        $user = new User(array(
-            'username' => 'bienmuc',
-            'email' => 'bienmuc@email.com',
-            'password' => Hash::make('123456'),
-            'full_name' => 'Biên mục viên',
-            'sex' => 1,
-            'date_of_birth' => '',
-            'group_id' => $group->id,
-            'remember_token' => '',
-            'permissions' => json_encode(array())
-        ));
-        $user->save();
         $group = new Group(array(
             'name' => 'Kiểm duyệt',
             'permissions' => json_encode(array(2)),
         ));
         $group->save();
-        $user = new User(array(
-            'username' => 'kiemduyet',
-            'email' => 'kiemduyet@email.com',
-            'password' => Hash::make('123456'),
-            'full_name' => 'Kiểm duyệt viên',
-            'sex' => 1,
-            'date_of_birth' => '',
-            'group_id' => $group->id,
-            'remember_token' => '',
-            'permissions' => json_encode(array())
-        ));
-        $user->save();
         $group = new Group(array(
             'name' => 'Thủ thư',
             'permissions' => json_encode(array(3)),
         ));
         $group->save();
-        $user = new User(array(
-            'username' => 'thuthu',
-            'email' => 'thuthu@email.com',
-            'password' => Hash::make('123456'),
-            'full_name' => 'Thủ thư',
-            'sex' => 1,
-            'date_of_birth' => '',
-            'group_id' => $group->id,
-            'remember_token' => '',
-            'permissions' => json_encode(array())
-        ));
-        $user->save();
     }
 
 }

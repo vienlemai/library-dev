@@ -91,12 +91,6 @@
 
 								{{Former::xlarge_text('type_number')
 									->label('Số phân loại')
-								}}
-
-								<!--								{{Former::xlarge_text('barcode')
-																	->label('Mã vạch')
-																	->disabled('disabled')
-																}}-->
 
 								{{Former::xlarge_text('price')
 									->label('Giá tiền')

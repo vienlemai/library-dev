@@ -30,6 +30,21 @@ class Reader extends Eloquent implements IActivityAuthor {
     const SS_EXPIRED_BOOK = 3;
 
     /**
+     * teacher
+     */
+    const TYPE_TEACHER = 1;
+
+    /**
+     * staff
+     */
+    const TYPE_STAFF = 2;
+
+    /**
+     * student
+     */
+    const TYPE_STUDENT = 3;
+
+    /**
      * Avatar directory relative path
      */
     const AVATAR_DIR_PATH = 'img/readers/';
@@ -108,7 +123,7 @@ class Reader extends Eloquent implements IActivityAuthor {
     }
 
     public function circulations() {
-        return $this->hasMany('Circulation')->where('returned','=',false);
+        return $this->hasMany('Circulation')->where('returned', '=', false);
     }
 
     public function representString() {
@@ -122,4 +137,16 @@ class Reader extends Eloquent implements IActivityAuthor {
     public function authorType() {
         return 'Bạn đọc';
     }
+    
+    public function isTeacher(){
+        return $this->reader_type == self::TYPE_TEACHER;
+    }
+    public function isStaff(){
+        return $this->reader_type == self::TYPE_STAFF;
+    }
+    
+    public function isStudent(){
+        return $this->reader_type == self::TYPE_STUDENT;
+    }
+
 }

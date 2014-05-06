@@ -70,6 +70,19 @@ class Permission {
             ),
         ),
         5 => array(
+            'title' => 'Thống kê tài liệu',
+            'menus' => array(
+                'inventory.index' => 'Thống kê bạn đọc',
+                'inventory.create' => 'Thống kê tài liệu',
+            ),
+            'routes' => array(
+                'inventory.index',
+                'inventory.create',
+                'inventory.execute',
+                'inventory.result',
+            ),
+        ),
+        6 => array(
             'title' => 'Cấu hình hệ thống',
             'menus' => array(
                 'configs' => 'Cấu hình',

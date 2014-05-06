@@ -96,7 +96,7 @@ Route::get('activity/search', array(
  * routers for get request that need to authenticate to continute
  */
 Route::group(array('before' => 'auth'), function () {
-    Route::get('book/create', array(
+    Route::get('book/create/{type}', array(
         'as' => 'book.create',
         'uses' => 'BookController@create'
     ));
@@ -245,7 +245,7 @@ Route::group(array('before' => 'auth'), function () {
  */
 Route::group(array('before' => 'auth|csrf'), function () {
 //book save
-    Route::post('book/save', array(
+    Route::post('book/save/{type}', array(
         'as' => 'book.save',
         'uses' => 'BookController@save',
     ));

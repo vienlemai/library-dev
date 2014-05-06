@@ -9,10 +9,14 @@
         <div class='page-tools'>
             <ul>
                 <li>
-                    <a class='btn btn-small btn-primary' href='{{route('book.create')}}'>
-                       <i class='i-plus-2'></i>
-                        Thêm mới
-                    </a>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class='i-plus-2'></i>Thêm mới tài liệu</button>
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('book.create',Book::TYPE_BOOK)}}">Sách</a></li>
+                            <li><a href="{{route('book.create',Book::TYPE_MAGAZINE)}}">Tạp chí/biểu mẫu</a></li>
+                        </ul>                                                    
+                    </div>
                 </li>
             </ul>
         </div>
@@ -97,7 +101,6 @@
             </div>
         </div>
     </div>
-
 </div> 
 @stop
 @if(false)
@@ -146,11 +149,11 @@
                                 Xem
                             </a>
                             <a class='text-warning' href='{{route('book.edit',$book->id)}}'>
-                               <i class='i-pencil'></i>
+                                <i class='i-pencil'></i>
                                 Sửa
                             </a>
                             <a class='text-error' href='{{route('book.delete',$book->id)}}' data-confirm="Bạn có chắc chắn muốn xóa tài liệu {{$book->title}}" data-method="delete" data-token="{{csrf_token()}}">
-                               <i class='i-cancel-2'></i>
+                                <i class='i-cancel-2'></i>
                                 Xóa
                             </a>			
                         </div>
