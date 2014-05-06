@@ -32,6 +32,33 @@ $(function() {
 		$(this).closest('form').trigger('submit');
 	});
 
+	/* Check forms with at-least-one checkboxes */
+	$('form').submit(function() {
+		$_thisForm = $(this);
+		var valid = true;
+		$_atLeastCheckboxes = $_thisForm.find('.at-least-one');
+		if ($_atLeastCheckboxes.length !== 0) {
+			valid = false;
+			$_atLeastCheckboxes.each(function() {
+				if ($(this).is(':checked') === true) {
+					valid = true;
+				}
+			});
+		}
+		if (!valid) {
+			bootbox.alert('Vui lòng chọn ít nhất 1 một mục');
+		}
+		return valid;
+	});
+
+	/* Handler checkall checkboxes */
+	$(document).on('change', '.checkall', function() {
+		$_this = $(this);
+		$_checkboxesContainer = $($_this.data('checkall-for'));
+		$_checkboxesContainer.find('input[type="checkbox"]').each(function() {
+			$(this).prop('checked', $_this.is(':checked'));
+		});
+	});
 	/* Toggle loading indicator */
 	$(document).ajaxStart(function() {
 		Helper.togglePageLoadingIndicator(true);

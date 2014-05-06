@@ -9,82 +9,57 @@
     </div>
     <div class='content'>
         <div class='row-fluid'>
-            <div class='span5'>
-                <div class='content-row'>
-                    <div class='span5'>
-                        Tổng số bạn đọc:
-                    </div>
-                    <div class='span4'>
-                        <?php echo $result['readers_count'] ?>
-                    </div>
-                </div>
-                <div class='content-row'>
-                    <div class='span5'>
-                        Bạn đọc đang mượn:
-                    </div>
-                    <div class='span4'>
-                        <?php echo $result['borrowing_readers_count'] ?>
-                    </div>
-                </div>
-                <div class='content-row'>
-                    <div class='span5'>
-                        Số lượt mượn:
-                    </div>
-                    <div class='span4'>
-                        <?php echo $result['borrow_times_count'] ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class='row-fluid'>
             <div class='block'>
                 <div class='head'>
-                    <h2>Tùy chọn thống kê</h2>
+                    <h2>Chọn các danh mục thống kê</h2>
+                    <div class="buttons">
+                        <label class='checkbox inline'>
+                            <input type='checkbox' class="checkall" checked data-checkall-for="#statistics-reader-options">
+                            Toàn bộ &nbsp;
+                        </label>
+                    </div>
                 </div>
                 <div class='content'>
-                    <div class='span12'>
+                    <div class='span12' id="statistics-reader-options">
                         <?php
-                        echo Former::horizontal_open(route('statistics.reader'))->method('POST')
-                            ->class('form-ajax')->data_update_html_for('#result-container')
+                        Former::framework('Nude');
+                        echo Former::inline_open(route('statistics.reader'))->method('POST')
+                            ->class('form-ajax')->data_update_html_for('#statistics-result-container')
+                            ->id('form-statistics-options')
 
                         ?>
-                        <div class='span4'>
-                            <div class='controls-row'>
-                                <div class='span3'>
-                                    Từ ngày:
-                                </div>
-                                <div class='span8'>
-                                    <input class='datepicker' name='start_date' type='text'>
-                                </div>
-                            </div>
+                        <?php Former::token() ?>
+                        <input name='all_readers' type='hidden' value="0">
+                        <input name='borrowing_readers' type='hidden' value="0">
+                        <input name='borrowing_times' type='hidden' value="0">
+                        <div class='span3'>
+                            <label class='checkbox inline'>
+                                <input name='all_readers' checked type='checkbox' value="1" class="at-least-one">
+                                Tổng số bạn đọc
+                            </label>
                         </div>
-                        <div class='span4'>
-                            <div class='controls-row'>
-                                <div class='span3'>
-                                    Đến ngày:
-                                </div>
-                                <div class='span8'>
-                                    <input class='datepicker' name='end_date' type='text'>
-                                </div>
-                            </div>
+
+                        <div class='span3'>
+                            <label class='checkbox inline'>
+                                <input name='borrowing_readers' checked type='checkbox' value="1" class="at-least-one">
+                                Tổng số bạn đọc đang mượn
+                            </label>
                         </div>
-                        <div class='span2'>
-                            <div class='controls-row'>
-                                <label class='checkbox inline'>
-                                    <input name='whole' type='checkbox'>
-                                    Toàn bộ
-                                </label>
-                            </div>
+                        <div class='span3'>
+                            <label class='checkbox inline'>
+                                <input name='borrowing_times' checked type='checkbox' value="1" class="at-least-one">
+                                Tổng số lượt mượn
+                            </label>
                         </div>
                         <div class='span2'>
                             <div class='controls-row'>
                                 <button class='btn btn-primary' type='submit'>Xem thống kê</button>
                             </div>
                         </div>
-                        <?php Former::token() ?>
+
                         <?php Former::close() ?>
                     </div>
-                    <div class='span5' id="result-container">
+                    <div class='' id="statistics-result-container">
                     </div>
                 </div>
             </div>
