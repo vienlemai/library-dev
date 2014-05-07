@@ -9,12 +9,12 @@
     </div>
     <div class='content'>
         <div class='row-fluid'>
-            <div class='span9'>
+            <div class='span12'>
                 <div class='block table-container'>
                   @include('activity._listing')
                 </div>
             </div>
-            <div class='span3'>
+<!--            <div class='span3'>
                 <div class='block'>
                     <div class='head'>
                         <h2>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class='row-fluid'>
             <div class='block'>

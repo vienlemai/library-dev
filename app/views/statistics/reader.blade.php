@@ -14,8 +14,8 @@
                     <h2>Chọn các danh mục thống kê</h2>
                     <div class="buttons">
                         <label class='checkbox inline'>
-                            <input type='checkbox' class="checkall" checked data-checkall-for="#statistics-reader-options">
-                            Toàn bộ &nbsp;
+                            <!--<input type='checkbox' class="checkall" checked data-checkall-for="#statistics-reader-options">-->
+                            <!--Toàn bộ &nbsp;-->
                         </label>
                     </div>
                 </div>

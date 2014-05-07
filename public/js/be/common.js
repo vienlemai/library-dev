@@ -59,6 +59,15 @@ $(function() {
 			$(this).prop('checked', $_this.is(':checked'));
 		});
 	});
+
+	/* Export excel buttons */
+	$(document).on('click', '.btn-export-excel', function() {
+		$_thisButton = $(this);
+		if ($_thisButton.data('table')) {
+			ExcellentExport.excel(this, $_thisButton.data('table'), 'Sheet1');
+		}
+	});
+
 	/* Toggle loading indicator */
 	$(document).ajaxStart(function() {
 		Helper.togglePageLoadingIndicator(true);
