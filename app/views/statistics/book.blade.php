@@ -39,48 +39,40 @@
         <div class='row-fluid'>
             <div class='block'>
                 <div class='head'>
-                    <h2>Tùy chọn thống kê</h2>
+                    <h2>Chọn các danh mục thống kê</h2>
                 </div>
                 <div class='content'>
-                    <div class='span12'>
-                        <form url='/'>
-                            <div class='span4'>
-                                <div class='controls-row'>
-                                    <div class='span4'>
-                                        Từ ngày:
-                                    </div>
-                                    <div class='span8'>
-                                        <input class='datepicker' name='start_date' type='text'>
-                                    </div>
-                                </div>
+                    <div class='span12' id="statistics-reader-options">
+                        <?php
+                        Former::framework('Nude');
+                        echo Former::inline_open(route('statistics.book'))->method('POST')
+                            ->class('form-ajax')->data_update_html_for('#statistics-result-container')
+
+                        ?>
+                        <?php Former::token() ?>
+                        <input name='all_books' type='hidden' value="0">
+                        <input name='storages' type='hidden' value="0">
+                        <div class='span3'>
+                            <label class='checkbox inline'>
+                                <input name='all_books' checked type='checkbox' value="1" class="at-least-one">
+                                Tổng số tài liệu
+                            </label>
+                        </div>
+                        <div class='span3'>
+                            <label class='checkbox inline'>
+                                <input name='storages' checked type='checkbox' value="1" class="at-least-one">
+                                Tài liệu trong kho
+                            </label>
+                        </div>
+                        <div class='span2'>
+                            <div class='controls-row'>
+                                <button class='btn btn-primary' type='submit'>Xem thống kê</button>
                             </div>
-                            <div class='span4'>
-                                <div class='controls-row'>
-                                    <div class='span4'>
-                                        Đến ngày:
-                                    </div>
-                                    <div class='span8'>
-                                        <input class='datepicker' name='end_date' type='text'>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class='span2'>
-                                <div class='controls-row'>
-                                    <label class='checkbox inline'>
-                                        <input name='whole' type='checkbox'>
-                                        Toàn bộ
-                                    </label>
-                                </div>
-                            </div>
-                            <div class='span2'>
-                                <div class='controls-row'>
-                                    <button class='btn btn-primary' type='submit'>Xem thống kê</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+
+                        <?php Former::close() ?>
                     </div>
-                    <div class='result-wrapper span5'>
-                      
+                    <div id="statistics-result-container">
                     </div>
                 </div>
             </div>

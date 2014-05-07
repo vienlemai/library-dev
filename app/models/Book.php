@@ -92,6 +92,18 @@ class Book extends Eloquent {
         return $this->belongsTo('User', 'published_by');
     }
 
+    /*
+     * Scopes
+     */
+
+    public function scopeBooks($query) {
+        return $query->where('book_type', self::TYPE_BOOK);
+    }
+
+    public function scopeMagazines($query) {
+        return $query->where('book_type', self::TYPE_MAGAZINE);
+    }
+
     /**
      * Security fillable
      */
@@ -133,10 +145,10 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-            $book->status = Book::SS_ADDED;
-            $book->created_by = Auth::user()->id;
-            $book->barcode_printed = 0;
-        });
+                $book->status = Book::SS_ADDED;
+                $book->created_by = Auth::user()->id;
+                $book->barcode_printed = 0;
+            });
     }
 
     /*
@@ -211,11 +223,11 @@ class Book extends Eloquent {
     }
 
     public function isBook() {
-        return $this->book_type == self::TYPE_BOOK ? true : false;
+        return $this->book_type == self::TYPE_BOOK;
     }
 
     public function isMagazine() {
-        return $this->book_type == self::TYPE_MAGAZINE ? true : false;
+        return $this->book_type == self::TYPE_MAGAZINE;
     }
 
 }

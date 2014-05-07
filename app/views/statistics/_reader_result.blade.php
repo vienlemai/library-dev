@@ -4,10 +4,10 @@
     <div class="span5">
         <table class="table table-bordered" id="table-statistics-reader">
             <tbody>
+                <tr class="hide">
+                    <td colspan="2">Thống kê bạn đọc thư viện - <?php echo date('d \T\h\á\n\g m, Y') ?></td>
+                </tr>
                 <?php if (isset($result['all_readers'])): ?>
-                    <tr class="hide">
-                        <td colspan="2">Thống kê bạn đọc thư viện - <?php echo date('d \T\h\á\n\g m, Y')?></td>
-                    </tr>
                     <tr>
                         <td>Tổng số bạn đọc</td>
                         <td> <?php echo $result['all_readers'] ?></td>

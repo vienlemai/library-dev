@@ -25,8 +25,6 @@
                         Former::framework('Nude');
                         echo Former::inline_open(route('statistics.reader'))->method('POST')
                             ->class('form-ajax')->data_update_html_for('#statistics-result-container')
-                            ->id('form-statistics-options')
-
                         ?>
                         <?php Former::token() ?>
                         <input name='all_readers' type='hidden' value="0">
