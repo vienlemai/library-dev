@@ -39,28 +39,30 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
     public static function boot() {
         parent::boot();
         static::creating(function($user) {
-            $user->permissions = json_encode(array());
-            $user->created_at = Carbon\Carbon::now();
-            $user->updated_at = Carbon\Carbon::now();
-        });
+                $user->permissions = json_encode(array());
+                $user->created_at = Carbon\Carbon::now();
+                $user->updated_at = Carbon\Carbon::now();
+            });
         static::saving(function($user) {
-            $permissions = json_decode($user->permissions);
-            if (is_null($permissions)) {
-                $permissions = array();
-            }
-            $groupPermissions = json_decode($user->group->permissions);
-            $allPermissions = array_merge($permissions, $groupPermissions);
-            $routes = array();
-            foreach ($allPermissions as $p) {
-                $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
-            }
-            $routes = array_merge($routes, Permission::$SHARED_ROUTES);
-            $user->routes = json_encode($routes);
-            $user->remember_token = '';
-        });
+                $permissions = json_decode($user->permissions);
+                if (is_null($permissions)) {
+                    $permissions = array();
+                }
+                $groupPermissions = json_decode($user->group->permissions);
+                $allPermissions = array_merge($permissions, $groupPermissions);
+                $routes = array();
+                foreach ($allPermissions as $p) {
+                    $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
+                }
+                $routes = array_merge($routes, Permission::$SHARED_ROUTES);
+                $user->routes = json_encode($routes);
+                $user->remember_token = '';
+            });
         static::saved(function($user) {
-            Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
-        });
+                if (Auth::check()) {
+                    Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
+                }
+            });
     }
 
     public function catalogers() {

@@ -71,14 +71,12 @@ class Permission {
         5 => array(
             'title' => 'Thống kê tài liệu',
             'menus' => array(
-                'inventory.index' => 'Thống kê bạn đọc',
-                'inventory.create' => 'Thống kê tài liệu',
+                'statistics.reader' => 'Thống kê bạn đọc',
+                'statistics.book' => 'Thống kê tài liệu',
             ),
             'routes' => array(
-                'inventory.index',
-                'inventory.create',
-                'inventory.execute',
-                'inventory.result',
+                'statistics.reader',
+                'statistics.book',
             ),
         ),
         6 => array(

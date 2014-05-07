@@ -10,6 +10,8 @@ class DatabaseSeeder extends Seeder {
     public function run() {
         //Eloquent::unguard();
 
+        $this->call('ConfigTableSeeder');
+        $this->call('StorageTableSeeder');
         $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
     }
@@ -91,19 +93,6 @@ class ConfigTableSeeder extends Seeder {
             ),
         ));
         Session::forget('LibConfig');
-    }
-
-}
-
-class BookTableSeeder extends Seeder {
-
-    public function run() {
-        $book = new Book(array(
-            'title' => 'Cánh đồng bất tận',
-            'author' => 'Nguyễn Ngọc Tư',
-            'number' => 20,
-        ));
-        $book->save();
     }
 
 }

@@ -8,15 +8,21 @@ class StatisticsController extends \BaseController {
 
     public function reader() {
         if (Request::isMethod('GET')) {
-            $result = [];
-            $result['readers_count'] = Reader::count();
-            $result['borrowing_readers_count'] = Circulation::distinct()->get(array('reader_id'))->count();
-            $result['borrow_times_count'] = Circulation::count();
-            return View::make('statistics.reader')->with('result', $result);
+            return View::make('statistics.reader');
         } else {
+            $result = [];
+            if (Input::get('all_readers') == 1) {
+                $result['all_readers'] = Reader::count();
+            }
+            if (Input::get('borrowing_readers') == 1) {
+                $result['borrowing_readers'] = Circulation::distinct()->get(array('reader_id'))->count();
+            }
+            if (Input::get('borrowing_times') == 1) {
+                $result['borrowing_times'] = Circulation::count();
+            }
             return Response::json(array(
                     'success' => true,
-                    'html' => View::make('statistics._reader_result')->render()
+                    'html' => View::make('statistics._reader_result')->with('result', $result)->render()
             ));
         }
     }
