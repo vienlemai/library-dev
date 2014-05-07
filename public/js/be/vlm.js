@@ -13,6 +13,13 @@
 		});
 		return false;
 	});
+
+	$(".btn-save-book").on("click", function() {
+		var redirect = $(this).attr('data-redirect');
+		var formUrl = $("#form-book").attr('action');
+		formUrl += '?redirect=' + redirect;
+		$("#form-book").attr('action', formUrl).submit();
+	});
 	$('[btn-confirm="post-confirm"]').on('click', function() {
 		var dataConfirm = $(this).attr('data-confirm');
 		var $form = $(this).parent('form');
@@ -120,33 +127,39 @@
 				var barcode = $(this).val();
 				var dataUrl = $(this).attr('data-url');
 				if (barcode != "") {
-					$.ajax({
-						url: dataUrl,
-						type: 'POST',
-						dataType: 'json',
-						data: {barcode: barcode, readerId: cirHandle.readerId},
-						success: function(result) {
-							if (result.status === true) {
-								cirHandle.bookItemId = result.book_item_id;
-								cirHandle.$circulationBook.html(result.book_html);
-								cirHandle.focusOnBook();
-							} else {
-								bootbox.alert(result.message);
+					if (cirHandle.readerId !== 0) {
+						$.ajax({
+							url: dataUrl,
+							type: 'POST',
+							dataType: 'json',
+							data: {barcode: barcode, readerId: cirHandle.readerId},
+							success: function(result) {
+								if (result.status === true) {
+									cirHandle.bookItemId = result.book_item_id;
+									cirHandle.$circulationBook.html(result.book_html);
+									cirHandle.focusOnBook();
+								} else {
+									bootbox.alert(result.message);
+									cirHandle.bookItemId = 0;
+									cirHandle.$circulationBook.html(defaultCirBook);
+									cirHandle.focusOnBook();
+									return false;
+								}
+							},
+							error: function() {
+								bootbox.alert(cirHandle.ajaxFailMsg);
 								cirHandle.bookItemId = 0;
 								cirHandle.$circulationBook.html(defaultCirBook);
 								cirHandle.focusOnBook();
 								return false;
 							}
-						},
-						error: function() {
-							bootbox.alert(cirHandle.ajaxFailMsg);
-							cirHandle.bookItemId = 0;
-							cirHandle.$circulationBook.html(defaultCirBook);
-							cirHandle.focusOnBook();
-							return false;
-						}
 
-					});
+						});
+					} else {
+						bootbox.alert('Lỗi: Phải quét thẻ bạn đọc trước');
+						return false;
+					}
+
 				} else {
 					cirHandle.bookItemId = 0;
 					cirHandle.$circulationBook.html(defaultCirBook);

@@ -8,8 +8,7 @@ class Permission {
         1 => array(
             'title' => 'Biên mục',
             'menus' => array(
-                'book.catalog' => 'Danh sách',
-                'book.create' => 'Thêm mới tài liệu'
+                'book.catalog' => 'Tài liệu đang biên mục',
             ),
             'routes' => array(
                 'book.catalog',

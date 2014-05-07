@@ -1,6 +1,6 @@
 <?php
 $max_extra_times = Session::get('LibConfig.extra_times');
-$now = Carbon\Carbon::now();
+$now = Carbon\Carbon::now()->subDay();
 
 ?>
 <?php if (isset($message)): ?>
@@ -42,7 +42,12 @@ $now = Carbon\Carbon::now();
                     </td>
                 <?php endif; ?>
                 <?php if ($isNotExpired): ?>
-                    <td><?php echo $ex_times > 0 ? 'Còn ' . $ex_times . ' lần gia hạn' : 'Hết quyền gia hạn' ?></td>
+                    <?php if ($row->bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>
+                        <td>Mượn tại chỗ</td>
+                    <?php else: ?>
+                        <td><?php echo $ex_times > 0 ? 'Còn ' . $ex_times . ' lần gia hạn' : 'Hết quyền gia hạn' ?></td>
+                    <?php endif; ?>
+
                 <?php else: ?>
                     <td style="color: red">
                         <?php $book_expired_fine = Session::get('LibConfig.book_expired_fine'); ?>

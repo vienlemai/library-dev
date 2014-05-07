@@ -56,51 +56,15 @@
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                             </div>
                         <?php endif; ?>
+                        <?php
+                        if ($type != Reader::TYPE_STUDENT) {
+                            echo View::make('reader.partials.create_student');
+                        } else {
+                            echo View::make('reader.partials.create_teacher');
+                        }
 
-                        {{ Former::horizontal_open(route('reader.save'))->method('POST') }}
-                        {{Former::xlarge_text('full_name')
-                        ->label('Họ tên (*)')
-                        }}
+                        ?>
 
-                        {{Former::xlarge_text('year_of_birth')
-                        ->label('Ngày sinh')
-                        ->class('datepicker')
-                        }}
-
-                        {{Former::xlarge_text('hometown')
-                        ->label('Quê quán')
-                        }}
-
-                        {{Former::xlarge_text('class')
-                        ->label('Lớp (*)')
-                        }}
-
-                        {{Former::xlarge_text('school_year')
-                        ->label('Niên khóa')
-                        }}
-
-                        {{Former::xlarge_text('subject')
-                        ->label('Chuyên ngành')
-                        }}
-
-                        {{Former::xlarge_text('email')
-                        ->label('Email (*)')
-                        }}
-
-                        {{Former::xlarge_text('phone')
-                        ->label('Điện thoại')
-                        }}
-
-                        {{Former::actions()
-                        ->primary_submit('Lưu')
-                        ->inverse_reset('Nhập lại')
-                        }}
-                        {{Former::hidden('avatar')
-                        ->class('image_path')
-                        }}
-
-                        {{Former::close();
-                        }}
                     </div>
                 </div>
             </div>

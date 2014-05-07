@@ -36,12 +36,16 @@ class ReaderController extends \BaseController {
         }
     }
 
-    public function create() {
-        $this->layout->content = View::make('reader.create');
+    public function create($type) {
+        return View::make('reader.create', array('type' => $type));
     }
 
-    public function save() {
-        $v = Reader::validate(Input::all());
+    public function save($type) {
+        if ($type == Reader::TYPE_STUDENT) {
+            $v = Reader::studentValidate(Input::all());
+        } else {
+            $v = Reader::teacherValidate(Input::all());
+        }
         if ($v->passes()) {
             $time = time();
             $vnCode = '893';
@@ -101,8 +105,17 @@ class ReaderController extends \BaseController {
 
     public function update($id) {
         $reader = Reader::findOrFail($id);
-        $reader->update(Input::all());
-        Session::flash('success', 'Lưu thành công thông tin bạn đọc "' . $reader->full_name . '"');
+        if ($reader->isStudent()) {
+            $v = Reader::studentValidate(Input::all());
+        } else {
+            $v = Reader::teacherValidate(Input::all());
+        }
+        if ($v->passes()) {
+            $reader->update(Input::all());
+            Session::flash('success', 'Lưu thành công thông tin bạn đọc "' . $reader->full_name . '"');
+        } else {
+            return Redirect::route('reader.create')->withInput()->withErrors($v->messages());
+        }
         return Redirect::route('readers');
     }
 

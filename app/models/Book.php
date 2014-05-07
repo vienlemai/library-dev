@@ -39,6 +39,16 @@ class Book extends Eloquent {
      */
     const TYPE_MAGAZINE = 2;
 
+    /**
+     * book can only read at library
+     */
+    const SCOPE_LOCAL = 0;
+
+    /**
+     * book can borrow
+     */
+    const SCOPE_AWAY = 1;
+
     //labels of a book for cataloger
     public static $CAT_SS_LABELS = array(
         0 => 'Đang biên mục',
@@ -60,6 +70,10 @@ class Book extends Eloquent {
         2 => 'Mật',
         3 => 'Tối mật',
         4 => 'Tuyệt mật'
+    );
+    public static $SCOPE_LABELS = array(
+        self::SCOPE_LOCAL => 'Mượn tại chỗ',
+        self::SCOPE_AWAY => 'Mượn về nhà',
     );
 
     public function getDates() {
@@ -112,6 +126,8 @@ class Book extends Eloquent {
         'magazine_special',
         'magazine_local',
         'book_type',
+        'book_scope',
+        'permission',
     );
 
     public static function boot() {

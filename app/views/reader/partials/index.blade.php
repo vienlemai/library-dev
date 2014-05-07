@@ -15,7 +15,7 @@
 			<tr>
 				<th style='width:10%'>Mã thẻ</th>
 				<th style='width:20%'>Họ tên</th>
-				<th style='width:10%'>Lớp</th>
+				<th style='width:10%'>Loại bạn đọc</th>
 				<th style='width:15%'>Ngày đăng ký</th>
 				<th style='width:20%'>Tình trạng</th>
 				<th style='width:10%'>Thao tác</th>
@@ -26,7 +26,7 @@
 				<tr>
 					<td>{{$reader->barcode}}</td>
 					<td>{{$reader->full_name}}</td>
-					<td>{{$reader->class}}</td>
+					<td>{{$reader->reader_type}}</td>
 					<td>{{$reader->created_at->format('d/m/Y')}}</td>
 					<td>{{Reader::$LABELS[$reader->status]}}</td>
 					<td>

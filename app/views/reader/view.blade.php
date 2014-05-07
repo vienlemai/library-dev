@@ -40,6 +40,7 @@
                                 <div class="controls">
                                     <h4>Thông tin kiểm soát</h4>
                                     <ul>
+                                        <li>Loại bạn đọc: {{Reader::$TYPE_LABELS[$reader->reader_type]}}</li>
                                         <li>Ngày tạo: {{$reader->created_at->format('d/m/Y')}}</li>
                                         <li>Ngày hết hạn: {{$reader->expired_at->format('d/m/Y')}}</li>
                                         <li>Người tạo: {{$reader->creator->full_name }}</li>
@@ -73,55 +74,11 @@
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                             </div>
                         <?php endif; ?>
-                        {{ Former::horizontal_open('')->method('POST') }}
-                        {{Former::xlarge_text('full_name')
-								->label('Họ tên (*)')
-								->value($reader->full_name)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('year_of_birth')
-								->label('Ngày sinh')
-								->class('datepicker')
-								->value($reader->year_of_birth)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('hometown')
-								->label('Quê quán')
-								->value($reader->hometown)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('class')
-								->label('Lớp (*)')
-								->value($reader->class)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('school_year')
-								->label('Niên khóa')
-								->value($reader->school_year)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('subject')
-								->label('Chuyên ngành')
-								->value($reader->subject)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('email')
-								->label('Email (*)')
-								->value($reader->email)
-								->disabled()
-                        }}
-
-                        {{Former::xlarge_text('phone')
-								->label('Điện thoại')
-								->value($reader->phone)
-								->disabled()
-                        }}
+                        <?php if($reader->isStudent()){
+                            echo View::make('reader.partials.view_student',array('reader'=>$reader));
+                        }else{
+                            echo View::make('reader.partials.view_teacher',array('reader'=>$reader));
+                        } ?>
                         <div class="form-actions">
                             <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo thẻ</a>
                             <a class="btn btn-success" href="javascript:void(0)" data-url="{{route('reader.history',$reader->id)}}" data-modal="show-modal">Lịch sử mượn trả</a>

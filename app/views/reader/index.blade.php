@@ -9,10 +9,15 @@
         <div class='page-tools'>
             <ul>
                 <li>
-                    <a class='btn btn-small btn-primary' href='{{route('reader.create')}}'>
-                        <i class='i-plus-2'></i>
-                        Thêm mới bạn đọc
-                    </a>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class='i-plus-2'></i>Thêm mới bạn đọc</button>
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('reader.create',Reader::TYPE_STUDENT)}}">Sinh viên</a></li>
+                            <li><a href="{{route('reader.create',Reader::TYPE_TEACHER)}}">Giảng viên</a></li>
+                            <li><a href="{{route('reader.create',Reader::TYPE_STAFF)}}">Nhân viên</a></li>
+                        </ul>                                                    
+                    </div>
                 </li>
             </ul>
         </div>
@@ -66,7 +71,7 @@
                             <tr>
                                 <th style='width:10%'>Mã thẻ</th>
                                 <th style='width:20%'>Họ tên</th>
-                                <th style='width:10%'>Lớp</th>
+                                <th style='width:10%'>Loại bạn đọc</th>
                                 <th style='width:15%'>Ngày đăng ký</th>
                                 <th style='width:20%'>Tình trạng</th>
                                 <th style='width:10%'>Thao tác</th>
@@ -77,7 +82,7 @@
                                 <tr>
                                     <td>{{$reader->barcode}}</td>
                                     <td>{{$reader->full_name}}</td>
-                                    <td>{{$reader->class}}</td>
+                                    <td>{{Reader::$TYPE_LABELS[$reader->reader_type]}}</td>
                                     <td>{{$reader->created_at->format('d/m/Y')}}</td>
                                     <?php if ($reader->status != Reader::SS_CIRCULATED): ?>
                                         <td style="color: red;text-decoration: line-through">{{Reader::$LABELS[$reader->status]}}</td>

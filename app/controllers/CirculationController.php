@@ -59,6 +59,7 @@ class CirculationController extends \BaseController {
         $max_book_remote = Session::get('LibConfig.max_book_remote');
         $max_extra_times = Session::get('LibConfig.extra_times');
         $msgMaxBook = 'Chỉ có thể mượn tối đa là ' . $max_book_remote . ' tài liệu';
+        $msgPermissionBook = 'Bạn đọc không có quyền mượn tài liệu này';
         $msgInvalidBookReturn = 'Tài liệu này không phải do bạn đọc ' . $reader->full_name . ' mượn, không thể trả';
         if (!empty($bookItem) && $bookItem->book->status == Book::SS_PUBLISHED) {
             $validReaderBook = $this->_checkReaderBook($reader->circulations, $bookItem->id);
@@ -70,20 +71,26 @@ class CirculationController extends \BaseController {
             if ($reader->status != Reader::SS_PAUSED && $reader->status != Reader::SS_EXPIRED) {
                 //can borrow and return
                 if ($bookItem->status === BookItem::SS_STORAGED) {
-                    if ($valideMaxbook) {
-                        //borrow
-                        $borrow = true;
-                        $result['book_item_id'] = $bookItem->id;
-                        $result['book_html'] = View::make('circulation.partials.book', array(
-                                'borrow' => $borrow,
-                                'return' => $return,
-                                'extra' => $extra,
-                                'bookItem' => $bookItem,
-                            ))->render();
+                    if ($this->_checkPermission($reader->reader_type, $bookItem->book->permission)) {
+                        if ($valideMaxbook) {
+                            //borrow
+                            $borrow = true;
+                            $result['book_item_id'] = $bookItem->id;
+                            $result['book_html'] = View::make('circulation.partials.book', array(
+                                    'borrow' => $borrow,
+                                    'return' => $return,
+                                    'extra' => $extra,
+                                    'bookItem' => $bookItem,
+                                ))->render();
+                        } else {
+                            //error cannot borrow more book
+                            $result['status'] = false;
+                            $result['message'] = $msgMaxBook;
+                        }
                     } else {
-                        //error cannot borrow more book
+                        //error don't have permission to borrow book
                         $result['status'] = false;
-                        $result['message'] = $msgMaxBook;
+                        $result['message'] = $msgPermissionBook;
                     }
                 } else {
                     //return
@@ -153,18 +160,23 @@ class CirculationController extends \BaseController {
         }
     }
 
+    private function _checkPermission($readerType, $permission) {
+        $tmp = json_decode($permission, true);
+        if (in_array($readerType, $tmp)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private function _checkMaxBook($circulations, $max) {
         return ($circulations->count() < $max);
     }
 
-    public function borrow() {
+    public function borrow($scope) {
         $readerId = Input::get('readerId');
         $bookItemId = Input::get('bookItemId');
-        $circulation = new Circulation(array(
-            'reader_id' => $readerId,
-            'book_item_id' => $bookItemId,
-        ));
-        $circulation->save();
+        Circulation::createCirculation($readerId, $bookItemId, $scope);
         $circulations = Circulation::where('reader_id', '=', $readerId)
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')

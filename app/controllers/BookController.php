@@ -229,13 +229,13 @@ class BookController extends \BaseController {
             return View::make('book.partials.create_book', array(
                     'storageOptions' => $storageOptions->render(),
                     'levels' => Book::$LEVELS,
-                    'type' => $type
             ));
         } else {
             return View::make('book.partials.create_magazine', array(
                     'storageOptions' => $storageOptions->render(),
                     'levels' => Book::$LEVELS,
-                    'type' => $type
+                    'scopes' => Book::$SCOPE_LABELS,
+                    'readerTypes' => Reader::$TYPE_LABELS,
             ));
         }
     }
@@ -250,6 +250,7 @@ class BookController extends \BaseController {
             $v = Book::magazineValidate(Input::all());
         }
         if ($v->passes()) {
+            $permission = json_encode(Input::get('permission'));
             $time = time();
             $vnCode = '893';
             $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
@@ -258,6 +259,7 @@ class BookController extends \BaseController {
             $book = new Book(Input::all());
             $book->barcode = $random;
             $book->book_type = $type;
+            $book->permission = $permission;
             if ($book->save()) {
                 for ($i = 1; $i <= $book->number; $i++) {
                     $code = $random . sprintf("%03s", $i);
@@ -269,7 +271,14 @@ class BookController extends \BaseController {
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
-                return Redirect::route('book.catalog.view', $book->id);
+
+                $redirect = Input::get('redirect');
+                if ($redirect == 'create') {
+                    return Redirect::route('book.create', $type);
+                } elseif ($redirect == 'index') {
+                    return Redirect::route('book.catalog');
+                }
+                return Redirect::route('book.view', $book->id);
             } else {
                 Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
                 return Redirect::route('book.create');
@@ -411,7 +420,10 @@ class BookController extends \BaseController {
      * @return Response
      */
     public function destroy($id) {
-        exit('deleting . . .');
+        $book = Book::findOrFail($id);
+        $book->delete();
+        Session::flash('success', 'Xóa thành công tài liệu "' . $book->title . '"');
+        return Redirect::route('book.catalog');
     }
 
     /**

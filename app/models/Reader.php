@@ -49,6 +49,11 @@ class Reader extends Eloquent implements IActivityAuthor {
      */
     const AVATAR_DIR_PATH = 'img/readers/';
 
+    public static $TYPE_LABELS = array(
+        self::TYPE_STUDENT => 'Sinh viên',
+        self::TYPE_TEACHER => 'Giảng viên',
+        self::TYPE_STAFF => 'Nhân viên',
+    );
     public static $LABELS = array(
         self::SS_CIRCULATED => 'Đang lưu thông',
         self::SS_PAUSED => 'Đang bị khóa'
@@ -87,7 +92,7 @@ class Reader extends Eloquent implements IActivityAuthor {
         'avatar'
     );
 
-    public static function validate($input) {
+    public static function studentValidate($input) {
         $rules = array(
             'full_name' => 'required',
             'class' => 'required',
@@ -98,6 +103,21 @@ class Reader extends Eloquent implements IActivityAuthor {
         $messages = array(
             'full_name.required' => 'Phải nhập tên bạn đọc',
             'class.required' => 'Phải nhập lớp',
+            'email.required' => 'Phải nhập địa chỉ email',
+            'avatar.required' => 'Phải chọn ảnh đại diện'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
+
+    public static function teacherValidate($input) {
+        $rules = array(
+            'full_name' => 'required',
+            'email' => 'required',
+            'avatar' => 'required',
+        );
+
+        $messages = array(
+            'full_name.required' => 'Phải nhập tên bạn đọc',
             'email.required' => 'Phải nhập địa chỉ email',
             'avatar.required' => 'Phải chọn ảnh đại diện'
         );
@@ -137,15 +157,16 @@ class Reader extends Eloquent implements IActivityAuthor {
     public function authorType() {
         return 'Bạn đọc';
     }
-    
-    public function isTeacher(){
+
+    public function isTeacher() {
         return $this->reader_type == self::TYPE_TEACHER;
     }
-    public function isStaff(){
+
+    public function isStaff() {
         return $this->reader_type == self::TYPE_STAFF;
     }
-    
-    public function isStudent(){
+
+    public function isStudent() {
         return $this->reader_type == self::TYPE_STUDENT;
     }
 

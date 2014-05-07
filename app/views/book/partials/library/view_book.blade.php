@@ -7,6 +7,8 @@
 		<h4 class="text-center">Tài liệu: {{$book->title}}</h4>
 		<h5 class="text-info">Thông tin lưu hành</h5>
 		<dl class="dl-horizontal">
+            <dt>Thể loại: </dt>
+            <dd>Sách</dd>
 			<dt>Ngày nhập:</dt>
 			<dd>{{$book->created_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</dd>
 			<dt>Người nhập:</dt>

@@ -64,7 +64,7 @@ Route::post('circulation/book', array(
     'as' => 'circulation.book',
     'uses' => 'CirculationController@loadBook',
 ));
-Route::post('circulation/borrow', array(
+Route::post('circulation/borrow/{scope}', array(
     'as' => 'circulation.borrow',
     'uses' => 'CirculationController@borrow',
 ));
@@ -137,7 +137,7 @@ Route::group(array('before' => 'auth'), function () {
         'uses' => 'BookController@barcode'
     ));
     //readers
-    Route::get('reader/create', array(
+    Route::get('reader/create/{type}', array(
         'as' => 'reader.create',
         'uses' => 'ReaderController@create'
     ));
