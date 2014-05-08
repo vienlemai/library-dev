@@ -38,7 +38,7 @@ $now = Carbon\Carbon::now()->subDay();
                 <?php else: ?>
                     <td style="color: red">
                         <?php $diff = $now->diffInDays($row->expired_at); ?>
-                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . $diff . ' ngày)'; ?>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . ($diff + 1) . ' ngày)'; ?>
                     </td>
                 <?php endif; ?>
                 <?php if ($isNotExpired): ?>
@@ -51,7 +51,7 @@ $now = Carbon\Carbon::now()->subDay();
                 <?php else: ?>
                     <td style="color: red">
                         <?php $book_expired_fine = Session::get('LibConfig.book_expired_fine'); ?>
-                        <?php echo 'Tiền phạt : ' . $diff * $book_expired_fine . ' (đồng)' ?>
+                        <?php echo 'Tiền phạt : ' . ($diff + 1) * $book_expired_fine . ' (đồng)' ?>
                     </td>
                 <?php endif; ?>
             </tr>

@@ -8,8 +8,21 @@ class AdminController extends BaseController {
 
     public function index() {
         $activities = Activity::search()->paginate(Activity::PER_PAGE);
+        $count['reader_student'] = Reader::where('reader_type', Reader::TYPE_STUDENT)->count();
+        $count['reader_staff'] = Reader::where('reader_type', Reader::TYPE_STAFF)->count();
+        $count['reader_teacher'] = Reader::where('reader_type', Reader::TYPE_TEACHER)->count();
+        $count['reader_total'] = $count['reader_student'] + $count['reader_staff'] + $count['reader_teacher'];
+        $count['book_book'] = BookItem::whereHas('book', function($q) {
+                $q->where('book_type', Book::TYPE_BOOK);
+            })->count();
+        $count['book_magazine'] = BookItem::whereHas('book', function($q) {
+                $q->where('book_type', Book::TYPE_MAGAZINE);
+            })->count();
+        $count['book_total'] = $count['book_book'] + $count['book_magazine'];
+        $count['user'] = User::count();
         $this->layout->content = View::make('admin.index')
-            ->with('activities', $activities);
+            ->with('activities', $activities)
+            ->with('count', $count);
     }
 
     public function error($type) {

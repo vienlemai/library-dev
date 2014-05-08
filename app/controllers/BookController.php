@@ -229,6 +229,8 @@ class BookController extends \BaseController {
             return View::make('book.partials.create_book', array(
                     'storageOptions' => $storageOptions->render(),
                     'levels' => Book::$LEVELS,
+                    'scopes' => Book::$SCOPE_LABELS,
+                    'readerTypes' => Reader::$TYPE_LABELS,
             ));
         } else {
             return View::make('book.partials.create_magazine', array(
@@ -297,15 +299,16 @@ class BookController extends \BaseController {
             Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
             return Redirect::route('book.moderate');
         }
-
-        //$user = Auth::user();
-//		if ($book->created_by == $user->id) {
-//			App::abort(404);
-//		}
+//        if ($book->created_by == Auth::user()->id) {
+//            App::abort(404);
+//        }
         $storageOptions = new Storage();
         $node = Storage::where('id', '=', $book->storage)->first();
         $path = $storageOptions->getPath($node);
-        $this->layout->content = View::make('book.moderate-view', array('book' => $book, 'path' => $path));
+        $this->layout->content = View::make('book.moderate-view', array(
+                'book' => $book,
+                'path' => $path,
+        ));
     }
 
     public function catalogView($bookId) {
@@ -356,7 +359,9 @@ class BookController extends \BaseController {
         $this->layout->content = View::make('book.edit', array(
                 'book' => $book,
                 'storageOptions' => $storageOptions->render(),
-                'levels' => Book::$LEVELS
+                'levels' => Book::$LEVELS,
+                'scopes' => Book::$SCOPE_LABELS,
+                'readerTypes' => Reader::$TYPE_LABELS,
         ));
     }
 
@@ -367,6 +372,7 @@ class BookController extends \BaseController {
      * @return Response
      */
     public function update($id) {
+
         $book = Book::findOrFail($id);
         if ($book->isBook()) {
             $v = Book::bookValidate(Input::all());
@@ -374,13 +380,15 @@ class BookController extends \BaseController {
             $v = Book::magazineValidate(Input::all());
         }
 
-        $time = time();
-        $vnCode = '893';
+        //$time = time();
+        //$vnCode = '893';
         # Why we don't use the old barcode ?
-        $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+        //$random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
-            $book->update(Input::all());
-            $book->barcode = $random;
+            $permission = json_encode(Input::get('permission'));
+            //$book->barcode = $random;
+            $book->permission = ($permission);
+            $book->update(Input::except('permission'));
             if ($book->status == Book::SS_DISAPPROVED) {
                 $book->status = Book::SS_SUBMITED;
                 Session::flash('success', 'Đã chỉnh sửa và gửi tài liệu <strong>"'
@@ -393,21 +401,18 @@ class BookController extends \BaseController {
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
             }
-            if ($book->save()) {
-                if ($book->number != Input::get('number')) {
-                    BookItem::where('book_id', '=', $book->id)->delete();
-                    $barcode = $book->barcode;
-                    for ($i = 1; $i <= $book->number; $i++) {
-                        $code = $barcode . sprintf("%03s", $i);
-                        $fullCode = $this->ean13_check_digit($code);
-                        $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
-                        $book->bookItems()->save($bItem);
-                    }
+            // dd($permission);
+            if ($book->number != Input::get('number')) {
+                BookItem::where('book_id', '=', $book->id)->delete();
+                $barcode = $book->barcode;
+                for ($i = 1; $i <= $book->number; $i++) {
+                    $code = $barcode . sprintf("%03s", $i);
+                    $fullCode = $this->ean13_check_digit($code);
+                    $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
+                    $book->bookItems()->save($bItem);
                 }
-                return Redirect::route('book.catalog.view', $book->id);
-            } else {
-                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
             }
+            return Redirect::route('book.catalog.view', $book->id);
         } else {
             return Redirect::route('book.edit', array($id))->withInput()->withErrors($v->messages());
         }

@@ -61,6 +61,10 @@
 			<dd>{{$book->number}}</dd>
 			<dt>Mức độ</dt>
 			<dd>{{$book->level}}</dd>
+            <dt>Phạm vi mượn</dt>
+            <dd>{{$book->scopeName()}}</dd>
+            <dt>Đối tượng được mượn</dt>
+            <dd>{{$book->permissionName()}}</dd>
 			<dt>Thông tin khác</dt>
 			<dd>{{!empty($book->another_infor)?$book->another_infor:'(trống)'}}</dd>
 		</dl>

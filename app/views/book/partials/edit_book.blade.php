@@ -109,6 +109,24 @@
 									->label('Mức độ')
 									->options($levels,$book->level)								
                     }}
+                    {{Former::select('book_scope')
+                        ->label('Phạm vi mượn')
+                        ->options($scopes,$book->book_scope)
+                        ->class('select2')
+                    }}
+
+                    <div class="control-group">
+                        <label for="permissions" class="control-label">Đối tượng được mượn</label>
+                        <div class="controls">
+                            <?php $permission = json_decode($book->permission) ?>
+                            <?php foreach ($readerTypes as $k => $v): ?>
+                                <label  class="checkbox">                                
+                                    <input type="checkbox" name="permission[]" value="<?php echo $k ?>" <?php echo in_array($k, $permission) ? 'checked' : '' ?>><?php echo $v ?>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
 
                     {{Former::textarea('another_infor')
 									->label('Thông tin khác')

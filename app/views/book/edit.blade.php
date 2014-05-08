@@ -18,24 +18,39 @@
     </div>
     <div class='content'>
         <div class='row-fluid'>
-            
-                <?php
-                if ($book->isBook()) {
-                    echo View::make('book.partials.edit_book', array(
-                        'book' => $book,
-                        'storageOptions' => $storageOptions,
-                        'levels' => Book::$LEVELS
-                    ))->render();
-                } else {
-                    echo View::make('book.partials.edit_magazine', array(
-                        'book' => $book,
-                        'storageOptions' => $storageOptions,
-                        'levels' => Book::$LEVELS
-                    ))->render();
-                }
 
-                ?>
-            
+            <?php
+            if ($book->isBook()) {
+                echo View::make('book.partials.edit_book', array(
+                    'book' => $book,
+                    'storageOptions' => $storageOptions,
+                    'levels' => Book::$LEVELS,
+                    'scopes' => $scopes,
+                    'readerTypes' => $readerTypes,
+                ))->render();
+            } else {
+                echo View::make('book.partials.edit_magazine', array(
+                    'book' => $book,
+                    'scopes' => $scopes,
+                    'readerTypes' => $readerTypes,
+                ))->render();
+            }
+
+            ?>
+            <div class="space"></div>
+            <div class='footer'>
+                <div class='text-center'>
+                    <a class='btn' type="reset" href="{{route('book.catalog')}}">
+                        <i class='i-ccw'></i>
+                        Hủy bỏ
+                    </a>
+                    <button class='btn btn-success'>
+                        <i class='i-checkmark-2'></i>
+                        Lưu
+                    </button>
+                </div>
+            </div>
+            <?php echo Former::close() ?>
         </div>
     </div>
 

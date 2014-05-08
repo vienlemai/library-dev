@@ -218,4 +218,20 @@ class Book extends Eloquent {
         return $this->book_type == self::TYPE_MAGAZINE ? true : false;
     }
 
+    public function permissionName() {
+        $permission = json_decode($this->permission);
+        $perArray = Reader::$TYPE_LABELS;
+        foreach (Reader::$TYPE_LABELS as $k => $v) {
+            if (!in_array($k, $permission)) {
+                unset($perArray[$k]);
+            }
+        }
+        return implode(', ', $perArray);
+    }
+
+    public function scopeName() {
+        $scope = self::$SCOPE_LABELS[$this->book_scope];
+        return $scope;
+    }
+
 }

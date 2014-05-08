@@ -100,11 +100,6 @@
 									->disabled()
                 }}
 
-                <!--								{{Former::xlarge_text('barcode')
-                                                    ->label('Mã vạch')
-                                                    ->disabled('disabled')
-                                                }}-->
-
                 {{Former::xlarge_text('price')
 									->label('Giá tiền')
 									->value($book->price)
@@ -127,6 +122,16 @@
 									->label('Mức độ')
 									->options($levels,$book->level)
 									->disabled()								
+                }}
+                {{Former::xlarge_text('book_scope')
+                    ->label('Phạm vi mượn') 
+                    ->value(Book::$SCOPE_LABELS[$book->book_scope])
+					->disabled()	
+                }}
+                {{Former::xlarge_text('book_scope')
+                    ->label('Đối tượng được mượn') 
+                    ->value($book->permissionName())
+					->disabled()	
                 }}
                 <div class="control-group">
                     <label for="price" class="control-label">Thông tin khác</label>

@@ -10,8 +10,8 @@ class DatabaseSeeder extends Seeder {
     public function run() {
         //Eloquent::unguard();
 
-        $this->call('ConfigTableSeeder');
-        $this->call('StorageTableSeeder');
+        //$this->call('ConfigTableSeeder');
+        //$this->call('StorageTableSeeder');
         $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
     }
