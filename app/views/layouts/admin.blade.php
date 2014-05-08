@@ -50,6 +50,7 @@
         <script type="text/javascript" src="{{{asset('js/bootbox.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/jquery.validate.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/excellentexport.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>        
         <script type="text/javascript" src="{{{asset('js/select2.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/helper.js')}}}"></script>

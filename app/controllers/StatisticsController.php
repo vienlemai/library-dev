@@ -31,9 +31,14 @@ class StatisticsController extends \BaseController {
         if (Request::isMethod('GET')) {
             return View::make('statistics.book');
         } else {
+            $result = [];
+            $result['all_books'] = Book::count();
+            $result['books'] = Book::books()->count();
+            $result['magazines'] = Book::magazines()->count();
+            
             $response = [];
             $response['success'] = true;
-            $response['html'] = View::make('statistics._book_result')->render();
+            $response['html'] = View::make('statistics._book_result')->with('result', $result)->render();
             return Response::json($response);
         }
     }
