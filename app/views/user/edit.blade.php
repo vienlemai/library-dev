@@ -6,15 +6,15 @@
             Quản lý nhân viên
         </div>
         <div class='page-tools'>
-			<ul>
-				<li>
-					<a class='btn btn-small' href='{{route('users')}}'>
-						<i class='i-reply'></i>
-						Quay lại danh sách
-					</a>
-				</li>
-			</ul>
-		</div>
+            <ul>
+                <li>
+                    <a class='btn btn-small' href='{{route('users')}}'>
+                        <i class='i-reply'></i>
+                        Quay lại danh sách
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class='content'>
         <div class='space'></div>
@@ -52,6 +52,11 @@
 								->label('Phân quyền (*)')
 								->options($groups,$user->group_id)	
                     }}	
+                    {{Former::xxlarge_text('date_of_birth')
+								->label('Ngày sinh')
+                                ->value($user->date_of_birth)
+								->class('datepicker')
+                    }}
                     {{Former::inline_radios('sex')
 								->label('Giới tính')
 								->radios(array(
@@ -63,6 +68,7 @@
 
                     <div class='content-row'>
                         <button class='btn btn-primary offset3'>Lưu</button>
+                        <a class='btn btn-warning' href="{{route('users')}}">Hủy</a>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,8 @@
     <div class='content-row'>
         <?php if ($borrow): ?>
             <div class='span5'>
-                <?php if ($bookItem->book->scope == Book::SCOPE_LOCAL): ?>
+
+                <?php if ($bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>
                     <a href="javascript:void(0)" class='btn btn-primary' id="btn-borrow-book" data-url='{{route('circulation.borrow',Book::SCOPE_LOCAL)}}'>
                         <i class='i-arrow-up-6'></i>Mượn tại chỗ</a>
                 <?php else: ?>
@@ -44,10 +45,12 @@
     </div>
 </div>
 <div class='span7'>
-    <div class="alert alert-block">
-        Tài liệu này chỉ được phép mượn tại chỗ, trả trong ngày
-        <button data-dismiss="alert" class="close" type="button">×</button>
-    </div>
+    <?php if ($bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>
+        <div class="alert alert-block">
+            Tài liệu này chỉ được phép mượn tại chỗ, trả trong ngày
+            <button data-dismiss="alert" class="close" type="button">×</button>
+        </div>
+    <?php endif; ?>
     <div class='content-row'>
         <div class='span4'>Tiêu đề:</div>
         <div class='span8'>{{$bookItem->book->title}}</div>

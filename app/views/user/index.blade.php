@@ -25,7 +25,7 @@
                     <h2>Hiển thị {{$users->count()}}/{{$users->getTotal()}} người dùng</h2>
                     <div class='toolbar-table-right'>
                         <div class='input-append'>
-                            <input placeholder='Tìm kiếm ...' type="text" class="table-search-input" data-url="{{route('reader.search')}}">
+                            <input placeholder='Tìm kiếm ...' type="text" class="table-search-input" data-url="{{route('user.search')}}">
                             <button class="btn btn-book-search" type="button">
                                 <span class='icon-search'></span>
                             </button>

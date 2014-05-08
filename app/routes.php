@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . DIRECTORY_SEPARATOR . 'frontend_routes.php';
+require __DIR__ . '/frontend_routes.php';
 /**
  * Common routes
  */

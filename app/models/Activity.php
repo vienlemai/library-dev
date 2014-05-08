@@ -114,7 +114,7 @@ class Activity extends Eloquent {
         if (isset($params['range']) && trim($params['range']) != '') {
             $query->whereBetween('created_at', self::parseDateRangeParam($params['range']));
         }
-        $query->orderBy('created_at','desc');
+        $query->orderBy('created_at', 'desc');
         return $query;
     }
 
@@ -134,7 +134,7 @@ class Activity extends Eloquent {
     private static function parseDateRangeParam($range) {
         $endDate = Carbon\Carbon::now()->endOfDay()->toDateTimeString();
         $startDate = $startDate = Carbon\Carbon::now()->subDays($range)->startOfDay()->toDateTimeString();
-        return [$startDate, $endDate];
+        return array($startDate, $endDate);
     }
 
     public static function groupOfActivity($activity_code) {

@@ -88,9 +88,15 @@
         </div>
     </div>
     <div class='content-row'>
-        <div class='span5'>Mượn về:</div>
+        <div class='span5'>Mượn tại chỗ:</div>
         <div class='span7'>
-            {{($reader->circulations->count())}}/{{$max_book_remote}}
+            <span id="cir-count-local">{{$counLocal}}</span>/{{$max_book_remote}}
+        </div>
+    </div>
+    <div class='content-row'>
+        <div class='span5'>Mượn về nhà:</div>
+        <div class='span7'>
+            <span id="cir-count-remote">{{$countRemote}}</span>/{{$max_book_remote}}
         </div>
     </div>
 </div>

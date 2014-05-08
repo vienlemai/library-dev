@@ -25,17 +25,18 @@ class CirculationController extends \BaseController {
             $fine = 0;
             $booksExpired = 0;
             foreach ($reader->circulations as $row) {
-                if (!$now->lt($row->expired_at)) {
-                    $diff = $now->diffInDays($row->expired_at);
+                $diff = $now->diffInDays($row->expired_at);
+                if ($row->expired_at->lt($now) && $diff > 0) {
                     $fine += ($diff * $bookFine);
                     $booksExpired++;
                 }
             }
-            // var_dump($fine);
-            //exit();
+            $cirCount = $this->_countCirculationScope($reader->circulations);
             $viewData = array(
                 'reader' => $reader,
-                'msgFine' => $fine ? $msgFine = 'Trễ hạn ' . $booksExpired . ' tài liệu, tiền phạt : ' . $fine . '(đồng)' : ''
+                'msgFine' => $fine ? $msgFine = 'Trễ hạn ' . $booksExpired . ' tài liệu, tiền phạt : ' . $fine . '(đồng)' : '',
+                'counLocal' => $cirCount['local'],
+                'countRemote' => $cirCount['remote'],
             );
             $result['reader_html'] = View::make('circulation.partials.reader', $viewData)->render();
             $viewData = array(
@@ -57,13 +58,19 @@ class CirculationController extends \BaseController {
         $reader = Reader::with('circulations', 'circulations.bookItem', 'circulations.bookItem.book')
                 ->get()->find($readerId);
         $max_book_remote = Session::get('LibConfig.max_book_remote');
+        $max_book_local = Session::get('LibConfig.max_book_local');
         $max_extra_times = Session::get('LibConfig.extra_times');
-        $msgMaxBook = 'Chỉ có thể mượn tối đa là ' . $max_book_remote . ' tài liệu';
+        $msgMaxBookRemote = 'Chỉ có thể mượn về nhà tối đa ' . $max_book_remote . ' tài liệu';
+        $msgMaxBookLocal = 'Chỉ có thể mượn tại chỗ tối đa ' . $max_book_local . ' tài liệu';
+        $msgMaxBook;
         $msgPermissionBook = 'Bạn đọc không có quyền mượn tài liệu này';
         $msgInvalidBookReturn = 'Tài liệu này không phải do bạn đọc ' . $reader->full_name . ' mượn, không thể trả';
         if (!empty($bookItem) && $bookItem->book->status == Book::SS_PUBLISHED) {
             $validReaderBook = $this->_checkReaderBook($reader->circulations, $bookItem->id);
-            $valideMaxbook = $this->_checkMaxBook($reader->circulations, $max_book_remote);
+            $valideMaxbook = $bookItem->book->book_scope == Book::SCOPE_LOCAL ?
+                $this->_checkMaxBook($reader->circulations, Book::SCOPE_LOCAL, $max_book_local) :
+                $this->_checkMaxBook($reader->circulations, Book::SCOPE_AWAY, $max_book_remote);
+            $msgMaxBook = $bookItem->book->book_scope == Book::SCOPE_LOCAL ? $msgMaxBookLocal : $msgMaxBookRemote;
             $borrow = false;
             $return = false;
             $extra = false;
@@ -169,8 +176,25 @@ class CirculationController extends \BaseController {
         }
     }
 
-    private function _checkMaxBook($circulations, $max) {
-        return ($circulations->count() < $max);
+    private function _checkMaxBook($circulations, $scope, $max) {
+        $countByScope = $circulations->filter(function($item) use($scope) {
+            if ($item->scope == $scope) {
+                return $item;
+            }
+        });
+        return ($countByScope->count() < $max);
+    }
+
+    private function _countCirculationScope($circulations) {
+        $countLocal = $circulations->filter(function($item) {
+            if ($item->scope == Book::SCOPE_LOCAL) {
+                return $item;
+            }
+        });
+        return array(
+            'local' => $countLocal->count(),
+            'remote' => $circulations->count() - $countLocal->count(),
+        );
     }
 
     public function borrow($scope) {
@@ -181,13 +205,16 @@ class CirculationController extends \BaseController {
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_LENDED));
         $result['status'] = true;
         $viewData = array(
             'circulations' => $circulations,
-            'message' => 'Mượn thành công tài liệu '
+            'message' => 'Mượn thành công tài liệu ',
         );
         $result['list_book_html'] = View::make('circulation.partials.list-book', $viewData)->render();
+        $result['countLocal'] = $cirCount['local'];
+        $result['countRemote'] = $cirCount['remote'];
         return Response::json($result);
     }
 
@@ -202,6 +229,7 @@ class CirculationController extends \BaseController {
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_STORAGED));
         $result['status'] = true;
         $viewData = array(
@@ -209,6 +237,8 @@ class CirculationController extends \BaseController {
             'message' => 'Trả thành công tài liệu ',
         );
         $result['list_book_html'] = View::make('circulation.partials.list-book', $viewData)->render();
+        $result['countLocal'] = $cirCount['local'];
+        $result['countRemote'] = $cirCount['remote'];
         return Response::json($result);
     }
 

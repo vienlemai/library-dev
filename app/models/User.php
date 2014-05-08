@@ -39,30 +39,31 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
     public static function boot() {
         parent::boot();
         static::creating(function($user) {
-                $user->permissions = json_encode(array());
-                $user->created_at = Carbon\Carbon::now();
-                $user->updated_at = Carbon\Carbon::now();
-            });
+            $user->permissions = json_encode(array());
+            $user->created_at = Carbon\Carbon::now();
+            $user->updated_at = Carbon\Carbon::now();
+        });
+
+        static ::created(function($user) {
+            if (Auth::check()) {
+                Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
+            }
+        });
         static::saving(function($user) {
-                $permissions = json_decode($user->permissions);
-                if (is_null($permissions)) {
-                    $permissions = array();
-                }
-                $groupPermissions = json_decode($user->group->permissions);
-                $allPermissions = array_merge($permissions, $groupPermissions);
-                $routes = array();
-                foreach ($allPermissions as $p) {
-                    $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
-                }
-                $routes = array_merge($routes, Permission::$SHARED_ROUTES);
-                $user->routes = json_encode($routes);
-                $user->remember_token = '';
-            });
-        static::saved(function($user) {
-                if (Auth::check()) {
-                    Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
-                }
-            });
+            $permissions = json_decode($user->permissions);
+            if (is_null($permissions)) {
+                $permissions = array();
+            }
+            $groupPermissions = json_decode($user->group->permissions);
+            $allPermissions = array_merge($permissions, $groupPermissions);
+            $routes = array();
+            foreach ($allPermissions as $p) {
+                $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
+            }
+            $routes = array_merge($routes, Permission::$SHARED_ROUTES);
+            $user->routes = json_encode($routes);
+            $user->remember_token = '';
+        });
     }
 
     public function catalogers() {
@@ -101,19 +102,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
     }
 
     public function getRememberToken() {
-        
+        return $this->remember_token;
     }
 
     public function getRememberTokenName() {
-        
+        return 'remember_token';
     }
 
     public function setRememberToken($value) {
-        
+        $this->remember_token = $value;
     }
 
-    public function getSexAttribute($value) {
-        return $value == 0 ? 'Nam' : 'Nữ';
+    public function getSexName() {
+        return $this->sex == 0 ? 'Nam' : 'Nữ';
     }
 
     public function authorName() {
