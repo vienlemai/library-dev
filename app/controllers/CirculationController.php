@@ -31,11 +31,12 @@ class CirculationController extends \BaseController {
                     $booksExpired++;
                 }
             }
-            // var_dump($fine);
-            //exit();
+            $cirCount = $this->_countCirculationScope($reader->circulations);
             $viewData = array(
                 'reader' => $reader,
-                'msgFine' => $fine ? $msgFine = 'Trễ hạn ' . $booksExpired . ' tài liệu, tiền phạt : ' . $fine . '(đồng)' : ''
+                'msgFine' => $fine ? $msgFine = 'Trễ hạn ' . $booksExpired . ' tài liệu, tiền phạt : ' . $fine . '(đồng)' : '',
+                'counLocal' => $cirCount['local'],
+                'countRemote' => $cirCount['remote'],
             );
             $result['reader_html'] = View::make('circulation.partials.reader', $viewData)->render();
             $viewData = array(
@@ -184,6 +185,18 @@ class CirculationController extends \BaseController {
         return ($countByScope->count() < $max);
     }
 
+    private function _countCirculationScope($circulations) {
+        $countLocal = $circulations->filter(function($item) {
+            if ($item->scope == Book::SCOPE_LOCAL) {
+                return $item;
+            }
+        });
+        return array(
+            'local' => $countLocal->count(),
+            'remote' => $circulations->count() - $countLocal->count(),
+        );
+    }
+
     public function borrow($scope) {
         $readerId = Input::get('readerId');
         $bookItemId = Input::get('bookItemId');
@@ -192,13 +205,16 @@ class CirculationController extends \BaseController {
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_LENDED));
         $result['status'] = true;
         $viewData = array(
             'circulations' => $circulations,
-            'message' => 'Mượn thành công tài liệu '
+            'message' => 'Mượn thành công tài liệu ',
         );
         $result['list_book_html'] = View::make('circulation.partials.list-book', $viewData)->render();
+        $result['countLocal'] = $cirCount['local'];
+        $result['countRemote'] = $cirCount['remote'];
         return Response::json($result);
     }
 
@@ -213,6 +229,7 @@ class CirculationController extends \BaseController {
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_STORAGED));
         $result['status'] = true;
         $viewData = array(
@@ -220,6 +237,8 @@ class CirculationController extends \BaseController {
             'message' => 'Trả thành công tài liệu ',
         );
         $result['list_book_html'] = View::make('circulation.partials.list-book', $viewData)->render();
+        $result['countLocal'] = $cirCount['local'];
+        $result['countRemote'] = $cirCount['remote'];
         return Response::json($result);
     }
 

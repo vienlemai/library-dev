@@ -178,6 +178,8 @@
 						data: {readerId: cirHandle.readerId, bookItemId: cirHandle.bookItemId},
 						success: function(result) {
 							cirHandle.$circulationListBook.html(result.list_book_html);
+							cirHandle.$circulationReader.find("#cir-count-local").html(result.countLocal);
+							cirHandle.$circulationReader.find("#cir-count-remote").html(result.countRemote);
 							cirHandle.$circulationBook.html(defaultCirBook);
 							cirHandle.focusOnBook();
 						},
@@ -206,6 +208,8 @@
 						success: function(result) {
 							cirHandle.$circulationListBook.html(result.list_book_html);
 							cirHandle.$circulationBook.html(defaultCirBook);
+							cirHandle.$circulationReader.find("#cir-count-local").html(result.countLocal);
+							cirHandle.$circulationReader.find("#cir-count-remote").html(result.countRemote);
 							cirHandle.focusOnBook();
 						},
 						error: function() {
