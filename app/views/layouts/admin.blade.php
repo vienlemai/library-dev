@@ -45,14 +45,14 @@
             </div>
         </div>
         <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/jquery.iframe-transport.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/jquery.fileupload.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/bootbox.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/jquery.validate.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/tinymce/tinymce.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/jquery.iframe-transport.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/jquery.fileupload.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/bootbox.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/jquery.validate.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/tinymce/tinymce.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/plugins/excellentexport.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>        
-        <script type="text/javascript" src="{{{asset('js/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/helper.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/app.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/common.js')}}}"></script>
