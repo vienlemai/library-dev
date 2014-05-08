@@ -1,7 +1,5 @@
 <?php
 
-namespace Frontend;
-
-class FrontendBaseController extends \BaseController {
+class FrontendBaseController extends BaseController {
     
 }
