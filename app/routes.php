@@ -10,10 +10,6 @@
   | and give it the Closure to execute when that URI is requested.
   |
  */
-//var_dump(User::$get_actions);
-//exit();
-//users routers
-//Route::get('/user/create', 'UserController@create');
 Route::get('test', function() {
     
 });

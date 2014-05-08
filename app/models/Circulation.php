@@ -13,7 +13,8 @@ class Circulation extends Eloquent {
     protected $fillable = array(
         'reader_id',
         'book_item_id',
-        'expired_at'
+        'expired_at',
+        'scope'
     );
 
     public static function boot() {
@@ -33,6 +34,7 @@ class Circulation extends Eloquent {
         $circulation = new Circulation(array(
             'reader_id' => $readerId,
             'book_item_id' => $bookItemId,
+            'scope' => $scope,
         ));
         if ($scope == Book::SCOPE_AWAY) {
             $circulation->expired_at = Carbon\Carbon::now()->addDays($expired);

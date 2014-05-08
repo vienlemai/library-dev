@@ -98,6 +98,7 @@ class UserController extends BaseController {
             $user->password = Hash::make(Input::get('password'));
             $user->sex = Input::get('sex');
             $user->group_id = Input::get('group_id');
+            $user->date_of_birth = Input::get('date_of_birth');
             $user->save();
             Session::flash('success', 'Sửa thành công thông tin nhân viên "' . $user->full_name . '"');
             return Redirect::route('users');

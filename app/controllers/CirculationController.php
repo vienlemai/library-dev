@@ -25,8 +25,8 @@ class CirculationController extends \BaseController {
             $fine = 0;
             $booksExpired = 0;
             foreach ($reader->circulations as $row) {
-                if (!$now->lt($row->expired_at)) {
-                    $diff = $now->diffInDays($row->expired_at);
+                $diff = $now->diffInDays($row->expired_at);
+                if ($row->expired_at->lt($now) && $diff > 0) {
                     $fine += ($diff * $bookFine);
                     $booksExpired++;
                 }
@@ -57,13 +57,19 @@ class CirculationController extends \BaseController {
         $reader = Reader::with('circulations', 'circulations.bookItem', 'circulations.bookItem.book')
                 ->get()->find($readerId);
         $max_book_remote = Session::get('LibConfig.max_book_remote');
+        $max_book_local = Session::get('LibConfig.max_book_local');
         $max_extra_times = Session::get('LibConfig.extra_times');
-        $msgMaxBook = 'Chỉ có thể mượn tối đa là ' . $max_book_remote . ' tài liệu';
+        $msgMaxBookRemote = 'Chỉ có thể mượn về nhà tối đa ' . $max_book_remote . ' tài liệu';
+        $msgMaxBookLocal = 'Chỉ có thể mượn tại chỗ tối đa ' . $max_book_local . ' tài liệu';
+        $msgMaxBook;
         $msgPermissionBook = 'Bạn đọc không có quyền mượn tài liệu này';
         $msgInvalidBookReturn = 'Tài liệu này không phải do bạn đọc ' . $reader->full_name . ' mượn, không thể trả';
         if (!empty($bookItem) && $bookItem->book->status == Book::SS_PUBLISHED) {
             $validReaderBook = $this->_checkReaderBook($reader->circulations, $bookItem->id);
-            $valideMaxbook = $this->_checkMaxBook($reader->circulations, $max_book_remote);
+            $valideMaxbook = $bookItem->book->book_scope == Book::SCOPE_LOCAL ?
+                $this->_checkMaxBook($reader->circulations, Book::SCOPE_LOCAL, $max_book_local) :
+                $this->_checkMaxBook($reader->circulations, Book::SCOPE_AWAY, $max_book_remote);
+            $msgMaxBook = $bookItem->book->book_scope == Book::SCOPE_LOCAL ? $msgMaxBookLocal : $msgMaxBookRemote;
             $borrow = false;
             $return = false;
             $extra = false;
@@ -169,8 +175,13 @@ class CirculationController extends \BaseController {
         }
     }
 
-    private function _checkMaxBook($circulations, $max) {
-        return ($circulations->count() < $max);
+    private function _checkMaxBook($circulations, $scope, $max) {
+        $countByScope = $circulations->filter(function($item) use($scope) {
+            if ($item->scope == $scope) {
+                return $item;
+            }
+        });
+        return ($countByScope->count() < $max);
     }
 
     public function borrow($scope) {

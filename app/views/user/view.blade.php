@@ -6,15 +6,15 @@
             Quản lý nhân viên
         </div>
         <div class='page-tools'>
-			<ul>
-				<li>
-					<a class='btn btn-small' href='{{route('users')}}'>
-						<i class='i-reply'></i>
-						Quay lại danh sách
-					</a>
-				</li>
-			</ul>
-		</div>
+            <ul>
+                <li>
+                    <a class='btn btn-small' href='{{route('users')}}'>
+                        <i class='i-reply'></i>
+                        Quay lại danh sách
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class='content'>
         <div class='space'></div>
@@ -52,12 +52,16 @@
 								->label('Ngày sinh')
                                 ->value($user->date_of_birth)
                                 ->disabled()
-                    }}	
+                    }}
                     {{Former::xlarge_text('sex')
 								->label('Giới tính')
-                                ->value($user->sex)
+                                ->value($user->getSexName())
                                 ->disabled()
                     }}	
+                    <div class='content-row'>
+                        <a class='btn btn-primary offset2' href="{{route('user.edit',$user->id)}}">Chỉnh sửa</a>
+                        <a class='btn btn-success' href="{{route('users')}}">Quay lại danh sách</a>
+                    </div>
                 </div>
             </div>
         </div>

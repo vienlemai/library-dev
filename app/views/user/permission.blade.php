@@ -47,7 +47,7 @@
 
                     <div class='content-row'>
                         <button class='btn btn-primary offset3'>Lưu</button>
-                        <button class='btn btn-success'>Hủy bỏ</button>
+                        <a class='btn btn-success' href="{{route('users')}}">Hủy bỏ</a>
                     </div>
                 </div>
             </div>
