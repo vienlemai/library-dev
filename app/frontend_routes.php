@@ -1,3 +1,4 @@
 <?php
 
-Route::get('/', array('as' => 'root', 'uses' => 'PageController@index'));
+Route::get('/', array('as' => 'fe.home', 'uses' => 'PageController@index'));
+Route::get('/tim-kiem', array('as' => 'fe.search', 'uses' => 'PageController@search'));

@@ -6,4 +6,8 @@ class PageController extends FrontendBaseController {
         return View::make('frontend.page.index');
     }
 
+    public function search() {
+         return View::make('frontend.page.search');
+    }
+
 }
