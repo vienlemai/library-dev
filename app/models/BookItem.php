@@ -1,7 +1,6 @@
 <?php
 
 class BookItem extends Eloquent {
-
     /**
      * Table name
      */
@@ -10,7 +9,6 @@ class BookItem extends Eloquent {
     /**
      * Status still in storage
      */
-
     const SS_STORAGED = 0;
 
     /**
@@ -24,14 +22,16 @@ class BookItem extends Eloquent {
      * Security fillable
      */
     protected $fillable = array(
-      'barcode',
-      'status'
+        'barcode',
+        'status'
     );
 
     public function book() {
         return $this->belongsTo('Book');
     }
-    
+
+
+
 //    public function circulations (){
 //        return $this->hasMany('Circulation');
 //    }

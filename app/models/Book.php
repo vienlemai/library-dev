@@ -49,6 +49,60 @@ class Book extends Eloquent {
      */
     const SCOPE_AWAY = 1;
 
+    public static $titleToExcel = array(
+        1 => 'title',
+        2 => 'sub_title',
+        3 => 'author',
+        4 => 'translator',
+        5 => 'publish_info',
+        6 => 'publisher',
+        7 => 'printer',
+        8 => 'pages',
+        9 => 'size',
+        10 => 'attach',
+        11 => 'organization',
+        12 => 'language',
+        13 => 'cutter',
+        14 => 'type_number',
+        15 => 'price',
+        16 => 'storage',
+        17 => 'number',
+        18 => 'level',
+        19 => 'scope',
+        20 => 'permission',
+        21 => 'another_infor'
+    );
+    public static $magazineTitle = array(
+        1 => 'title',
+        2 => 'magazine_number',
+        3 => 'magazine_publish_day',
+        4 => 'magazine_additional',
+        5 => 'magazine_special',
+        6 => 'magazine_local',
+        7 => 'organization',
+        8 => 'language',
+        9 => 'cutter',
+        10 => 'type_number',
+        11 => 'price',
+        12 => 'storage',
+        13 => 'number',
+        14 => 'level',
+        15 => 'scope',
+        16 => 'permission',
+        17 => 'another_infor'
+    );
+    public static $storageTitle = array(
+        1 => 'Kho A',
+        3 => 'Luật',
+        4 => 'Tham Khảo',
+        5 => 'Nghiệp vụ cơ bản',
+        7 => 'Đường thủy',
+        8 => 'Đường bộ - Đường sắt',
+        9 => 'Cảnh sát môi trường',
+        10 => 'Cảnh sát kinh tế',
+        11 => 'Kỹ thuật hình sự',
+        12 => 'CA phụ trách xã'
+    );
     //labels of a book for cataloger
     public static $CAT_SS_LABELS = array(
         0 => 'Đang biên mục',
@@ -72,8 +126,8 @@ class Book extends Eloquent {
         4 => 'Tuyệt mật'
     );
     public static $SCOPE_LABELS = array(
-        self::SCOPE_LOCAL => 'Mượn tại chỗ',
-        self::SCOPE_AWAY => 'Mượn về nhà',
+        self::SCOPE_LOCAL => 'Tại chỗ',
+        self::SCOPE_AWAY => 'Về nhà',
     );
 
     public function getDates() {
@@ -145,10 +199,14 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                $book->status = Book::SS_ADDED;
-                $book->created_by = Auth::user()->id;
-                $book->barcode_printed = 0;
-            });
+            $book->status = Book::SS_ADDED;
+            $book->created_by = Auth::user()->id;
+            $book->barcode_printed = 0;
+            $time = time();
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+            $book->barcode = $random;
+        });
     }
 
     /*
@@ -202,6 +260,18 @@ class Book extends Eloquent {
         return Validator::make($input, $rules, $messages);
     }
 
+    public static function excelValidate($input) {
+        $rules = array(
+            'book' => 'required|mimes:xls,xlsx|max:10000'
+        );
+        $messages = array(
+            'book.required' => 'Phải chọn file',
+            'book.mimes' => 'Phải chọn file excel với định dạng xls, xlsx',
+            'book.max' => 'Chỉ được chọn file nhỏ hơn 10MB'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
+
     public static function magazineValidate($input) {
         $rules = array(
             'title' => 'required|min:5',
@@ -244,6 +314,123 @@ class Book extends Eloquent {
     public function scopeName() {
         $scope = self::$SCOPE_LABELS[$this->book_scope];
         return $scope;
+    }
+
+    public static function bookExcelValidate($input) {
+        $rules = array(
+            'title' => 'required',
+            'author' => 'required',
+            'number' => 'required|integer|min:1',
+            'pages' => 'required|integer|min:1',
+            'storage' => 'required',
+            'level' => 'required|in:bình thường,mật,tối mật, tuyệt mật',
+            'scope' => 'required|in:tại chỗ,về nhà',
+            'permission' => 'required|bx_permission',
+            'storage' => 'required|bx_storage'
+        );
+        $messages = array(
+            'title.required' => 'Không được để trống tiêu đề',
+            'author.required' => 'Không được để trống tác giả',
+            'number.required' => 'Không được để trống số lượng tài liệu',
+            'number.integer' => 'Số lượng phải là một số nguyên',
+            'number.min' => 'Số lượng tối thiểu lớn hơn hoặc bằng 1',
+            'pages.required' => 'Không được để trống số trang',
+            'pages.integer' => 'Số trang phải là một số nguyên',
+            'pages.min' => 'Số trang phải lớn hơn 0',
+            'level.in' => 'Mức độ tài liệu phải thuộc một trong các giá trị: bình thường, mật, tối mật, tuyệt mật',
+            'scope.required' => 'Không được để trống phạm vi mượn',
+            'scope.in' => 'Phạm vi mượn không hợp lệ, phải thuộc một trong các giá trị: tại chỗ, về nhà',
+            'permission.required' => 'Không được để trống quyền mượn',
+            'permission.bx_permission' => 'Đối tượng được mượn không hợp lệ',
+            'storage.required' => 'Không được để trống nơi lưu trữ',
+            'storage.bx_storage' => 'Nơi lưu trữ không hợp lệ'
+        );
+
+        return Validator::make($input, $rules, $messages);
+    }
+
+    public static function magazineExcelValidate($input) {
+        $rules = array(
+            'title' => 'required',
+            'number' => 'required|integer|min:1',
+            'storage' => 'required',
+            'level' => 'required|in:bình thường,mật,tối mật, tuyệt mật',
+            'scope' => 'required|in:tại chỗ,về nhà',
+            'permission' => 'required|bx_permission',
+            'storage' => 'required|bx_storage'
+        );
+        $messages = array(
+            'title.required' => 'Không được để trống tiêu đề',
+            'author.required' => 'Không được để trống tác giả',
+            'number.required' => 'Không được để trống số lượng tài liệu',
+            'number.integer' => 'Số lượng phải là một số nguyên',
+            'number.min' => 'Số lượng tối thiểu lớn hơn hoặc bằng 1',
+            'pages.required' => 'Không được để trống số trang',
+            'pages.integer' => 'Số trang phải là một số nguyên',
+            'pages.min' => 'Số trang phải lớn hơn 0',
+            'level.in' => 'Mức độ tài liệu phải thuộc một trong các giá trị: bình thường, mật, tối mật, tuyệt mật',
+            'scope.required' => 'Không được để trống phạm vi mượn',
+            'scope.in' => 'Phạm vi mượn không hợp lệ, phải thuộc một trong các giá trị: tại chỗ, về nhà',
+            'permission.required' => 'Không được để trống quyền mượn',
+            'permission.bx_permission' => 'Đối tượng được mượn không hợp lệ',
+            'storage.required' => 'Không được để trống nơi lưu trữ',
+            'storage.bx_storage' => 'Nơi lưu trữ không hợp lệ'
+        );
+
+        return Validator::make($input, $rules, $messages);
+    }
+
+    public static function convertTitleToId($book) {
+        //$bookTmp = $book;
+
+        foreach (self::$LEVELS as $k => $v) {
+            if (trim(strtolower($book['level'])) == strtolower($v)) {
+                $book['level'] = $k;
+                break;
+            }
+        }
+
+        foreach (self::$SCOPE_LABELS as $k => $v) {
+            if (trim(strtolower($book['scope'])) == strtolower($v)) {
+                $book['scope'] = $k;
+                break;
+            }
+        }
+
+        foreach (self::$storageTitle as $k => $v) {
+            if (trim(strtolower($book['storage'])) == strtolower($v)) {
+                $book['storage'] = $k;
+                break;
+            }
+        }
+        foreach (Reader::$TYPE_LABELS as $k => $v) {
+            $book['permission'] = str_ireplace($v, $k, $book['permission']);
+        }
+        $book['permission'] = '[' . $book['permission'] . ']';
+        return $book;
+    }
+
+    public function saveBookItem() {
+        for ($i = 1; $i <= $this->number; $i++) {
+            $code = $this->barcode . sprintf("%03s", $i);
+            $fullCode = self::ean13_check_digit($code);
+            $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
+            $this->bookItems()->save($bItem);
+        }
+    }
+
+    /**
+     * Generate the last digit number for barcode
+     */
+    public static function ean13_check_digit($digits) {
+        $digits = (string) $digits;
+        $even_sum = $digits{1} + $digits{3} + $digits{5} + $digits{7} + $digits{9} + $digits{11};
+        $even_sum_three = $even_sum * 3;
+        $odd_sum = $digits{0} + $digits{2} + $digits{4} + $digits{6} + $digits{8} + $digits{10};
+        $total_sum = $even_sum_three + $odd_sum;
+        $next_ten = (ceil($total_sum / 10)) * 10;
+        $check_digit = $next_ten - $total_sum;
+        return $digits . $check_digit;
     }
 
 }

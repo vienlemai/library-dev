@@ -56,7 +56,7 @@ class AdminController extends BaseController {
             return Redirect::intended('/');
         } else {
             Session::flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng');
-            return Redirect::to('/login')->withInput();
+            return Redirect::back()->withInput();
         }
     }
 

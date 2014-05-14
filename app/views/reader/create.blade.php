@@ -57,10 +57,12 @@
                             </div>
                         <?php endif; ?>
                         <?php
-                        if ($type != Reader::TYPE_STUDENT) {
+                        if ($type == Reader::TYPE_STUDENT) {
                             echo View::make('reader.partials.create_student');
-                        } else {
+                        } else if ($type == Reader::TYPE_TEACHER) {
                             echo View::make('reader.partials.create_teacher');
+                        } else {
+                            echo View::make('reader.partials.create_staff');
                         }
 
                         ?>

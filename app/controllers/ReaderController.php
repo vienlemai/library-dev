@@ -50,8 +50,9 @@ class ReaderController extends \BaseController {
             $time = time();
             $vnCode = '893';
             $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 9);
-            $fullCode = $this->ean13_check_digit($random);
+            $fullCode = Book::ean13_check_digit($random);
             $reader = new Reader(Input::all());
+            $reader->reader_type = $type;
             $reader->barcode = $fullCode;
             if ($reader->save()) {
                 Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
@@ -61,7 +62,7 @@ class ReaderController extends \BaseController {
                 return Redirect::route('reader.create');
             }
         } else {
-            return Redirect::route('reader.create')->withInput()->withErrors($v->messages());
+            return Redirect::back()->withInput()->withErrors($v->messages());
         }
     }
 

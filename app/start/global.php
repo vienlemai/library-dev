@@ -16,6 +16,7 @@ ClassLoader::addDirectories(array(
     app_path() . '/controllers',
     app_path() . '/controllers/frontend',
     app_path() . '/models',
+    app_path() . '/validators',
     app_path() . '/database/seeds',
     app_path() . '/utils',
 ));
@@ -47,6 +48,7 @@ Log::useFiles(storage_path() . '/logs/laravel.log');
  */
 
 App::error(function(Exception $exception, $code) {
+    //return View::make('admin.error_404');    
     Log::error($exception);
 });
 

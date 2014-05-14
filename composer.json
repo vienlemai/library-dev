@@ -8,9 +8,9 @@
 		"barryvdh/laravel-ide-helper": "1.*",
 		"anahkiasen/former": "dev-master",
 		"dinesh/barcode": "dev-master",
-		"cartalyst/sentry": "2.1.*",
 		"baum/baum": "~1.0",
-		"bkwld/laravel-haml": "~2.0"
+		"bkwld/laravel-haml": "~2.0",
+		"maatwebsite/excel": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

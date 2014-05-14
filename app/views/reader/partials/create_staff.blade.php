@@ -1,4 +1,4 @@
-{{ Former::horizontal_open(route('reader.save',Reader::TYPE_STUDENT))->method('POST') }}
+{{ Former::horizontal_open(route('reader.save',Reader::TYPE_STAFF))->method('POST') }}
 {{Former::xlarge_text('full_name')
                         ->label('Họ tên (*)')
 }}
@@ -10,18 +10,6 @@
 
 {{Former::xlarge_text('hometown')
                         ->label('Quê quán')
-}}
-
-{{Former::xlarge_text('class')
-                        ->label('Lớp (*)')
-}}
-
-{{Former::xlarge_text('school_year')
-                        ->label('Niên khóa')
-}}
-
-{{Former::xlarge_text('subject')
-                        ->label('Chuyên ngành')
 }}
 
 {{Former::xlarge_text('email')

@@ -80,7 +80,6 @@ class BookController extends \BaseController {
         $type = Input::get('book-type');
         $keyword = Input::get('keyword');
         if (Request::ajax()) {
-
             $books = Book::where('status', '=', $type)
                 ->where('created_by', '=', Auth::user()->id)
                 ->where('title', 'LIKE', '%' . $keyword . '%')
@@ -253,22 +252,11 @@ class BookController extends \BaseController {
         }
         if ($v->passes()) {
             $permission = json_encode(Input::get('permission'));
-            $time = time();
-            $vnCode = '893';
-            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-            // If the 'fillable' array is defined, 
-            // I think we don't need to assign the fields one by one from Input
             $book = new Book(Input::all());
-            $book->barcode = $random;
             $book->book_type = $type;
             $book->permission = $permission;
             if ($book->save()) {
-                for ($i = 1; $i <= $book->number; $i++) {
-                    $code = $random . sprintf("%03s", $i);
-                    $fullCode = $this->ean13_check_digit($code);
-                    $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
-                    $book->bookItems()->save($bItem);
-                }
+                $book->saveBookItem();
                 Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
@@ -379,14 +367,8 @@ class BookController extends \BaseController {
         } else {
             $v = Book::magazineValidate(Input::all());
         }
-
-        //$time = time();
-        //$vnCode = '893';
-        # Why we don't use the old barcode ?
-        //$random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
         if ($v->passes()) {
             $permission = json_encode(Input::get('permission'));
-            //$book->barcode = $random;
             $book->permission = ($permission);
             $book->update(Input::except('permission'));
             if ($book->status == Book::SS_DISAPPROVED) {
@@ -401,16 +383,9 @@ class BookController extends \BaseController {
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
             }
-            // dd($permission);
             if ($book->number != Input::get('number')) {
                 BookItem::where('book_id', '=', $book->id)->delete();
-                $barcode = $book->barcode;
-                for ($i = 1; $i <= $book->number; $i++) {
-                    $code = $barcode . sprintf("%03s", $i);
-                    $fullCode = $this->ean13_check_digit($code);
-                    $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
-                    $book->bookItems()->save($bItem);
-                }
+                $book->saveBookItem();
             }
             return Redirect::route('book.catalog.view', $book->id);
         } else {
@@ -462,6 +437,86 @@ class BookController extends \BaseController {
         $book->disapprove(Input::get('reason'));
         Session::flash('success', 'Đã báo lỗi thành công tài liệu ' . $book->title);
         return Redirect::route('book.moderate');
+    }
+
+    public function getImport($type) {
+        return View::make('book.import', array('type' => $type));
+    }
+
+    public function excelValidate($type) {
+        $v = Book::excelValidate(Input::all());
+        if ($v->passes()) {
+            $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'excels';
+            if (!is_dir($destinationPath)) {
+                mkdir($destinationPath);
+            }
+            $fileName = Input::file('book')->getClientOriginalName();
+            try {
+                Input::file('book')->move($destinationPath, $fileName);
+                $fullPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
+                $excelData = Excel::load($fullPath)->toArray();
+                $bookData = $excelData['Sheet1'];
+                unset($bookData[0]);
+                $numberOfBooks = count($bookData);
+                if ($type == Book::TYPE_BOOK) {
+                    for ($i = 1; $i <= $numberOfBooks; $i++) {
+                        $dataValidate = array();
+                        foreach (Book::$titleToExcel as $k => $v) {
+                            $dataValidate[$v] = strtolower($bookData[$i][$k]);
+                        }
+                        $v = Book::bookExcelValidate($dataValidate);
+                        if (!$v->passes()) {
+                            return Redirect::back()->with('index', $i)->withErrors($v->messages());
+                        }
+                    }
+                } else if ($type == Book::TYPE_MAGAZINE) {
+                    for ($i = 1; $i <= $numberOfBooks; $i++) {
+                        $dataValidate = array();
+                        foreach (Book::$magazineTitle as $k => $v) {
+                            $dataValidate[$v] = strtolower($bookData[$i][$k]);
+                        }
+                        $v = Book::magazineExcelValidate($dataValidate);
+                        if (!$v->passes()) {
+                            return Redirect::back()->with('index', $i)->withErrors($v->messages());
+                        }
+                    }
+                }
+                return View::make('book.import_info', array(
+                        'type' => $type,
+                        'fileName' => $fileName,
+                        'numberOfBooks' => $numberOfBooks,
+                        'filePath' => $fullPath,
+                ));
+            } catch (Exception $e) {
+                dd($e);
+                return View::make('admin.error', array(
+                        'message' => 'Lỗi hệ thống vui lòng thử lại'
+                ));
+            }
+        } else {
+            return Redirect::back()->withInput()->withErrors($v->messages());
+        }
+    }
+
+    public function postImport($type) {
+        $filePath = Input::get('file_path');
+        $excelData = Excel::load($filePath)->toArray();
+        $bookData = $excelData['Sheet1'];
+        unset($bookData[0]);
+        foreach ($bookData as $book) {
+            $bookToSave = array();
+            foreach (Book::$magazineTitle as $k => $v) {
+                $bookToSave[$v] = strtolower($book[$k]);
+            }
+            $bookToSaveConverted = Book::convertTitleToId($bookToSave);
+            $book = new Book($bookToSaveConverted);
+            $book->book_type = $type;
+            $book->barcode = '';
+            $book->save();
+            $book->saveBookItem();
+        }
+        Session::flash('success', 'Lưu thành công ' . count($bookData) . ' tài liệu từ file excel');
+        return Redirect::route('book.catalog');
     }
 
 }

@@ -17,6 +17,14 @@
                             <li><a href="{{route('book.create',Book::TYPE_MAGAZINE)}}">Tạp chí/biểu mẫu</a></li>
                         </ul>                                                    
                     </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class='i-plus-2'></i>Nhập từ file Excel</button>
+                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{route('book.import',Book::TYPE_BOOK)}}">Sách</a></li>
+                            <li><a href="{{route('book.import',Book::TYPE_MAGAZINE)}}">Tạp chí/biểu mẫu</a></li>
+                        </ul>                                                    
+                    </div>
                 </li>
             </ul>
         </div>

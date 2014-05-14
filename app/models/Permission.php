@@ -19,6 +19,7 @@ class Permission {
                 'book.submit',
                 'book.save',
                 'book.update',
+                'book.import'
             ),
         ),
         2 => array(
