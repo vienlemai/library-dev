@@ -157,6 +157,8 @@
 						});
 					} else {
 						bootbox.alert('Lỗi: Phải quét thẻ bạn đọc trước');
+						cirHandle.$circulationBook.html(defaultCirBook);
+						cirHandle.focusOnReader();
 						return false;
 					}
 

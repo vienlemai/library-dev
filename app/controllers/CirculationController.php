@@ -207,6 +207,8 @@ class CirculationController extends \BaseController {
             ->get();
         $cirCount = $this->_countCirculationScope($circulations);
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_LENDED));
+        $bookItem = BookItem::where('id', $bookItemId)->first();
+        Book::where('id', $bookItem->book_id)->increment('lended');
         $result['status'] = true;
         $viewData = array(
             'circulations' => $circulations,
@@ -231,6 +233,8 @@ class CirculationController extends \BaseController {
             ->get();
         $cirCount = $this->_countCirculationScope($circulations);
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_STORAGED));
+        $bookItem = BookItem::where('id', $bookItemId)->first(array('book_id'));
+        Book::where('id', $bookItem->book_id)->decrement('lended');
         $result['status'] = true;
         $viewData = array(
             'circulations' => $circulations,

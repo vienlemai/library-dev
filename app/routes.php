@@ -27,24 +27,9 @@ Route::group(array('prefix' => 'admin'), function () {
     ));
 
     Route::get('test', function() {
-        $input = array(
-            'permission' => 'sinh viên',
-            //'storage' => 'Tham khảo',
-        );
-        $rules = array(
-            'permission' => 'bx_permission'
-        );
-        $messages = array(
-            'permission.bx_permission' => 'Storage is not valid'
-        );
-        $validator = Validator::make(
-                $input, $rules, $messages
-        );
-        if ($validator->passes()) {
-            echo 'passs';
-        } else {
-            var_dump($validator->messages());
-        }
+        $bookItem = BookItem::where('id', 24)->get()->toArray();
+        dd($bookItem);
+        Book::where('id', $bookItem->book_id)->increment('lended');
     });
     Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'AdminController@index'));
     Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
@@ -105,6 +90,11 @@ Route::group(array('prefix' => 'admin'), function () {
     Route::get('user/search', array(
         'as' => 'user.search',
         'uses' => 'UserController@search'
+    ));
+
+    Route::get('book/exportchoose/{permission}', array(
+        'as' => 'book.export.choose',
+        'uses' => 'BookController@exportChoose'
     ));
 
 
@@ -258,6 +248,11 @@ Route::group(array('prefix' => 'admin'), function () {
             'as' => 'user.edit',
             'uses' => 'UserController@edit',
         ));
+
+        Route::get('send-mail', array(
+            'as' => 'send.mail',
+            'uses' => 'AdminController@sendMail'
+        ));
     });
 
 
@@ -340,6 +335,15 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('book/excelValidate/{type}', array(
             'as' => 'book.excelValidate',
             'uses' => 'BookController@excelValidate',
+        ));
+
+        Route::post('send-mail', array(
+            'as' => 'send.mail',
+            'uses' => 'AdminController@postSendMail'
+        ));
+        Route::post('book/export', array(
+            'as' => 'book.export',
+            'uses' => 'BookController@export'
         ));
     });
 });

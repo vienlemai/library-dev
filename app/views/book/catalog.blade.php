@@ -25,6 +25,7 @@
                             <li><a href="{{route('book.import',Book::TYPE_MAGAZINE)}}">Tạp chí/biểu mẫu</a></li>
                         </ul>                                                    
                     </div>
+                    <button class="btn btn-primary btn-export-excel" data-modal="show-modal" data-url="{{route('book.export.choose',User::TYPE_CATALOGER)}}">Xuất file excel</button>
                 </li>
             </ul>
         </div>
@@ -53,7 +54,6 @@
                                     <span><?php echo Book::$CAT_SS_LABELS[Book::SS_DISAPPROVED] ?></span>
                                 </div>
                             </li>
-
                             <li style="width: 24%">
                                 <div class='text-success'>
                                     <?php echo ($count[Book::SS_PUBLISHED]) ?>

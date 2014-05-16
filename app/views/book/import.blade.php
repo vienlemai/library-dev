@@ -25,7 +25,7 @@
                         ->label('Chọn file (*)')
             }}
             {{Former::actions()
-                        ->primary_submit('Lưu')
+                        ->primary_submit('Tải lên')
                         ->inverse_reset('Nhập lại')
             }}
             {{Former::close();

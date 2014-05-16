@@ -5,6 +5,19 @@
         <div class='page-title'>
             Danh sách tài liệu đang lưu hành
         </div>
+        <div class='page-tools'>
+            <ul>
+                <li>
+                    {{ Former::horizontal_open(route('book.export'))->method('POST') }}
+                    <input type="hidden" name="status[]" value="<?php echo Book::SS_PUBLISHED ?>"/>
+
+                    {{Former::token()
+                    }}
+                    <button class="btn btn-primary" type="submit">Xuất file excel</button>
+                    {{Former::close()}}
+                </li>
+            </ul>
+        </div>
     </div>
     <div class='content'>
         @include('partials.flash')		
@@ -29,7 +42,9 @@
                                 <th style='width:5%'>TT</th>
                                 <th>Tiêu đề</th>
                                 <th>Tác giả</th>
+                                <th>Thể loại</th>
                                 <th>Số lượng</th>
+                                <th>Còn lại</th>
                                 <th>Ngày lưu hành</th>
                                 <th>Thao tác</th>
                             </tr>
@@ -43,7 +58,9 @@
                                     </td>
                                     <td>{{$book->title }}</td>
                                     <td>{{$book->author}}</td>
+                                    <td>{{$book->getBookTypeName()}}</td>
                                     <td>{{$book->number}}</td>
+                                    <td>{{$book->number - $book->lended}}</td>
                                     <td>{{$book->published_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
                                     <td>
                                         <div class='row-actions'>

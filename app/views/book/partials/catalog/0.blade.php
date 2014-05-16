@@ -43,11 +43,11 @@
                                 Xem
                             </a>
                             <a class='text-warning' href='{{route('book.edit',$book->id)}}'>
-                               <i class='i-pencil'></i>
+                                <i class='i-pencil'></i>
                                 Sửa
                             </a>
                             <a class='text-error' href='{{route('book.delete',$book->id)}}' data-confirm="Bạn có chắc chắn muốn xóa tài liệu {{$book->title}}" data-method="delete" data-token="{{csrf_token()}}">
-                               <i class='i-cancel-2'></i>
+                                <i class='i-cancel-2'></i>
                                 Xóa
                             </a>			
                         </div>
@@ -60,9 +60,9 @@
 </div>
 <div class='footer'>
     <div class="side">
-        <button class="btn btn-primary btn-check-submit" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
+        <button class="btn btn-primary" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
         <span class="check-info" style="display: none"></span>
-        <div class=' fr'>
+        <div class='fr'>
             <div class='pagination'>
                 @if(isset($keyword))
                 {{$books->appends(array('book-type'=>Book::SS_ADDED,'keyword'=>$keyword))->links()}}

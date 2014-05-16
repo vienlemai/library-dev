@@ -171,4 +171,12 @@ class Reader extends Eloquent implements IActivityAuthor {
         return $this->reader_type == self::TYPE_STUDENT;
     }
 
+    public static function readerBorrowing() {
+        $readers = Reader::whereHas('circulations', function($query) {
+                $query->where('returned', false);
+                //->where('scope',  Book::SCOPE_AWAY);
+            });
+        return $readers->get();
+    }
+
 }

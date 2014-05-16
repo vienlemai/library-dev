@@ -4,6 +4,10 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface, IActivityAuthor {
+    const TYPE_CATALOGER = 1;
+    const TYPE_MODERATOR = 2;
+    const TYPE_LIBRARIAN = 3;
+
     protected $table = 'users';
     protected $fillable = array(
         'username',
@@ -127,6 +131,19 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
 
     public function representString() {
         return $this->full_name;
+    }
+
+    public static function mailContentValidate($input) {
+        $rules = array(
+            'title' => 'required',
+            'content' => 'required'
+        );
+        $message = array(
+            'title.required' => 'Không được để trống tiêu đề email',
+            'content.required' => 'Không được để trống nội dung email',
+        );
+
+        return Validator::make($input, $rules, $message);
     }
 
 }

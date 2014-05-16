@@ -19,7 +19,8 @@ class Permission {
                 'book.submit',
                 'book.save',
                 'book.update',
-                'book.import'
+                'book.import',
+                'book.export.choose'
             ),
         ),
         2 => array(
@@ -81,12 +82,14 @@ class Permission {
             ),
         ),
         6 => array(
-            'title' => 'Cấu hình hệ thống',
+            'title' => 'Quản trị hệ thống',
             'menus' => array(
                 'configs' => 'Cấu hình',
                 'users' => 'Nhân viên',
+                'send.mail' => 'Gửi mail thu hồi tài liệu'
             ),
             'routes' => array(
+                'send.mail',
                 'configs',
                 'users',
                 'user.create',

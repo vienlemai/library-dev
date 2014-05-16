@@ -505,18 +505,48 @@ class BookController extends \BaseController {
         unset($bookData[0]);
         foreach ($bookData as $book) {
             $bookToSave = array();
-            foreach (Book::$magazineTitle as $k => $v) {
-                $bookToSave[$v] = strtolower($book[$k]);
+            if ($type == Book::TYPE_BOOK) {
+                foreach (Book::$titleToExcel as $k => $v) {
+                    $bookToSave[$v] = strtolower($book[$k]);
+                }
+            } else if ($type == Book::TYPE_MAGAZINE) {
+                foreach (Book::$magazineTitle as $k => $v) {
+                    $bookToSave[$v] = strtolower($book[$k]);
+                }
             }
             $bookToSaveConverted = Book::convertTitleToId($bookToSave);
             $book = new Book($bookToSaveConverted);
             $book->book_type = $type;
-            $book->barcode = '';
             $book->save();
             $book->saveBookItem();
         }
         Session::flash('success', 'Lưu thành công ' . count($bookData) . ' tài liệu từ file excel');
         return Redirect::route('book.catalog');
+    }
+
+    public function exportChoose($permission) {
+        //$listStatus = 1;
+        if ($permission == User::TYPE_CATALOGER) {
+            $listStatus = Book::$CAT_SS_LABELS;
+        } else if ($permission == User::TYPE_MODERATOR) {
+            $listStatus = Book::$MOD_SS_LABEL;
+        } else if ($permission == User::TYPE_LIBRARIAN) {
+            
+        }
+        return View::make('book.export_choose', array('listStatus' => $listStatus));
+    }
+
+    public function export() {
+        $status = Input::get('status');
+        $excel = Excel::create('Danh_sach_tai_lieu_' . Carbon\Carbon::now()->format('d_m_Y'));
+        foreach ($status as $s) {
+            $dataToExport = Book::dataForExcel($s);
+            if (!empty($dataToExport)) {
+                $excel->sheet(Book::getExcelSheetTitle($s))
+                    ->with($dataToExport);
+            }
+        }
+        $excel->export('xls');
     }
 
 }

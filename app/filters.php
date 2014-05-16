@@ -41,6 +41,8 @@ App::after(function($request, $response) {
     }
     $log .= $sql_log . "\n";
     $log .= str_repeat('=', 100) . "\n";
+    $logFile = __DIR__ . DIRECTORY_SEPARATOR . 'log.txt';
+    file_put_contents($logFile, $log, FILE_APPEND);
     file_put_contents('php://stdout', $log);
 });
 /*

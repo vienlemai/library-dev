@@ -31,6 +31,8 @@
             } else {
                 echo View::make('book.partials.edit_magazine', array(
                     'book' => $book,
+                    'storageOptions' => $storageOptions,
+                    'levels' => Book::$LEVELS,
                     'scopes' => $scopes,
                     'readerTypes' => $readerTypes,
                 ))->render();

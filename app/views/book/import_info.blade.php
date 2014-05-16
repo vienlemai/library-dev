@@ -34,10 +34,10 @@
                 {{Former::hidden('file_path')
                     ->value($filePath)
                 }}
-                {{Former::actions()
-                        ->primary_submit('Lưu')
-                        ->inverse_reset('Nhập lại')
-                }}
+                <div class="form-actions">
+                    <button class="btn-primary btn" type="submit" value="Lưu">Lưu</button>
+                    <a href="{{route('book.import',$type)}}" class="btn-inverse btn">Hủy</a>
+                </div>
                 {{Former::close();
                 }}
             </div>

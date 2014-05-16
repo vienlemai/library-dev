@@ -119,17 +119,3 @@
         </div>
     </div>
 </div>
-<div class='footer'>
-    <div class='text-center'>
-        <button class='btn' type="reset">
-            <i class='i-ccw'></i>
-            Nhập lại
-        </button>
-        <button class='btn btn-primary'>
-            <i class='i-checkmark-2'></i>
-            Lưu tài liệu
-        </button>
-    </div>
-</div>
-<?php echo Former::close() ?>
-<?php echo Former::close() ?>

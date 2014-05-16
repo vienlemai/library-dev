@@ -103,6 +103,48 @@ class Book extends Eloquent {
         11 => 'Kỹ thuật hình sự',
         12 => 'CA phụ trách xã'
     );
+    private static $bookDBToTitle = array(
+        'title' => 'Nhan đề',
+        'sub_title' => 'Nhan đề song song',
+        'author' => 'Tác giả',
+        'translator' => 'Dịch giả',
+        'publish_info' => 'Thông tin xuất bản',
+        'publisher' => 'Nhà xuất bản',
+        'printer' => 'Nhà in',
+        'pages' => 'Số trang',
+        'size' => 'Kích cỡ',
+        'attach' => 'Tài liệu đính kèm',
+        'organization' => 'Mã cơ quan',
+        'language' => 'Ngôn ngữ',
+        'cutter' => 'Số cutter',
+        'type_number' => 'Số phân loại',
+        'price' => 'Giá',
+        'storage' => 'Nơi lưu trữ',
+        'number' => 'Số lượng',
+        'level' => 'Mức độ',
+        'scope' => 'Phạm vi mượn',
+        'permission' => 'Quyền mượn',
+        'another_infor' => 'Thông tin khác',
+    );
+    private static $magazineDBToTitle = array(
+        'title' => 'Nhan đề',
+        'magazine_number' => 'Số tạp chí',
+        'magazine_publish_day' => 'Ngày ra tạp chí',
+        'magazine_additional' => 'Phụ trương',
+        'magazine_special' => 'Số đặc biệt',
+        'magazine_local' => 'Khu vực',
+        'organization' => 'Mã cơ quan',
+        'language' => 'Ngôn ngữ',
+        'cutter' => 'Số cutter',
+        'type_number' => 'Số phân loại',
+        'price' => 'Giá',
+        'storage' => 'Nơi lưu trữ',
+        'number' => 'Số lượng',
+        'level' => 'Mức độ',
+        'scope' => 'Phạm vi mượn',
+        'permission' => 'Quyền mượn',
+        'another_infor' => 'Thông tin khác',
+    );
     //labels of a book for cataloger
     public static $CAT_SS_LABELS = array(
         0 => 'Đang biên mục',
@@ -354,10 +396,10 @@ class Book extends Eloquent {
             'title' => 'required',
             'number' => 'required|integer|min:1',
             'storage' => 'required',
-            'level' => 'required|in:bình thường,mật,tối mật, tuyệt mật',
-            'scope' => 'required|in:tại chỗ,về nhà',
-            'permission' => 'required|bx_permission',
-            'storage' => 'required|bx_storage'
+            'level' => 'in:bình thường,mật,tối mật, tuyệt mật',
+            'scope' => 'in:tại chỗ,về nhà',
+            'permission' => 'bx_permission',
+            'storage' => 'bx_storage'
         );
         $messages = array(
             'title.required' => 'Không được để trống tiêu đề',
@@ -369,9 +411,7 @@ class Book extends Eloquent {
             'pages.integer' => 'Số trang phải là một số nguyên',
             'pages.min' => 'Số trang phải lớn hơn 0',
             'level.in' => 'Mức độ tài liệu phải thuộc một trong các giá trị: bình thường, mật, tối mật, tuyệt mật',
-            'scope.required' => 'Không được để trống phạm vi mượn',
             'scope.in' => 'Phạm vi mượn không hợp lệ, phải thuộc một trong các giá trị: tại chỗ, về nhà',
-            'permission.required' => 'Không được để trống quyền mượn',
             'permission.bx_permission' => 'Đối tượng được mượn không hợp lệ',
             'storage.required' => 'Không được để trống nơi lưu trữ',
             'storage.bx_storage' => 'Nơi lưu trữ không hợp lệ'
@@ -410,6 +450,14 @@ class Book extends Eloquent {
         return $book;
     }
 
+    public static function convertPermission($permission) {
+        foreach (Reader::$TYPE_LABELS as $k => $v) {
+            $permission = str_ireplace($k, $v, $permission);
+        }
+        $permission = substr($permission, 1, strlen($permission) - 2);
+        return $permission;
+    }
+
     public function saveBookItem() {
         for ($i = 1; $i <= $this->number; $i++) {
             $code = $this->barcode . sprintf("%03s", $i);
@@ -431,6 +479,96 @@ class Book extends Eloquent {
         $next_ten = (ceil($total_sum / 10)) * 10;
         $check_digit = $next_ten - $total_sum;
         return $digits . $check_digit;
+    }
+
+    public function getBookTypeName() {
+        return $this->book_type == self::TYPE_BOOK ? 'Sách' : 'Tạp chí / biểu mẫu';
+    }
+
+    public static function dataForExcel($type) {
+        $books = Book::where('status', $type)
+            ->where('book_type', Book::TYPE_BOOK)
+            ->get();
+        $dataToExport = array();
+        if (!$books->isEmpty()) {
+            $titles = array();
+            array_push($dataToExport, array('Sách'));
+            foreach (Book::$titleToExcel as $k => $v) {
+                array_push($titles, self::$bookDBToTitle[$v]);
+            }
+            array_push($dataToExport, $titles);
+            foreach ($books as $book) {
+                $bookData = array();
+                array_push($bookData, $book->title);
+                array_push($bookData, $book->sub_title);
+                array_push($bookData, $book->author);
+                array_push($bookData, $book->translator);
+                array_push($bookData, $book->publish_info);
+                array_push($bookData, $book->publisher);
+                array_push($bookData, $book->printer);
+                array_push($bookData, $book->pages);
+                array_push($bookData, $book->size);
+                array_push($bookData, $book->attach);
+                array_push($bookData, $book->organization);
+                array_push($bookData, $book->language);
+                array_push($bookData, $book->cutter);
+                array_push($bookData, $book->type_number);
+                array_push($bookData, $book->price);
+                array_push($bookData, self::$storageTitle[$book->storage]);
+                array_push($bookData, $book->number);
+                array_push($bookData, self::$LEVELS[$book->level]);
+                array_push($bookData, self::$SCOPE_LABELS[$book->book_scope]);
+                array_push($bookData, self::convertPermission($book->permission));
+                array_push($bookData, $book->another_infor);
+                array_push($dataToExport, $bookData);
+            }
+        }
+        $magazines = Book::where('status', $type)
+            ->where('book_type', Book::TYPE_MAGAZINE)
+            ->get();
+        if (!$books->isEmpty()) {
+            $mtitles = array();
+            foreach (Book::$magazineTitle as $k => $v) {
+                array_push($mtitles, self::$magazineDBToTitle[$v]);
+            }
+            array_push($dataToExport, array('Tạp chí/Biểu mẫu'));
+            array_push($dataToExport, $mtitles);
+            foreach ($magazines as $book) {
+                $bookData = array();
+                array_push($bookData, $book->title);
+                array_push($bookData, $book->magazine_number);
+                array_push($bookData, $book->magazine_publish_day);
+                array_push($bookData, $book->magazine_additional);
+                array_push($bookData, $book->magazine_special);
+                array_push($bookData, $book->magazine_local);
+                array_push($bookData, $book->organization);
+                array_push($bookData, $book->language);
+                array_push($bookData, $book->cutter);
+                array_push($bookData, $book->type_number);
+                array_push($bookData, $book->price);
+                array_push($bookData, self::$storageTitle[$book->storage]);
+                array_push($bookData, $book->number);
+                array_push($bookData, self::$LEVELS[$book->level]);
+                array_push($bookData, self::$SCOPE_LABELS[$book->book_scope]);
+                array_push($bookData, self::convertPermission($book->permission));
+                array_push($bookData, $book->another_infor);
+                array_push($dataToExport, $bookData);
+            }
+        }
+        return $dataToExport;
+    }
+
+    public static function getExcelSheetTitle($bookStatus) {
+        switch ($bookStatus) {
+            case self::SS_ADDED:
+                return 'Tai_Lieu_Dang_Bien_Muc';
+            case self::SS_DISAPPROVED:
+                return 'Tai_Lieu_Loi';
+            case self::SS_SUBMITED:
+                return 'Tai_Lieu_Dang_Cho_Kiem_Duyet';
+            case self::SS_PUBLISHED:
+                return 'Tai_Lieu_Da_Luu_Hanh';
+        }
     }
 
 }

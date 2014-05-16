@@ -10,7 +10,7 @@ class StatisticsController extends \BaseController {
         if (Request::isMethod('GET')) {
             return View::make('statistics.reader');
         } else {
-            $result = [];
+            $result = array();
             if (Input::get('all_readers') == 1) {
                 $result['all_readers'] = Reader::count();
             }
@@ -31,12 +31,12 @@ class StatisticsController extends \BaseController {
         if (Request::isMethod('GET')) {
             return View::make('statistics.book');
         } else {
-            $result = [];
+            $result = array();
             $result['all_books'] = Book::count();
             $result['books'] = Book::books()->count();
             $result['magazines'] = Book::magazines()->count();
             
-            $response = [];
+            $response = array();
             $response['success'] = true;
             $response['html'] = View::make('statistics._book_result')->with('result', $result)->render();
             return Response::json($response);
