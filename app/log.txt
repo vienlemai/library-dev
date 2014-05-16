@@ -5456,3 +5456,576 @@ Queries   4
 [0.82ms] Select count(*) as aggregate from `books` where `status` = 3
 [1.1ms] Select * from `books` where `status` = 3 order by `published_at` desc limit 20 offset 0
 ====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/library/view/4
+Process   BookController@libraryView
+Type      AJAX
+Params    []
+Queries   8
+
+[1.23ms] Select * from `users` where `id` = 1 limit 1
+[0.98ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.22ms] Select * from `books` where `id` = 4 limit 1
+[0.79ms] Select * from `users` where `users`.`id` in (1)
+[0.66ms] Select * from `users` where `users`.`id` in (1)
+[0.99ms] Select * from `storages` where `id` = 11 limit 1
+[0.69ms] Select * from `storages` where `storages`.`id` = 6 limit 1
+[0.71ms] Select * from `storages` where `storages`.`id` = 2 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.85ms] Select * from `users` where `id` = 1 limit 1
+[0.81ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.85ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.61ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.65ms] Select count(*) as aggregate from `books` where `status` = 2
+[1ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.86ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[1.12ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.65ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.64ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.77ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.67ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[1.18ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/import/1
+Process   BookController@getImport
+Type      HTML
+Params    []
+Queries   2
+
+[0.83ms] Select * from `users` where `id` = 1 limit 1
+[0.81ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/import/favicon.ico
+Process   BookController@getImport
+Type      HTML
+Params    []
+Queries   2
+
+[1.09ms] Select * from `users` where `id` = 1 limit 1
+[0.88ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/import/favicon.ico
+Process   BookController@getImport
+Type      HTML
+Params    []
+Queries   2
+
+[0.96ms] Select * from `users` where `id` = 1 limit 1
+[0.74ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.94ms] Select * from `users` where `id` = 1 limit 1
+[1.06ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.77ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.56ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.51ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.94ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[1.3ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[1.08ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.9ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.71ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.71ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.53ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.87ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/library
+Process   BookController@library
+Type      HTML
+Params    []
+Queries   4
+
+[0.94ms] Select * from `users` where `id` = 1 limit 1
+[0.81ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.83ms] Select count(*) as aggregate from `books` where `status` = 3
+[1.28ms] Select * from `books` where `status` = 3 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/library/view/4
+Process   BookController@libraryView
+Type      AJAX
+Params    []
+Queries   8
+
+[0.86ms] Select * from `users` where `id` = 1 limit 1
+[0.73ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.99ms] Select * from `books` where `id` = 4 limit 1
+[0.79ms] Select * from `users` where `users`.`id` in (1)
+[0.67ms] Select * from `users` where `users`.`id` in (1)
+[0.78ms] Select * from `storages` where `id` = 11 limit 1
+[0.81ms] Select * from `storages` where `storages`.`id` = 6 limit 1
+[0.6ms] Select * from `storages` where `storages`.`id` = 2 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/send-mail
+Process   AdminController@sendMail
+Type      HTML
+Params    []
+Queries   3
+
+[0.93ms] Select * from `users` where `id` = 1 limit 1
+[0.8ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.42ms] Select * from `readers` where (select count(*) from `circulations` where `circulations`.`reader_id` = `readers`.`id` and `returned` =  and `returned` = ) >= 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    []
+Queries   2
+
+[0.93ms] Select * from `users` where `id` = 1 limit 1
+[0.85ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin
+Process   AdminController@index
+Type      HTML
+Params    []
+Queries   12
+
+[0.91ms] Select * from `users` where `id` = 1 limit 1
+[0.85ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.87ms] Select count(*) as aggregate from `activities`
+[0.87ms] Select * from `activities` order by `created_at` desc limit 10 offset 0
+[1.64ms] Select * from `readers` where `id` in (1)
+[1.88ms] Select * from `books` where `id` in (2, 1)
+[0.73ms] Select count(*) as aggregate from `readers` where `reader_type` = 3
+[0.58ms] Select count(*) as aggregate from `readers` where `reader_type` = 2
+[0.55ms] Select count(*) as aggregate from `readers` where `reader_type` = 1
+[2.37ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1) >= 1
+[2.16ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2) >= 1
+[0.79ms] Select count(*) as aggregate from `users`
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"2"}
+Queries   8
+
+[0.91ms] Select * from `users` where `id` = 1 limit 1
+[0.74ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.83ms] Select count(*) as aggregate from `activities`
+[0.8ms] Select * from `activities` order by `created_at` desc limit 10 offset 10
+[0.77ms] Select * from `users` where `id` in (1)
+[0.87ms] Select * from `readers` where `id` in (1)
+[0.98ms] Select * from `books` where `id` in (4, 3, 2, 1)
+[0.73ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"1"}
+Queries   6
+
+[1.12ms] Select * from `users` where `id` = 1 limit 1
+[0.97ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.91ms] Select count(*) as aggregate from `activities`
+[0.89ms] Select * from `activities` order by `created_at` desc limit 10 offset 0
+[1.06ms] Select * from `readers` where `id` in (1)
+[1.42ms] Select * from `books` where `id` in (2, 1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"2"}
+Queries   8
+
+[0.97ms] Select * from `users` where `id` = 1 limit 1
+[0.91ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.7ms] Select count(*) as aggregate from `activities`
+[0.71ms] Select * from `activities` order by `created_at` desc limit 10 offset 10
+[0.88ms] Select * from `users` where `id` in (1)
+[0.94ms] Select * from `readers` where `id` in (1)
+[1.35ms] Select * from `books` where `id` in (4, 3, 2, 1)
+[0.79ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"1"}
+Queries   6
+
+[0.95ms] Select * from `users` where `id` = 1 limit 1
+[0.78ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.75ms] Select count(*) as aggregate from `activities`
+[0.71ms] Select * from `activities` order by `created_at` desc limit 10 offset 0
+[0.86ms] Select * from `readers` where `id` in (1)
+[1.03ms] Select * from `books` where `id` in (2, 1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"2"}
+Queries   8
+
+[0.89ms] Select * from `users` where `id` = 1 limit 1
+[0.86ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.69ms] Select count(*) as aggregate from `activities`
+[0.71ms] Select * from `activities` order by `created_at` desc limit 10 offset 10
+[0.75ms] Select * from `users` where `id` in (1)
+[0.79ms] Select * from `readers` where `id` in (1)
+[0.99ms] Select * from `books` where `id` in (4, 3, 2, 1)
+[0.86ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"1"}
+Queries   6
+
+[0.93ms] Select * from `users` where `id` = 1 limit 1
+[0.72ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.75ms] Select count(*) as aggregate from `activities`
+[0.63ms] Select * from `activities` order by `created_at` desc limit 10 offset 0
+[0.81ms] Select * from `readers` where `id` in (1)
+[0.89ms] Select * from `books` where `id` in (2, 1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/activity/search
+Process   ActivityController@search
+Type      AJAX
+Params    {"page":"2"}
+Queries   8
+
+[0.81ms] Select * from `users` where `id` = 1 limit 1
+[0.64ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.73ms] Select count(*) as aggregate from `activities`
+[0.69ms] Select * from `activities` order by `created_at` desc limit 10 offset 10
+[0.9ms] Select * from `users` where `id` in (1)
+[0.81ms] Select * from `readers` where `id` in (1)
+[1.07ms] Select * from `books` where `id` in (4, 3, 2, 1)
+[0.78ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   0
+
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/login
+Process   AdminController@login
+Type      HTML
+Params    []
+Queries   1
+
+[1.33ms] Select * from `configs`
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/login
+Process   AdminController@postLogin
+Type      HTML
+Params    {"username":"admin","password":"123456"}
+Queries   1
+
+[1.19ms] Select * from `users` where `username` = admin limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.93ms] Select * from `users` where `id` = 1 limit 1
+[1.1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.14ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.61ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.54ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.81ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.92ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.85ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.75ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.58ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.71ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.88ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/exportchoose/1
+Process   BookController@exportChoose
+Type      AJAX
+Params    []
+Queries   2
+
+[1.06ms] Select * from `users` where `id` = 1 limit 1
+[0.82ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[1.03ms] Select * from `users` where `id` = 1 limit 1
+[0.89ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.91ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.65ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.9ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.85ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.76ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.85ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.7ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.72ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.56ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.73ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.79ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[1.12ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/exportchoose/1
+Process   BookController@exportChoose
+Type      AJAX
+Params    []
+Queries   2
+
+[0.93ms] Select * from `users` where `id` = 1 limit 1
+[0.96ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.95ms] Select * from `users` where `id` = 1 limit 1
+[0.74ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.08ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.5ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.48ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.64ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.87ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.82ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.76ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.56ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.73ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.55ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.99ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/exportchoose/1
+Process   BookController@exportChoose
+Type      AJAX
+Params    []
+Queries   2
+
+[0.86ms] Select * from `users` where `id` = 1 limit 1
+[0.76ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/book/export
+Process   BookController@export
+Type      HTML
+Params    {"_token":"irCXwnhRRnd1I0vUNplUPqFOT9DSle9kMxAF2kug"}
+Queries   2
+
+[0.88ms] Select * from `users` where `id` = 1 limit 1
+[0.74ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.99ms] Select * from `users` where `id` = 1 limit 1
+[0.9ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.76ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.5ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.57ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.56ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.71ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.82ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.72ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.72ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.54ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.62ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.55ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.83ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.82ms] Select * from `users` where `id` = 1 limit 1
+[0.62ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.83ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.57ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.75ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.72ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.55ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.72ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.54ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.62ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.43ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.61ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.42ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.89ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/exportchoose/1
+Process   BookController@exportChoose
+Type      AJAX
+Params    []
+Queries   2
+
+[0.95ms] Select * from `users` where `id` = 1 limit 1
+[0.79ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.94ms] Select * from `users` where `id` = 1 limit 1
+[0.91ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.75ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.53ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.53ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.65ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.84ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.61ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.77ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.64ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.88ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.91ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.81ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.79ms] Select * from `users` where `id` = 1 limit 1
+[0.73ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.58ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.42ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.4ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.39ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.66ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.75ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.57ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.62ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.66ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.94ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.86ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[1.37ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/exportchoose/1
+Process   BookController@exportChoose
+Type      AJAX
+Params    []
+Queries   2
+
+[0.91ms] Select * from `users` where `id` = 1 limit 1
+[0.71ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[1.08ms] Select * from `users` where `id` = 1 limit 1
+[1.42ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.91ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.58ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.69ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.53ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.66ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.82ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.62ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.98ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.59ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.8ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.58ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.89ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/exportchoose/1
+Process   BookController@exportChoose
+Type      AJAX
+Params    []
+Queries   2
+
+[0.96ms] Select * from `users` where `id` = 1 limit 1
+[0.75ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/book/export
+Process   BookController@export
+Type      HTML
+Params    {"status":["1","2"],"_token":"irCXwnhRRnd1I0vUNplUPqFOT9DSle9kMxAF2kug"}
+Queries   6
+
+[1.3ms] Select * from `users` where `id` = 1 limit 1
+[0.87ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.02ms] Select * from `books` where `status` = 1 and `book_type` = 1
+[0.9ms] Select * from `books` where `status` = 1 and `book_type` = 2
+[1ms] Select * from `books` where `status` = 2 and `book_type` = 1
+[0.82ms] Select * from `books` where `status` = 2 and `book_type` = 2
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.96ms] Select * from `users` where `id` = 1 limit 1
+[0.89ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[0.88ms] Select count(*) as aggregate from `books` where `status` = 0
+[0.62ms] Select count(*) as aggregate from `books` where `status` = 1
+[0.52ms] Select count(*) as aggregate from `books` where `status` = 2
+[0.49ms] Select count(*) as aggregate from `books` where `status` = 3
+[0.68ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[0.99ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.69ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[0.74ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.53ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[0.69ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.55ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[0.9ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================

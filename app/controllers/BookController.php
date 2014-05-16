@@ -538,6 +538,10 @@ class BookController extends \BaseController {
 
     public function export() {
         $status = Input::get('status');
+        if (empty($status)) {
+            Session::flash('error', 'Bạn phải chọn ít nhất 1 loại tài liệu để xuất file excel');
+            return Redirect::back();
+        }
         $excel = Excel::create('Danh_sach_tai_lieu_' . Carbon\Carbon::now()->format('d_m_Y'));
         foreach ($status as $s) {
             $dataToExport = Book::dataForExcel($s);
@@ -545,6 +549,11 @@ class BookController extends \BaseController {
                 $excel->sheet(Book::getExcelSheetTitle($s))
                     ->with($dataToExport);
             }
+        }
+        $excelData = $excel->toArray();
+        if (empty($excelData)) {
+            Session::flash('error', 'Hiện không có dữ liệu theo yêu cầu của bạn, không thể xuất file excel');
+            return Redirect::back();
         }
         $excel->export('xls');
     }
