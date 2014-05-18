@@ -6029,3 +6029,394 @@ Queries   14
 [0.55ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
 [0.9ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
 ====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.45ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.93ms] Select * from `users` where `id` = 1 limit 1
+[0.71ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.72ms] Select * from `users` where `id` = 1 limit 1
+[0.48ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.82ms] Select * from `users` where `id` = 1 limit 1
+[0.46ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.72ms] Select * from `users` where `id` = 1 limit 1
+[0.5ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.7ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.49ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.75ms] Select * from `users` where `id` = 1 limit 1
+[0.49ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.9ms] Select * from `users` where `id` = 1 limit 1
+[0.46ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.72ms] Select * from `users` where `id` = 1 limit 1
+[0.5ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.87ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.81ms] Select * from `users` where `id` = 1 limit 1
+[0.55ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.85ms] Select * from `users` where `id` = 1 limit 1
+[0.77ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.49ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.51ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.71ms] Select * from `users` where `id` = 1 limit 1
+[0.5ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.78ms] Select * from `users` where `id` = 1 limit 1
+[0.98ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.46ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.71ms] Select * from `users` where `id` = 1 limit 1
+[0.46ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.77ms] Select * from `users` where `id` = 1 limit 1
+[0.48ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.7ms] Select * from `users` where `id` = 1 limit 1
+[0.48ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/book/catalog
+Process   BookController@catalog
+Type      HTML
+Params    []
+Queries   14
+
+[0.75ms] Select * from `users` where `id` = 1 limit 1
+[0.52ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[584.29ms] Select count(*) as aggregate from `books` where `status` = 0
+[1.11ms] Select count(*) as aggregate from `books` where `status` = 1
+[1.39ms] Select count(*) as aggregate from `books` where `status` = 2
+[1.16ms] Select count(*) as aggregate from `books` where `status` = 3
+[42.08ms] Select count(*) as aggregate from `books` where `status` = 0 and `created_by` = 1
+[89.18ms] Select * from `books` where `status` = 0 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[0.62ms] Select count(*) as aggregate from `books` where `status` = 1 and `created_by` = 1
+[36.68ms] Select * from `books` where `status` = 1 and `created_by` = 1 order by `submitted_at` desc limit 20 offset 0
+[0.64ms] Select count(*) as aggregate from `books` where `status` = 2 and `created_by` = 1
+[1.34ms] Select * from `books` where `status` = 2 and `created_by` = 1 order by `updated_at` desc limit 20 offset 0
+[2.24ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
+[2.55ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/book/import/1
+Process   BookController@getImport
+Type      HTML
+Params    []
+Queries   1
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/error/permission
+Process   AdminController@error
+Type      HTML
+Params    []
+Queries   2
+
+[0.7ms] Select * from `users` where `id` = 1 limit 1
+[0.46ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/error/favicon.ico
+Process   AdminController@error
+Type      HTML
+Params    []
+Queries   2
+
+[0.72ms] Select * from `users` where `id` = 1 limit 1
+[0.56ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.81ms] Select * from `users` where `id` = 1 limit 1
+[0.49ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.81ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.72ms] Select * from `users` where `id` = 1 limit 1
+[0.5ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.75ms] Select * from `users` where `id` = 1 limit 1
+[0.5ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.88ms] Select * from `users` where `id` = 1 limit 1
+[0.82ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.85ms] Select * from `users` where `id` = 1 limit 1
+[0.71ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.63ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.77ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.82ms] Select * from `users` where `id` = 1 limit 1
+[0.62ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   2
+
+[0.71ms] Select * from `users` where `id` = 1 limit 1
+[0.47ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/tim-kiem
+Process   PageController@search
+Type      HTML
+Params    []
+Queries   2
+
+[0.69ms] Select * from `users` where `id` = 1 limit 1
+[0.49ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
