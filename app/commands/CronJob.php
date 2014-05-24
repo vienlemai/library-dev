@@ -38,14 +38,16 @@ class CronJob extends Command {
         $readers = Reader::get();
         $now = Carbon\Carbon::now();
         foreach ($readers as $reader) {
-            if (!$now->lt($reader->expired_at)) {
+            $diff = $now->diffInDays($reader->expired_at);
+            if (!$reader->expired_at->lt($now) && $diff > 0) {
                 Reader::where('id', '=', $reader->id)
                     ->update(array('expired' => true));
             }
         }
         $circulations = Circulation::get();
         foreach ($circulations as $circulation) {
-            if (!$now->lt($circulation->expired_at)) {
+            $diff = $now->diffInDays($circulation->expired_at);
+            if (!$circulation->expired_at->lt($now) && $diff > 0) {
                 Circulation::where('id', '=', $circulation->id)
                     ->update(array('expired' => true));
             }

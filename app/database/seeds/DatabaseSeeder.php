@@ -9,11 +9,24 @@ class DatabaseSeeder extends Seeder {
      */
     public function run() {
         //Eloquent::unguard();
-
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
-        $this->call('UserTableSeeder');
+        $this->call('SystemConfigSeed');
         $this->command->info('table seeded!');
+    }
+
+}
+
+class SystemConfigSeed extends Seeder {
+
+    public function run() {
+        DB::table('system_configs')
+            ->truncate();
+        DB::table('system_configs')
+            ->insert(array(
+                'name' => 'last_execute',
+                'day' => Carbon\Carbon::now()
+        ));
     }
 
 }

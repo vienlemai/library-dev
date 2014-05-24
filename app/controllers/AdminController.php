@@ -29,7 +29,10 @@ class AdminController extends BaseController {
         $message = '';
         switch ($type) {
             case 'permission': $message = "Bạn không có quyền truy cập vào đây";
-            //default : $message = 'Lỗi hệ thống';
+                break;
+            case 'inventory':$message = 'Có một đợt kiểm kê đang diễn ra, bạn không thể thực hiện thao tác này cho đến khi kiểm kê kết thúc.';
+                break;
+            default : $message = 'Lỗi hệ thống';
         }
         return View::make('admin.error', compact('message'));
     }

@@ -1,3 +1,4 @@
+<?php $isLocal = ($bookItem->book->book_scope == Book::SCOPE_LOCAL); ?>
 <div class='span5'>
     <div class='content-row'>
         <input class='barcode-scanner' value="{{$bookItem->barcode}}" data-url="{{route('circulation.book')}}" placeholder='Mã tài liệu' type='text'>
@@ -18,7 +19,7 @@
         <?php if ($borrow): ?>
             <div class='span5'>
 
-                <?php if ($bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>
+                <?php if ($isLocal): ?>
                     <a href="javascript:void(0)" class='btn btn-primary' id="btn-borrow-book" data-url='{{route('circulation.borrow',Book::SCOPE_LOCAL)}}'>
                         <i class='i-arrow-up-6'></i>Mượn tại chỗ</a>
                 <?php else: ?>
@@ -34,7 +35,7 @@
                 </a>
             </div>
         <?php endif; ?>
-        <?php if ($extra): ?>
+        <?php if ($extra && !$isLocal): ?>
             <div class='row-actions'>
                 <a href="javascript:void(0)" class='btn btn-success' id="btn-extra-book" data-url='{{route('circulation.extra')}}'>
                     <i class='i-plus'></i>

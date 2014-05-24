@@ -377,6 +377,7 @@ class BookController extends \BaseController {
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
+                $book->save();
             } else {
                 Session::flash('success', 'Sửa thành công tài liệu <strong>"'
                     . Input::get('title')
@@ -423,10 +424,14 @@ class BookController extends \BaseController {
      * Moderator publish a book
      */
     public function publish($id) {
-        $book = Book::findOrFail($id);
-        $book->publish();
-        Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
-        return Redirect::route('book.moderate');
+        if ($this->_checkInventory()) {
+            $book = Book::findOrFail($id);
+            $book->publish();
+            Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
+            return Redirect::route('book.moderate');
+        } else {
+            return Redirect::route('error', array('inventory'));
+        }
     }
 
     /**
@@ -556,6 +561,25 @@ class BookController extends \BaseController {
             return Redirect::back();
         }
         $excel->export('xls');
+    }
+
+    public function publishMany() {
+        if ($this->_checkInventory()) {
+            $bookIds = Input::get('bookIds');
+            try {
+                foreach ($bookIds as $bookId) {
+                    $book = Book::findOrFail($bookId);
+                    $book->publish();
+                }
+            } catch (Exception $e) {
+                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+                return Redirect::route('moderator');
+            }
+            Session::flash('success', 'Lưu hành thành công ' . count($bookIds) . ' tài liệu');
+            return Redirect::route('book.moderate');
+        } else {
+            return Redirect::route('error', array('inventory'));
+        }
     }
 
 }

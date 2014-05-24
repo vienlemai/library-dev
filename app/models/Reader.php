@@ -90,7 +90,8 @@ class Reader extends Eloquent implements IActivityAuthor {
         'email',
         'phone',
         'avatar',
-        'reader_type'
+        'reader_type',
+        'department'
     );
 
     public static function studentValidate($input) {

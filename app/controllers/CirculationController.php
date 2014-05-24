@@ -12,7 +12,11 @@ class CirculationController extends \BaseController {
     const SS_READER_OK = 1;
 
     public function index() {
-        return View::make('circulation.index');
+        if ($this->_checkInventory() === true) {
+            return View::make('circulation.index');
+        } else {
+            return Redirect::route('error', array('inventory'));
+        }
     }
 
     public function loadReader() {

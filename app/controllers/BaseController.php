@@ -48,4 +48,13 @@ class BaseController extends Controller {
         return $digits . $check_digit;
     }
 
+    protected function _checkInventory() {
+        $inventoryDoing = Inventory::where('status', '=', Inventory::SS_DOING)->first();
+        if ($inventoryDoing === null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

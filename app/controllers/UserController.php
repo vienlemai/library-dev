@@ -113,5 +113,14 @@ class UserController extends BaseController {
         Session::flash('error', 'Đã xóa nhân viên "' . $user->full_name . '"');
         return Redirect::route('users');
     }
+    
+    public function search(){
+        $keyword = Input::get('keyword');
+        $users = User::with('group')
+            ->where('full_name','like','%'.$keyword.'%')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(self::ITEMS_PER_PAGE);
+        return View::make('user.partials.index', array('users' => $users));
+    }
 
 }
