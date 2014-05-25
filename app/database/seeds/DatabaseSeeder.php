@@ -9,8 +9,9 @@ class DatabaseSeeder extends Seeder {
      */
     public function run() {
         //Eloquent::unguard();
-        //$this->call('ConfigTableSeeder');
-        //$this->call('StorageTableSeeder');
+        $this->call('SystemConfigSeed');
+        $this->call('ConfigTableSeeder');
+        $this->call('StorageTableSeeder');
         $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
     }
@@ -134,6 +135,7 @@ class UserTableSeeder extends Seeder {
         $account = new Account(array(
             'username' => 'admin',
             'password' => Hash::make('123456'),
+            'remember_token' => ''
         ));
         $user->save();
         $user->account()->save($account);
