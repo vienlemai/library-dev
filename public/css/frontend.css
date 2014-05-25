@@ -7,6 +7,9 @@ body
     margin:0px auto auto auto;
     color:#000000;
 }
+body * {
+    outline: none;
+}
 a{
     color:#f8981d;
 }

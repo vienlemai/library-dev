@@ -20,8 +20,13 @@ button, a, modal, input, select {
 form {
     margin: 0 0 10px;
 }
+
 #modal-login .modal-header {
     padding: 5px 15px 0px;
+
+}
+.modal-header {
+    text-transform: capitalize;
 }
 .btn-brow {
     background: #865B39 !important;

@@ -241,14 +241,35 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-            $book->status = Book::SS_ADDED;
-            $book->created_by = Auth::user()->loginable_id;
-            $book->barcode_printed = 0;
-            $time = time();
-            $vnCode = '893';
-            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-            $book->barcode = $random;
-        });
+                $book->status = Book::SS_ADDED;
+                $book->created_by = Auth::user()->loginable_id;
+                $book->barcode_printed = 0;
+                $time = time();
+                $vnCode = '893';
+                $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+                $book->barcode = $random;
+            });
+    }
+
+    public function scopeStudent($query) {
+        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_STUDENT . '%');
+    }
+
+    public function scopeTeacher($query) {
+        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_TEACHER . '%');
+    }
+
+    public function scopeStaff($query) {
+        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_STAFF . '%');
+    }
+
+    public function scopeOfReaderType($query, $readerType) {
+        return $query->where('permission', 'LIKE', '%' . $readerType . '%');
+    }
+
+    public function scopeName() {
+        $scope = self::$SCOPE_LABELS[$this->book_scope];
+        return $scope;
     }
 
     /*
@@ -278,40 +299,6 @@ class Book extends Eloquent {
         $this->save();
         // Write disapprove book event
         Activity::write(Session::get('User'), Activity::DISAPPROVED_BOOK, $this);
-    }
-
-    /*
-     * Static functions goes from here
-     */
-
-    public static function bookValidate($input) {
-        $rules = array(
-            'title' => 'required|min:5',
-            'author' => 'required',
-            'number' => 'required|integer|min:1',
-            'pages' => 'required|integer|min:1',
-            'storage' => 'required',
-        );
-
-        $messages = array(
-            'title.min' => 'tối thiểu :min ký tự',
-            'min' => 'xin nhập tối thiểu :min',
-            'required' => 'không được để trống',
-            'integer' => 'xin nhập vào số nguyên'
-        );
-        return Validator::make($input, $rules, $messages);
-    }
-
-    public static function excelValidate($input) {
-        $rules = array(
-            'book' => 'required|mimes:xls,xlsx|max:10000'
-        );
-        $messages = array(
-            'book.required' => 'Phải chọn file',
-            'book.mimes' => 'Phải chọn file excel với định dạng xls, xlsx',
-            'book.max' => 'Chỉ được chọn file nhỏ hơn 10MB'
-        );
-        return Validator::make($input, $rules, $messages);
     }
 
     public static function magazineValidate($input) {
@@ -353,9 +340,72 @@ class Book extends Eloquent {
         return implode(', ', $perArray);
     }
 
-    public function scopeName() {
-        $scope = self::$SCOPE_LABELS[$this->book_scope];
-        return $scope;
+    public function getBookTypeName() {
+        return $this->book_type == self::TYPE_BOOK ? 'Sách' : 'Tạp chí / biểu mẫu';
+    }
+
+//    public function getTitleAttribute($value) {
+//        return ucwords($value);
+//    }
+
+    public function saveBookItem() {
+        for ($i = 1; $i <= $this->number; $i++) {
+            $code = $this->barcode . sprintf("%03s", $i);
+            $fullCode = self::ean13_check_digit($code);
+            $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
+            $this->bookItems()->save($bItem);
+        }
+    }
+
+    public static function searchForReader($reader, $params = array()) {
+        $query = self::filterByReaderType($reader);
+        if (isset($params['keyword'])) {
+            $query = self::searchInTitle($query, $params['keyword']);
+        }
+        return $query;
+    }
+
+    // Search in title
+    public static function searchInTitle($query, $keyword) {
+        return $query->where('title', 'LIKE', '%' . $keyword . '%');
+    }
+
+    public static function filterByReaderType($reader) {
+        return self::where('permission', 'LIKE', '%' . $reader->reader_type . '%');
+    }
+
+    /*
+     * STATIC FUNCTIONS GOES FROM HERE
+     */
+
+    public static function bookValidate($input) {
+        $rules = array(
+            'title' => 'required|min:5',
+            'author' => 'required',
+            'number' => 'required|integer|min:1',
+            'pages' => 'required|integer|min:1',
+            'storage' => 'required',
+        );
+
+        $messages = array(
+            'title.min' => 'tối thiểu :min ký tự',
+            'min' => 'xin nhập tối thiểu :min',
+            'required' => 'không được để trống',
+            'integer' => 'xin nhập vào số nguyên'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
+
+    public static function excelValidate($input) {
+        $rules = array(
+            'book' => 'required|mimes:xls,xlsx|max:10000'
+        );
+        $messages = array(
+            'book.required' => 'Phải chọn file',
+            'book.mimes' => 'Phải chọn file excel với định dạng xls, xlsx',
+            'book.max' => 'Chỉ được chọn file nhỏ hơn 10MB'
+        );
+        return Validator::make($input, $rules, $messages);
     }
 
     public static function bookExcelValidate($input) {
@@ -458,15 +508,6 @@ class Book extends Eloquent {
         return $permission;
     }
 
-    public function saveBookItem() {
-        for ($i = 1; $i <= $this->number; $i++) {
-            $code = $this->barcode . sprintf("%03s", $i);
-            $fullCode = self::ean13_check_digit($code);
-            $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
-            $this->bookItems()->save($bItem);
-        }
-    }
-
     /**
      * Generate the last digit number for barcode
      */
@@ -479,10 +520,6 @@ class Book extends Eloquent {
         $next_ten = (ceil($total_sum / 10)) * 10;
         $check_digit = $next_ten - $total_sum;
         return $digits . $check_digit;
-    }
-
-    public function getBookTypeName() {
-        return $this->book_type == self::TYPE_BOOK ? 'Sách' : 'Tạp chí / biểu mẫu';
     }
 
     public static function dataForExcel($type) {
@@ -569,22 +606,6 @@ class Book extends Eloquent {
             case self::SS_PUBLISHED:
                 return 'Tai_Lieu_Da_Luu_Hanh';
         }
-    }
-
-    public function scopeStudent($query) {
-        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_STUDENT . '%');
-    }
-
-    public function scopeTeacher($query) {
-        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_TEACHER . '%');
-    }
-
-    public function scopeStaff($query) {
-        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_STAFF . '%');
-    }
-
-    public function scopeOfReaderType($query, $readerType) {
-        return $query->where('permission', 'LIKE', '%' . $readerType . '%');
     }
 
 }

@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
 <div class="page-title">
-    Trang chủ
+    Giỏ sách
 </div>
 <div class="search-box">
     <form action="#" class="form-horizontal">          
@@ -14,5 +14,4 @@
     </form>
 </div>
 <div class="clear"></div>
-<?php echo View::make('frontend.partials.list-book', array('books' => $books))->render() ?>
 @stop

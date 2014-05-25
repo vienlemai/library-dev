@@ -9,7 +9,7 @@
                 <a href="#"><i class="fa fa-list"></i>  Danh mục tài liệu</a>                
             </li>
             <li><a href="<?php echo route('fe.search') ?>"><i class="fa fa-search"></i> Tìm kiếm nâng cao</a></li>
-            <li><a href="#"><i class="fa fa-shopping-cart"></i>  Giỏ sách</a></li>
+            <li><a href="<?php echo route('fe.cart')?>"><i class="fa fa-shopping-cart"></i>  Giỏ sách</a></li>
             <?php if (Auth::check()): ?>
                 <li id="user-box">
                     <a href="{{route('fe.logout')}}" role="button" data-toggle="modal">
