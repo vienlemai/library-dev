@@ -1,8 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
 <div class="page-title">
-    <span class="title_icon"><img src="images/bullet3.gif" alt="" title=""></span>
-    Thư viện trực tuyến
+    Trang chủ
 </div>
 <div class="search-box">
     <form action="#" class="form-horizontal">          

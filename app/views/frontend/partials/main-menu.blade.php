@@ -13,7 +13,7 @@
             <?php if (Auth::check()): ?>
                 <li id="user-box">
                     <a href="{{route('fe.logout')}}" role="button" data-toggle="modal">
-                        <i class="fa fa-sign-in"></i>Đăng xuất
+                        <i class="fa fa-sign-in"></i>  Đăng xuất
                     </a>
                 </li>
             <?php endif; ?>
