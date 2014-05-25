@@ -11,7 +11,7 @@
             </h4>
             <div class="book-description">
                 <ul class="">
-                    <li>Thể loại:</li>
+                    <li>Thể loại: <?php echo $book->getBookTypeName() ?></li>
                     <li>Tác giả:</li>
                     <li>Năm XB:</li>
                     <li>Quốc gia:</li>
@@ -21,7 +21,7 @@
             <div class="book-foot text-muted">
                 Lượt mượn: 150
             </div>
-            <div class="modal hide fade" id='modal-book-details-{{$book->id}}'>
+            <div class="modal hide fade" id="modal-book-details-{{$book->id}}">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4>Chi Tiết Tài Liệu - <?php echo $book->title ?></h4>

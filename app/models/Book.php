@@ -171,6 +171,10 @@ class Book extends Eloquent {
         self::SCOPE_LOCAL => 'Tại chỗ',
         self::SCOPE_AWAY => 'Về nhà',
     );
+    public static $TYPE_TO_LABELS = array(
+        self::TYPE_BOOK  => 'Sách',
+        self::TYPE_MAGAZINE => 'Tạp chí / Biểu mẫu'
+    );
 
     public function getDates() {
         return array_merge(parent::getDates(), array('submitted_at', 'published_at'));
@@ -341,7 +345,7 @@ class Book extends Eloquent {
     }
 
     public function getBookTypeName() {
-        return $this->book_type == self::TYPE_BOOK ? 'Sách' : 'Tạp chí / biểu mẫu';
+        return self::$TYPE_TO_LABELS[$this->book_type];
     }
 
 //    public function getTitleAttribute($value) {
@@ -355,6 +359,20 @@ class Book extends Eloquent {
             $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
             $this->bookItems()->save($bItem);
         }
+    }
+
+    public static function search($params) {
+        $query = self::select('books.*');
+        if (isset($params['keyword'])) {
+            $query = $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
+        }
+        if (isset($params['reader_type'])) {
+            $query = $query->where('permission', 'LIKE', '%' . $params['reader_type'] . '%');
+        }
+        if (isset($params['type']) && $params['type'] != 'all') {
+            $query = $query->where('book_type', '=', $params['type']);
+        }
+        return $query;
     }
 
     public static function searchForReader($reader, $params = array()) {

@@ -12,7 +12,7 @@ Route::group(array('before' => 'fe.auth'), function() {
         ));
         Route::get('/tim-kiem', array(
             'as' => 'fe.search',
-            'uses' => 'PageController@search'
+            'uses' => 'SearchController@index'
         ));
         Route::get('/dang-xuat', array(
             'as' => 'fe.logout',
