@@ -12,51 +12,52 @@
  */
 
 App::before(function($request) {
-    $lastExecuteObj = DB::table('system_configs')
-        ->where('name', 'last_execute')
-        ->first();
-    $lastExecute = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteObj->day);
-    $now = Carbon\Carbon::now();
-    if ($now->diffInDays($lastExecute) !== 0) {
-        //$date = Carbon\Carbon::now()->addMinutes(1);
-        Queue::push('JobForDay@updateStatus');
-        Queue::push('JobForDay@sendRemindCirculation');
-        DB::table('system_configs')
+        $lastExecuteObj = DB::table('system_configs')
             ->where('name', 'last_execute')
-            ->update(array('day' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
-    }
-});
+            ->first();
+        $lastExecute = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteObj->day);
+        $now = Carbon\Carbon::now();
+        if ($now->diffInDays($lastExecute) !== 0) {
+            //$date = Carbon\Carbon::now()->addMinutes(1);
+            Queue::push('JobForDay@updateStatus');
+            Queue::push('JobForDay@sendRemindCirculation');
+            DB::table('system_configs')
+                ->where('name', 'last_execute')
+                ->update(array('day' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
+        }
+    });
 
 
 App::after(function($request, $response) {
-    $log = str_repeat('=', 100) . "\n";
-    $log .= "Started   [" . Request::getMethod() . "] " . Request::url() . "\n";
-    $log .= "Process   " . Route::currentRouteAction() . "\n";
-    $requestType = 'HTML';
-    if (Request::ajax()) {
-        $requestType = 'AJAX';
-    }
-    $log .= "Type      " . $requestType . "\n";
-    $log .= "Params    " . json_encode(Input::all()) . "\n";
-    $queries = DB::getQueryLog();
-    // Put sql queries artisan serve log
-    $sql_log = '';
+        $log = str_repeat('=', 100) . "\n";
+        $log .= "Started   [" . Request::getMethod() . "] " . Request::url() . "\n";
+        $log .= "Process   " . Route::currentRouteAction() . "\n";
+        $requestType = 'HTML';
+        if (Request::ajax()) {
+            $requestType = 'AJAX';
+        }
+        $log .= "Type      " . $requestType . "\n";
+        $log .= "Params    " . json_encode(Input::all()) . "\n";
+        $queries = DB::getQueryLog();
+        // Put sql queries artisan serve log
+        $sql_log = '';
 //        dd(DB::getQueryLog());
-    $sql_log = "Queries   " . count($queries) . "\n";
-    foreach ($queries as $query) {
-        $sql_log .= "\n[" . $query['time'] . "ms] ";
-        $bindings = $query['bindings'];
-        $query_str = $query['query'];
-        $query_str = str_replace(array('%', '?'), array('%%', '%s'), $query_str);
-        $query_str = vsprintf($query_str, $bindings);
-        $sql_log .= ucfirst($query_str);
-    }
-    $log .= $sql_log . "\n";
-    $log .= str_repeat('=', 100) . "\n";
-    $logFile = __DIR__ . DIRECTORY_SEPARATOR . 'log.txt';
-    file_put_contents($logFile, $log, FILE_APPEND);
-    file_put_contents('php://stdout', $log);
-});
+        $sql_log = "Queries   " . count($queries) . "\n";
+        foreach ($queries as $query) {
+            $sql_log .= "\n[" . $query['time'] . "ms] ";
+            $bindings = $query['bindings'];
+            $query_str = $query['query'];
+            $query_str = str_replace(array('%', '?'), array('%%', '%s'), $query_str);
+            $query_str = vsprintf($query_str, $bindings);
+            $sql_log .= ucfirst($query_str);
+        }
+        $log .= $sql_log . "\n";
+        $log .= str_repeat('=', 100) . "\n";
+
+        $logFile = implode(DIRECTORY_SEPARATOR, array(app_path(), 'storage', 'logs', 'log.txt'));
+        file_put_contents($logFile, $log, FILE_APPEND);
+        file_put_contents('php://stdout', $log);
+    });
 /*
   |--------------------------------------------------------------------------
   | Authentication Filters
@@ -69,37 +70,37 @@ App::after(function($request, $response) {
  */
 
 Route::filter('auth', function() {
-    if (!Auth::check()) {
-        Session::put('url.intended', URL::full());
-        return Redirect::route('login');
-    } else {
-        $loginableType = Auth::user()->loginable_type;
-        if ($loginableType != 'User') {
+        if (!Auth::check()) {
             Session::put('url.intended', URL::full());
             return Redirect::route('login');
+        } else {
+            $loginableType = Auth::user()->loginable_type;
+            if ($loginableType != 'User') {
+                Session::put('url.intended', URL::full());
+                return Redirect::route('login');
+            }
         }
-    }
-    if (Request::isMethod('get')) {
-        $action = Route::currentRouteName();
-        $permission = new Permission();
-        if (!$permission->check($action)) {
-            return Redirect::route('error', array('permission'));
+        if (Request::isMethod('get')) {
+            $action = Route::currentRouteName();
+            $permission = new Permission();
+            if (!$permission->check($action)) {
+                return Redirect::route('error', array('permission'));
+            }
         }
-    }
-});
+    });
 
 Route::filter('fe.auth', function() {
-    //dd(Auth::check());
-    if (!Auth::check()) {
-        Session::put('url.intended', URL::full());
-        return Redirect::route('fe.login');
-    }
-});
+        //dd(Auth::check());
+        if (!Auth::check()) {
+            Session::put('url.intended', URL::full());
+            return Redirect::route('fe.login');
+        }
+    });
 
 
 Route::filter('auth.basic', function() {
-    return Auth::basic();
-});
+        return Auth::basic();
+    });
 
 /*
   |--------------------------------------------------------------------------
@@ -113,9 +114,9 @@ Route::filter('auth.basic', function() {
  */
 
 Route::filter('guest', function() {
-    if (Auth::check())
-        return Redirect::to('/');
-});
+        if (Auth::check())
+            return Redirect::to('/');
+    });
 
 /*
   |--------------------------------------------------------------------------
@@ -129,8 +130,8 @@ Route::filter('guest', function() {
  */
 
 Route::filter('csrf', function() {
-    if (Session::token() != Input::get('_token')) {
-        throw new Illuminate\Session\TokenMismatchException;
-        //App::abort(404);
-    }
-});
+        if (Session::token() != Input::get('_token')) {
+            throw new Illuminate\Session\TokenMismatchException;
+            //App::abort(404);
+        }
+    });

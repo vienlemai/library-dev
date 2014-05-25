@@ -36,11 +36,13 @@ class Account extends Eloquent implements UserInterface, RemindableInterface {
      * Table name
      */
     protected $table = 'accounts';
+    
     public $fillable = array(
         'username',
         'password',
         'loginable_id',
-        'loginable_type'
+        'loginable_type',
+        'remember_token'
     );
     public $timestamps = false;
 
