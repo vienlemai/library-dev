@@ -2856,3 +2856,193 @@ Queries   16
 [1.64ms] Select count(*) as aggregate from `books` where `status` = 3 and `created_by` = 1
 [3.34ms] Select * from `books` where `status` = 3 and `created_by` = 1 order by `published_at` desc limit 20 offset 0
 ====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/logout
+Process   AdminController@getLogout
+Type      HTML
+Params    []
+Queries   3
+
+[2.93ms] Select * from `system_configs` where `name` = last_execute limit 1
+[2.29ms] Select * from `accounts` where `id` = 1 limit 1
+[3.59ms] Update `accounts` set `remember_token` = z3YnjUmv1MHAK69HTDNkpMicYzECEdzYBtjHjsSjGqoPblRMCD1DGP6z1636 where `id` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/login
+Process   AdminController@login
+Type      HTML
+Params    []
+Queries   1
+
+[1.73ms] Select * from `system_configs` where `name` = last_execute limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   1
+
+[1.78ms] Select * from `system_configs` where `name` = last_execute limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/login
+Process   PageController@login
+Type      HTML
+Params    []
+Queries   1
+
+[1.6ms] Select * from `system_configs` where `name` = last_execute limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/login
+Process   AdminController@postLogin
+Type      HTML
+Params    {"username":"lemaibk08@gmail.com","password":"123456"}
+Queries   2
+
+[1.8ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.75ms] Select * from `accounts` where `username` = lemaibk08@gmail.com limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   4
+
+[2.14ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.89ms] Select * from `accounts` where `id` = 3 limit 1
+[2.32ms] Select * from `readers` where `id` = 1 limit 1
+[3.82ms] Select * from `books` where `permission` LIKE %3%
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin
+Process   AdminController@index
+Type      HTML
+Params    []
+Queries   2
+
+[2.16ms] Select * from `system_configs` where `name` = last_execute limit 1
+[2.1ms] Select * from `accounts` where `id` = 3 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/login
+Process   AdminController@login
+Type      HTML
+Params    []
+Queries   2
+
+[1.7ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.71ms] Select * from `accounts` where `id` = 3 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/login
+Process   AdminController@postLogin
+Type      HTML
+Params    {"username":"admin","password":"123456"}
+Queries   3
+
+[3.01ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.97ms] Select * from `accounts` where `id` = 3 limit 1
+[1.7ms] Select * from `accounts` where `username` = admin limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin
+Process   AdminController@index
+Type      HTML
+Params    []
+Queries   12
+
+[1.77ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.81ms] Select * from `accounts` where `id` = 1 limit 1
+[2.19ms] Select * from `users` where `id` = 1 limit 1
+[1.92ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.8ms] Select count(*) as aggregate from `activities`
+[1.23ms] Select * from `activities` order by `created_at` desc limit 10 offset 0
+[2.8ms] Select count(*) as aggregate from `readers` where `reader_type` = 3
+[1.43ms] Select count(*) as aggregate from `readers` where `reader_type` = 2
+[1.31ms] Select count(*) as aggregate from `readers` where `reader_type` = 1
+[5.91ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1) >= 1
+[4.87ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2) >= 1
+[1.29ms] Select count(*) as aggregate from `users`
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/readers
+Process   ReaderController@index
+Type      HTML
+Params    []
+Queries   8
+
+[1.72ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.79ms] Select * from `accounts` where `id` = 1 limit 1
+[1.81ms] Select * from `users` where `id` = 1 limit 1
+[1.69ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.58ms] Select count(*) as aggregate from `readers`
+[1.58ms] Select * from `readers` order by `created_at` desc limit 20 offset 0
+[1.35ms] Select count(*) as aggregate from `readers` where `status` = 0
+[1.19ms] Select count(*) as aggregate from `readers` where `status` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/reader/create/3
+Process   ReaderController@create
+Type      HTML
+Params    []
+Queries   4
+
+[1.86ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.78ms] Select * from `accounts` where `id` = 1 limit 1
+[1.55ms] Select * from `users` where `id` = 1 limit 1
+[1.32ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/reader/create/favicon.ico
+Process   ReaderController@create
+Type      HTML
+Params    []
+Queries   4
+
+[1.36ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.36ms] Select * from `accounts` where `id` = 1 limit 1
+[1.29ms] Select * from `users` where `id` = 1 limit 1
+[1.42ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/upload/image
+Process   FileController@uploadImage
+Type      AJAX
+Params    {"_token":"t6nMnoamWfrVbUASDx4TagG2Pi0vk47UFIzP9Rbm","uploadType":"readers","oldFile":"","image":{}}
+Queries   2
+
+[2.49ms] Select * from `system_configs` where `name` = last_execute limit 1
+[2.31ms] Select * from `accounts` where `id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://dev.library.com/admin/reader/save/3
+Process   ReaderController@save
+Type      HTML
+Params    {"full_name":"Thuat","year_of_birth":"","hometown":"","class":"CSGT-02","school_year":"","subject":"","email":"thuat@gmail.com","phone":"","avatar":"\/img\/readers\/00_3158_490296417657098_1327214587_n.jpg","_token":"t6nMnoamWfrVbUASDx4TagG2Pi0vk47UFIzP9Rbm"}
+Queries   5
+
+[1.75ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.73ms] Select * from `accounts` where `id` = 1 limit 1
+[3.15ms] Insert into `readers` (`full_name`, `year_of_birth`, `hometown`, `class`, `school_year`, `subject`, `email`, `phone`, `avatar`, `reader_type`, `barcode`, `status`, `created_by`, `expired_at`, `updated_at`, `created_at`) values (Thuat, , , CSGT-02, , , thuat@gmail.com, , /img/readers/00_3158_490296417657098_1327214587_n.jpg, 3, 8931243389084, 0, 1, 2015-05-25 11:16:56, 2014-05-25 11:16:56, 2014-05-25 11:16:56)
+[3.77ms] Insert into `activities` (`code`, `author_id`, `author_type`, `object_id`, `object_type`, `group`, `created_at`) values (added_card, 1, User, 2, Reader, management, 2014-05-25 11:16:56)
+[4.42ms] Insert into `accounts` (`username`, `password`, `loginable_type`, `loginable_id`) values (thuat@gmail.com, $2y$10$YSy4N/ohvJNfNPltZ1abPe3hH9g30RwOIIl9FbpOddVnzGEz3NDPS, Reader, 2)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://dev.library.com/admin/readers
+Process   ReaderController@index
+Type      HTML
+Params    []
+Queries   8
+
+[1.58ms] Select * from `system_configs` where `name` = last_execute limit 1
+[1.71ms] Select * from `accounts` where `id` = 1 limit 1
+[1.75ms] Select * from `users` where `id` = 1 limit 1
+[1.51ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1.41ms] Select count(*) as aggregate from `readers`
+[1.41ms] Select * from `readers` order by `created_at` desc limit 20 offset 0
+[1.33ms] Select count(*) as aggregate from `readers` where `status` = 0
+[1.18ms] Select count(*) as aggregate from `readers` where `status` = 1
+====================================================================================================
