@@ -43,7 +43,7 @@ p.more_details{
 .header{
     width:900px;
     height:138px;
-    background:url(/images/banner.png) no-repeat center;
+    background:url(/images/banner.png);
 }
 .logo{
     padding:50px 0 0 130px;
@@ -69,8 +69,6 @@ p.more_details{
     height:27px;
     display:block;
     padding:0px 10px 0 10px;
-    margin:0 4px 0 4px;
-    _margin:0 2px 0 2px;
     float:left;
     text-decoration:none;
     text-align:center;
@@ -133,11 +131,12 @@ span.colors{
     padding:20px 0 20px 20px;
 }
 .page-title{
+    padding-left: 15px;
     color:#734633;
-    padding:0px;
     float:left;
-    font-size:19px;
+    font-size:15px;
     margin:10px 0 10px 0;
+    font-weight: bold;
 }
 span.title_icon{
     float:left;
