@@ -54,7 +54,12 @@ class ReaderController extends \BaseController {
             $reader = new Reader(Input::all());
             $reader->reader_type = $type;
             $reader->barcode = $fullCode;
+            $account = new Account(array(
+                'username' => $reader->email,
+                'password' => Hash::make('123456')
+            ));
             if ($reader->save()) {
+                $reader->account()->save($account);
                 Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
                 return Redirect::route('readers');
             } else {

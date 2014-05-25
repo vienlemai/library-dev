@@ -16,10 +16,12 @@ class BaseController extends Controller {
             }
             $modules = array();
             if (Auth::check()) {
-                $user = Auth::user();
-                $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
+                if (Auth::user()->loginable_type == 'User') {
+                    $user = Session::get('User');
+                    $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
+                }
+                View::share('modules', $modules);
             }
-            View::share('modules', $modules);
         });
     }
 

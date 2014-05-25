@@ -77,6 +77,10 @@ class Reader extends Eloquent implements IActivityAuthor {
         return $this->morphMany('Activity', 'author');
     }
 
+    public function account() {
+        return $this->morphOne('Reader', 'loginable');
+    }
+
     /**
      * Security fillable
      */
@@ -130,13 +134,13 @@ class Reader extends Eloquent implements IActivityAuthor {
         parent::boot();
         static::creating(function($reader) {
             $reader->status = Reader::SS_CIRCULATED;
-            $reader->created_by = Auth::user()->id;
+            $reader->created_by = Auth::user()->loginable_id;
             $expired = Session::get('LibConfig.reader_expired');
             $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
         });
         // Write create reader event
         static::saved(function($reader) {
-            Activity::write(Auth::user(), Activity::ADDED_CARD, $reader);
+            Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
         });
     }
 

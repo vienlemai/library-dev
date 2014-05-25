@@ -21,7 +21,7 @@ class Circulation extends Eloquent {
         parent::boot();
         static::creating(function($circulation) {
             $circulation->created_at = Carbon\Carbon::now();
-            $circulation->created_by = Auth::user()->id;
+            $circulation->created_by = Auth::user()->loginable_id;
         });
         static::created(function($circulation) {
             Activity::write($circulation->reader, Activity::BORROWED_BOOK, $circulation->bookItem->book);

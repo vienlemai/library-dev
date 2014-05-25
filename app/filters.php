@@ -69,10 +69,15 @@ App::after(function($request, $response) {
  */
 
 Route::filter('auth', function() {
-
     if (!Auth::check()) {
         Session::put('url.intended', URL::full());
         return Redirect::route('login');
+    } else {
+        $loginableType = Auth::user()->loginable_type;
+        if ($loginableType != 'User') {
+            Session::put('url.intended', URL::full());
+            return Redirect::route('login');
+        }
     }
     if (Request::isMethod('get')) {
         $action = Route::currentRouteName();
@@ -80,6 +85,14 @@ Route::filter('auth', function() {
         if (!$permission->check($action)) {
             return Redirect::route('error', array('permission'));
         }
+    }
+});
+
+Route::filter('fe.auth', function() {
+    //dd(Auth::check());
+    if (!Auth::check()) {
+        Session::put('url.intended', URL::full());
+        return Redirect::route('fe.login');
     }
 });
 

@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder {
         //Eloquent::unguard();
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
-        $this->call('SystemConfigSeed');
+        $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
     }
 
@@ -131,7 +131,12 @@ class UserTableSeeder extends Seeder {
             'remember_token' => '',
             'permissions' => json_encode(array())
         ));
+        $account = new Account(array(
+            'username' => 'admin',
+            'password' => Hash::make('123456'),
+        ));
         $user->save();
+        $user->account()->save($account);
         $group = new Group(array(
             'name' => 'Biên mục',
             'permissions' => json_encode(array(1)),

@@ -21,6 +21,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
         'email'
     );
     protected $hidden = array('password');
+    
+    public function account() {
+        return $this->morphOne('User', 'loginable');
+    }
 
     public static function validate($input) {
         $rules = array(
@@ -50,7 +54,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
 
         static ::created(function($user) {
             if (Auth::check()) {
-                Activity::write(Auth::user(), Activity::ADDED_STAFF, $user);
+                Activity::write(Session::get('User'), Activity::ADDED_STAFF, $user);
             }
         });
         static::saving(function($user) {

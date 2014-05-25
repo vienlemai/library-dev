@@ -56,7 +56,11 @@ class AdminController extends BaseController {
             $remember = true;
         }
         if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), $remember)) {
-            return Redirect::intended('/');
+            if (Auth::user()->loginable_type == 'User') {
+                return Redirect::intended('/admin');
+            } else {
+                return Redirect::intended('/');
+            }
         } else {
             Session::flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng');
             return Redirect::back()->withInput();

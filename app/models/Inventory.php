@@ -42,7 +42,7 @@ class Inventory extends Eloquent {
         parent::boot();
         static::creating(function($inventory) {
             $inventory->status = Inventory::SS_DOING;
-            $inventory->created_by = Auth::user()->id;
+            $inventory->created_by = Auth::user()->loginable_id;
             $inventory->end_at = Carbon\Carbon::now();
         });
         static ::saved(function($inventory) {
