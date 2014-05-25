@@ -16,10 +16,12 @@ class BaseController extends Controller {
             }
             $modules = array();
             if (Auth::check()) {
-                $user = Auth::user();
-                $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
+                if (Auth::user()->loginable_type == 'User') {
+                    $user = Session::get('User');
+                    $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
+                }
+                View::share('modules', $modules);
             }
-            View::share('modules', $modules);
         });
     }
 
@@ -46,6 +48,15 @@ class BaseController extends Controller {
         $next_ten = (ceil($total_sum / 10)) * 10;
         $check_digit = $next_ten - $total_sum;
         return $digits . $check_digit;
+    }
+
+    protected function _checkInventory() {
+        $inventoryDoing = Inventory::where('status', '=', Inventory::SS_DOING)->first();
+        if ($inventoryDoing === null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

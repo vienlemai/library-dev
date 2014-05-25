@@ -242,7 +242,7 @@ class Book extends Eloquent {
         parent::boot();
         static::creating(function($book) {
             $book->status = Book::SS_ADDED;
-            $book->created_by = Auth::user()->id;
+            $book->created_by = Auth::user()->loginable_id;
             $book->barcode_printed = 0;
             $time = time();
             $vnCode = '893';
@@ -260,16 +260,16 @@ class Book extends Eloquent {
         $this->submitted_at = Carbon\Carbon::now();
         $this->save();
         // Write submit book event
-        Activity::write(Auth::user(), Activity::SUBMITED_BOOK, $this);
+        Activity::write(Session::get('User'), Activity::SUBMITED_BOOK, $this);
     }
 
     public function publish() {
         $this->status = self::SS_PUBLISHED;
         $this->published_at = Carbon\Carbon::now();
-        $this->published_by = Auth::user()->id;
+        $this->published_by = Auth::user()->loginable_id;
         $this->save();
         // Write publish book event
-        Activity::write(Auth::user(), Activity::PUBLISHED_BOOK, $this);
+        Activity::write(Session::get('User'), Activity::PUBLISHED_BOOK, $this);
     }
 
     public function disapprove($reason) {
@@ -277,7 +277,7 @@ class Book extends Eloquent {
         $this->error_reason = $reason;
         $this->save();
         // Write disapprove book event
-        Activity::write(Auth::user(), Activity::DISAPPROVED_BOOK, $this);
+        Activity::write(Session::get('User'), Activity::DISAPPROVED_BOOK, $this);
     }
 
     /*
@@ -569,6 +569,22 @@ class Book extends Eloquent {
             case self::SS_PUBLISHED:
                 return 'Tai_Lieu_Da_Luu_Hanh';
         }
+    }
+
+    public function scopeStudent($query) {
+        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_STUDENT . '%');
+    }
+
+    public function scopeTeacher($query) {
+        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_TEACHER . '%');
+    }
+
+    public function scopeStaff($query) {
+        return $query->where('permission', 'LIKE', '%' . Reader::TYPE_STAFF . '%');
+    }
+
+    public function scopeOfReaderType($query, $readerType) {
+        return $query->where('permission', 'LIKE', '%' . $readerType . '%');
     }
 
 }

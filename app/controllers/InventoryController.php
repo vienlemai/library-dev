@@ -19,9 +19,9 @@ class InventoryController extends \BaseController {
     }
 
     public function create() {
-        $InventoryDoing = Inventory::where('status', '=', Inventory::SS_DOING)->first();
+        $inventoryDoing = Inventory::where('status', '=', Inventory::SS_DOING)->first();
         $doing = false;
-        if (!empty($InventoryDoing)) {
+        if (!empty($inventoryDoing)) {
             $doing = true;
         }
         return View::make('inventory.create', array('doing' => $doing));

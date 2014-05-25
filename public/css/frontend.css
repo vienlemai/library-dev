@@ -118,7 +118,7 @@ span.colors{
     margin-top: 2px;
     width:890px;
     min-height: 530px;
-    background:url(/images/fe-bg.png);
+    background:url(/images/book-bg.jpg);
 }
 .left_content{
     width:490px;
@@ -375,10 +375,14 @@ a.view_cart{
 /*---------------contact_form------------------*/
 .contact_form{
     width:350px;
-    float:left;
     padding:10px;
-    border:1px #DFD1D2 dashed;
+    border:1px #DFD1D2 solid;
+	border-radius: 5px;
     position:relative;
+	position: absolute;
+	left: 50%;
+	margin-left: -175px;
+	margin-top: 20px;
 }
 .form_row{
     width:335px;
@@ -570,4 +574,8 @@ div.pagination span.disabled {
     display: inline-block;
 
 
+}
+
+.search-box{
+	float: right;
 }

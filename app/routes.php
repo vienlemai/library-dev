@@ -27,9 +27,7 @@ Route::group(array('prefix' => 'admin'), function () {
     ));
 
     Route::get('test', function() {
-        $bookItem = BookItem::where('id', 24)->get()->toArray();
-        dd($bookItem);
-        Book::where('id', $bookItem->book_id)->increment('lended');
+        
     });
     Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'AdminController@index'));
     Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
@@ -344,6 +342,11 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('book/export', array(
             'as' => 'book.export',
             'uses' => 'BookController@export'
+        ));
+
+        Route::post('book/publish/many', array(
+            'as' => 'book.publish.many',
+            'uses' => 'BookController@publishMany'
         ));
     });
 });

@@ -101,7 +101,9 @@ class Permission {
     );
 
     public function check($action) {
-        $user = Auth::user();
+        $user = User::where('id', Auth::user()->loginable_id)
+            ->first();
+        Session::put('User',$user);
         $availbleRoutes = json_decode($user->routes);
         return in_array($action, $availbleRoutes);
     }

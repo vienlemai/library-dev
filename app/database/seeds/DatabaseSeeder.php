@@ -9,11 +9,24 @@ class DatabaseSeeder extends Seeder {
      */
     public function run() {
         //Eloquent::unguard();
-
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
         $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
+    }
+
+}
+
+class SystemConfigSeed extends Seeder {
+
+    public function run() {
+        DB::table('system_configs')
+            ->truncate();
+        DB::table('system_configs')
+            ->insert(array(
+                'name' => 'last_execute',
+                'day' => Carbon\Carbon::now()
+        ));
     }
 
 }
@@ -118,7 +131,12 @@ class UserTableSeeder extends Seeder {
             'remember_token' => '',
             'permissions' => json_encode(array())
         ));
+        $account = new Account(array(
+            'username' => 'admin',
+            'password' => Hash::make('123456'),
+        ));
         $user->save();
+        $user->account()->save($account);
         $group = new Group(array(
             'name' => 'Biên mục',
             'permissions' => json_encode(array(1)),

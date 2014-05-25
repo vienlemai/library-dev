@@ -25,19 +25,19 @@ class BookController extends \BaseController {
             switch ($type) {
                 case Book::SS_SUBMITED:
                     $books = Book::where('status', '=', $type)
-                        ->where('created_by', '=', Auth::user()->id)
+                        ->where('created_by', '=', Auth::user()->loginable_id)
                         ->orderBy('submitted_at', 'desc')
                         ->paginate(self::ITEMS_PER_PAGE);
                     break;
                 case Book::SS_PUBLISHED:
                     $books = Book::where('status', '=', $type)
-                        ->where('created_by', '=', Auth::user()->id)
+                        ->where('created_by', '=', Auth::user()->loginable_id)
                         ->orderBy('published_at', 'desc')
                         ->paginate(self::ITEMS_PER_PAGE);
                     break;
                 default:
                     $books = Book::where('status', '=', $type)
-                        ->where('created_by', '=', Auth::user()->id)
+                        ->where('created_by', '=', Auth::user()->loginable_id)
                         ->orderBy('updated_at', 'desc')
                         ->paginate(self::ITEMS_PER_PAGE);
                     break;
@@ -51,19 +51,19 @@ class BookController extends \BaseController {
                 switch ($k) {
                     case Book::SS_SUBMITED:
                         $books[$k] = Book::where('status', '=', $k)
-                            ->where('created_by', '=', Auth::user()->id)
+                            ->where('created_by', '=', Auth::user()->loginable_id)
                             ->orderBy('submitted_at', 'desc')
                             ->paginate(self::ITEMS_PER_PAGE);
                         break;
                     case Book::SS_PUBLISHED:
                         $books[$k] = Book::where('status', '=', $k)
-                            ->where('created_by', '=', Auth::user()->id)
+                            ->where('created_by', '=', Auth::user()->loginable_id)
                             ->orderBy('published_at', 'desc')
                             ->paginate(self::ITEMS_PER_PAGE);
                         break;
                     default:
                         $books[$k] = Book::where('status', '=', $k)
-                            ->where('created_by', '=', Auth::user()->id)
+                            ->where('created_by', '=', Auth::user()->loginable_id)
                             ->orderBy('updated_at', 'desc')
                             ->paginate(self::ITEMS_PER_PAGE);
                         break;
@@ -81,7 +81,7 @@ class BookController extends \BaseController {
         $keyword = Input::get('keyword');
         if (Request::ajax()) {
             $books = Book::where('status', '=', $type)
-                ->where('created_by', '=', Auth::user()->id)
+                ->where('created_by', '=', Auth::user()->loginable_id)
                 ->where('title', 'LIKE', '%' . $keyword . '%')
                 ->orderBy('updated_at', 'desc')
                 ->paginate(self::ITEMS_PER_PAGE);
@@ -92,7 +92,7 @@ class BookController extends \BaseController {
             }
             foreach (Book::$CAT_SS_LABELS as $k => $v) {
                 $books[$k] = Book::where('status', '=', $k)
-                    ->where('created_by', '=', Auth::user()->id)
+                    ->where('created_by', '=', Auth::user()->loginable_id)
                     ->where('title', 'LIKE', '%' . $keyword . '%')
                     ->orderBy('created_at', 'desc')
                     ->paginate(self::ITEMS_PER_PAGE);
@@ -197,7 +197,7 @@ class BookController extends \BaseController {
         $keyword = Input::get('keyword');
         if (Request::ajax()) {
             $books = Book::where('status', '=', $type)
-                ->where('created_by', '=', Auth::user()->id)
+                ->where('created_by', '=', Auth::user()->loginable_id)
                 ->where('title', 'LIKE', '%' . $keyword . '%')
                 ->orderBy('updated_at', 'desc')
                 ->paginate(self::ITEMS_PER_PAGE);
@@ -208,7 +208,7 @@ class BookController extends \BaseController {
             }
             foreach (Book::$CAT_SS_LABELS as $k => $v) {
                 $books[$k] = Book::where('status', '=', $k)
-                    ->where('created_by', '=', Auth::user()->id)
+                    ->where('created_by', '=', Auth::user()->loginable_id)
                     ->where('title', 'LIKE', '%' . $keyword . '%')
                     ->orderBy('created_at', 'desc')
                     ->paginate(self::ITEMS_PER_PAGE);
@@ -287,7 +287,7 @@ class BookController extends \BaseController {
             Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
             return Redirect::route('book.moderate');
         }
-//        if ($book->created_by == Auth::user()->id) {
+//        if ($book->created_by == Auth::user()->loginable_id) {
 //            App::abort(404);
 //        }
         $storageOptions = new Storage();
@@ -377,6 +377,7 @@ class BookController extends \BaseController {
                     . Input::get('title')
                     . '"</strong>, số lượng : <strong>'
                     . Input::get('number') . ' cuốn</strong>');
+                $book->save();
             } else {
                 Session::flash('success', 'Sửa thành công tài liệu <strong>"'
                     . Input::get('title')
@@ -423,10 +424,14 @@ class BookController extends \BaseController {
      * Moderator publish a book
      */
     public function publish($id) {
-        $book = Book::findOrFail($id);
-        $book->publish();
-        Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
-        return Redirect::route('book.moderate');
+        if ($this->_checkInventory()) {
+            $book = Book::findOrFail($id);
+            $book->publish();
+            Session::flash('success', 'Đã lưu hành tài liệu ' . $book->title);
+            return Redirect::route('book.moderate');
+        } else {
+            return Redirect::route('error', array('inventory'));
+        }
     }
 
     /**
@@ -556,6 +561,25 @@ class BookController extends \BaseController {
             return Redirect::back();
         }
         $excel->export('xls');
+    }
+
+    public function publishMany() {
+        if ($this->_checkInventory()) {
+            $bookIds = Input::get('bookIds');
+            try {
+                foreach ($bookIds as $bookId) {
+                    $book = Book::findOrFail($bookId);
+                    $book->publish();
+                }
+            } catch (Exception $e) {
+                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+                return Redirect::route('moderator');
+            }
+            Session::flash('success', 'Lưu hành thành công ' . count($bookIds) . ' tài liệu');
+            return Redirect::route('book.moderate');
+        } else {
+            return Redirect::route('error', array('inventory'));
+        }
     }
 
 }

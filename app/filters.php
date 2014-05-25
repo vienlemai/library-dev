@@ -12,7 +12,19 @@
  */
 
 App::before(function($request) {
-    //
+    $lastExecuteObj = DB::table('system_configs')
+        ->where('name', 'last_execute')
+        ->first();
+    $lastExecute = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteObj->day);
+    $now = Carbon\Carbon::now();
+    if ($now->diffInDays($lastExecute) !== 0) {
+        //$date = Carbon\Carbon::now()->addMinutes(1);
+        Queue::push('JobForDay@updateStatus');
+        Queue::push('JobForDay@sendRemindCirculation');
+        DB::table('system_configs')
+            ->where('name', 'last_execute')
+            ->update(array('day' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
+    }
 });
 
 
@@ -57,10 +69,15 @@ App::after(function($request, $response) {
  */
 
 Route::filter('auth', function() {
-
     if (!Auth::check()) {
         Session::put('url.intended', URL::full());
         return Redirect::route('login');
+    } else {
+        $loginableType = Auth::user()->loginable_type;
+        if ($loginableType != 'User') {
+            Session::put('url.intended', URL::full());
+            return Redirect::route('login');
+        }
     }
     if (Request::isMethod('get')) {
         $action = Route::currentRouteName();
@@ -68,6 +85,14 @@ Route::filter('auth', function() {
         if (!$permission->check($action)) {
             return Redirect::route('error', array('permission'));
         }
+    }
+});
+
+Route::filter('fe.auth', function() {
+    //dd(Auth::check());
+    if (!Auth::check()) {
+        Session::put('url.intended', URL::full());
+        return Redirect::route('fe.login');
     }
 });
 
@@ -105,7 +130,7 @@ Route::filter('guest', function() {
 
 Route::filter('csrf', function() {
     if (Session::token() != Input::get('_token')) {
-        //throw new Illuminate\Session\TokenMismatchException;
-        App::abort(404);
+        throw new Illuminate\Session\TokenMismatchException;
+        //App::abort(404);
     }
 });

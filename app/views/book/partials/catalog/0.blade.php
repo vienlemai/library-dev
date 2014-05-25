@@ -60,7 +60,7 @@
 </div>
 <div class='footer'>
     <div class="side">
-        <button class="btn btn-primary" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
+        <button class="btn btn-primary btn-check-submit" data-url="{{route('book.submit')}}">Gửi đi kiểm duyệt</button>
         <span class="check-info" style="display: none"></span>
         <div class='fr'>
             <div class='pagination'>

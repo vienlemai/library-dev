@@ -76,8 +76,10 @@
                         <?php endif; ?>
                         <?php if($reader->isStudent()){
                             echo View::make('reader.partials.view_student',array('reader'=>$reader));
+                        }else if($reader->isStaff()){
+                            echo View::make('reader.partials.view_staff',array('reader'=>$reader));
                         }else{
-                            echo View::make('reader.partials.view_teacher',array('reader'=>$reader));
+                            
                         } ?>
                         <div class="form-actions">
                             <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo thẻ</a>
