@@ -25,8 +25,15 @@ class UserController extends BaseController {
             $user = User::where('username', '=', Input::get('username'))->first();
             if (empty($user)) {
                 $user = new User(Input::all());
-                $user->password = Hash::make(Input::get('password'));
+                $account = new Account(array(
+                    'username' => Input::get('username'),
+                    'password' => Hash::make(Input::get('password')),
+                ));
+                $user->beforeCreat();
+                $user->beforeSave();
                 $user->save();
+                $user->account()->save($account);
+                $user->afterCreate();
                 Session::flash('success', 'Tạo mới thành công nhân viên "' . $user->full_name . '"');
                 return Redirect::route('users');
             } else {
@@ -70,6 +77,7 @@ class UserController extends BaseController {
         }
         $permissions = json_encode($permissions);
         //dd($user);
+        $user->beforeSave();
         $user->update(array('permissions' => $permissions));
         Session::flash('success', 'Phân quyền thành công');
         return Redirect::route('users');
@@ -99,6 +107,7 @@ class UserController extends BaseController {
             $user->sex = Input::get('sex');
             $user->group_id = Input::get('group_id');
             $user->date_of_birth = Input::get('date_of_birth');
+            $user->beforeSave();
             $user->save();
             Session::flash('success', 'Sửa thành công thông tin nhân viên "' . $user->full_name . '"');
             return Redirect::route('users');

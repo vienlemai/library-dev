@@ -172,7 +172,7 @@ class Book extends Eloquent {
         self::SCOPE_AWAY => 'Về nhà',
     );
     public static $TYPE_TO_LABELS = array(
-        self::TYPE_BOOK  => 'Sách',
+        self::TYPE_BOOK => 'Sách',
         self::TYPE_MAGAZINE => 'Tạp chí / Biểu mẫu'
     );
 
@@ -245,14 +245,14 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                $book->status = Book::SS_ADDED;
-                $book->created_by = Auth::user()->loginable_id;
-                $book->barcode_printed = 0;
-                $time = time();
-                $vnCode = '893';
-                $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-                $book->barcode = $random;
-            });
+            $book->status = Book::SS_ADDED;
+            $book->created_by = Auth::user()->loginable_id;
+            $book->barcode_printed = 0;
+            $time = time();
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+            $book->barcode = $random;
+        });
     }
 
     public function scopeStudent($query) {

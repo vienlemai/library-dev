@@ -9,9 +9,9 @@ class DatabaseSeeder extends Seeder {
      */
     public function run() {
         //Eloquent::unguard();
-        $this->call('SystemConfigSeed');
-        $this->call('ConfigTableSeeder');
-        $this->call('StorageTableSeeder');
+        //$this->call('SystemConfigSeed');
+        //$this->call('ConfigTableSeeder');
+        //$this->call('StorageTableSeeder');
         $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
     }
@@ -116,6 +116,7 @@ class UserTableSeeder extends Seeder {
     public function run() {
         DB::table('users')->truncate();
         DB::table('groups')->truncate();
+        DB::table('accounts')->truncate();
         $group = new Group(array(
             'name' => 'Quản trị',
             'permissions' => json_encode(array(1, 2, 3, 4, 5, 6)),
@@ -137,6 +138,8 @@ class UserTableSeeder extends Seeder {
             'password' => Hash::make('123456'),
             'remember_token' => ''
         ));
+        $user->beforeCreat();
+        $user->beforeSave();
         $user->save();
         $user->account()->save($account);
         $group = new Group(array(

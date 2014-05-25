@@ -27,7 +27,10 @@ Route::group(array('prefix' => 'admin'), function () {
     ));
 
     Route::get('test', function() {
-        
+        $user = new User(array(
+            'full_name'=>'Vien',
+        ));
+        $user->save();
     });
     Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'AdminController@index'));
     Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));

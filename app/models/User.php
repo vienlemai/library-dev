@@ -1,9 +1,6 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
-
-class User extends Eloquent implements UserInterface, RemindableInterface, IActivityAuthor {
+class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor {
     const TYPE_CATALOGER = 1;
     const TYPE_MODERATOR = 2;
     const TYPE_LIBRARIAN = 3;
@@ -44,34 +41,30 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
         return Validator::make($input, $rules, $messages);
     }
 
-    public static function boot() {
-        parent::boot();
-        static::creating(function($user) {
-            $user->permissions = json_encode(array());
-            $user->created_at = Carbon\Carbon::now();
-            $user->updated_at = Carbon\Carbon::now();
-        });
+    public function beforeCreat() {
+        $this->permissions = json_encode(array());
+    }
 
-        static ::created(function($user) {
-            if (Auth::check()) {
-                Activity::write(Session::get('User'), Activity::ADDED_STAFF, $user);
-            }
-        });
-        static::saving(function($user) {
-            $permissions = json_decode($user->permissions);
-            if (is_null($permissions)) {
-                $permissions = array();
-            }
-            $groupPermissions = json_decode($user->group->permissions);
-            $allPermissions = array_merge($permissions, $groupPermissions);
-            $routes = array();
-            foreach ($allPermissions as $p) {
-                $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
-            }
-            $routes = array_merge($routes, Permission::$SHARED_ROUTES);
-            $user->routes = json_encode($routes);
-            $user->remember_token = '';
-        });
+    public function afterCreate() {
+        if (Auth::check()) {
+            Activity::write(Session::get('User'), Activity::ADDED_STAFF, $this);
+        }
+    }
+
+    public function beforeSave() {
+        $permissions = json_decode($this->permissions);
+        if (is_null($permissions)) {
+            $permissions = array();
+        }
+        $groupPermissions = json_decode($this->group->permissions);
+        $allPermissions = array_merge($permissions, $groupPermissions);
+        $routes = array();
+        foreach ($allPermissions as $p) {
+            $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
+        }
+        $routes = array_merge($routes, Permission::$SHARED_ROUTES);
+        //dd($routes);
+        $this->routes = json_encode($routes);
     }
 
     public function catalogers() {
