@@ -1,13 +1,15 @@
 <?php
 
 class FrontendBaseController extends BaseController {
+    protected $currentReader;
 
     public function __construct() {
         parent::__construct();
         $this->beforeFilter(function() {
-                // if (Auth::check()) {
-                View::share('books_in_cart', $this->booksInCart());
-                // }
+                if (Auth::check()) {
+                    View::share('books_in_cart', $this->booksInCart());
+                    $this->currentReader = Auth::user()->loginable;
+                }
             });
     }
 
