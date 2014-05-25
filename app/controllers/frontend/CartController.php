@@ -3,7 +3,12 @@
 class CartController extends FrontendBaseController {
 
     public function show() {
-        return View::make('frontend.cart.show');
+        if(count($this->booksInCart()) > 0) {
+            $books = Book::whereIn('id', $this->booksInCart())->get();
+        } else {
+            $books = array();
+        }
+        return View::make('frontend.cart.show')->with('books', $books);
     }
 
     public function remove() {
@@ -39,6 +44,11 @@ class CartController extends FrontendBaseController {
                 'success' => $success,
                 'books_count' => count($this->booksInCart())
         ));
+    }
+
+    public function clear() {
+        Session::put('books_in_cart', array());
+        return Response::to(route('fe.home'))->with('message', 'Đã làm trống giỏ sách!');
     }
 
 }

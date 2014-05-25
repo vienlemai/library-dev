@@ -237,7 +237,6 @@ img.right{
 }
 .book-box .book-title {
     font-size: 13px;
-    text-align: center;
     margin: 0;
 }
 .book-box  .book-foot {
@@ -597,4 +596,7 @@ div.pagination span.disabled {
 }
 .text-muted {
     color: gray;
+}
+.text-italic {
+    font-style: italic;
 }

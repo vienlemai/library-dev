@@ -2,13 +2,6 @@ $(document).ready(function() {
     $(document).on('click', '.btn-add-to-cart, .btn-remove-from-cart', function() {
         $_booksCounter = $('#books-counter');
         $_thisLink = $(this);
-
-        if ($_thisLink.hasClass('btn-add-to-cart')) {
-            console.log('add');
-        } else {
-            console.log('remove');
-        }
-
         var originalText = $_thisLink.text();
         var sendData = {book_id: $_thisLink.data('book-id')};
         $.ajax({

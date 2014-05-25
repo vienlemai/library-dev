@@ -38,5 +38,9 @@ Route::group(array('before' => 'fe.auth'), function() {
             'as' => 'fe.remove_from_cart',
             'uses' => 'CartController@remove'
         ));
+        Route::post('/clear-cart', array(
+            'as' => 'fe.clear_cart',
+            'uses' => 'CartController@clear'
+        ));
     });
 

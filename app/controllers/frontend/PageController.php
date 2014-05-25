@@ -10,7 +10,9 @@ class PageController extends FrontendBaseController {
     }
 
     public function search() {
-        return View::make('frontend.page.search');
+        $keyword = Input::get('keyword', '');
+        return View::make('frontend.page.search')
+                ->with('keyword', $keyword);
     }
 
     public function login() {
