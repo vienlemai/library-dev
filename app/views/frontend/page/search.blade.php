@@ -6,15 +6,16 @@
 </div>
 <div class="clear"></div>
 <div class="span10 offset2">
-    <form action="#" class="form-horizontal">          
-        <div class='span2'>
-            <label class="control-label" for="keyword">Nhập tên sách, tác giả</label>
-        </div>
-
-        <div class='span6'>
-            <input type="text" id="keyword" placeholder="" class='form-control'>
-            <button type='submit' class='btn'>Tìm</button>
-        </div>
+    <form class="form-inline">
+        
+        <label>Thể loại: </label>
+        <select class='input-small'>
+            <option>Sách</option>
+            <option>Tạp chí</option>
+        </select>
+        <label class="control-label" for="keyword">Tên hoặc tác giả: </label>
+        <input type="text" id="keyword" placeholder="" class='form-control' value='<?php echo $keyword?>'>
+        <button type='submit' class='btn'>Tìm</button>
 
     </form>
 </div>
