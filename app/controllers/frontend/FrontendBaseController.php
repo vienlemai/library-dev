@@ -4,10 +4,15 @@ class FrontendBaseController extends BaseController {
 
     public function __construct() {
         parent::__construct();
-//        if (Auth::check()) {
-            $books_in_cart = Session::get('books_in_cart', array());
-            View::share('books_in_cart', $books_in_cart);
-//        }
+        $this->beforeFilter(function() {
+                // if (Auth::check()) {
+                View::share('books_in_cart', $this->booksInCart());
+                // }
+            });
+    }
+
+    protected function booksInCart() {
+        return Session::get('books_in_cart', array());
     }
 
 }
