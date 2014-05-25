@@ -15,35 +15,45 @@
             <?php echo $bookItem->status == BookItem::SS_LENDED ? 'Đang cho mượn' : 'Đang lưu trữ' ?>
         </div>
     </div>
-    <div class='content-row'>
-        <?php if ($borrow): ?>
-            <div class='span5'>
 
-                <?php if ($isLocal): ?>
-                    <a href="javascript:void(0)" class='btn btn-primary' id="btn-borrow-book" data-url='{{route('circulation.borrow',Book::SCOPE_LOCAL)}}'>
-                        <i class='i-arrow-up-6'></i>Mượn tại chỗ</a>
-                <?php else: ?>
-                    <a href="javascript:void(0)" class='btn btn-success' id="btn-borrow-book" data-url='{{route('circulation.borrow',Book::SCOPE_AWAY)}}'>
-                        <i class='i-arrow-up-6'></i>Mượn</a>
-                <?php endif; ?>
-            </div>
-        <?php elseif ($return): ?>
-            <div class='span5'>
-                <a href="javascript:void(0)" class='btn btn-warning' id="btn-return-book" data-url='{{route('circulation.return')}}'>
-                    <i class='i-arrow-down-6'></i>
-                    Trả
+    <?php if ($borrow): ?>
+        <?php if ($isLocal): ?>
+            <div class='content-row'>
+                <a href="javascript:void(0)" class='btn btn-primary cir-action' id="btn-borrow-book" data-url='{{route('circulation.borrow',Book::SCOPE_LOCAL)}}'>
+                    <i class='i-arrow-up-6'></i>Mượn tại chỗ
                 </a>
             </div>
-        <?php endif; ?>
-        <?php if ($extra && !$isLocal): ?>
-            <div class='row-actions'>
-                <a href="javascript:void(0)" class='btn btn-success' id="btn-extra-book" data-url='{{route('circulation.extra')}}'>
-                    <i class='i-plus'></i>
-                    Gia hạn
+        <?php else: ?>
+            <div class='content-row'>
+                <a href="javascript:void(0)" class='btn btn-success' id="btn-borrow-book" data-url='{{route('circulation.borrow',Book::SCOPE_AWAY)}}'>
+                    <i class='i-arrow-up-6'></i>Mượn
                 </a>
             </div>
         <?php endif; ?>
     </div>
+<?php elseif ($return): ?>
+    <div class='content-row'>
+        <a href="javascript:void(0)" class='btn btn-warning cir-action' id="btn-return-book" data-url='{{route('circulation.return')}}'>
+            <i class='i-arrow-down-6'></i>
+            Trả
+        </a>
+    </div>
+    <div class='content-row'>
+        <a href="javascript:void(0)"  class="btn btn-danger cir-action" id="btn-lost-book" data-url="{{route('circulation.lost')}}">
+            <i class="i-cancel-2"></i>
+            Làm mất
+        </a>
+    </div>
+<?php endif; ?>
+<?php if ($extra && !$isLocal): ?>
+    <div class='content-row'>
+        <a href="javascript:void(0)" class='btn btn-success cir-action' id="btn-extra-book" data-url='{{route('circulation.extra')}}'>
+            <i class='i-plus'></i>
+            Gia hạn
+        </a>
+    </div>    
+<?php endif; ?>
+</div>
 </div>
 <div class='span7'>
     <?php if ($bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>

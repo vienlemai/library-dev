@@ -71,6 +71,10 @@ Route::group(array('prefix' => 'admin'), function () {
         'as' => 'circulation.extra',
         'uses' => 'CirculationController@extra',
     ));
+    Route::post('circulation/lost', array(
+        'as' => 'circulation.lost',
+        'uses' => 'CirculationController@lost',
+    ));
     Route::get('inventory/search', array(
         'as' => 'inventory.search',
         'uses' => 'InventoryController@search'
@@ -93,6 +97,10 @@ Route::group(array('prefix' => 'admin'), function () {
     Route::get('book/exportchoose/{permission}', array(
         'as' => 'book.export.choose',
         'uses' => 'BookController@exportChoose'
+    ));
+    Route::post('inventory/book/{id}', array(
+        'as' => 'inventory.book',
+        'uses' => 'InventoryController@getBookItem'
     ));
 
 
@@ -205,6 +213,10 @@ Route::group(array('prefix' => 'admin'), function () {
             'as' => 'inventory.result',
             'uses' => 'InventoryController@result'
         ));
+        Route::get('inventory/print/{id}', array(
+            'as' => 'inventory.print',
+            'uses' => 'InventoryController@printResult'
+        ));
         //user    
         Route::get('user/create', array(
             'as' => 'user.create',
@@ -312,10 +324,6 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('inventory.finish', array(
             'as' => 'inventory.finish',
             'uses' => 'InventoryController@finish'
-        ));
-        Route::post('inventory/book/{id}', array(
-            'as' => 'inventory.book',
-            'uses' => 'InventoryController@getBookItem'
         ));
         Route::post('user/permission/{id}', array(
             'as' => 'user.permission',

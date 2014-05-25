@@ -47,7 +47,9 @@
                                 <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . $diff . ' ngày)'; ?>
                             </td>
                         <?php endif; ?>
-                        <?php if ($row->returned == 1): ?>
+                        <?php if ($row->is_lost): ?>
+                            <td style="color: red">Làm mất</td>
+                        <?php elseif ($row->returned == 1): ?>
                             <td>Đã trả</td>
                         <?php elseif (!$isExpired): ?>
                             <?php if ($row->bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>

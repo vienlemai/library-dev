@@ -62,6 +62,20 @@ class Storage extends Node {
         }
     }
 
+    public function getLeavesOfRoot($rootId, &$leaves = array()) {
+        $rootNode = $this->find($rootId);
+        foreach ($rootNode->children()->get() as $child) {
+            if ($child->isLeaf()) {
+                array_push($leaves, $child->id);
+            }
+        }
+         foreach ($rootNode->children()->get() as $child) {
+             if (!$child->isLeaf()) {
+                $this->getLeavesOfRoot($child->id,$leaves);
+            }
+         }
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     //
   // Below come the default values for Baum's own Nested Set implementation

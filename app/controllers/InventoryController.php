@@ -58,7 +58,7 @@ class InventoryController extends \BaseController {
                     ->where('barcode', '=', $barcode)->first();
             if (empty($check)) {
                 $storageModel = new Storage();
-                $storage = $storageModel->find($bookItem->book->storage);
+                $storage = $storageModel->find($storageId);
                 if ($storageModel->isContain($storageId, $bookItem->book->storage)) {
                     DB::table(Inventory::DB_PREFIX . $inventoryId)
                         ->insert(array(
@@ -71,7 +71,7 @@ class InventoryController extends \BaseController {
                     $result['book_info'] = View::make('inventory.partials.book', array('book' => $bookItem->book))->render();
                 } else {
                     $result['status'] = false;
-                    $result['message'] = 'Tài liệu "' . $bookItem->book->title . '" không thuộc kho ' . $storage->title;
+                    $result['message'] = 'Tài liệu "' . $bookItem->book->title . '" không thuộc kho ' . $storage->name;
                 }
             } else {
                 $result['status'] = false;
@@ -96,35 +96,73 @@ class InventoryController extends \BaseController {
     }
 
     public function result($id) {
+        $storageModel = new Storage();
         $inventory = Inventory::findOrFail($id);
         $storages = Storage::where('parent_id', '=', null)
             ->get();
         $booksScanned = array();
         $booksScannedTotal = 0;
         for ($i = 0; $i < $storages->count(); $i++) {
+            $nodeLeaves = array();
+            $storageModel->getLeavesOfRoot($storages[$i]->id, $nodeLeaves);
+            if (empty($nodeLeaves)) {
+                array_push($nodeLeaves, $storages[$i]->id);
+            }
             $number = DB::table(Inventory::DB_PREFIX . $id)
-                ->where('storage', '=', $storages[$i]->id)
+                ->whereIn('storage', $nodeLeaves)
                 ->count();
             $booksScanned[$i]['count'] = $number;
             $booksScanned[$i]['id'] = $storages[$i]->id;
             $booksScanned[$i]['name'] = $storages[$i]->name;
             $booksScannedTotal += $number;
         }
-
         $bookTotal = BookItem::count();
         $booksStored = BookItem::where('status', '=', BookItem::SS_STORAGED)->count();
         $booksLended = BookItem::where('status', '=', BookItem::SS_LENDED)->count();
-
         $bookLose = $bookTotal - ($booksScannedTotal + $booksLended);
         $booksLendedList = null;
-        $bookLoseList = null;
         if ($bookLose > 0) {
-            
-        } else {
-            
+            $lostBooks = Circulation::with('bookItem.book', 'reader')
+                    ->where('is_lost', true)->get();
         }
         return View::make('inventory.result', compact(
-                    'bookTotal', 'booksStored', 'booksLended', 'booksScanned', 'inventory', 'booksScannedTotal', 'bookLose', 'booksLendedList'
+                    'id', 'bookTotal', 'booksStored', 'booksLended', 'booksScanned', 'inventory', 'booksScannedTotal', 'bookLose', 'booksLendedList', 'lostBooks'
+                )
+        );
+    }
+
+    public function printResult($id) {
+        $storageModel = new Storage();
+        $inventory = Inventory::findOrFail($id);
+        $storages = Storage::where('parent_id', '=', null)
+            ->get();
+        $booksScanned = array();
+        $booksScannedTotal = 0;
+        for ($i = 0; $i < $storages->count(); $i++) {
+            $nodeLeaves = array();
+            $storageModel->getLeavesOfRoot($storages[$i]->id, $nodeLeaves);
+            if (empty($nodeLeaves)) {
+                array_push($nodeLeaves, $storages[$i]->id);
+            }
+            $number = DB::table(Inventory::DB_PREFIX . $id)
+                ->whereIn('storage', $nodeLeaves)
+                ->count();
+            $booksScanned[$i]['count'] = $number;
+            $booksScanned[$i]['id'] = $storages[$i]->id;
+            $booksScanned[$i]['name'] = $storages[$i]->name;
+            $booksScannedTotal += $number;
+        }
+        $bookTotal = BookItem::count();
+        $booksStored = BookItem::where('status', '=', BookItem::SS_STORAGED)->count();
+        $booksLended = BookItem::where('status', '=', BookItem::SS_LENDED)->count();
+        $bookLose = $bookTotal - ($booksScannedTotal + $booksLended);
+        $booksLendedList = null;
+        if ($bookLose > 0) {
+            $lostBooks = Circulation::with('bookItem.book', 'reader')
+                    ->where('is_lost', true)->get();
+        }
+        return View::make('inventory.print_result', compact(
+                    'bookTotal', 'booksStored', 'booksLended', 'booksScanned', 'inventory', 'booksScannedTotal', 'bookLose', 'booksLendedList', 'lostBooks'
                 )
         );
     }

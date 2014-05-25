@@ -164,6 +164,17 @@ class Reader extends Eloquent implements IActivityAuthor {
         return 'Bạn đọc';
     }
 
+    public function getTypeName() {
+        switch ($this->reader_type) {
+            case self::TYPE_STUDENT:
+                return 'Sinh viên';
+            case self::TYPE_STAFF:
+                return 'Cán bộ';
+            case self::TYPE_TEACHER:
+                return 'Giảng viên';
+        }
+    }
+
     public function isTeacher() {
         return $this->reader_type == self::TYPE_TEACHER;
     }
@@ -178,7 +189,8 @@ class Reader extends Eloquent implements IActivityAuthor {
 
     public static function readerBorrowing() {
         $readers = Reader::whereHas('circulations', function($query) {
-                $query->where('returned', false);
+                $query->where('returned', false)
+                    ->where('is_lost', false);
                 //->where('scope',  Book::SCOPE_AWAY);
             });
         return $readers->get();

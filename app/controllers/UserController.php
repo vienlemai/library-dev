@@ -62,15 +62,15 @@ class UserController extends BaseController {
 
     public function postPermission($id) {
         $permissions = array();
-        $user = User::with('group')->findOrFail($id);
+        $user = User::findOrFail($id);
         if (Input::has('permissions')) {
             foreach (Input::get('permissions') as $p) {
                 array_push($permissions, (int) $p);
             }
         }
-        $user->permissions = json_encode($permissions);
-
-        $user->save();
+        $permissions = json_encode($permissions);
+        //dd($user);
+        $user->update(array('permissions' => $permissions));
         Session::flash('success', 'Phân quyền thành công');
         return Redirect::route('users');
     }
@@ -113,11 +113,11 @@ class UserController extends BaseController {
         Session::flash('error', 'Đã xóa nhân viên "' . $user->full_name . '"');
         return Redirect::route('users');
     }
-    
-    public function search(){
+
+    public function search() {
         $keyword = Input::get('keyword');
         $users = User::with('group')
-            ->where('full_name','like','%'.$keyword.'%')
+            ->where('full_name', 'like', '%' . $keyword . '%')
             ->orderBy('created_at', 'DESC')
             ->paginate(self::ITEMS_PER_PAGE);
         return View::make('user.partials.index', array('users' => $users));

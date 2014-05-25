@@ -276,4 +276,32 @@ class CirculationController extends \BaseController {
         return Response::json($result);
     }
 
+    public function lost() {
+        $readerId = Input::get('readerId');
+        $bookItemId = Input::get('bookItemId');
+        Circulation::where('reader_id', '=', $readerId)
+            ->where('book_item_id', '=', $bookItemId)
+            ->where('returned', '=', false)
+            ->update(array('is_lost' => true));
+        $circulations = Circulation::where('reader_id', '=', $readerId)
+            ->where('returned', '=', false)
+            ->where('is_lost', false)
+            ->with('bookItem', 'bookItem.book')
+            ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
+        BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_STORAGED));
+        $bookItem = BookItem::where('id', $bookItemId)->first(array('book_id'));
+        Book::where('id', $bookItem->book_id)->increment('lost');
+        Book::where('id', $bookItem->book_id)->decrement('lended');
+        $result['status'] = true;
+        $viewData = array(
+            'circulations' => $circulations,
+            'message' => 'Lưu thành công tình trạng làm mất tài liệu ',
+        );
+        $result['list_book_html'] = View::make('circulation.partials.list-book', $viewData)->render();
+        $result['countLocal'] = $cirCount['local'];
+        $result['countRemote'] = $cirCount['remote'];
+        return Response::json($result);
+    }
+
 }

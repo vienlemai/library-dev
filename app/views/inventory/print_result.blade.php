@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.print')
 @section('content')
 <div class="wrap">
     <div class='head'>
@@ -86,7 +86,7 @@
                             </tbody>
                         </table>
                     <?php endif; ?>   
-                        <a class="btn btn-primary text-center" target="_blank" href="{{route('inventory.print',$id)}}" style="margin: 10px">
+                        <a class="btn btn-primary text-center" href="#" style="margin: 10px">
                         <i class="i-printer">In báo cáo</i>
                     </a>
 

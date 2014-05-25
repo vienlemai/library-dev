@@ -21,7 +21,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface, IActi
         'email'
     );
     protected $hidden = array('password');
-    
+
     public function account() {
         return $this->morphOne('User', 'loginable');
     }

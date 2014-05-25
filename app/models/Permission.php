@@ -68,6 +68,7 @@ class Permission {
                 'inventory.create',
                 'inventory.execute',
                 'inventory.result',
+                'inventory.print',
             ),
         ),
         5 => array(
@@ -103,7 +104,7 @@ class Permission {
     public function check($action) {
         $user = User::where('id', Auth::user()->loginable_id)
             ->first();
-        Session::put('User',$user);
+        Session::put('User', $user);
         $availbleRoutes = json_decode($user->routes);
         return in_array($action, $availbleRoutes);
     }

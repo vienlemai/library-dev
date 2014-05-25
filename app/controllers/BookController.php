@@ -512,11 +512,11 @@ class BookController extends \BaseController {
             $bookToSave = array();
             if ($type == Book::TYPE_BOOK) {
                 foreach (Book::$titleToExcel as $k => $v) {
-                    $bookToSave[$v] = strtolower($book[$k]);
+                    $bookToSave[$v] = ($book[$k]);
                 }
             } else if ($type == Book::TYPE_MAGAZINE) {
                 foreach (Book::$magazineTitle as $k => $v) {
-                    $bookToSave[$v] = strtolower($book[$k]);
+                    $bookToSave[$v] = ($book[$k]);
                 }
             }
             $bookToSaveConverted = Book::convertTitleToId($bookToSave);
