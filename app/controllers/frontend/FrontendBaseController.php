@@ -5,14 +5,14 @@ class FrontendBaseController extends BaseController {
 
     public function __construct() {
         parent::__construct();
+        if (Auth::check()) {
+            $this->currentReader = Auth::user()->loginable;
+        }
         $this->beforeFilter(function() {
-            if (Auth::check()) {
-                View::share('books_in_cart', Session::get('books_in_cart', array()));
-                if (!Session::has('curentReader')) {
-                    Session::put('curentReader', Reader::find(Auth::user()->loginable));
+                if (Auth::check()) {
+                    View::share('books_in_cart', Session::get('books_in_cart', array()));
                 }
-            }
-        });
+            });
     }
 
     protected function booksInCart() {
