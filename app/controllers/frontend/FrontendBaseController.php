@@ -9,7 +9,7 @@ class FrontendBaseController extends BaseController {
             if (Auth::check()) {
                 View::share('books_in_cart', Session::get('books_in_cart', array()));
                 if (!Session::has('curentReader')) {
-                    Session::put('curentReader', Reader::find(Auth::user()->loginable));
+                    Session::put('curentReader', Auth::user()->loginable);
                 }
             }
         });
