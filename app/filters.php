@@ -91,7 +91,7 @@ Route::filter('auth', function() {
 
 Route::filter('fe.auth', function() {
         //dd(Auth::check());
-        if (!Auth::check()) {
+        if (!Auth::check() || Auth::user()->loginable_type != 'Reader') {
             Session::put('url.intended', URL::full());
             return Redirect::route('fe.login');
         }
