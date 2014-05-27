@@ -77,10 +77,6 @@
 									->value($book->language)
                     }}
 
-                    {{Former::xlarge_text('cutter')
-									->label('Số cutter')
-									->value($book->cutter)
-                    }}
 
                     {{Former::xlarge_text('type_number')
 									->label('Số phân loại')

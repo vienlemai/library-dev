@@ -23,14 +23,13 @@ class BookItem extends Eloquent {
      */
     protected $fillable = array(
         'barcode',
-        'status'
+        'status',
+        'cutter'
     );
 
     public function book() {
         return $this->belongsTo('Book');
     }
-
-
 
 //    public function circulations (){
 //        return $this->hasMany('Circulation');

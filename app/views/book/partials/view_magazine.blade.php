@@ -66,7 +66,7 @@
 
                 {{Former::xlarge_text('cutter')
 									->label('Số cutter')
-									->value($book->cutter)
+									->value($book->id)
 									->disabled()
                 }}
 
@@ -110,7 +110,7 @@
                     ->value($book->permissionName())
 					->disabled()	
                 }}
-                
+
                 <div class="control-group">
                     <label for="price" class="control-label">Thông tin khác</label>
                     <div class="controls">

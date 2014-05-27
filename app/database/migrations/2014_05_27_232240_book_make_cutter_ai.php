@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CirculatinonAddReturnedAt extends Migration {
+class BookMakeCutterAi extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,8 +12,8 @@ class CirculatinonAddReturnedAt extends Migration {
 	 */
 	public function up()
 	{
-        Schema::table('circulations',function($t){
-            $t->timestamp('returned_at');
+        Schema::table('books',function($t){
+            $t->dropColumn('cutter');
         });
 	}
 
@@ -24,9 +24,7 @@ class CirculatinonAddReturnedAt extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('circulations',function($t){
-            $t->dropColumn('returned_at');
-        });
+		//
 	}
 
 }

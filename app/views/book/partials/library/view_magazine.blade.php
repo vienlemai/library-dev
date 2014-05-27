@@ -42,7 +42,7 @@
             <dt>Ngôn ngữ</dt>
             <dd>{{!empty($book->language)?$book->language:'(trống)'}}</dd>
             <dt>Số cutter</dt>
-            <dd>{{!empty($book->cutter)?$book->cutter:'(trống)'}}</dd>
+            <dd>{{$book->id}}</dd>
             <dt>Số phân loại</dt>
             <dd>{{!empty($book->type_number)?$book->type_number:'(trống)'}}</dd>
             <dt>Giá tiền</dt>

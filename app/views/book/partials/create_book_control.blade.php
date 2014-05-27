@@ -6,9 +6,6 @@
     ->label('Ngôn ngữ')
 }}
 
-{{Former::xlarge_text('cutter')
-    ->label('Số cutter')
-}}
 
 {{Former::xlarge_text('type_number')
     ->label('Số phân loại')

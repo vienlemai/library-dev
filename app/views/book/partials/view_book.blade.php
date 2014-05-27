@@ -90,7 +90,7 @@
 
                 {{Former::xlarge_text('cutter')
 									->label('Số cutter')
-									->value($book->cutter)
+									->value($book->id)
 									->disabled()
                 }}
 

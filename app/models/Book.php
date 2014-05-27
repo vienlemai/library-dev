@@ -62,15 +62,14 @@ class Book extends Eloquent {
         10 => 'attach',
         11 => 'organization',
         12 => 'language',
-        13 => 'cutter',
-        14 => 'type_number',
-        15 => 'price',
-        16 => 'storage',
-        17 => 'number',
-        18 => 'level',
-        19 => 'scope',
-        20 => 'permission',
-        21 => 'another_infor'
+        13 => 'type_number',
+        14 => 'price',
+        15 => 'storage',
+        16 => 'number',
+        17 => 'level',
+        18 => 'scope',
+        19 => 'permission',
+        20 => 'another_infor'
     );
     public static $magazineTitle = array(
         1 => 'title',
@@ -81,15 +80,14 @@ class Book extends Eloquent {
         6 => 'magazine_local',
         7 => 'organization',
         8 => 'language',
-        9 => 'cutter',
-        10 => 'type_number',
-        11 => 'price',
-        12 => 'storage',
-        13 => 'number',
-        14 => 'level',
-        15 => 'scope',
-        16 => 'permission',
-        17 => 'another_infor'
+        9 => 'type_number',
+        10 => 'price',
+        11 => 'storage',
+        12 => 'number',
+        13 => 'level',
+        14 => 'scope',
+        15 => 'permission',
+        16 => 'another_infor'
     );
     public static $storageTitle = array(
         1 => 'Kho A',
@@ -116,7 +114,6 @@ class Book extends Eloquent {
         'attach' => 'Tài liệu đính kèm',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
-        'cutter' => 'Số cutter',
         'type_number' => 'Số phân loại',
         'price' => 'Giá',
         'storage' => 'Nơi lưu trữ',
@@ -135,7 +132,6 @@ class Book extends Eloquent {
         'magazine_local' => 'Khu vực',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
-        'cutter' => 'Số cutter',
         'type_number' => 'Số phân loại',
         'price' => 'Giá',
         'storage' => 'Nơi lưu trữ',
@@ -236,7 +232,6 @@ class Book extends Eloquent {
         'attach',
         'organization',
         'language',
-        'cutter',
         'type_number',
         'price',
         'storage',
@@ -368,7 +363,11 @@ class Book extends Eloquent {
         for ($i = 1; $i <= $this->number; $i++) {
             $code = $this->barcode . sprintf("%03s", $i);
             $fullCode = self::ean13_check_digit($code);
-            $bItem = new BookItem(array('barcode' => $fullCode, 'status' => BookItem::SS_STORAGED));
+            $bItem = new BookItem(array(
+                'barcode' => $fullCode,
+                'status' => BookItem::SS_STORAGED,
+                'cutter' => $this->id . '-' . $i,
+            ));
             $this->bookItems()->save($bItem);
         }
     }
@@ -645,8 +644,8 @@ class Book extends Eloquent {
     public function getLevelName() {
         return self::$LEVELS[$this->level];
     }
-    
-    public function isAway(){
+
+    public function isAway() {
         return $this->scope == self::SCOPE_AWAY;
     }
 
