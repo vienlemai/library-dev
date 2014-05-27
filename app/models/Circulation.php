@@ -56,5 +56,6 @@ class Circulation extends Eloquent {
     public function reader() {
         return $this->belongsTo('Reader');
     }
+    
 
 }
