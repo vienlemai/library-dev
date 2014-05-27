@@ -152,6 +152,18 @@ class Book extends Eloquent {
         2 => 'Lỗi',
         3 => 'Đã lưu hành',
     );
+    public $mapStorage = array(
+        1 => 'Kho A',
+        3 => 'Kho B/Luật',
+        4 => 'Kho B/Tham khảo',
+        5 => 'Kho B/Nghiệp vụ cơ bản',
+        7 => 'Kho B/Chuyên ngành/Đường thủy',
+        8 => 'Kho B/Chuyên ngành/Đường bộ - Đường sắt',
+        9 => 'Kho B/Chuyên ngành/Cảnh sát môi trường',
+        10 => 'Kho B/Chuyên ngành/Cảnh sát kinh tế',
+        11 => 'Kho B/Chuyên ngành/Kỹ thuật hình sự',
+        12 => 'Kho B/Chuyên ngành/CA phụ trách xã',
+    );
 
     /**
      * labels of a book for moderator
@@ -624,6 +636,18 @@ class Book extends Eloquent {
             case self::SS_PUBLISHED:
                 return 'Tai_Lieu_Da_Luu_Hanh';
         }
+    }
+
+    public function getPath() {
+        return $this->mapStorage[$this->storage];
+    }
+
+    public function getLevelName() {
+        return self::$LEVELS[$this->level];
+    }
+    
+    public function isAway(){
+        return $this->scope == self::SCOPE_AWAY;
     }
 
 }

@@ -69,11 +69,11 @@ class Storage extends Node {
                 array_push($leaves, $child->id);
             }
         }
-         foreach ($rootNode->children()->get() as $child) {
-             if (!$child->isLeaf()) {
-                $this->getLeavesOfRoot($child->id,$leaves);
+        foreach ($rootNode->children()->get() as $child) {
+            if (!$child->isLeaf()) {
+                $this->getLeavesOfRoot($child->id, $leaves);
             }
-         }
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////

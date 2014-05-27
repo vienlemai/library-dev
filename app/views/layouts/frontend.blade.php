@@ -10,7 +10,7 @@
     </head>
     <body>
         <div id="wrap">
-            <?php echo View::make('frontend.partials.main-menu'); ?>
+            <?php echo View::make('frontend.partials.main_menu'); ?>
             <div class="center_content">
                 @yield('content')
                 <div class="clear"></div>
@@ -26,6 +26,7 @@
         </div>
         <script type="text/javascript" src="{{{asset('js/plugins/jquery-2.0.0.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/plugins/bootstrap-2.3.2.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/bootbox.min.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/fe/common.js')}}}"></script>
     </body>
 </html>

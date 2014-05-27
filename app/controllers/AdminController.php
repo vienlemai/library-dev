@@ -57,7 +57,12 @@ class AdminController extends BaseController {
         }
         if (Auth::attempt(array('username' => Input::get('username'), 'password' => Input::get('password')), $remember)) {
             if (Auth::user()->loginable_type == 'User') {
-                return Redirect::intended('/admin');
+                $previousUrl = URL::previous();
+                if (strpos($previousUrl, 'admin') === false) {
+                    return Redirect::route('home');
+                } else {
+                    return Redirect::intended('/admin');
+                }
             } else {
                 return Redirect::intended('/');
             }

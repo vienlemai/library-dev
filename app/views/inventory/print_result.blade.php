@@ -85,11 +85,7 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                    <?php endif; ?>   
-                        <a class="btn btn-primary text-center" href="#" style="margin: 10px">
-                        <i class="i-printer">In báo cáo</i>
-                    </a>
-
+                    <?php endif; ?>
                 </div>                
             </div>
         </div>       

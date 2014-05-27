@@ -18,6 +18,7 @@ class BaseController extends Controller {
             if (Auth::check()) {
                 if (Auth::user()->loginable_type == 'User') {
                     $user = Session::get('User');
+                    //dd($user);
                     $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
                 }
                 View::share('modules', $modules);

@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class='content np table-sorting'>
-    <table cellpadding='0' cellspacing='0' class='sort' width='100%'>
+    <table cellpadding='0' cellspacing='0' class='simple_sort' width='100%'>
         <thead>
             <tr>
                 <th style='width:5%'>

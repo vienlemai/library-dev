@@ -34,7 +34,7 @@ Route::group(array('before' => 'fe.auth'), function() {
             'as' => 'fe.add_to_cart',
             'uses' => 'CartController@add'
         ));
-        Route::post('/remove-from-cart', array(
+        Route::get('/remove-from-cart/{book_id}', array(
             'as' => 'fe.remove_from_cart',
             'uses' => 'CartController@remove'
         ));
