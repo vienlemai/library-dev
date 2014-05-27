@@ -42,7 +42,8 @@ class CartController extends FrontendBaseController {
 
     public function clear() {
         Session::put('books_in_cart', array());
-        return Response::to(route('fe.home'))->with('message', 'Đã làm trống giỏ sách!');
+        Session::flash('success', 'Đã làm trống giỏ sách!');
+        return Redirect::to(route('fe.home'));
     }
 
 }

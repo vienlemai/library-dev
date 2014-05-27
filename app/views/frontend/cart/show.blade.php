@@ -13,6 +13,7 @@
             <th>Thể loại</th>
             <th>Hình thức mượn</th>
             <th>Số lượng</th>
+            <th>Số lượng còn</th>
             <th>Thao tác</th>
         </tr>
     </thead>
@@ -80,6 +81,7 @@
                 <td>
                     <input class="input-small" type='number' name='count' value='1'/>
                 </td>
+                <td><?php echo $book->number - $book->lended ?></td>
                 <td>
                     <a href='javascript:void(0)' 
                        btn-confirm="confirm" 

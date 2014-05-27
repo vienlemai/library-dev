@@ -36,3 +36,7 @@ form {
 .btn-brow:hover {
     color: #fff;
 } 
+a:hover, a:focus {
+    outline: none;
+    text-decoration: none;
+}
