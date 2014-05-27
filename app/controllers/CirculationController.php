@@ -230,7 +230,10 @@ class CirculationController extends \BaseController {
         Circulation::where('reader_id', '=', $readerId)
             ->where('book_item_id', '=', $bookItemId)
             ->where('returned', '=', false)
-            ->update(array('returned' => true));
+            ->update(array(
+                'returned' => true,
+                'returned_at' => Carbon\Carbon::now(),
+        ));
         $circulations = Circulation::where('reader_id', '=', $readerId)
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')

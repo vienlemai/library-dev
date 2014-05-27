@@ -76,10 +76,13 @@ class Permission {
             'menus' => array(
                 'statistics.reader' => 'Thống kê bạn đọc',
                 'statistics.book' => 'Thống kê tài liệu',
+                'statistics.circulation' => 'Thống kê mượn trả',
             ),
             'routes' => array(
                 'statistics.reader',
                 'statistics.book',
+                'statistics.circulation',
+                'statistics.print.circulation'
             ),
         ),
         6 => array(
