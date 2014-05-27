@@ -56,6 +56,13 @@ class Circulation extends Eloquent {
     public function reader() {
         return $this->belongsTo('Reader');
     }
-    
+
+    public function scopeTime($query, $start, $end) {
+        $query->whereBetween('created_at', array($start, $end));
+    }
+
+    public function creator() {
+        return $this->belongsTo('User', 'created_by');
+    }
 
 }

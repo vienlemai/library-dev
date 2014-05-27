@@ -52,6 +52,7 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
     }
 
     public function beforeSave() {
+        //exit ('beroresave');
         $permissions = json_decode($this->permissions);
         if (is_null($permissions)) {
             $permissions = array();
@@ -63,7 +64,6 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
             $routes = array_merge($routes, Permission::$ACTIONS[$p]['routes']);
         }
         $routes = array_merge($routes, Permission::$SHARED_ROUTES);
-        //dd($routes);
         $this->routes = json_encode($routes);
     }
 
@@ -141,6 +141,10 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
         );
 
         return Validator::make($input, $rules, $message);
+    }
+
+    public function isAdmin() {
+        return $this->group_id == 1;
     }
 
 }

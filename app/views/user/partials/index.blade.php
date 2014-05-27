@@ -40,10 +40,12 @@
                             <i class='i-cancel-2'></i>
                             Xóa
                         </a>
-                        <a class='text-warning' href="{{route('user.permission',$user->id)}}">
-                            <i class='i-magnifier'></i>
-                            Phân quyền
-                        </a>
+                        <?php if (!$user->isAdmin()): ?>
+                            <a class='text-warning' href="{{route('user.permission',$user->id)}}">
+                                <i class='i-magnifier'></i>
+                                Phân quyền
+                            </a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
