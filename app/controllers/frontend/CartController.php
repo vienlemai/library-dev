@@ -8,14 +8,8 @@ class CartController extends FrontendBaseController {
         } else {
             $books = array();
         }
-        $currentReader = Session::get('curentReader');
-        $lendedBooks = Circulation::with('bookItem.book')
-            ->where('reader_id', $currentReader->id)
-            ->where('returned', false)
-            ->get();
         return View::make('frontend.cart.show')
-                ->with('books', $books)
-                ->with('lendedBooks', $lendedBooks);
+                ->with('books', $books);
     }
 
     public function remove($book_id) {

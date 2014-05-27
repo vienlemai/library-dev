@@ -42,5 +42,17 @@ Route::group(array('before' => 'fe.auth'), function() {
             'as' => 'fe.clear_cart',
             'uses' => 'CartController@clear'
         ));
+        Route::get('/trang-ca-nhan', array(
+            'as' => 'fe.profile',
+            'uses' => 'ProfileController@index'
+        ));
+        Route::post('/update-profile', array(
+            'as' => 'fe.update_profile',
+            'uses' => 'ProfileController@update'
+        ));
+        Route::post('/update-password', array(
+            'as' => 'fe.update_password',
+            'uses' => 'ProfileController@updatePassword'
+        ));
     });
 

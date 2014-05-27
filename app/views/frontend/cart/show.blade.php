@@ -20,7 +20,7 @@
         <?php $index = 0 ?>
         <?php foreach ($books as $book): ?>
             <tr>
-                <td><?php echo ++$index ?></td>
+                <td><?php echo++$index ?></td>
                 <td><a href="#modal-book-details-{{$book->id}}"  data-toggle='modal'><?php echo $book->title ?></a>
                     <div class="modal hide fade" id="modal-book-details-{{$book->id}}">
                         <div class="modal-header">
@@ -103,37 +103,6 @@
 <?php else: ?>
     <p class='text-muted text-italic text-center'>Chưa có tài liệu nào trong giỏ!</p>
 <?php endif; ?>
-<div class="page-title">
-    Danh sách tài liệu đang mượn
-</div>
-<div class="clear"></div>
-<table class='table table-bordered table-striped'>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Tiêu đề</th>
-            <th>Thể loại</th>
-            <th>Hình thức mượn</th>
-            <th>Ngày mượn</th>
-            <th>Hạn trả</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php $index = 1; ?>
-        <?php foreach ($lendedBooks as $circulation): ?>
-            <tr>
-                <td><?php echo $index++ ?></td>
-                <td><?php $circulation->bookItem->book->title ?></td>
-                <td><?php echo $circulation->bookItem->book->getBookTypeName() ?></td>
-                <td><?php echo $circulation->bookItem->book->scopeName() ?></td>
-                <td><?php echo $circulation->created_at->format('d \t\h\á\n\g m, Y') ?></td>
-                <td><?php echo $circulation->expired_at->format('d \t\h\á\n\g m, Y') ?></td>
-                <td></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
 <div class="modal hide fade" id='modal-confirm-clear-cart'>
     <?php echo Former::open(route('fe.clear_cart'), 'POST') ?>
     <div class="modal-body">
