@@ -78,7 +78,15 @@ class Reader extends Eloquent implements IActivityAuthor {
     }
 
     public function account() {
-        return $this->morphOne('Reader', 'loginable');
+        return $this->morphOne('Account', 'loginable');
+    }
+
+    /**
+     * Find the books has borrowed and still not retured
+     * 
+     */
+    public function borrowingBooks() {
+        return Book::findBorrowingByReader($this);
     }
 
     /**
@@ -97,6 +105,22 @@ class Reader extends Eloquent implements IActivityAuthor {
         'reader_type',
         'department'
     );
+
+    public static function updateProfileValidate($input, $record_id) {
+        $rules = array(
+            'email' => 'required|unique:readers,email,' . $record_id,
+            'full_name' => 'required|min:3',
+            'year_of_birth' => 'required|date',
+        );
+
+        $messages = array(
+            'full_name.min' => 'xin nhập tối thiểu :min',
+            'year_of_birth.date' => 'xin nhập ngày hợp lệ',
+            'required' => 'không được để trống',
+            'integer' => 'xin nhập vào số nguyên'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
 
     public static function studentValidate($input) {
         $rules = array(
@@ -133,15 +157,15 @@ class Reader extends Eloquent implements IActivityAuthor {
     public static function boot() {
         parent::boot();
         static::creating(function($reader) {
-            $reader->status = Reader::SS_CIRCULATED;
-            $reader->created_by = Auth::user()->loginable_id;
-            $expired = Session::get('LibConfig.reader_expired');
-            $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
-        });
+                $reader->status = Reader::SS_CIRCULATED;
+                $reader->created_by = Auth::user()->loginable_id;
+                $expired = Session::get('LibConfig.reader_expired');
+                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
+            });
         // Write create reader event
         static::saved(function($reader) {
-            Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
-        });
+                Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
+            });
     }
 
     public function creator() {
@@ -189,10 +213,10 @@ class Reader extends Eloquent implements IActivityAuthor {
 
     public static function readerBorrowing() {
         $readers = Reader::whereHas('circulations', function($query) {
-                $query->where('returned', false)
-                    ->where('is_lost', false);
-                //->where('scope',  Book::SCOPE_AWAY);
-            });
+                    $query->where('returned', false)
+                        ->where('is_lost', false);
+                    //->where('scope',  Book::SCOPE_AWAY);
+                });
         return $readers->get();
     }
 

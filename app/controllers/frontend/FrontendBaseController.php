@@ -7,12 +7,9 @@ class FrontendBaseController extends BaseController {
         parent::__construct();
         if (Auth::check()) {
             $this->currentReader = Auth::user()->loginable;
+            View::share('currentReader', $this->currentReader);
+            View::share('books_in_cart', $this->booksInCart());
         }
-        $this->beforeFilter(function() {
-                if (Auth::check()) {
-                    View::share('books_in_cart', Session::get('books_in_cart', array()));
-                }
-            });
     }
 
     protected function booksInCart() {

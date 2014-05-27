@@ -252,14 +252,14 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-            $book->status = Book::SS_ADDED;
-            $book->created_by = Auth::user()->loginable_id;
-            $book->barcode_printed = 0;
-            $time = time();
-            $vnCode = '893';
-            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-            $book->barcode = $random;
-        });
+                $book->status = Book::SS_ADDED;
+                $book->created_by = Auth::user()->loginable_id;
+                $book->barcode_printed = 0;
+                $time = time();
+                $vnCode = '893';
+                $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+                $book->barcode = $random;
+            });
     }
 
     public function scopeStudent($query) {
@@ -406,6 +406,12 @@ class Book extends Eloquent {
     /*
      * STATIC FUNCTIONS GOES FROM HERE
      */
+
+    public static function findBorrowingByReader($reader) {
+        return Circulation::where('reader_id', $reader->id)->with('bookItem.book')
+                ->where('returned', '0')
+                ->lists('books.id');
+    }
 
     public static function bookValidate($input) {
         $rules = array(

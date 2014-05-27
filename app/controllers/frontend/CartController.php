@@ -8,14 +8,8 @@ class CartController extends FrontendBaseController {
         } else {
             $books = array();
         }
-        $currentReader = Session::get('curentReader');
-        $lendedBooks = Circulation::with('bookItem.book')
-            ->where('reader_id', $currentReader->id)
-            ->where('returned', false)
-            ->get();
         return View::make('frontend.cart.show')
-                ->with('books', $books)
-                ->with('lendedBooks', $lendedBooks);
+                ->with('books', $books);
     }
 
     public function remove($book_id) {
@@ -48,7 +42,8 @@ class CartController extends FrontendBaseController {
 
     public function clear() {
         Session::put('books_in_cart', array());
-        return Response::to(route('fe.home'))->with('message', 'Đã làm trống giỏ sách!');
+        Session::flash('success', 'Đã làm trống giỏ sách!');
+        return Redirect::to(route('fe.home'));
     }
 
 }

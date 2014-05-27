@@ -18,6 +18,7 @@
                 ?>
                 <li><a href="<?php echo route('fe.cart') ?>"><i class="fa fa-shopping-cart"></i>  Giỏ sách (<span id='books-counter'><?php echo $books_count ?></span>)</a></li>
                 <li id="user-box">
+                    <a href="<?php echo route('fe.profile')?>" > <i class="fa fa-user"></i> Trang cá nhân </a>
                     <a href="{{route('fe.logout')}}" role="button" data-toggle="modal">
                         <i class="fa fa-sign-in"></i>  Đăng xuất
                     </a>
