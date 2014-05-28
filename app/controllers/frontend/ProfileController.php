@@ -9,7 +9,6 @@ class ProfileController extends FrontendBaseController {
             ->where('reader_id', $this->currentReader->id)
             ->where('returned', false)
             ->get();
-
         return View::make('frontend.profile.index')
                 ->with(compact('histories', 'reader', 'borrowing_books'));
     }
@@ -21,10 +20,10 @@ class ProfileController extends FrontendBaseController {
         if ($validate->passes()) {
             $reader->fill($inputs);
             $reader->save();
-               Session::flash('success', 'Cập nhật thành công.');
+            Session::flash('success', 'Cập nhật thành công.');
             return Redirect::to(route('fe.profile'));
         } else {
-               Session::flash('error', 'Cập nhật thất bại.');
+            Session::flash('error', 'Cập nhật thất bại.');
             return Redirect::to(route('fe.profile'))->with('message', 'Cập nhật thất bại.')
                     ->withInput()
                     ->withErrors($validate->messages());
@@ -52,6 +51,20 @@ class ProfileController extends FrontendBaseController {
             return Redirect::to(route('fe.profile'))
                     ->withErrors($validate->messages());
         }
+    }
+
+    public function extra($id) {
+        $book_more_time = DB::table('configs')
+            ->where('key', 'book_more_time')
+            ->first();
+        Circulation::where('id', '=', $id)
+            ->increment('extensions');
+        $circulation = Circulation::where('id', '=', $id)
+            ->first();
+        Circulation::where('id', '=', $id)
+            ->update(array('expired_at' => $circulation->expired_at->addDays($book_more_time->value)));
+        Session::flash('success', 'Gia hạn thành công');
+        return Redirect::back();
     }
 
 }

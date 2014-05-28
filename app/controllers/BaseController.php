@@ -6,14 +6,10 @@ class BaseController extends Controller {
      */
     const ITEMS_PER_PAGE = 20;
 
+    protected $configs;
+
     public function __construct() {
         $this->beforeFilter(function() {
-            if (!Session::has('LibConfig')) {
-                $configs = DB::table('configs')->get();
-                foreach ($configs as $config) {
-                    Session::set('LibConfig.' . $config->key, $config->value);
-                }
-            }
             $modules = array();
             if (Auth::check()) {
                 if (Auth::user()->loginable_type == 'User') {
@@ -24,6 +20,11 @@ class BaseController extends Controller {
                 View::share('modules', $modules);
             }
         });
+        $configs = DB::table('configs')->get();
+        foreach ($configs as $config) {
+            $this->configs[$config->key] = $config->value;
+        }
+        View::share('configs',$this->configs);
     }
 
     /**
@@ -58,6 +59,18 @@ class BaseController extends Controller {
         } else {
             return false;
         }
+    }
+
+    protected function addMailToQueue($to, $subject, $content) {
+        DB::table('mail_queues')
+            ->insert(array(
+                'mail_from' => '',
+                'mail_to' => $to,
+                'subject' => $subject,
+                'content' => $content,
+                'created_at' => Carbon\Carbon::now(),
+                'updated_at' => Carbon\Carbon::now(),
+        ));
     }
 
 }

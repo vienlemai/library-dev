@@ -50,7 +50,7 @@ class Reader extends Eloquent implements IActivityAuthor {
     const AVATAR_DIR_PATH = 'img/readers/';
 
     public static $TYPE_LABELS = array(
-        self::TYPE_STUDENT => 'Sinh viên',
+        self::TYPE_STUDENT => 'Học viên',
         self::TYPE_TEACHER => 'Giảng viên',
         self::TYPE_STAFF => 'Nhân viên',
     );
@@ -103,7 +103,8 @@ class Reader extends Eloquent implements IActivityAuthor {
         'phone',
         'avatar',
         'reader_type',
-        'department'
+        'department',
+        'card_number'
     );
 
     public static function updateProfileValidate($input, $record_id) {
@@ -157,15 +158,26 @@ class Reader extends Eloquent implements IActivityAuthor {
     public static function boot() {
         parent::boot();
         static::creating(function($reader) {
-                $reader->status = Reader::SS_CIRCULATED;
-                $reader->created_by = Auth::user()->loginable_id;
-                $expired = Session::get('LibConfig.reader_expired');
-                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
-            });
+            $reader->status = Reader::SS_CIRCULATED;
+            $reader->created_by = Auth::user()->loginable_id;
+            $expired = Session::get('LibConfig.reader_expired');
+            $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
+        });
         // Write create reader event
         static::saved(function($reader) {
-                Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
-            });
+            Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
+        });
+    }
+
+    public function saveCardNumber() {
+        $cardPrefix = 'HV-';
+        if ($this->isTeacher()) {
+            $cardPrefix = 'GV-';
+        } else if ($this->isStaff()) {
+            $cardPrefix = 'NV-';
+        }
+        $card_number = $cardPrefix . sprintf("%04s", $this->id);
+        $this->update(array('card_number' => $card_number));
     }
 
     public function creator() {
@@ -213,10 +225,8 @@ class Reader extends Eloquent implements IActivityAuthor {
 
     public static function readerBorrowing() {
         $readers = Reader::whereHas('circulations', function($query) {
-                    $query->where('returned', false)
-                        ->where('is_lost', false);
-                    //->where('scope',  Book::SCOPE_AWAY);
-                });
+                $query->where('is_lost', false);
+            });
         return $readers->get();
     }
 

@@ -3,9 +3,8 @@
 class PageController extends FrontendBaseController {
 
     public function index() {
-        $reader = Reader::find(Auth::user()->loginable_id);
-        $books = Book::filterByReaderType($reader)
-            ->paginate(20);
+        //$reader = Reader::find(Auth::user()->loginable_id);
+        $books = Book::paginate(20);
         return View::make('frontend.page.index', array('books' => $books));
     }
 

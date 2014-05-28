@@ -10,6 +10,11 @@ class FrontendBaseController extends BaseController {
             View::share('currentReader', $this->currentReader);
             View::share('books_in_cart', $this->booksInCart());
         }
+        $configs = DB::table('configs')
+            ->get();
+        foreach ($configs as $config) {
+            View::share($config->key, $config->value);
+        }
     }
 
     protected function booksInCart() {
@@ -17,4 +22,3 @@ class FrontendBaseController extends BaseController {
     }
 
 }
-

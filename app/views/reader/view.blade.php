@@ -41,6 +41,7 @@
                                     <h4>Thông tin kiểm soát</h4>
                                     <ul>
                                         <li>Loại bạn đọc: {{Reader::$TYPE_LABELS[$reader->reader_type]}}</li>
+                                        <li>Mã bạn đọc: {{$reader->card_number}}</li>
                                         <li>Ngày tạo: {{$reader->created_at->format('d/m/Y')}}</li>
                                         <li>Ngày hết hạn: {{$reader->expired_at->format('d/m/Y')}}</li>
                                         <li>Người tạo: {{$reader->creator->full_name }}</li>
@@ -74,13 +75,16 @@
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                             </div>
                         <?php endif; ?>
-                        <?php if($reader->isStudent()){
-                            echo View::make('reader.partials.view_student',array('reader'=>$reader));
-                        }else if($reader->isStaff()){
-                            echo View::make('reader.partials.view_staff',array('reader'=>$reader));
-                        }else{
+                        <?php
+                        if ($reader->isStudent()) {
+                            echo View::make('reader.partials.view_student', array('reader' => $reader));
+                        } else if ($reader->isStaff()) {
+                            echo View::make('reader.partials.view_staff', array('reader' => $reader));
+                        } else {
                             
-                        } ?>
+                        }
+
+                        ?>
                         <div class="form-actions">
                             <a class="btn btn-primary" target="_blank" href="{{route('reader.card',$reader->id)}}">Tạo thẻ</a>
                             <a class="btn btn-success" href="javascript:void(0)" data-url="{{route('reader.history',$reader->id)}}" data-modal="show-modal">Lịch sử mượn trả</a>

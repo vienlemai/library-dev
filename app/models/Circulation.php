@@ -54,7 +54,7 @@ class Circulation extends Eloquent {
     }
 
     public function reader() {
-        return $this->belongsTo('Reader');
+        return $this->belongsTo('Reader','reader_id');
     }
 
     public function scopeTime($query, $start, $end) {

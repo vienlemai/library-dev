@@ -1,11 +1,11 @@
 <?php
-$max_extra_times = Session::get('LibConfig.extra_times');
+$max_extra_times = $configs['extra_times'];
 $now = Carbon\Carbon::now();
 
 ?>
-<?php if (isset($message)): ?>
+    <?php if (isset($message)): ?>
     <div class="alert alert-success">
-        <?php echo $message ?>
+    <?php echo $message ?>
         <button data-dismiss="alert" class="close" type="button">×</button>
     </div>
 <?php endif; ?>

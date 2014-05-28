@@ -13,7 +13,7 @@
                         <button class="btn btn-primary"><i class='i-plus-2'></i>Thêm mới bạn đọc</button>
                         <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li><a href="{{route('reader.create',Reader::TYPE_STUDENT)}}">Sinh viên</a></li>
+                            <li><a href="{{route('reader.create',Reader::TYPE_STUDENT)}}">Học viên</a></li>
                             <li><a href="{{route('reader.create',Reader::TYPE_TEACHER)}}">Giảng viên</a></li>
                             <li><a href="{{route('reader.create',Reader::TYPE_STAFF)}}">Nhân viên</a></li>
                         </ul>                                                    

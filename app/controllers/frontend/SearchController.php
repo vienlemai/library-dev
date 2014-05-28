@@ -6,7 +6,7 @@ class SearchController extends FrontendBaseController {
     public function index() {
         $books = Book::search(
                 array_merge($this->sanitizedParams(), array('reader_type' => $this->currentReader->reader_type))
-            )->paginate(10);
+            )->paginate(20);
         return View::make('frontend.search.index')
                 ->with('keyword', Input::get('keyword', ''))
                 ->with('books', $books);

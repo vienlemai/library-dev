@@ -1,4 +1,4 @@
-<?php $max_book_remote = Session::get('LibConfig.max_book_remote') ?>
+<?php $max_book_remote = $configs['max_book_remote'] ?>
 <div class='span5'>
     <div class='content-row'>
         <input class='barcode-scanner' value="{{$reader->barcode}}" data-url="{{route('circulation.reader')}}" placeholder='Mã thẻ' type='text'>

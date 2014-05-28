@@ -54,12 +54,20 @@ class ReaderController extends \BaseController {
             $reader = new Reader(Input::all());
             $reader->reader_type = $type;
             $reader->barcode = $fullCode;
+            $password = '123456';
             $account = new Account(array(
                 'username' => $reader->email,
-                'password' => Hash::make('123456')
+                'password' => Hash::make($password)
             ));
             if ($reader->save()) {
                 $reader->account()->save($account);
+                $reader->saveCardNumber();
+                $mailContent = View::make('reader.partials.mail_template', array(
+                        'reader' => $reader,
+                        'password' => $password
+                    ))->render();
+                $mailSubject = 'Thông báo về việc tạo mới tài khoản thư viện';
+                $this->addMailToQueue($reader->email, $mailSubject, $mailContent);
                 Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
                 return Redirect::route('readers');
             } else {

@@ -89,12 +89,16 @@ class AdminController extends BaseController {
         if ($v->passes()) {
             $mailTitle = Input::get('title');
             $mailContent = Input::get('content');
-            //dd($mailContent);
             $readers = Reader::readerBorrowing();
             foreach ($readers as $reader) {
-                Mail::send('admin.mail_content', array('full_name' => $reader->full_name, 'mail_content' => $mailContent), function($message) use ($mailTitle, $reader) {
-                    $message->to($reader->email, $reader->full_name)->subject($mailTitle);
-                });
+                DB::table('mail_queues')
+                    ->insert(array(
+                        'mail_to' => $reader->email,
+                        'subject' => $mailTitle,
+                        'content' => $mailContent,
+                        'created_at' => Carbon\Carbon::now(),
+                        'updated_at' => Carbon\Carbon::now(),
+                ));
             }
             Session::flash('success', 'Đã gửi mail thành công cho ' . $readers->count() . ' bạn đọc');
             return Redirect::route('send.mail');

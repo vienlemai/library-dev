@@ -67,7 +67,7 @@ class Book extends Eloquent {
         15 => 'storage',
         16 => 'number',
         17 => 'level',
-        18 => 'scope',
+        18 => 'book_scope',
         19 => 'permission',
         20 => 'another_infor'
     );
@@ -85,7 +85,7 @@ class Book extends Eloquent {
         11 => 'storage',
         12 => 'number',
         13 => 'level',
-        14 => 'scope',
+        14 => 'book_scope',
         15 => 'permission',
         16 => 'another_infor'
     );
@@ -119,7 +119,7 @@ class Book extends Eloquent {
         'storage' => 'Nơi lưu trữ',
         'number' => 'Số lượng',
         'level' => 'Mức độ',
-        'scope' => 'Phạm vi mượn',
+        'book_scope' => 'Phạm vi mượn',
         'permission' => 'Quyền mượn',
         'another_infor' => 'Thông tin khác',
     );
@@ -137,7 +137,7 @@ class Book extends Eloquent {
         'storage' => 'Nơi lưu trữ',
         'number' => 'Số lượng',
         'level' => 'Mức độ',
-        'scope' => 'Phạm vi mượn',
+        'book_scope' => 'Phạm vi mượn',
         'permission' => 'Quyền mượn',
         'another_infor' => 'Thông tin khác',
     );
@@ -252,14 +252,14 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                $book->status = Book::SS_ADDED;
-                $book->created_by = Auth::user()->loginable_id;
-                $book->barcode_printed = 0;
-                $time = time();
-                $vnCode = '893';
-                $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-                $book->barcode = $random;
-            });
+            $book->status = Book::SS_ADDED;
+            $book->created_by = Auth::user()->loginable_id;
+            $book->barcode_printed = 0;
+            $time = time();
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+            $book->barcode = $random;
+        });
     }
 
     public function scopeStudent($query) {
@@ -451,7 +451,7 @@ class Book extends Eloquent {
             'pages' => 'required|integer|min:1',
             'storage' => 'required',
             'level' => 'required|in:bình thường,mật,tối mật, tuyệt mật',
-            'scope' => 'required|in:tại chỗ,về nhà',
+            'book_scope' => 'required|in:tại chỗ,về nhà',
             'permission' => 'required|bx_permission',
             'storage' => 'required|bx_storage'
         );
@@ -482,7 +482,7 @@ class Book extends Eloquent {
             'number' => 'required|integer|min:1',
             'storage' => 'required',
             'level' => 'in:bình thường,mật,tối mật, tuyệt mật',
-            'scope' => 'in:tại chỗ,về nhà',
+            'book_scope' => 'in:tại chỗ,về nhà',
             'permission' => 'bx_permission',
             'storage' => 'bx_storage'
         );
@@ -514,10 +514,11 @@ class Book extends Eloquent {
                 break;
             }
         }
-
         foreach (self::$SCOPE_LABELS as $k => $v) {
-            if (trim(strtolower($book['scope'])) == strtolower($v)) {
-                $book['scope'] = $k;
+            var_dump($k);
+            var_dump(strtolower($v));
+            if (trim(strtolower($book['book_scope'])) == strtolower($v)) {
+                $book['book_scope'] = $k;
                 break;
             }
         }

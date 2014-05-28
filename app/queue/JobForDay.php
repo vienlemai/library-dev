@@ -26,11 +26,15 @@ class JobForDay {
     }
 
     public function sendRemindCirculation($job, $data) {
-        $remindReaders = Reader::readerBorrowing();
+        $remindReaders = Reader::whereHas('circulations', function($query) {
+                $query->where('is_lost', false)
+                    ->where('is_reminded', false);
+            })->get();
         $now = Carbon\Carbon::now();
         foreach ($remindReaders as $reader) {
             $circulations = Circulation::with('bookItem.book')
                 ->where('returned', false)
+                ->where('is_reminded', false)
                 ->where('reader_id', $reader->id)
                 ->get();
             $dayForRemind = $this->dayForRemind;
@@ -39,10 +43,23 @@ class JobForDay {
                     return $item;
                 }
             });
-            $mailTitle = $this->mailRemindTitle;
-            Mail::send('admin.mail_remind', array('full_name' => $reader->full_name, 'circulations' => $remindCirculations), function($message) use ($mailTitle, $reader) {
-                $message->to($reader->email, $reader->full_name)->subject($mailTitle);
-            });
+            if ($remindCirculations->count() > 0) {
+                foreach ($remindCirculations as $circulation) {
+                    $circulation->is_reminded = true;
+                    $circulation->save();
+                }
+                DB::table('mail_queues')
+                    ->insert(array(
+                        'mail_to' => $reader->email,
+                        'subject' => $this->mailRemindTitle,
+                        'content' => View::make('admin.mail_remind', array(
+                            'full_name' => $reader->full_name,
+                            'circulations' => $remindCirculations,
+                        ))->render(),
+                        'created_at' => Carbon\Carbon::now(),
+                        'updated_at' => Carbon\Carbon::now(),
+                ));
+            }
         }
         $job->delete();
     }

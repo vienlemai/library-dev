@@ -25,13 +25,15 @@ class CirculationController extends \BaseController {
         if (!empty($reader)) {
             $result['status'] = true;
             $now = Carbon\Carbon::now();
-            $bookFine = Session::get('LibConfig.book_expired_fine');
+            $bookFine = DB::table('configs')
+                ->where('key', 'book_expired_fine')
+                ->first();
             $fine = 0;
             $booksExpired = 0;
             foreach ($reader->circulations as $row) {
                 $diff = $now->diffInDays($row->expired_at);
                 if ($row->expired_at->lt($now) && $diff > 0) {
-                    $fine += ($diff * $bookFine);
+                    $fine += ($diff * $bookFine->value);
                     $booksExpired++;
                 }
             }
@@ -61,12 +63,11 @@ class CirculationController extends \BaseController {
         $bookItem = BookItem::where('barcode', '=', $barcode)->with('book')->first();
         $reader = Reader::with('circulations', 'circulations.bookItem', 'circulations.bookItem.book')
                 ->get()->find($readerId);
-        $max_book_remote = Session::get('LibConfig.max_book_remote');
-        $max_book_local = Session::get('LibConfig.max_book_local');
-        $max_extra_times = Session::get('LibConfig.extra_times');
+        $max_book_remote = $this->configs['max_book_remote'];
+        $max_book_local = $this->configs['max_book_local'];
+        $max_extra_times = $this->configs['extra_times'];
         $msgMaxBookRemote = 'Chỉ có thể mượn về nhà tối đa ' . $max_book_remote . ' tài liệu';
         $msgMaxBookLocal = 'Chỉ có thể mượn tại chỗ tối đa ' . $max_book_local . ' tài liệu';
-        $msgMaxBook;
         $msgPermissionBook = 'Bạn đọc không có quyền mượn tài liệu này';
         $msgInvalidBookReturn = 'Tài liệu này không phải do bạn đọc ' . $reader->full_name . ' mượn, không thể trả';
         if (!empty($bookItem) && $bookItem->book->status == Book::SS_PUBLISHED) {
@@ -256,7 +257,7 @@ class CirculationController extends \BaseController {
     public function extra() {
         $readerId = Input::get('readerId');
         $bookItemId = Input::get('bookItemId');
-        $book_more_time = Session::get('LibConfig.book_more_time');
+        $book_more_time = $this->configs['book_more_time'];
         Circulation::where('book_item_id', '=', $bookItemId)
             ->where('reader_id', '=', $readerId)
             ->increment('extensions');
@@ -265,7 +266,7 @@ class CirculationController extends \BaseController {
             ->first();
         Circulation::where('book_item_id', '=', $bookItemId)
             ->where('reader_id', '=', $readerId)
-            ->update(array('expired_at' => $circulation->expired_at->addDays($book_more_time)));
+            ->update(array('expired_at' => $circulation->expired_at->addDays($book_more_time->value)));
         $circulations = Circulation::where('reader_id', '=', $readerId)
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
