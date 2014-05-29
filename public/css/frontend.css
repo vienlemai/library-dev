@@ -570,7 +570,7 @@ div.pagination span.disabled {
     color:#afaeaf;
 }
 #user-box {
-    float:right;
+    margin-left: 295px;
 }
 .book {
     border-bottom: 1px #b2b2b2 dashed; 
@@ -586,7 +586,6 @@ div.pagination span.disabled {
     float: left;
     min-height: 50px;
     display: inline-block;
-
 
 }
 
