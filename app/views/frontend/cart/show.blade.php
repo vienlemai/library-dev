@@ -1,108 +1,119 @@
 @extends('layouts.frontend')
 @section('content')
 <div class="page-title">
+    <i class="fa fa-shopping-cart"></i>
     Giỏ sách của bạn
 </div>
 <div class="clear"></div>
-<table class='table table-bordered table-striped'>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Tiêu đề</th>
-            <th>Tác giả</th>
-            <th>Thể loại</th>
-            <th>Hình thức mượn</th>
-            <th>Số lượng</th>
-            <th>Số lượng còn</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php $index = 0 ?>
-        <?php foreach ($books as $book): ?>
-            <tr>
-                <td><?php echo++$index ?></td>
-                <td><a href="#modal-book-details-{{$book->id}}"  data-toggle='modal'><?php echo $book->title ?></a>
-                    <div class="modal hide fade" id="modal-book-details-{{$book->id}}">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4>Chi Tiết Tài Liệu - <?php echo $book->title ?></h4>
-                        </div>
-                        <div class="modal-body">
-                            <?php if ($book->isBook()): ?>
-                                <dl class="dl-horizontal">
-                                    <dt>Nhan đề: </dt>
-                                    <dd>kinh dịch diễn giải</dd>
-                                    <dt>Nhan đề song song: </dt>
-                                    <dd>{{!empty($book->sub_title)?$book->sub_title:'(trống)'}}</dd>
-                                    <dt>Tác giả: </dt>
-                                    <dd>{{$book->author}}</dd>
-                                    <dt>Dịch giả: </dt>
-                                    <dd>{{!empty($book->translator)?$book->translator:'(trống)'}}</dd>
-                                    <dt>Thông tin xuất bản: </dt>
-                                    <dd>{{!empty($book->publish_info)?$book->publish_info:'(trống)'}}</dd>
-                                    <dt>Nhà xuất bản/Nơi xuất bản: </dt>
-                                    <dd>{{!empty($book->publisher)?$book->publisher:'(trống)'}}</dd>
-                                    <dt>Nhà in: </dt>
-                                    <dd>{{!empty($book->printer)?$book->printer:'(trống)'}}</dd>
-                                    <dt>Số trang: </dt>
-                                    <dd>{{!empty($book->pages)?$book->pages:'(trống)'}}</dd>
-                                    <dt>Khổ cỡ: </dt>
-                                    <dd>{{!empty($book->size)?$book->size:'(trống)'}}</dd>
-                                    <dt>Tài liệu đính kèm: </dt>
-                                    <dd>{{!empty($book->attach)?$book->attach:'(trống)'}}</dd>
-                                </dl>
-                            <?php else: ?>
-                                <dl class="dl-horizontal">
-                                    <dt>Nhan đề: </dt>
-                                    <dd>{{$book->title}}</dd>
-                                    <dt>Số tạp chí: </dt>
-                                    <dd>{{!empty($book->magazine_number)?$book->magazine_number:'(trống)'}}</dd>
-                                    <dt>Ngày ra tạp chí: </dt>
-                                    <dd>{{!empty($book->magazine_publish_day)?$book->magazine_publish_day:'(trống)'}}</dd>
-                                    <dt>Phụ trương: </dt>
-                                    <dd>{{!empty($book->magazine_additional)?$book->magazine_additional:'(trống)'}}</dd>
-                                    <dt>Số đặc biệt: </dt>
-                                    <dd>{{!empty($book->magazine_special)?$book->magazine_special:'(trống)'}}</dd>
-                                    <dt>Khu vực: </dt>
-                                    <dd>{{!empty($book->magazine_local)?$book->magazine_local:'(trống)'}}</dd>
-                                </dl>
-                            <?php endif; ?>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" data-dismiss="modal" aria-hidden="true"><i class='fa fa-times'></i> Đóng</button>
-                        </div>
-                    </div>
-                </td>
-                <td><?php echo $book->author ?></td>
-                <td><?php echo $book->getBookTypeName() ?></td>
-                <td><?php echo $book->scopeName(); ?></td>
-                <td>
-                    <input class="input-small" type='number' name='count' value='1'/>
-                </td>
-                <td><?php echo $book->number - $book->lended ?></td>
-                <td>
-                    <a href='javascript:void(0)' 
-                       btn-confirm="confirm" 
-                       data-url="{{route('fe.remove_from_cart',$book->id)}}" 
-                       data-confirm="Bạn có chắc chắn muốn xóa ?"
-                       class='btn btn-small btn-danger'>Xóa</a>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-
-</table>
+<h6>Thông tin mượn trả</h6>
+<ul>
+    <li>Tại chỗ : <?php echo $cirCount['local'] . '/' . $configs['max_book_local'] ?></li>
+    <li>Về nhà : <?php echo $cirCount['remote'] . '/' . $configs['max_book_remote'] ?></li>
+</ul>
 <div class="clear"></div>
-<?php if (count($books) > 0) : ?>
-    <div class='pull-right'>
-        <form action=''>
+<form action='{{route('fe.cart.submit')}}' method="POST" id="form-cart">
+    <table class='table table-bordered table-striped' id="cart-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tiêu đề</th>
+                <th>Tác giả</th>
+                <th>Thể loại</th>
+                <th>Hình thức mượn</th>
+                <th>Số lượng</th>
+                <th>Số lượng còn</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $index = 0 ?>
+            <?php foreach ($books as $book): ?>
+                <tr>
+                    <td>
+                        <?php echo ++$index ?>
+                        <input class="cart-input-book-id" type="hidden" name="" value="{{$book->id}}"/>
+                        <input class="cart-input-book-scope" type="hidden" name="" value="{{$book->book_scope}}"/>
+                    </td>
+                    <td><a href="#modal-book-details-{{$book->id}}"  data-toggle='modal'><?php echo $book->title ?></a>
+                        <div class="modal hide fade" id="modal-book-details-{{$book->id}}">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4>Chi Tiết Tài Liệu - <?php echo $book->title ?></h4>
+                            </div>
+                            <div class="modal-body">
+                                <?php if ($book->isBook()): ?>
+                                    <dl class="dl-horizontal">
+                                        <dt>Nhan đề: </dt>
+                                        <dd>kinh dịch diễn giải</dd>
+                                        <dt>Nhan đề song song: </dt>
+                                        <dd>{{!empty($book->sub_title)?$book->sub_title:'(trống)'}}</dd>
+                                        <dt>Tác giả: </dt>
+                                        <dd>{{$book->author}}</dd>
+                                        <dt>Dịch giả: </dt>
+                                        <dd>{{!empty($book->translator)?$book->translator:'(trống)'}}</dd>
+                                        <dt>Thông tin xuất bản: </dt>
+                                        <dd>{{!empty($book->publish_info)?$book->publish_info:'(trống)'}}</dd>
+                                        <dt>Nhà xuất bản/Nơi xuất bản: </dt>
+                                        <dd>{{!empty($book->publisher)?$book->publisher:'(trống)'}}</dd>
+                                        <dt>Nhà in: </dt>
+                                        <dd>{{!empty($book->printer)?$book->printer:'(trống)'}}</dd>
+                                        <dt>Số trang: </dt>
+                                        <dd>{{!empty($book->pages)?$book->pages:'(trống)'}}</dd>
+                                        <dt>Khổ cỡ: </dt>
+                                        <dd>{{!empty($book->size)?$book->size:'(trống)'}}</dd>
+                                        <dt>Tài liệu đính kèm: </dt>
+                                        <dd>{{!empty($book->attach)?$book->attach:'(trống)'}}</dd>
+                                    </dl>
+                                <?php else: ?>
+                                    <dl class="dl-horizontal">
+                                        <dt>Nhan đề: </dt>
+                                        <dd>{{$book->title}}</dd>
+                                        <dt>Số tạp chí: </dt>
+                                        <dd>{{!empty($book->magazine_number)?$book->magazine_number:'(trống)'}}</dd>
+                                        <dt>Ngày ra tạp chí: </dt>
+                                        <dd>{{!empty($book->magazine_publish_day)?$book->magazine_publish_day:'(trống)'}}</dd>
+                                        <dt>Phụ trương: </dt>
+                                        <dd>{{!empty($book->magazine_additional)?$book->magazine_additional:'(trống)'}}</dd>
+                                        <dt>Số đặc biệt: </dt>
+                                        <dd>{{!empty($book->magazine_special)?$book->magazine_special:'(trống)'}}</dd>
+                                        <dt>Khu vực: </dt>
+                                        <dd>{{!empty($book->magazine_local)?$book->magazine_local:'(trống)'}}</dd>
+                                    </dl>
+                                <?php endif; ?>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" data-dismiss="modal" aria-hidden="true"><i class='fa fa-times'></i> Đóng</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td><?php echo $book->author ?></td>
+                    <td><?php echo $book->getBookTypeName() ?></td>
+                    <td><?php echo $book->scopeName(); ?></td>
+                    <td>
+                        <input class="input-small cart-book-count" type='number' name='count' value='1'/>
+                    </td>
+                    <td><?php echo $book->number - $book->lended ?></td>
+                    <td>
+                        <a href='javascript:void(0)' 
+                           btn-confirm="confirm" 
+                           data-url="{{route('fe.remove_from_cart',$book->id)}}" 
+                           data-confirm="Bạn có chắc chắn muốn xóa ?"
+                           class='btn btn-small btn-danger'>Xóa</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+
+    </table>
+    <div class="clear"></div>
+    <?php if (count($books) > 0) : ?>
+        <div class='pull-right'>        
             <a data-toggle='modal' href='#modal-confirm-clear-cart'class='btn btn-warning'><i class='fa fa-times'></i> Làm trống giỏ sách</a>
-            <button class='btn btn-success'><i class='fa fa-upload'></i> Yêu cầu đặt sách</button>
-        </form>
-    </div>
-<?php else: ?>
+            <button class='btn btn-success' id="btn-submit-cart" ><i class='fa fa-upload'></i> Yêu cầu đặt sách</button>    
+        </div>
+    <?php else: ?>
+    </form>
     <p class='text-muted text-italic text-center'>Chưa có tài liệu nào trong giỏ!</p>
 <?php endif; ?>
 <div class="modal hide fade" id='modal-confirm-clear-cart'>

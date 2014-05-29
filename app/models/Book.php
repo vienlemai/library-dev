@@ -386,6 +386,12 @@ class Book extends Eloquent {
         return $query;
     }
 
+    public function scopeLevel($query, $levels = array()) {
+        if (!empty($levels)) {
+            $query->whereNotIn('level', $levels);
+        }
+    }
+
     public static function searchForReader($reader, $params = array()) {
         $query = self::filterByReaderType($reader);
         if (isset($params['keyword'])) {

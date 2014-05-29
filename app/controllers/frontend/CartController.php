@@ -8,8 +8,17 @@ class CartController extends FrontendBaseController {
         } else {
             $books = array();
         }
-        return View::make('frontend.cart.show')
-                ->with('books', $books);
+        $readerId = Auth::user()->loginable_id;
+        $circulations = Circulation::where('reader_id', '=', $readerId)
+            ->where('returned', '=', false)
+            ->with('bookItem', 'bookItem.book')
+            ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
+        Session::flash('warning','Hãy nhập số lượng không vượt quá số lượng cho phép');
+        return View::make('frontend.cart.show', array(
+                'cirCount' => $cirCount,
+                'books' => $books,
+        ));
     }
 
     public function remove($book_id) {
@@ -44,6 +53,33 @@ class CartController extends FrontendBaseController {
         Session::put('books_in_cart', array());
         Session::flash('success', 'Đã làm trống giỏ sách!');
         return Redirect::to(route('fe.home'));
+    }
+
+    public function submit() {
+        $countLocal = 0;
+        $countRemote = 0;
+        $cart = json_decode(Input::get('cart'), true);
+        $readerId = Auth::user()->loginable_id;
+        $circulations = Circulation::where('reader_id', '=', $readerId)
+            ->where('returned', '=', false)
+            ->with('bookItem', 'bookItem.book')
+            ->get();
+        $cirCount = $this->_countCirculationScope($circulations);
+        foreach ($cart as $item) {
+            if ($item['scope'] == Book::SCOPE_LOCAL) {
+                $countLocal+= $item['number'];
+            } else {
+                $countRemote+= $item['number'];
+            }
+        }
+        $countLocal += $cirCount['local'];
+        $countRemote+= $cirCount['remote'];
+        if ($countLocal > $this->configs['max_book_local'] || $countLocal > $this->configs['max_book_remote']) {
+            Session::flash('error', 'Số lượng đăng kí mượn lớn hơn cho phép, vui lòng chọn lại');
+            return Redirect::back();
+        } else {
+            
+        }
     }
 
 }

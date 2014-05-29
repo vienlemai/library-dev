@@ -8,4 +8,9 @@
 	{{Session::get('error')}}
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 </div>
+@elseif(Session::has('warning'))
+<div class="alert alert-block">
+    <strong>Lưu ý : </strong>{{Session::get('warning')}}
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
 @endif
