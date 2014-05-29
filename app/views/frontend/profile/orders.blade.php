@@ -15,7 +15,7 @@ $now = Carbon\Carbon::now();
                 <th style='width:20%'>Tiêu đề</th>
                 <th style='width:15%'>Ngày đăng ký</th>
                 <th style='width:5%'>Số lượng</th>
-                <th style="width: 10%">Hình thức mượn</th>
+                <th style="width:10%">Hình thức mượn</th>
                 <th style='width:12%'>Trạng thái</th>
                 <th style='width:8%'>Ngày hẹn</th>
             </tr>

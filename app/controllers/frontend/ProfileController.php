@@ -16,10 +16,10 @@ class ProfileController extends FrontendBaseController {
             $reader->fill($inputs);
             $reader->save();
             Session::flash('success', 'Cập nhật thành công.');
-            return Redirect::to(route('fe.profile'));
+            return Redirect::to(route('fe.account'));
         } else {
             Session::flash('error', 'Cập nhật thất bại.');
-            return Redirect::to(route('fe.profile'))->with('message', 'Cập nhật thất bại.')
+            return Redirect::to(route('fe.account'))->with('message', 'Cập nhật thất bại.')
                             ->withInput()
                             ->withErrors($validate->messages());
         }
@@ -40,10 +40,10 @@ class ProfileController extends FrontendBaseController {
             $account->password = Hash::make(Input::get('password'));
             $account->save();
             Session::flash('success', 'Đổi mật khẩu thành công.');
-            return Redirect::to(route('fe.profile'))->with('message', 'Đổi mật khẩu thành công.');
+            return Redirect::to(route('fe.account'))->with('message', 'Đổi mật khẩu thành công.');
         } else {
             Session::flash('error', 'Đổi mật khẩu thất bại!');
-            return Redirect::to(route('fe.profile'))
+            return Redirect::to(route('fe.account'))
                             ->withErrors($validate->messages());
         }
     }
