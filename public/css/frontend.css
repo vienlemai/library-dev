@@ -91,7 +91,7 @@ p.more_details{
     font-size:13px;
     line-height:25px;
 }
-#menu > ul > li:not(.dropdown) a:hover{
+#menu > ul > li > a:hover{
     color:#F0BB7C;
 }
 /*----------------crumb_nav------------------*/
@@ -618,17 +618,17 @@ div.pagination span.disabled {
 .padding-15{
     padding: 10px;
 }
-li#category-menu.dropdown {
+#menu li.dropdown {
     display: inline-block;
 }
-li#category-menu .caret {
+#menu li.dropdown .caret {
     border-top: 4px solid #fff;
     margin-top: 11px;
 }
-li#category-menu ul.dropdown-menu {
+#menu li.dropdown ul.dropdown-menu {
     border-radius: 2px;
 }
-li#category-menu .dropdown-menu>li>a:hover, li#category-menu .dropdown-menu>li>a:focus, li#category-menu .dropdown-submenu:hover>a, li#category-menu .dropdown-submenu:focus>a {
+#menu li.dropdown .dropdown-menu>li>a:hover, #menu li.dropdown .dropdown-menu>li>a:focus, #menu li.dropdown .dropdown-submenu:hover>a, #menu li.dropdown .dropdown-submenu:focus>a {
     background-image: -webkit-gradient(
         linear,
         left top,
@@ -640,4 +640,7 @@ li#category-menu .dropdown-menu>li>a:hover, li#category-menu .dropdown-menu>li>a
     background-image: -webkit-linear-gradient(bottom, #8F5C3F 100%);
     background-image: -ms-linear-gradient(bottom, #8F5C3F 100%);
     background-image: linear-gradient(to bottom, #8F5C3F 100%);
+}
+#menu ul.dropdown-menu {
+    min-width: 140px;
 }

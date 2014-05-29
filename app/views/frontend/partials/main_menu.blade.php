@@ -19,13 +19,13 @@
                         <ul class="dropdown-menu">
                             <li><a href="#">Level 2</a></li>
                             <li><a href="#">Level 2</a></li>
-                               <li class="dropdown-submenu">
-                                    <a href="#">More</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Level 3</a></li>
-                                        <li><a href="#">Level 3</a></li>
-                                    </ul>
-                                </li>
+                            <li class="dropdown-submenu">
+                                <a href="#">More</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Level 3</a></li>
+                                    <li><a href="#">Level 3</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -34,18 +34,32 @@
             <?php if (Auth::check()): ?>
                 <?php
                 $books_count = count($books_in_cart);
-
                 ?>
                 <li><a href="<?php echo route('fe.cart') ?>"><i class="fa fa-shopping-cart"></i>  Giỏ sách (<span id='books-counter'><?php echo $books_count ?></span>)</a></li>
-                <li id="user-box">
-                    <a href="<?php echo route('fe.profile') ?>" > <i class="fa fa-user"></i> Trang cá nhân </a>
-                    <a href="{{route('fe.logout')}}" role="button" data-toggle="modal">
-                        <i class="fa fa-sign-in"></i>  Đăng xuất
+                <li class="dropdown" id="user-box">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user"></i> Trang cá nhân
+                        <span class="caret"></span>
                     </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?php echo route('fe.profile') ?>" > Thông tin tài khoản </a>
+                        </li>
+                        <li><a href="#">Tài liệu đang mượn</a></li>
+                        <li><a href="#">Tài liệu đã đăng ký</a></li>
+                        <li><a href="#">Lịch sử mượn / trả</a></li>
+                        <li class="divider"></li>
+                        <li class=""> 
+                            <a href="{{route('fe.logout')}}" role="button" data-toggle="modal">
+                                <i class="fa fa-sign-out"></i>  Đăng xuất
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
             <?php else: ?>
                 <li id="user-box">
-                    <a href="{{route('fe.login')}}" class="fa fa-user">  Đăng nhập</a>
+                    <a href="{{route('fe.login')}}"><i class="fa fa-sign-in"></i>  Đăng nhập</a>
                 </li>
             <?php endif; ?>
         </ul>
