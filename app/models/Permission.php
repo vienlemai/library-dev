@@ -40,6 +40,7 @@ class Permission {
             'title' => 'Lưu hành',
             'menus' => array(
                 'circulation' => 'Mượn trả tài liệu',
+                'order' => 'Bạn đọc đăng ký mượn',
                 'book.library' => 'Danh sách tài liệu',
                 'readers' => 'Danh sách bạn đọc',
             ),
@@ -55,6 +56,7 @@ class Permission {
                 'reader.card',
                 'reader.pause',
                 'reader.unpause',
+                'order'
             ),
         ),
         4 => array(

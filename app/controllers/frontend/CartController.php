@@ -13,10 +13,16 @@ class CartController extends FrontendBaseController {
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')
             ->get();
+        $orders = Order::where('reader_id', $readerId)
+            ->where('status', Order::SS_NEW)
+            ->get();
         $cirCount = $this->_countCirculationScope($circulations);
-        Session::flash('warning','Hãy nhập số lượng không vượt quá số lượng cho phép');
+        $orderCount = $this->_countOrderScope($orders);
+        //dd($orderCount);
+        Session::flash('warning', 'Hãy nhập số lượng không vượt quá số lượng cho phép');
         return View::make('frontend.cart.show', array(
                 'cirCount' => $cirCount,
+                'orderCount' => $orderCount,
                 'books' => $books,
         ));
     }
@@ -74,11 +80,22 @@ class CartController extends FrontendBaseController {
         }
         $countLocal += $cirCount['local'];
         $countRemote+= $cirCount['remote'];
-        if ($countLocal > $this->configs['max_book_local'] || $countLocal > $this->configs['max_book_remote']) {
+        if ($countLocal > $this->configs['max_book_local'] || $countRemote > $this->configs['max_book_remote']) {
             Session::flash('error', 'Số lượng đăng kí mượn lớn hơn cho phép, vui lòng chọn lại');
             return Redirect::back();
         } else {
-            
+            foreach ($cart as $item) {
+                $order = new Order(array(
+                    'reader_id' => $readerId,
+                    'book_id' => $item['bookId'],
+                    'count' => $item['number'],
+                    'scope'=>$item['scope'],
+                ));
+                $order->save();
+            }
+            Session::put('books_in_cart', array());
+            Session::flash('success', 'Đăng kí mượn thành công');
+            return Redirect::route('fe.orders');
         }
     }
 

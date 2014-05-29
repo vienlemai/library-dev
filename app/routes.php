@@ -27,6 +27,7 @@ Route::group(array('prefix' => 'admin'), function () {
     ));
 
     Route::get('test', function() {
+        
     });
     Route::get('/', array('as' => 'home', 'before' => 'auth', 'uses' => 'AdminController@index'));
     Route::get('logout', array('as' => 'logout', 'uses' => 'AdminController@getLogout'));
@@ -100,6 +101,16 @@ Route::group(array('prefix' => 'admin'), function () {
     Route::post('inventory/book/{id}', array(
         'as' => 'inventory.book',
         'uses' => 'InventoryController@getBookItem'
+    ));
+
+    Route::post('order/approve', array(
+        'as' => 'order.approve',
+        'uses' => 'OrderController@approve'
+    ));
+
+    Route::post('order/reject', array(
+        'as' => 'order.reject',
+        'uses' => 'OrderController@reject',
     ));
 
 
@@ -269,6 +280,11 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::get('send-mail', array(
             'as' => 'send.mail',
             'uses' => 'AdminController@sendMail'
+        ));
+
+        Route::get('order', array(
+            'as' => 'order',
+            'uses' => 'OrderController@index',
         ));
     });
 

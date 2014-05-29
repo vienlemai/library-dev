@@ -53,7 +53,6 @@ $now = Carbon\Carbon::now();
                 </th> 
             </tr>
             <tr>
-                <th style='width:7%'>Mã vạch</th>
                 <th style='width:20%'>Tiêu đề</th>
                 <th style='width:13%'>Ngày mượn</th>
                 <th style='width:13%'>Hết hạn</th>
@@ -71,7 +70,6 @@ $now = Carbon\Carbon::now();
 
                 ?>
                 <tr>
-                    <td>{{$row->bookItem->barcode}}</td>
                     <td>{{$row->bookItem->book->title}}</td>
                     <td>{{$row->created_at->format('d \t\h\á\n\g m, Y')}}</td>
                     <?php if (!$isExpired): ?>

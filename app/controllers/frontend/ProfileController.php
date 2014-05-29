@@ -67,4 +67,15 @@ class ProfileController extends FrontendBaseController {
         return Redirect::back();
     }
 
+    public function orders() {
+        $readerId = Auth::user()->loginable_id;
+        $orders = Order::with('book', 'reader')
+            ->where('reader_id', $readerId)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        return View::make('frontend.profile.order', array(
+                'orders' => $orders
+        ));
+    }
+
 }

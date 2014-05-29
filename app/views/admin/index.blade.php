@@ -9,7 +9,7 @@
     </div>
     <div class='content'>
         <div class='row-fluid'>
-            <div class='span9'>
+            <div class='span9'>                
                 <div class='block table-container'>
                     @include('activity._listing')
                 </div>

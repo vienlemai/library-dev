@@ -14,7 +14,6 @@ class BaseController extends Controller {
             if (Auth::check()) {
                 if (Auth::user()->loginable_type == 'User') {
                     $user = Session::get('User');
-                    //dd($user);
                     $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
                 }
                 View::share('modules', $modules);
@@ -82,6 +81,18 @@ class BaseController extends Controller {
         return array(
             'local' => $countLocal->count(),
             'remote' => $circulations->count() - $countLocal->count(),
+        );
+    }
+
+    protected function _countOrderScope($orders) {
+        $countLocal = $orders->filter(function($item) {
+            if ($item->scope == Book::SCOPE_LOCAL) {
+                return $item;
+            }
+        });
+        return array(
+            'local' => $countLocal->count(),
+            'remote' => $orders->count() - $countLocal->count(),
         );
     }
 

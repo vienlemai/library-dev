@@ -5,11 +5,13 @@
     Giỏ sách của bạn
 </div>
 <div class="clear"></div>
-<h6>Thông tin mượn trả</h6>
-<ul>
-    <li>Tại chỗ : <?php echo $cirCount['local'] . '/' . $configs['max_book_local'] ?></li>
-    <li>Về nhà : <?php echo $cirCount['remote'] . '/' . $configs['max_book_remote'] ?></li>
-</ul>
+<div class="well-small">
+    Số tài liệu đang mượn và đang đăng ký
+    <ul>
+        <li>Tại chỗ : <?php echo ($cirCount['local'] + $orderCount['local']) . '/' . $configs['max_book_local'] ?></li>
+        <li>Về nhà : <?php echo ($cirCount['remote'] + $orderCount['remote']) . '/' . $configs['max_book_remote'] ?></li>
+    </ul>
+</div>
 <div class="clear"></div>
 <form action='{{route('fe.cart.submit')}}' method="POST" id="form-cart">
     <table class='table table-bordered table-striped' id="cart-table">

@@ -64,5 +64,10 @@ Route::group(array('before' => 'fe.auth'), function() {
         'as' => 'fe.cart.submit',
         'uses' => 'CartController@submit'
     ));
+
+    Route::get('tai-lieu-dang-ky', array(
+        'as' => 'fe.orders',
+        'uses' => 'ProfileController@orders'
+    ));
 });
 
