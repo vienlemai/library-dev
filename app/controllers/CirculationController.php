@@ -190,17 +190,7 @@ class CirculationController extends \BaseController {
         return ($countByScope->count() < $max);
     }
 
-    private function _countCirculationScope($circulations) {
-        $countLocal = $circulations->filter(function($item) {
-            if ($item->scope == Book::SCOPE_LOCAL) {
-                return $item;
-            }
-        });
-        return array(
-            'local' => $countLocal->count(),
-            'remote' => $circulations->count() - $countLocal->count(),
-        );
-    }
+    
 
     public function borrow($scope) {
         $readerId = Input::get('readerId');

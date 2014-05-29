@@ -4,7 +4,8 @@ class PageController extends FrontendBaseController {
 
     public function index() {
         //$reader = Reader::find(Auth::user()->loginable_id);
-        $books = Book::paginate(20);
+        $books = Book::level(array(2, 3, 4))
+            ->paginate(20);
         return View::make('frontend.page.index', array('books' => $books));
     }
 
@@ -14,7 +15,7 @@ class PageController extends FrontendBaseController {
 
     public function logout() {
         Auth::logout();
-        return Redirect::route('fe.login');
+        return Redirect::route('fe.home');
     }
 
     private function sanitizedParams() {

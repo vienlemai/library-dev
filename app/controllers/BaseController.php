@@ -24,7 +24,7 @@ class BaseController extends Controller {
         foreach ($configs as $config) {
             $this->configs[$config->key] = $config->value;
         }
-        View::share('configs',$this->configs);
+        View::share('configs', $this->configs);
     }
 
     /**
@@ -71,6 +71,18 @@ class BaseController extends Controller {
                 'created_at' => Carbon\Carbon::now(),
                 'updated_at' => Carbon\Carbon::now(),
         ));
+    }
+
+    protected function _countCirculationScope($circulations) {
+        $countLocal = $circulations->filter(function($item) {
+            if ($item->scope == Book::SCOPE_LOCAL) {
+                return $item;
+            }
+        });
+        return array(
+            'local' => $countLocal->count(),
+            'remote' => $circulations->count() - $countLocal->count(),
+        );
     }
 
 }

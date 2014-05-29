@@ -59,5 +59,10 @@ Route::group(array('before' => 'fe.auth'), function() {
         'as' => 'fe.extra',
         'uses' => 'ProfileController@extra',
     ));
+
+    Route::post('cart-submit', array(
+        'as' => 'fe.cart.submit',
+        'uses' => 'CartController@submit'
+    ));
 });
 
