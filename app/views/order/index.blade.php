@@ -21,22 +21,52 @@
         </div>
     </div>
 </div>
-<div class="modal hide fade" id="modal-book-details-{{$book->id}}">
+
+@stop
+@section('extra_html')
+<div class="modal hide fade" id="modal-order-approve">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4>Chi Tiết Tài Liệu - <?php echo $book->title ?></h4>
+        <h4>Nhập ngày hẹn bạn đọc đến lấy tài liệu</h4>
     </div>
-    <div class="modal-body">
+    <form id="form-approve-order" method="POST" action="{{route('order.approve')}}">        
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="title">Ngày hẹn</label>
+                <div class="controls">
+                    <input type="text" name="time_pick_up" class="input-xlarge datepicker">
+                </div>
+            </div>
+            <input class="order-id" type="hidden" name="id" value=""/>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Đồng ý</button>
+            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true"><i class='fa fa-times'></i> Đóng</button>
+        </div>
+        <input class="" type="hidden" name="_token" value="{{Session::token()}}"/>
+    </form>
+</div>
 
+<div class="modal hide fade" id="modal-order-reject">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4>Nhập lý do từ chối cho mượn</h4>
     </div>
-    <div class="modal-footer">
-        <?php if (Auth::check()): ?>
-            <?php $book_already_in_cart = in_array($book->id, $books_in_cart) ?>
-            <a class='btn btn-success btn-add-to-cart <?php if ($book_already_in_cart) echo 'hide' ?>' data-url='<?php echo route('fe.add_to_cart') ?>' data-book-id='<?php echo $book->id ?>' href='javascript:void(0)'>Thêm vào giỏ</a>
-            <a class='btn btn-danger btn-remove-from-cart <?php if (!$book_already_in_cart) echo 'hide' ?>' data-url='<?php echo route('fe.remove_from_cart') ?>' data-book-id='<?php echo $book->id ?>' href='javascript:void(0)'>Xóa khỏi giỏ</a>
-            <a href='<?php echo route('fe.cart') ?>' class='btn btn-primary'> <i class='fa fa-shopping-cart'></i> Xem giỏ sách</a>
-        <?php endif; ?>
-        <button class="btn" data-dismiss="modal" aria-hidden="true"><i class='fa fa-times'></i> Đóng</button>
-    </div>
+    <form id="form-approve-order" method="POST" action="{{route('order.reject')}}">        
+        <div class="modal-body">
+            <div class="control-group">
+                <label class="control-label" for="title">Ngày hẹn</label>
+                <div class="controls">
+                    <input type="text" name="time_pick_up" class="input-xlarge datepicker">
+                </div>
+            </div>
+            <input class="order-id" type="hidden" name="id" value=""/>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Đồng ý</button>
+            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true"><i class='fa fa-times'></i> Đóng</button>
+        </div>
+        <input class="" type="hidden" name="_token" value="{{Session::token()}}"/>
+    </form>
 </div>
 @stop

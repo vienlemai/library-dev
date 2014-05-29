@@ -29,10 +29,10 @@
 
                         ?></td>
                     <td>
-                        <a href="{{route('order.approve')}}" class="text-success order-action">
+                        <a href="javascript:void(0)" data-toggle='modal' data-id="{{$order->id}}" class="text-success order-action-approve">
                             <i class="i-plus"></i>Chấp nhận
                         </a>
-                        <a href="{{route('order.reject')}}" class="text-error  order-action">
+                        <a href="{{route('order.reject')}}" data-token="{{Session::token()}}" class="text-error  order-action-reject">
                             <i class="i-cancel-2">Hủy</i>
                         </a>
                     </td>

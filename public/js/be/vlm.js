@@ -43,6 +43,14 @@
 	$("#btn-disapprove-book").on('click', function() {
 		$("#form-disapprove-book").toggle(300);
 	});
+
+	$('.order-action-approve').on('click', function(e) {
+		var orderId = $(this).attr('data-id');
+		var $form = $('#form-approve-order');
+		$form.find('.order-id').val(orderId);
+		$('#modal-order-approve').modal({backdrop : false});
+		e.preventDefault();
+	});
 	/**
 	 * ---------------------------------------------------------------------------------------------------------
 	 * -------------------------------VALIDATION----------------------------------------------------------------

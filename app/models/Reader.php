@@ -164,7 +164,7 @@ class Reader extends Eloquent implements IActivityAuthor {
             $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
         });
         // Write create reader event
-        static::saved(function($reader) {
+        static::created(function($reader) {
             Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
         });
     }

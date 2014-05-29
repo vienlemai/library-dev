@@ -42,10 +42,11 @@ class Order extends Illuminate\Database\Eloquent\Model {
         });
     }
 
-    public function approve() {
+    public function approve($timePickUp) {
         $this->status = self::SS_APPROVED;
         $this->approved_by = Auth::user()->loginable_id;
         $this->approved_at = Carbon\Carbon::now();
+        $this->pick_up_at = $timePickUp;
         $this->save();
     }
 

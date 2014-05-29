@@ -66,4 +66,5 @@ $(document).ready(function() {
 		$form.append($inputCart).submit();
 		e.preventDefault();
 	});
+
 });

@@ -42,8 +42,10 @@
                 <div id="content">
                     @yield('content')
                 </div>
+                @yield('extra_html')
             </div>
         </div>
+        
         <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/plugins/jquery.iframe-transport.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/plugins/jquery.fileupload.js')}}}"></script>
