@@ -68,7 +68,7 @@ p.more_details{
     margin:0px;
     height:20px;
 }
-#menu > ul > li:not(.dropdown) > a{
+#menu > ul > li > a{
     height:27px;
     display:block;
     padding:0px 10px 0 10px;
@@ -91,7 +91,7 @@ p.more_details{
     font-size:13px;
     line-height:25px;
 }
-#menu > ul > li:not(.dropdown) a:hover{
+#menu > ul > li > a:hover{
     color:#F0BB7C;
 }
 /*----------------crumb_nav------------------*/
@@ -618,4 +618,29 @@ div.pagination span.disabled {
 .padding-15{
     padding: 10px;
 }
-
+#menu li.dropdown {
+    display: inline-block;
+}
+#menu li.dropdown .caret {
+    border-top: 4px solid #fff;
+    margin-top: 11px;
+}
+#menu li.dropdown ul.dropdown-menu {
+    border-radius: 2px;
+}
+#menu li.dropdown .dropdown-menu>li>a:hover, #menu li.dropdown .dropdown-menu>li>a:focus, #menu li.dropdown .dropdown-submenu:hover>a, #menu li.dropdown .dropdown-submenu:focus>a {
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(1, #8F5C3F)
+        );
+    background-image: -o-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: -moz-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: -webkit-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: -ms-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: linear-gradient(to bottom, #8F5C3F 100%);
+}
+#menu ul.dropdown-menu {
+    min-width: 140px;
+}
