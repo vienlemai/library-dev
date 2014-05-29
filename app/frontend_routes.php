@@ -42,12 +42,35 @@ Route::group(array('before' => 'fe.auth'), function() {
         'as' => 'fe.clear_cart',
         'uses' => 'CartController@clear'
     ));
-    Route::get('/trang-ca-nhan', array(
-        'as' => 'fe.profile',
-        'uses' => 'ProfileController@index'
+
+    Route::post('cart-submit', array(
+        'as' => 'fe.cart.submit',
+        'uses' => 'CartController@submit'
     ));
-    Route::post('/update-profile', array(
-        'as' => 'fe.update_profile',
+    /**
+     * PROFILE ROUTES
+     */
+    Route::get('/tai-khoan', array(
+        'as' => 'fe.account',
+        'uses' => 'ProfileController@account'
+    ));
+    Route::get('/tai-lieu-dang-muon', array(
+        'as' => 'fe.borrowing',
+        'uses' => 'ProfileController@borrowing'
+    ));
+
+    Route::get('tai-lieu-dang-ky', array(
+        'as' => 'fe.orders',
+        'uses' => 'ProfileController@orders'
+    ));
+
+    Route::get('/lich-su-muon-tra', array(
+        'as' => 'fe.history',
+        'uses' => 'ProfileController@history'
+    ));
+
+    Route::post('/update-account', array(
+        'as' => 'fe.update_account',
         'uses' => 'ProfileController@update'
     ));
     Route::post('/update-password', array(
@@ -55,19 +78,11 @@ Route::group(array('before' => 'fe.auth'), function() {
         'uses' => 'ProfileController@updatePassword'
     ));
 
+
     Route::get('/fe/extra/{id}', array(
         'as' => 'fe.extra',
         'uses' => 'ProfileController@extra',
     ));
 
-    Route::post('cart-submit', array(
-        'as' => 'fe.cart.submit',
-        'uses' => 'CartController@submit'
-    ));
-
-    Route::get('tai-lieu-dang-ky', array(
-        'as' => 'fe.orders',
-        'uses' => 'ProfileController@orders'
-    ));
 });
 

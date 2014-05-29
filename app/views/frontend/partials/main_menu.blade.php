@@ -43,11 +43,11 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="<?php echo route('fe.profile') ?>" > Thông tin tài khoản </a>
+                            <a href="<?php echo route('fe.account') ?>" > Thông tin tài khoản </a>
                         </li>
-                        <li><a href="#">Tài liệu đang mượn</a></li>
-                        <li><a href="#">Tài liệu đã đăng ký</a></li>
-                        <li><a href="#">Lịch sử mượn / trả</a></li>
+                        <li><a href="<?php echo route('fe.borrowing')?>">Tài liệu đang mượn</a></li>
+                        <li><a href="<?php echo route('fe.orders')?>">Tài liệu đã đăng ký</a></li>
+                        <li><a href="<?php echo route('fe.history')?>">Lịch sử mượn / trả</a></li>
                         <li class="divider"></li>
                         <li class=""> 
                             <a href="{{route('fe.logout')}}" role="button" data-toggle="modal">

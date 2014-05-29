@@ -5,7 +5,7 @@ $now = Carbon\Carbon::now();
 
 ?>
 <div class="page-title">
-    <i class="fa fa-user"></i> Danh sách tài liệu đã đăng ký
+    <i class="fa fa-check-square-o"></i> Tài liệu đã đăng ký
 </div>
 <div class="clear"></div>
 <div class='padding-10'>
