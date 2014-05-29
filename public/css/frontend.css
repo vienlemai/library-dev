@@ -56,19 +56,19 @@ p.more_details{
     height:30px;
     padding: 108px 0 0 0;
 }
-#menu ul{
+#menu > ul{
     display:block;
     list-style:none;
     padding:3px 0 0 10px;
     margin:0px;
 }
-#menu ul li{
+#menu > ul > li:not(.dropdown){
     display:inline;
     padding:0px;
     margin:0px;
     height:20px;
 }
-#menu ul li a{
+#menu > ul > li:not(.dropdown) > a{
     height:27px;
     display:block;
     padding:0px 10px 0 10px;
@@ -79,7 +79,7 @@ p.more_details{
     font-size:13px;
     line-height:25px;
 }
-#menu ul li.selected a{
+#menu > ul > li.selected:not(.dropdown) a{
     height:27px;
     display:block;
     padding:0px 10px 0 10px;
@@ -91,7 +91,7 @@ p.more_details{
     font-size:13px;
     line-height:25px;
 }
-#menu ul li a:hover{
+#menu > ul > li:not(.dropdown) a:hover{
     color:#F0BB7C;
 }
 /*----------------crumb_nav------------------*/

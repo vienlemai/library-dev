@@ -5,11 +5,31 @@
             <li class="">
                 <a href="<?php echo route('fe.home') ?>"><i class="fa fa-home"></i>  Trang chủ</a>
             </li>
-            <li class="">
-                <a href="#"><i class="fa fa-list"></i>  Danh mục tài liệu</a>                
-            </li>
             <li><a href="<?php echo route('fe.search') ?>"><i class="fa fa-search"></i> Tìm kiếm</a></li>
-
+            <li class="dropdown">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-list"></i> Danh mục tài liệu
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Level 1</a></li>
+                    <li><a href="#">Level 1</a></li>
+                    <li class="dropdown-submenu">
+                        <a href="#">More</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Level 2</a></li>
+                            <li><a href="#">Level 2</a></li>
+                               <li class="dropdown-submenu">
+                                    <a href="#">More</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Level 3</a></li>
+                                        <li><a href="#">Level 3</a></li>
+                                    </ul>
+                                </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
 
             <?php if (Auth::check()): ?>
                 <?php
