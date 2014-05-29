@@ -68,7 +68,7 @@ p.more_details{
     margin:0px;
     height:20px;
 }
-#menu > ul > li:not(.dropdown) > a{
+#menu > ul > li > a{
     height:27px;
     display:block;
     padding:0px 10px 0 10px;
@@ -618,4 +618,26 @@ div.pagination span.disabled {
 .padding-15{
     padding: 10px;
 }
-
+li#category-menu.dropdown {
+    display: inline-block;
+}
+li#category-menu .caret {
+    border-top: 4px solid #fff;
+    margin-top: 11px;
+}
+li#category-menu ul.dropdown-menu {
+    border-radius: 2px;
+}
+li#category-menu .dropdown-menu>li>a:hover, li#category-menu .dropdown-menu>li>a:focus, li#category-menu .dropdown-submenu:hover>a, li#category-menu .dropdown-submenu:focus>a {
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(1, #8F5C3F)
+        );
+    background-image: -o-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: -moz-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: -webkit-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: -ms-linear-gradient(bottom, #8F5C3F 100%);
+    background-image: linear-gradient(to bottom, #8F5C3F 100%);
+}

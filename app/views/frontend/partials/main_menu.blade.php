@@ -6,8 +6,8 @@
                 <a href="<?php echo route('fe.home') ?>"><i class="fa fa-home"></i>  Trang chủ</a>
             </li>
             <li><a href="<?php echo route('fe.search') ?>"><i class="fa fa-search"></i> Tìm kiếm</a></li>
-            <li class="dropdown">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            <li class="dropdown" id="category-menu">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                     <i class="fa fa-list"></i> Danh mục tài liệu
                     <span class="caret"></span>
                 </a>
