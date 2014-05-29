@@ -5,7 +5,7 @@ class PageController extends FrontendBaseController {
     public function index() {
         //$reader = Reader::find(Auth::user()->loginable_id);
         $books = Book::level(array(2, 3, 4))
-            ->paginate(3);
+            ->paginate(20);
         return View::make('frontend.page.index', array('books' => $books));
     }
 
