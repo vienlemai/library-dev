@@ -14,7 +14,7 @@
 </div>
 <div class="clear"></div>
 <form action='{{route('fe.cart.submit')}}' method="POST" id="form-cart">
-    <table class='table table-bordered table-striped' id="cart-table">
+      <table class='table table-bordered table-striped' id="cart-table">
         <thead>
             <tr>
                 <th>#</th>
@@ -32,7 +32,7 @@
             <?php foreach ($books as $book): ?>
                 <tr>
                     <td>
-                        <?php echo ++$index ?>
+                        <?php echo++$index ?>
                         <input class="cart-input-book-id" type="hidden" name="" value="{{$book->id}}"/>
                         <input class="cart-input-book-scope" type="hidden" name="" value="{{$book->book_scope}}"/>
                     </td>
@@ -115,9 +115,9 @@
             <button class='btn btn-success' id="btn-submit-cart" ><i class='fa fa-upload'></i> Yêu cầu đặt sách</button>    
         </div>
     <?php else: ?>
-    </form>
-    <p class='text-muted text-italic text-center'>Chưa có tài liệu nào trong giỏ!</p>
-<?php endif; ?>
+        <p class='text-muted text-italic text-center'>Chưa có tài liệu nào trong giỏ!</p>
+    <?php endif; ?>
+</form>
 <div class="modal hide fade" id='modal-confirm-clear-cart'>
     <?php echo Former::open(route('fe.clear_cart'), 'POST') ?>
     <div class="modal-body">

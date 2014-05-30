@@ -2,7 +2,6 @@
 @section('content')
 <?php
 $now = Carbon\Carbon::now();
-
 ?>
 <div class="page-title">
     <i class="fa fa-book"></i> Tài liệu đang mượn
@@ -28,7 +27,6 @@ $now = Carbon\Carbon::now();
                 $ex_times = (int) $extra_times - $row->extensions;
                 $isExpired = $row->expired_at->lt($now) && ($now->diffInDays($row->expired_at) > 0);
                 $isLocal = $row->bookItem->book->book_scope == Book::SCOPE_LOCAL;
-
                 ?>
                 <tr>
                     <td>{{$row->bookItem->book->title}}</td>
@@ -38,9 +36,11 @@ $now = Carbon\Carbon::now();
                             <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') ?>
                         </td>
                     <?php else: ?>
-                        <td style="color: red">
+                        <td class="text-error">
                             <?php $diff = $now->diffInDays($row->expired_at); ?>
-                            <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . ($diff) . ' ngày)'; ?>
+                            <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y'); ?>
+                            <br>
+                            <?php echo ' Trễ ' . ($diff) . ' ngày' ?>
                         </td>
                     <?php endif; ?>
                     <?php if (!$isExpired): ?>
@@ -51,7 +51,7 @@ $now = Carbon\Carbon::now();
                         <?php endif; ?>
 
                     <?php else: ?>
-                        <td style="color: red">
+                        <td class="text-error">
                             <?php echo 'Tiền phạt : ' . ($diff) * $book_expired_fine . ' (đồng)' ?>
                         </td>
                     <?php endif; ?>                    
