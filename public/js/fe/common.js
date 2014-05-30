@@ -1,5 +1,13 @@
 $(document).ready(function() {
     $('.datepicker').datepicker();
+    $(".select2").each(function() {
+        options = {
+            width: 'resolve'
+        };
+        if ($(this).attr('data-no-search'))
+            options['minimumResultsForSearch'] = -1; // Hide the seach box
+        $(this).select2(options);
+    });
 
     $('[btn-confirm="confirm"]').on('click', function() {
         var dataConfirm = $(this).attr('data-confirm');

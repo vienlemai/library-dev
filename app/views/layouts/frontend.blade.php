@@ -20,6 +20,7 @@
                 @yield('content')
                 <div class="clear"></div>
             </div><!--end of center content-->
+            <div class="margin-15"></div>
             <div class="footer">
                 <div class="left_footer">
                 </div>

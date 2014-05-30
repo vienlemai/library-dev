@@ -27,3 +27,12 @@ function bookTypesForSelect() {
     }
     return $options;
 }
+
+function storagesToJson($storages) {
+    $options = array();
+     array_push($options, array('id' => 'all', 'text' => 'Tất cả'));
+    foreach ($storages as $storage) {
+        array_push($options, array('id' => $storage->id . '', 'text' => $storage->name));
+    }
+    return json_encode($options);
+}
