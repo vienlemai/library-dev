@@ -29,7 +29,7 @@ class Storage extends Node {
 
     public function buildList($root = array()) {
         if ($root->isLeaf()) {
-            return '<li><a href="' . route('fe.home', array('storage' => $root->id)) . '">' . $root->name . '</a></li>';
+            return '<li><a href="' . route('fe.search', array('storage' => $root->id)) . '">' . $root->name . '</a></li>';
         } else {
             $content = '<li class="dropdown-submenu">';
             $content.= '<a href="#">' . $root->name . '</a>';

@@ -119,6 +119,7 @@
     <p class='text-muted text-italic text-center'>Chưa có tài liệu nào trong giỏ!</p>
 <?php endif; ?>
 <div class="modal hide fade" id='modal-confirm-clear-cart'>
+    <form></form>
     <?php echo Former::open(route('fe.clear_cart'), 'POST') ?>
     <div class="modal-body">
         <h4 class='text-warning'>Bạn chắc chắn muốn xóa toàn bộ sách khỏi giỏ?</h4>
