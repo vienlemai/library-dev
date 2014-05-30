@@ -1,7 +1,12 @@
 <div id="books-list">
-    <div class='pagination'>
-        {{$books->links()}}
-    </div>
+    <?php
+    $show_paging = (int) ($books->getTotal() / $books->getPerPage()) > 0 ? true : false;
+    ?>
+    <?php if ($show_paging) : ?>
+        <div class='pagination'>
+            {{$books->links()}}
+        </div>
+    <?php endif; ?>
     <div class="clearfix"></div>
     <?php foreach ($books as $book): ?>
         <div class="book-box">
@@ -83,7 +88,9 @@
         </div>
     <?php endforeach; ?>
     <div class="clearfix"></div>
-    <div class='pagination'>
-        {{$books->links()}}
-    </div>
+    <?php if ($show_paging) : ?>
+        <div class='pagination'>
+            {{$books->links()}}
+        </div>
+    <?php endif; ?>
 </div>        
