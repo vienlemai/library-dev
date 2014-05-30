@@ -58,6 +58,18 @@
 		$('#modal-order-reject').modal({backdrop: false});
 		e.preventDefault();
 	});
+
+	$('.statistics-select-time').on('change', function(e) {
+		var type = $(this).val();
+		if (type === 'custom') {
+			$('.custom-select-time').show();
+			$('.custom-select-time').find('input').prop('disabled', false);
+		} else {
+			$('.custom-select-time').hide();
+			$('.custom-select-time').find('input').prop('disabled', true);
+		}
+		e.preventDefault();
+	});
 	/**
 	 * ---------------------------------------------------------------------------------------------------------
 	 * -------------------------------VALIDATION----------------------------------------------------------------

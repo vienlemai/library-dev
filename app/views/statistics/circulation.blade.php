@@ -17,20 +17,29 @@
                     <form class="" method="GET">
                         <div class="controls-row">
                             <label class="span1">Thời gian</label>
-                            <select name="time" class="span2">
+                            <select name="time" class="span2 select2 statistics-select-time">
                                 <option value="day" <?php echo $time == 'day' ? 'selected' : '' ?>>Hôm nay</option>
                                 <option value="week" <?php echo $time == 'week' ? 'selected' : '' ?>>Tuần này</option>
                                 <option value="month" <?php echo $time == 'month' ? 'selected' : '' ?>>Tháng này</option>
+                                <option value="custom" <?php echo $time == 'custom' ? 'selected' : '' ?>>Khoảng thời gian</option>
                             </select>
                             <div class="span1"></div>
                             <label class="span1">Kiểu</label>
-                            <select name="type" class="span2">
+                            <select name="type" class="span2 select2">
                                 <option value="borrow" <?php echo $type == 'borrow' ? 'selected' : '' ?>>Mượn</option>
                                 <option value="return" <?php echo $type == 'return' ? 'selected' : '' ?>>Trả</option>
                             </select>
                             <button class="btn btn-primary offset1">Xem thống kê</button>
                         </div>
+                        <div class="controls-row custom-select-time" style="display: <?php echo $time == 'custom' ? 'block' : 'none' ?>">
+                            <label class="span1">Từ ngày</label>
+                            <input class="datepicker span2" type="text" name="start" value="<?php echo $start ?>"/>
+                            <div class="span1"></div>
+                            <label class="span1">Đến ngày</label>
+                            <input class="datepicker span2" type="text" name="end" value="<?php echo $end ?>"/>
+                        </div>
                     </form>
+                    @include('partials.flash')
                     <hr>
                     <?php
                     echo View::make('statistics.partials.circulation', array(
@@ -41,7 +50,7 @@
 
                     ?>
                     <div class="content-row">
-                        <a class="btn btn-primary" href="{{route('statistics.print.circulation',array('time'=>$time,'type'=>$type))}}" target="_blank">
+                        <a class="btn btn-primary" href="{{route('statistics.print.circulation',array('time'=>$time,'type'=>$type,'start'=>$start,'end'=>$end))}}" target="_blank">
                             <i class="i-printer"></i>
                             In báo cáo
                         </a>

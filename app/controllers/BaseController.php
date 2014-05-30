@@ -24,6 +24,11 @@ class BaseController extends Controller {
             $this->configs[$config->key] = $config->value;
         }
         View::share('configs', $this->configs);
+        $storageModel = new Storage();
+        $json = $storageModel->getJson();
+        echo '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />';
+        dd($json);
+        die();
     }
 
     /**
