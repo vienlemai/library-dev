@@ -58,7 +58,7 @@
                 </li>
 
             <?php else: ?>
-                <li id="user-box">
+                <li class="dropdown" id="user-box">
                     <a href="{{route('fe.login')}}"><i class="fa fa-sign-in"></i>  Đăng nhập</a>
                 </li>
             <?php endif; ?>
