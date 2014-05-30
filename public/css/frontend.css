@@ -628,17 +628,7 @@ div.pagination span.disabled {
     border-radius: 2px;
 }
 #menu li.dropdown .dropdown-menu>li>a:hover, #menu li.dropdown .dropdown-menu>li>a:focus, #menu li.dropdown .dropdown-submenu:hover>a, #menu li.dropdown .dropdown-submenu:focus>a {
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(1, #8F5C3F)
-        );
-    background-image: -o-linear-gradient(bottom, #8F5C3F 100%);
-    background-image: -moz-linear-gradient(bottom, #8F5C3F 100%);
-    background-image: -webkit-linear-gradient(bottom, #8F5C3F 100%);
-    background-image: -ms-linear-gradient(bottom, #8F5C3F 100%);
-    background-image: linear-gradient(to bottom, #8F5C3F 100%);
+    background: #8F5C3F !important;
 }
 #menu ul.dropdown-menu {
     min-width: 140px;
