@@ -23,8 +23,7 @@
                 <div class='head'>
                     <h2>Nhập thông tin bạn đọc</h2>
                 </div>
-                <div class='content'>
-                    @include('partials.flash')                   
+                <div class='content'>                                   
                     <div class="span4">
                         <form action="{{route('upload.image')}}" upload-type="readers" class="form-horizontal form-upload-image" method="POST">
                             <div class="control-group">
@@ -50,6 +49,7 @@
                         </div>
                     </div>
                     <div class="span8">
+                        @include('partials.flash')    
                         <?php if ($errors->has('avatar')): ?>
                             <div class="alert alert-error upload-error">           
                                 {{$errors->first('avatar')}}

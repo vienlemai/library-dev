@@ -15,6 +15,10 @@ class FrontendBaseController extends BaseController {
         foreach ($configs as $config) {
             View::share($config->key, $config->value);
         }
+        
+        $storage = new Storage();
+        View::share('storageList',$storage->renderList());
+        //dd($storage->renderList());
     }
 
     protected function booksInCart() {

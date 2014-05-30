@@ -27,6 +27,30 @@ class Storage extends Node {
         }
     }
 
+    public function buildList($root = array()) {
+        if ($root->isLeaf()) {
+            return '<li><a href="' . route('fe.home', array('storage' => $root->id)) . '">' . $root->name . '</a></li>';
+        } else {
+            $content = '<li class="dropdown-submenu">';
+            $content.= '<a href="#">' . $root->name . '</a>';
+            $content.= '<ul class="dropdown-menu">';
+            foreach ($root->children()->get() as $children) {
+                $content.= $this->buildList($children);
+            }
+            $content.= '</ul></li>';
+            return $content;
+        }
+    }
+
+    public function renderList() {
+        $roots = $this->roots()->get();
+        $html = '';
+        foreach ($roots as $root) {
+            $html.= $this->buildList($root);
+        }
+        return $html;
+    }
+
     //render html for select field
     public function render() {
         $roots = $this->roots()->get();

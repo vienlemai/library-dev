@@ -662,4 +662,8 @@ class Book extends Eloquent {
         return $this->scope == self::SCOPE_AWAY;
     }
 
+    public function scopeStorage($query, $storage) {
+        return $query->where('storage', $storage);
+    }
+
 }

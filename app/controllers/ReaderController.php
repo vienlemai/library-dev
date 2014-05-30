@@ -47,19 +47,15 @@ class ReaderController extends \BaseController {
             $v = Reader::teacherValidate(Input::all());
         }
         if ($v->passes()) {
-            $time = time();
-            $vnCode = '893';
-            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 9);
-            $fullCode = Book::ean13_check_digit($random);
             $reader = new Reader(Input::all());
-            $reader->reader_type = $type;
-            $reader->barcode = $fullCode;
-            $password = '123456';
-            $account = new Account(array(
-                'username' => $reader->email,
-                'password' => Hash::make($password)
-            ));
-            if ($reader->save()) {
+            if (!$reader->checkExistEmail()) {
+                $reader->reader_type = $type;
+                $password = '123456';
+                $account = new Account(array(
+                    'username' => $reader->email,
+                    'password' => Hash::make($password)
+                ));
+                $reader->save();
                 $reader->account()->save($account);
                 $reader->saveCardNumber();
                 $mailContent = View::make('reader.partials.mail_template', array(
@@ -71,8 +67,8 @@ class ReaderController extends \BaseController {
                 Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
                 return Redirect::route('readers');
             } else {
-                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
-                return Redirect::route('reader.create');
+                Session::flash('error', 'Email này đã tồn tại, không thể tạo mới');
+                return Redirect::back();
             }
         } else {
             return Redirect::back()->withInput()->withErrors($v->messages());

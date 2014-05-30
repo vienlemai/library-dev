@@ -107,6 +107,12 @@ class Reader extends Eloquent implements IActivityAuthor {
         'card_number'
     );
 
+    public function checkExistEmail() {
+        $reader = $this->whereEmail($this->email)
+            ->first();
+        return $reader !== null;
+    }
+
     public static function updateProfileValidate($input, $record_id) {
         $rules = array(
             'email' => 'required|unique:readers,email,' . $record_id,
@@ -158,6 +164,11 @@ class Reader extends Eloquent implements IActivityAuthor {
     public static function boot() {
         parent::boot();
         static::creating(function($reader) {
+            $time = time();
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 9);
+            $fullCode = Book::ean13_check_digit($random);
+            $reader->barcode = $fullCode;
             $reader->status = Reader::SS_CIRCULATED;
             $reader->created_by = Auth::user()->loginable_id;
             $expired = Session::get('LibConfig.reader_expired');

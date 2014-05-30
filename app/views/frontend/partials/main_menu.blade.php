@@ -12,22 +12,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Level 1</a></li>
-                    <li><a href="#">Level 1</a></li>
-                    <li class="dropdown-submenu">
-                        <a href="#">More</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Level 2</a></li>
-                            <li><a href="#">Level 2</a></li>
-                            <li class="dropdown-submenu">
-                                <a href="#">More</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Level 3</a></li>
-                                    <li><a href="#">Level 3</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
+                    <?php echo $storageList ?>
                 </ul>
             </li>
 
