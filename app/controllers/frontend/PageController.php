@@ -4,9 +4,6 @@ class PageController extends FrontendBaseController {
 
     public function index() {
         $books = Book::level(array(2, 3, 4));
-        if (Input::has('storage')) {
-            $books->storage(Input::get('storage'));
-        }
         return View::make('frontend.page.index', array('books' => $books->paginate(20)));
     }
 

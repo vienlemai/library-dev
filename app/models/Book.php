@@ -375,7 +375,8 @@ class Book extends Eloquent {
     public static function search($params) {
         $query = self::select('books.*');
         if (isset($params['keyword'])) {
-            $query = $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
+            $query = $query->where('title', 'LIKE', '%' . $params['keyword'] . '%')
+                ->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
         }
         if (isset($params['reader_type'])) {
             $query = $query->where('permission', 'LIKE', '%' . $params['reader_type'] . '%');
@@ -383,6 +384,10 @@ class Book extends Eloquent {
         if (isset($params['type']) && $params['type'] != 'all') {
             $query = $query->where('book_type', '=', $params['type']);
         }
+        if (isset($params['storage']) && $params['storage'] != 'all') {
+            $query = $query->where('storage', '=', $params['storage']);
+        }
+        
         return $query;
     }
 

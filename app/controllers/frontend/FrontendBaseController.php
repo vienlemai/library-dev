@@ -1,6 +1,7 @@
 <?php
 
 class FrontendBaseController extends BaseController {
+
     protected $currentReader;
 
     public function __construct() {
@@ -11,14 +12,18 @@ class FrontendBaseController extends BaseController {
             View::share('books_in_cart', $this->booksInCart());
         }
         $configs = DB::table('configs')
-            ->get();
+                ->get();
         foreach ($configs as $config) {
             View::share($config->key, $config->value);
         }
-        
-        $storage = new Storage();
-        View::share('storageList',$storage->renderList());
-        //dd($storage->renderList());
+        if (Session::has('storage_html')) {
+            $storage_html = Session::get('storage_html');
+        } else {
+            $storage = new Storage();
+            $storage_html = $storage->renderList();
+            Session::put('storage_html', $storage_html);
+        }
+        View::share('storage_html', $storage_html);
     }
 
     protected function booksInCart() {
