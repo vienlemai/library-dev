@@ -48,7 +48,14 @@
 		var orderId = $(this).attr('data-id');
 		var $form = $('#form-approve-order');
 		$form.find('.order-id').val(orderId);
-		$('#modal-order-approve').modal({backdrop : false});
+		$('#modal-order-approve').modal({backdrop: false});
+		e.preventDefault();
+	});
+	$('.order-action-reject').on('click', function(e) {
+		var orderId = $(this).attr('data-id');
+		var $form = $('#form-reject-order');
+		$form.find('.order-id').val(orderId);
+		$('#modal-order-reject').modal({backdrop: false});
 		e.preventDefault();
 	});
 	/**

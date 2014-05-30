@@ -50,10 +50,11 @@ class Order extends Illuminate\Database\Eloquent\Model {
         $this->save();
     }
 
-    public function reject() {
+    public function reject($reason) {
         $this->status = self::SS_REJECTED;
         $this->rejected_by = Auth::user()->loginable_id;
-        $this->rejected_at = Auth::user()->loginable_id;
+        $this->rejected_at = Carbon\Carbon::now();
+        $this->reason_reject = $reason;
         $this->save();
     }
 

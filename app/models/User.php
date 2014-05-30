@@ -147,4 +147,10 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
         return $this->group_id == 1;
     }
 
+    public function getPermission() {
+        $userPer = json_decode($this->permissions);
+        $groupPer = json_decode($this->group->permissions);
+        return array_merge($userPer, $groupPer);
+    }
+
 }

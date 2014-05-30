@@ -22,7 +22,21 @@ $now = Carbon\Carbon::now();
         </thead>
         <tbody>
             <?php foreach ($orders as $order): ?>
-                <tr>
+                <?php
+                switch ($order->status) {
+                    case Order::SS_NEW:
+                        $class = 'text-info';
+                        break;
+                    case Order::SS_APPROVED:
+                        $class = 'text-success';
+                        break;
+                    case Order::SS_REJECTED:
+                        $class = 'text-error';
+                        break;
+                }
+
+                ?>
+                <tr class="<?php echo $class ?>">
                     <td><?php echo $order->book->title ?></td>
                     <td><?php echo $order->created_at->format('H:i, d \t\h\á\n\g m, Y') ?></td>
                     <td><?php echo $order->count ?></td>

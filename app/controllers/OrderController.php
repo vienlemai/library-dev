@@ -33,7 +33,17 @@ class OrderController extends BaseController {
     }
 
     public function reject() {
-        
+        $orderId = Input::get('id');
+        $reasonReject = Input::get('reason');
+        if ($reasonReject == '') {
+            Session::flash('error', 'Không được để trống lý do từ chối');
+            return Redirect::back();
+        } else {
+            $order = Order::with('book')->findOrFail($orderId);
+            $order->reject($reasonReject);
+            Session::flash('success', 'Từ chối thành công tài liệu "' . $order->book->title . '"');
+            return Redirect::back();
+        }
     }
 
 }

@@ -50,14 +50,14 @@
 <div class="modal hide fade" id="modal-order-reject">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4>Nhập lý do từ chối cho mượn</h4>
+        <h4>Nhập lý do từ chối</h4>
     </div>
-    <form id="form-approve-order" method="POST" action="{{route('order.reject')}}">        
+    <form id="form-reject-order" method="POST" action="{{route('order.reject')}}">        
         <div class="modal-body">
             <div class="control-group">
-                <label class="control-label" for="title">Ngày hẹn</label>
+                <label class="control-label" for="title">Lý do</label>
                 <div class="controls">
-                    <input type="text" name="time_pick_up" class="input-xlarge datepicker">
+                    <textarea name="reason" class="input-xlarge" style="width: 90%" rows="5"></textarea>
                 </div>
             </div>
             <input class="order-id" type="hidden" name="id" value=""/>

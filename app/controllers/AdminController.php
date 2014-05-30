@@ -20,9 +20,13 @@ class AdminController extends BaseController {
             })->count();
         $count['book_total'] = $count['book_book'] + $count['book_magazine'];
         $count['user'] = User::count();
+        $count['order'] = Order::where('status', Order::SS_NEW)->count();
+        $userPermissions = Auth::user()->loginable->getPermission();
+        $isLibrarian = in_array(3, $userPermissions);
         $this->layout->content = View::make('admin.index')
             ->with('activities', $activities)
-            ->with('count', $count);
+            ->with('count', $count)
+            ->with('isLibrarian', $isLibrarian);
     }
 
     public function error($type) {
