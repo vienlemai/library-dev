@@ -1,7 +1,7 @@
 <?php
 
 class SearchController extends FrontendBaseController {
-    protected $searchParams = array('type', 'keyword');
+    protected $searchParams = array('type', 'keyword', 'storage');
 
     public function index() {
         $books = Book::search($this->sanitizedParams())

@@ -12,7 +12,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <?php echo $storageList ?>
+                    <?php echo $storage_html ?>
                 </ul>
             </li>
 
