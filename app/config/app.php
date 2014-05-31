@@ -99,7 +99,7 @@ return array(
         'Dinesh\Barcode\BarcodeServiceProvider',
         'Baum\BaumServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
-    // 'Bkwld\LaravelHaml\ServiceProvider' //https://github.com/BKWLD/laravel-haml
+        'Darsain\Console\ConsoleServiceProvider'
     ),
     /*
       |--------------------------------------------------------------------------
