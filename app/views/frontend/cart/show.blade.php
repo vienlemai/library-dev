@@ -2,7 +2,7 @@
 @section('content')
 <div class="page-title">
     <i class="fa fa-shopping-cart"></i>
-    Giỏ sách của bạn
+    Giỏ sách của bạn 
 </div>
 <div class="clear"></div>
 <div class="well-small">

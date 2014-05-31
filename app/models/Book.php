@@ -374,9 +374,14 @@ class Book extends Eloquent {
 
     public static function search($params) {
         $query = self::select('books.*');
-        if (isset($params['keyword'])) {
-            $query = $query->where('title', 'LIKE', '%' . $params['keyword'] . '%')
-                ->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
+        if (isset($params['storage']) && $params['storage'] != 'all') {
+            $query = $query->where('storage', '=', $params['storage']);
+        }
+        if (isset($params['keyword']) && $params['keyword'] != '') {
+            $query = $query->where(function($query) use($params) {
+                $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
+                $query->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
+            });
         }
         if (isset($params['reader_type'])) {
             $query = $query->where('permission', 'LIKE', '%' . $params['reader_type'] . '%');
@@ -412,6 +417,10 @@ class Book extends Eloquent {
 
     public static function filterByReaderType($reader) {
         return self::where('permission', 'LIKE', '%' . $reader->reader_type . '%');
+    }
+
+    public function scopeStorage($query, $storage) {
+        return $query->where('storage', $storage);
     }
 
     /*
@@ -665,14 +674,6 @@ class Book extends Eloquent {
 
     public function isAway() {
         return $this->scope == self::SCOPE_AWAY;
-    }
-
-    public function scopeStorage($query, $storage) {
-        return $query->where('storage', $storage);
-    }
-
-    public function scopePublish($query) {
-        return $query->where('status', self::SS_PUBLISHED);
     }
 
 }
