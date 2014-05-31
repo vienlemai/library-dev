@@ -105,6 +105,8 @@ class StatisticsController extends \BaseController {
         $circulations = Circulation::with('bookItem.book', 'reader', 'creator')
             ->whereBetween($typeQuery, array($start, $end))
             ->get();
+        $count['borrow'] = Circulation::borrow()->count();
+        $count['lost'] = Circulation::lost()->count();
         return View::make('statistics.circulation', array(
                 'circulations' => $circulations,
                 'timeTitle' => $timeTitle,
@@ -112,7 +114,8 @@ class StatisticsController extends \BaseController {
                 'type' => $type,
                 'time' => $time,
                 'start' => $start->format('d/m/Y'),
-                'end' => $end->format('d/m/Y')
+                'end' => $end->format('d/m/Y'),
+                'count' => $count
         ));
     }
 
@@ -160,6 +163,8 @@ class StatisticsController extends \BaseController {
         $circulations = Circulation::with('bookItem.book', 'reader', 'creator')
             ->whereBetween($typeQuery, array($start, $end))
             ->get();
+        $count['borrow'] = Circulation::borrow()->count();
+        $count['lost'] = Circulation::lost()->count();
         return View::make('statistics.print_circulation', array(
                 'circulations' => $circulations,
                 'timeTitle' => $timeTitle,
@@ -167,7 +172,8 @@ class StatisticsController extends \BaseController {
                 'type' => $type,
                 'time' => $time,
                 'start' => $start->format('d/m/Y'),
-                'end' => $end->format('d/m/Y')
+                'end' => $end->format('d/m/Y'),
+                'count' => $count,
         ));
     }
 

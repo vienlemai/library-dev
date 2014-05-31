@@ -108,7 +108,7 @@ class Storage extends Node {
         ));
         if (!$rootNode->isLeaf()) {
             $result['children'] = array();
-            foreach ($rootNode->children()->get() as $child) {                
+            foreach ($rootNode->children()->get() as $child) {
                 if (!$child->isLeaf()) {
                     $this->buildJson($child->id, $result['children']);
                 } else {
@@ -122,6 +122,7 @@ class Storage extends Node {
     }
 
     public function getJson() {
+        return $this->getNestedList('name');
         $result = array();
         $roots = $this->where('parent_id', null)
             ->get();

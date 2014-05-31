@@ -387,7 +387,7 @@ class Book extends Eloquent {
         if (isset($params['storage']) && $params['storage'] != 'all') {
             $query = $query->where('storage', '=', $params['storage']);
         }
-        
+
         return $query;
     }
 
@@ -669,6 +669,10 @@ class Book extends Eloquent {
 
     public function scopeStorage($query, $storage) {
         return $query->where('storage', $storage);
+    }
+
+    public function scopePublish($query) {
+        return $query->where('status', self::SS_PUBLISHED);
     }
 
 }

@@ -8,6 +8,7 @@
             <th>Bạn đọc</th>
             <th>Tài liệu</th>
             <th>Thể loại</th>
+            <th>Hình thức mượn</th>
             <th>Người thực hiện</th>
         </tr>
     </thead>
@@ -19,6 +20,7 @@
                 <td><?php echo $row->reader->full_name ?></td>
                 <td><?php echo $row->bookItem->book->title ?></td>
                 <td><?php echo $row->bookItem->book->getBookTypeName() ?></td>
+                <td><?php echo $row->bookItem->book->scopeName() ?></td>
                 <td><?php echo $row->creator->full_name ?></td>
             </tr>
         <?php endforeach; ?>

@@ -6,6 +6,8 @@ class SearchController extends FrontendBaseController {
     public function index() {
         $books = Book::search($this->sanitizedParams())
             ->level(array(2, 3, 4))
+            ->publish()
+            ->orderBy('published_at', 'DESC')
             ->paginate(20);
         $storages = Storage::all();
         return View::make('frontend.search.index')

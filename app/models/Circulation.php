@@ -54,7 +54,7 @@ class Circulation extends Eloquent {
     }
 
     public function reader() {
-        return $this->belongsTo('Reader','reader_id');
+        return $this->belongsTo('Reader', 'reader_id');
     }
 
     public function scopeTime($query, $start, $end) {
@@ -63,6 +63,15 @@ class Circulation extends Eloquent {
 
     public function creator() {
         return $this->belongsTo('User', 'created_by');
+    }
+
+    public function scopeBorrow($query) {
+        return $query->where('returned', false)
+                ->where('is_lost', false);
+    }
+
+    public function scopeLost($query) {
+        return $query->where('is_lost', true);
     }
 
 }

@@ -3,7 +3,9 @@
 class PageController extends FrontendBaseController {
 
     public function index() {
-        $books = Book::level(array(2, 3, 4));
+        $books = Book::level(array(2, 3, 4))
+            ->publish()
+            ->orderBy('published_at', 'DESC');
         return View::make('frontend.page.index', array('books' => $books->paginate(20)));
     }
 

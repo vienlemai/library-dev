@@ -25,9 +25,12 @@
         <div id="wrapper" class="screen_wide">
             @yield('content')
         </div>
+        <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
         <script type="text/javascript">
-            window.print();
+$('header').hide();
+$('footer').hide();
+window.print();
         </script>
-        
+
     </body>
 </html>

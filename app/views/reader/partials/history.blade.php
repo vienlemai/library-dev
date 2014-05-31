@@ -6,8 +6,8 @@
     <div class="modal-body">
         <h4 class="text-center">Bạn đọc: {{$reader->full_name}}</h4>
         <?php
-        $max_extra_times = Session::get('LibConfig.extra_times');
-        $now = Carbon\Carbon::now()->subDay();
+        $max_extra_times = $configs['extra_times'];
+        $now = Carbon\Carbon::now();
 
         ?>
         <table cellpadding='0' cellspacing='0' class='table table-bordered sort' width='100%'>
@@ -24,7 +24,7 @@
                 <?php foreach ($circulations as $row): ?>
                     <?php
                     $ex_times = (int) $max_extra_times - $row->extensions;
-                    $isExpired = ($row->expired_at->lt($now) && $row->returned == 0);
+                    $isExpired = $row->expired_at->lt($now) && ($now->diffInDays($row->expired_at) > 0);
 
                     ?>
                     <tr>
@@ -60,7 +60,7 @@
 
                         <?php else: ?>
                             <td style="color: red">
-                                <?php $book_expired_fine = Session::get('LibConfig.book_expired_fine'); ?>
+                                <?php $book_expired_fine = $configs['book_expired_fine']; ?>
                                 <?php echo 'Tiền phạt : ' . $diff * $book_expired_fine . ' (đồng)' ?>
                             </td>
                         <?php endif; ?>

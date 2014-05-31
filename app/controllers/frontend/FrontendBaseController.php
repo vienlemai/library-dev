@@ -11,11 +11,6 @@ class FrontendBaseController extends BaseController {
             View::share('currentReader', $this->currentReader);
             View::share('books_in_cart', $this->booksInCart());
         }
-        $configs = DB::table('configs')
-                ->get();
-        foreach ($configs as $config) {
-            View::share($config->key, $config->value);
-        }
         if (Session::has('storage_html')) {
             $storage_html = Session::get('storage_html');
         } else {

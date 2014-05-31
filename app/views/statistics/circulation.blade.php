@@ -14,6 +14,12 @@
                     <h2>Thống kê mượn trả tài liệu</h2>
                 </div>
                 <div class='content'>
+                    <ul>
+                        <li>Tổng số tài liệu đang cho mượn: <?php echo $count['borrow'] ?></li>
+                        <li>Tổng số tài liệu đã bị mất: <?php echo $count['lost'] ?></li>
+                    </ul>
+                    <hr>
+                    <h5>Thống kê theo thời gian</h5>
                     <form class="" method="GET">
                         <div class="controls-row">
                             <label class="span1">Thời gian</label>

@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder {
         //$this->call('SystemConfigSeed');
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
-        $this->call('UserTableSeeder');
+        $this->call('ConfigTableSeeder');
         $this->command->info('table seeded!');
     }
 
@@ -61,52 +61,66 @@ class ConfigTableSeeder extends Seeder {
                 'name' => 'Thời hạn thẻ',
                 'key' => 'reader_expired',
                 'value' => '365',
+                'is_hide' => false,
                 'unit' => 'Ngày'
             ),
             array(
                 'name' => 'Hạn trả tài liệu',
                 'key' => 'book_expired',
                 'value' => '30',
+                'is_hide' => false,
                 'unit' => 'Ngày'
             ),
             array(
                 'name' => 'Số tài liệu mượn tối đa mượn tại chỗ',
                 'key' => 'max_book_local',
                 'value' => '5',
+                'is_hide' => false,
                 'unit' => 'Cuốn'
             ),
             array(
                 'name' => 'Số tài liệu mượn tối đa mượn về nhà',
                 'key' => 'max_book_remote',
                 'value' => '5',
+                'is_hide' => false,
                 'unit' => 'Cuốn'
             ),
             array(
                 'name' => 'Số lần gia hạn tối đa',
                 'key' => 'extra_times',
                 'value' => '2',
+                'is_hide' => false,
                 'unit' => 'Lần'
             ),
             array(
                 'name' => 'Thời gian gia hạn thêm tài liệu',
                 'key' => 'book_more_time',
                 'value' => '10',
+                'is_hide' => false,
                 'unit' => 'Ngày'
             ),
             array(
                 'name' => 'Thời gian gia hạn thêm thẻ',
                 'key' => 'reader_more_time',
                 'value' => '365',
+                'is_hide' => false,
                 'unit' => 'Ngày'
             ),
             array(
                 'name' => 'Tiền phạt trễ hạn tài liệu',
                 'key' => 'book_expired_fine',
                 'value' => '1000',
-                'unit' => 'Đồng/ngày/cuốn'
+                'unit' => 'Đồng/ngày/cuốn',
+                'is_hide' => false,
+            ),
+            array(
+                'name' => 'Lần cuối quét hệ thống',
+                'key' => 'last_execute',
+                'value' => Carbon\Carbon::now()->format('Y-m-d H:i:s'),
+                'unit' => '',
+                'is_hide' => true,
             ),
         ));
-        Session::forget('LibConfig');
     }
 
 }
