@@ -675,5 +675,9 @@ class Book extends Eloquent {
     public function isAway() {
         return $this->scope == self::SCOPE_AWAY;
     }
+    
+    public function scopePublish ($query){
+        return $query->where('status',self::SS_PUBLISHED);
+    }
 
 }
