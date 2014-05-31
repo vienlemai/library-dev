@@ -45,16 +45,19 @@ p.more_details{
 }
 .header{
     width:900px;
-    height:138px;
-    background:url(/images/banner.png);
+    height:130px;
 }
 .logo{
     padding:50px 0 0 130px;
 }
+#banner, #banner img {
+    max-height: 100px;
+    min-height: 100px;
+}
 /*-----------------------------menu-------------------*/
 #menu{
     height:30px;
-    padding: 108px 0 0 0;
+    background:url(/img/menu_bg.png) no-repeat;
 }
 #menu > ul{
     display:block;
@@ -118,7 +121,6 @@ span.colors{
 .center_content{
     padding: 5px;
     border-top: 1px #b2b2b2 dashed;
-    margin-top: 2px;
     width:890px;
     min-height: 530px;
 }
@@ -554,7 +556,7 @@ div.pagination span.disabled {
 .footer{
     height:100px;
     border-top:1px #b2b2b2 dashed;
-    background:url(/images/footer_bg.gif) no-repeat bottom;
+    background:url(/img/footer_bg.gif) no-repeat bottom;
 }
 .left_footer{
     float:left;

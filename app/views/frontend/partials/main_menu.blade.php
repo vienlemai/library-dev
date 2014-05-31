@@ -1,8 +1,11 @@
 <div class="header">
+    <div id="banner">
+        <img src="<?php echo $slide_images[0]?>">
+    </div>
     <div id="menu">
         <ul>           
             <!-- Selected-->
-            <li class="">
+            <li >
                 <a href="<?php echo route('fe.home') ?>"><i class="fa fa-home"></i>  Trang chủ</a>
             </li>
             <li><a href="<?php echo route('fe.search') ?>"><i class="fa fa-search"></i> Tìm kiếm</a></li>

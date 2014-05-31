@@ -14,9 +14,7 @@
         <div id="wrap">
             <?php echo View::make('frontend.partials.main_menu'); ?>
             <div class="center_content">
-                <div class='margin-5'>
-                    @include('partials.flash')
-                </div>
+                @include('partials.flash')
                 @yield('content')
                 <div class="clear"></div>
             </div><!--end of center content-->
