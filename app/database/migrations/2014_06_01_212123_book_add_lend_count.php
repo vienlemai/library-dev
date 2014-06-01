@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DeleteSystemConfig extends Migration {
+class BookAddLendCount extends Migration {
 
     /**
      * Run the migrations.
@@ -11,9 +11,8 @@ class DeleteSystemConfig extends Migration {
      * @return void
      */
     public function up() {
-        Schema::dropIfExists('system_configs');
-        Schema::table('configs', function($t) {
-            $t->boolean('is_hide')->default(0);
+        Schema::table('books', function($t) {
+            $t->integer('lend_count');
         });
     }
 
@@ -23,8 +22,8 @@ class DeleteSystemConfig extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('configs', function($t) {
-            
+        Schema::table('books', function($t) {
+            $t->dropColumn('lend_count');
         });
     }
 

@@ -2864,3 +2864,305 @@ Queries   7
 [2ms] Select count(*) as aggregate from `circulations` where `returned` = 
 [2ms] Select count(*) as aggregate from `circulations` where `expired` = 1
 ====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/circulation
+Process   CirculationController@index
+Type      HTML
+Params    []
+Queries   5
+
+[3ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[32ms] Select * from `inventories` where `status` = 0 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/reader
+Process   CirculationController@loadReader
+Type      AJAX
+Params    {"barcode":"8931900538565"}
+Queries   7
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `readers` where `barcode` = 8931900538565 limit 1
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 87, 125, 131)
+[3ms] Select * from `books` where `books`.`id` in (3, 4, 6, 7)
+[1ms] Select * from `configs` where `key` = book_expired_fine limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931793670014","readerId":"1"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `book_items` where `barcode` = 8931793670014 limit 1
+[2ms] Select * from `books` where `books`.`id` in (7)
+[1ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[1ms] Select * from `book_items` where `book_items`.`id` in (58, 87, 125, 131)
+[3ms] Select * from `books` where `books`.`id` in (3, 4, 6, 7)
+[1ms] Select * from `circulations` where `book_item_id` = 131 and `reader_id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/return
+Process   CirculationController@returnBook
+Type      AJAX
+Params    {"readerId":"1","bookItemId":"131"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[5ms] Update `circulations` set `returned` = 1, `returned_at` = 2014-06-01 21:28:05 where `reader_id` = 1 and `book_item_id` = 131 and `returned` = 
+[1ms] Select * from `circulations` where `reader_id` = 1 and `returned` = 
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 87, 125)
+[2ms] Select * from `books` where `books`.`id` in (3, 4, 6)
+[6ms] Update `book_items` set `status` = 0 where `id` = 131
+[1ms] Select `book_id` from `book_items` where `id` = 131 limit 1
+[3ms] Update `books` set `lended` = `lended` - 1, `updated_at` = 2014-06-01 21:28:05 where `id` = 7
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8932381920085","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8932381920085 limit 1
+[2ms] Select * from `books` where `books`.`id` in (3)
+[2ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 87, 125)
+[2ms] Select * from `books` where `books`.`id` in (3, 4, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8932381920085","readerId":"1"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `book_items` where `barcode` = 8932381920085 limit 1
+[2ms] Select * from `books` where `books`.`id` in (3)
+[1ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[1ms] Select * from `book_items` where `book_items`.`id` in (58, 87, 125)
+[2ms] Select * from `books` where `books`.`id` in (3, 4, 6)
+[1ms] Select * from `circulations` where `book_item_id` = 58 and `reader_id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/return
+Process   CirculationController@returnBook
+Type      AJAX
+Params    {"readerId":"1","bookItemId":"58"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[3ms] Update `circulations` set `returned` = 1, `returned_at` = 2014-06-01 21:28:25 where `reader_id` = 1 and `book_item_id` = 58 and `returned` = 
+[2ms] Select * from `circulations` where `reader_id` = 1 and `returned` = 
+[2ms] Select * from `book_items` where `book_items`.`id` in (87, 125)
+[2ms] Select * from `books` where `books`.`id` in (4, 6)
+[8ms] Update `book_items` set `status` = 0 where `id` = 58
+[1ms] Select `book_id` from `book_items` where `id` = 58 limit 1
+[3ms] Update `books` set `lended` = `lended` - 1, `updated_at` = 2014-06-01 21:28:25 where `id` = 3
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[3ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[1ms] Select * from `book_items` where `book_items`.`id` in (87, 125)
+[2ms] Select * from `books` where `books`.`id` in (4, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (87, 125)
+[1ms] Select * from `books` where `books`.`id` in (4, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   9
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[1ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+[1ms] Select * from `circulations` where `book_item_id` = 111 and `reader_id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[1ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[1ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (87, 125)
+[1ms] Select * from `books` where `books`.`id` in (4, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   8
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[1ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[1ms] Select * from `book_items` where `book_items`.`id` in (87, 125)
+[2ms] Select * from `books` where `books`.`id` in (4, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/borrow/1
+Process   CirculationController@borrow
+Type      AJAX
+Params    {"readerId":"1","bookItemId":"111"}
+Queries   14
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Insert into `circulations` (`reader_id`, `book_item_id`, `scope`, `expired_at`, `created_at`, `created_by`) values (1, 111, 1, 2014-06-01 21:32:01, 2014-06-01 21:32:01, 1)
+[2ms] Select * from `readers` where `readers`.`id` = 1 limit 1
+[1ms] Select * from `book_items` where `book_items`.`id` = 111 limit 1
+[2ms] Select * from `books` where `books`.`id` = 5 limit 1
+[7ms] Insert into `activities` (`code`, `author_id`, `author_type`, `object_id`, `object_type`, `group`, `created_at`) values (borrowed_book, 1, Reader, 5, Book, circulation, 2014-06-01 21:32:01)
+[1ms] Select * from `circulations` where `reader_id` = 1 and `returned` = 
+[1ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+[6ms] Update `book_items` set `status` = 1 where `id` = 111
+[1ms] Select * from `book_items` where `id` = 111 limit 1
+[7ms] Update `books` set `lended` = `lended` + 1, `updated_at` = 2014-06-01 21:32:01 where `id` = 5
+[3ms] Update `books` set `lend_count` = `lend_count` + 1, `updated_at` = 2014-06-01 21:32:01 where `id` = 5
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470116","readerId":"1"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470116 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[1ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[2ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+[1ms] Select * from `circulations` where `book_item_id` = 111 and `reader_id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/book
+Process   CirculationController@loadBook
+Type      AJAX
+Params    {"barcode":"8931000470123","readerId":"1"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `book_items` where `barcode` = 8931000470123 limit 1
+[2ms] Select * from `books` where `books`.`id` in (5)
+[2ms] Select * from `readers`
+[2ms] Select * from `circulations` where `returned` =  and `circulations`.`reader_id` in (1)
+[1ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/circulation/borrow/1
+Process   CirculationController@borrow
+Type      AJAX
+Params    {"readerId":"1","bookItemId":"112"}
+Queries   14
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Insert into `circulations` (`reader_id`, `book_item_id`, `scope`, `expired_at`, `created_at`, `created_by`) values (1, 112, 1, 2014-06-01 21:32:30, 2014-06-01 21:32:30, 1)
+[2ms] Select * from `readers` where `readers`.`id` = 1 limit 1
+[1ms] Select * from `book_items` where `book_items`.`id` = 112 limit 1
+[1ms] Select * from `books` where `books`.`id` = 5 limit 1
+[2ms] Insert into `activities` (`code`, `author_id`, `author_type`, `object_id`, `object_type`, `group`, `created_at`) values (borrowed_book, 1, Reader, 5, Book, circulation, 2014-06-01 21:32:30)
+[2ms] Select * from `circulations` where `reader_id` = 1 and `returned` = 
+[1ms] Select * from `book_items` where `book_items`.`id` in (87, 125, 111, 112)
+[2ms] Select * from `books` where `books`.`id` in (4, 5, 6)
+[3ms] Update `book_items` set `status` = 1 where `id` = 112
+[1ms] Select * from `book_items` where `id` = 112 limit 1
+[3ms] Update `books` set `lended` = `lended` + 1, `updated_at` = 2014-06-01 21:32:30 where `id` = 5
+[2ms] Update `books` set `lend_count` = `lend_count` + 1, `updated_at` = 2014-06-01 21:32:30 where `id` = 5
+====================================================================================================
