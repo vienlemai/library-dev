@@ -218,7 +218,7 @@ img.right{
     margin: 5px;
     width:190px;
     height:119px;
-    padding:10px;
+    padding:2px 10px;
     display: inline-block;
 }
 .book-box .book-title a{
@@ -634,4 +634,30 @@ div.pagination span.disabled {
 }
 #menu ul.dropdown-menu {
     min-width: 140px;
+}
+
+#books-index {
+    width: 700px;
+    float:left;
+    border-right: 1px solid #dadada;
+}
+#right-sidebar{
+    width: 185px;
+    margin-left: 3px;
+    float:left;
+}
+#right-sidebar .sidebar-box {
+
+}
+#right-sidebar .sidebar-box h4 {
+    padding-left: 5px;
+    color: #734633;
+    font-size: 15px;
+    font-weight: bold;
+}
+#right-sidebar .sidebar-box a {
+    color: #734633;
+}
+#right-sidebar .sidebar-box a:hover {
+   color: #B46405;
 }

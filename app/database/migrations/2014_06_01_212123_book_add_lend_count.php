@@ -12,7 +12,7 @@ class BookAddLendCount extends Migration {
      */
     public function up() {
         Schema::table('books', function($t) {
-            $t->integer('lend_count');
+            $t->integer('lend_count')->default(0);
         });
     }
 

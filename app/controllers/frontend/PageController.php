@@ -10,8 +10,15 @@ class PageController extends FrontendBaseController {
         }
         $books = Book::level(array(2, 3, 4))
             ->publish()
-            ->orderBy('published_at', 'DESC');
-        return View::make('frontend.page.index', array('books' => $books->paginate(20)));
+            ->orderBy('published_at', 'DESC')
+            ->paginate(20);
+        
+        $newest_books = Book::newest();
+        
+        $top_books = Book::topBorrowing();
+        
+        return View::make('frontend.page.index')
+                ->with(compact('newest_books','top_books','books'));
     }
 
     public function login() {

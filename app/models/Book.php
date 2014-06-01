@@ -1,6 +1,7 @@
 <?php
 
 class Book extends Eloquent {
+
     /**
      * Table name
      */
@@ -12,6 +13,7 @@ class Book extends Eloquent {
     /**
      * Status SS_ADDED when cataloger add a book to database
      */
+
     const SS_ADDED = 0;
 
     /**
@@ -252,14 +254,14 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-            $book->status = Book::SS_ADDED;
-            $book->created_by = Auth::user()->loginable_id;
-            $book->barcode_printed = 0;
-            $time = time();
-            $vnCode = '893';
-            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-            $book->barcode = $random;
-        });
+                    $book->status = Book::SS_ADDED;
+                    $book->created_by = Auth::user()->loginable_id;
+                    $book->barcode_printed = 0;
+                    $time = time();
+                    $vnCode = '893';
+                    $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+                    $book->barcode = $random;
+                });
     }
 
     public function scopeStudent($query) {
@@ -379,9 +381,9 @@ class Book extends Eloquent {
         }
         if (isset($params['keyword']) && $params['keyword'] != '') {
             $query = $query->where(function($query) use($params) {
-                $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
-                $query->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
-            });
+                        $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
+                        $query->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
+                    });
         }
         if (isset($params['reader_type'])) {
             $query = $query->where('permission', 'LIKE', '%' . $params['reader_type'] . '%');
@@ -396,6 +398,22 @@ class Book extends Eloquent {
         return $query;
     }
 
+    public static function newest() {
+        return self::level(array(2, 3, 4))
+                ->orderBy('published_at', 'DESC')
+                ->publish()
+                ->take(10)
+                ->get();
+    }
+    
+    public static function topBorrowing() {
+       return self::level(array(2, 3, 4))
+                ->orderBy('lend_count', 'DESC')
+                ->publish()
+                ->take(10)
+                ->get();
+    }
+    
     public function scopeLevel($query, $levels = array()) {
         if (!empty($levels)) {
             $query->whereNotIn('level', $levels);
@@ -429,8 +447,8 @@ class Book extends Eloquent {
 
     public static function findBorrowingByReader($reader) {
         return Circulation::where('reader_id', $reader->id)->with('bookItem.book')
-                ->where('returned', '0')
-                ->lists('books.id');
+                        ->where('returned', '0')
+                        ->lists('books.id');
     }
 
     public static function bookValidate($input) {
@@ -580,8 +598,8 @@ class Book extends Eloquent {
 
     public static function dataForExcel($type) {
         $books = Book::where('status', $type)
-            ->where('book_type', Book::TYPE_BOOK)
-            ->get();
+                ->where('book_type', Book::TYPE_BOOK)
+                ->get();
         $dataToExport = array();
         if (!$books->isEmpty()) {
             $titles = array();
@@ -617,8 +635,8 @@ class Book extends Eloquent {
             }
         }
         $magazines = Book::where('status', $type)
-            ->where('book_type', Book::TYPE_MAGAZINE)
-            ->get();
+                ->where('book_type', Book::TYPE_MAGAZINE)
+                ->get();
         if (!$books->isEmpty()) {
             $mtitles = array();
             foreach (Book::$magazineTitle as $k => $v) {
@@ -675,9 +693,9 @@ class Book extends Eloquent {
     public function isAway() {
         return $this->scope == self::SCOPE_AWAY;
     }
-    
-    public function scopePublish ($query){
-        return $query->where('status',self::SS_PUBLISHED);
+
+    public function scopePublish($query) {
+        return $query->where('status', self::SS_PUBLISHED);
     }
 
 }
