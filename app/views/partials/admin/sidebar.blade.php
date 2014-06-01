@@ -9,9 +9,9 @@
                  <a href='#'></a>
             </div>
             <div class='buttons'>
-                <a href='#'>
+                <a href='<?php echo route('fe.home') ?>' target="_blank">
                     <span class='i-cog'></span>
-                    Tài khoản
+                    Trang bạn đọc
                 </a>
                 <a class='fr' href='{{{ route('logout') }}}'>
                     <span class='i-forward'></span>

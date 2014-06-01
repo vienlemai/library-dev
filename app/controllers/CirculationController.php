@@ -190,8 +190,6 @@ class CirculationController extends \BaseController {
         return ($countByScope->count() < $max);
     }
 
-    
-
     public function borrow($scope) {
         $readerId = Input::get('readerId');
         $bookItemId = Input::get('bookItemId');
@@ -204,6 +202,7 @@ class CirculationController extends \BaseController {
         BookItem::where('id', '=', $bookItemId)->update(array('status' => BookItem::SS_LENDED));
         $bookItem = BookItem::where('id', $bookItemId)->first();
         Book::where('id', $bookItem->book_id)->increment('lended');
+        Book::where('id', $bookItem->book_id)->increment('lend_count');
         $result['status'] = true;
         $viewData = array(
             'circulations' => $circulations,

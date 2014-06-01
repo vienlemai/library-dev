@@ -10,3 +10,6 @@
 .cir-action{
 	width: 85px;
 }
+.dl-horizontal dt{
+	width: 250px !important;
+}

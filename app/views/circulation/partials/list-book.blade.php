@@ -3,9 +3,9 @@ $max_extra_times = $configs['extra_times'];
 $now = Carbon\Carbon::now();
 
 ?>
-    <?php if (isset($message)): ?>
+<?php if (isset($message)): ?>
     <div class="alert alert-success">
-    <?php echo $message ?>
+        <?php echo $message ?>
         <button data-dismiss="alert" class="close" type="button">×</button>
     </div>
 <?php endif; ?>
@@ -31,14 +31,14 @@ $now = Carbon\Carbon::now();
                 <td>{{$row->bookItem->barcode}}</td>
                 <td>{{$row->bookItem->book->title}}</td>
                 <td>{{$row->created_at->format('d \t\h\á\n\g m, Y')}}</td>
-                    <?php if (!$isExpired): ?>
+                <?php if (!$isExpired): ?>
                     <td>
-                    <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') ?>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') ?>
                     </td>
-                    <?php else: ?>
+                <?php else: ?>
                     <td style="color: red">
                         <?php $diff = $now->diffInDays($row->expired_at); ?>
-                    <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . ($diff) . ' ngày)'; ?>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . ($diff) . ' ngày)'; ?>
                     </td>
                 <?php endif; ?>
                 <?php if (!$isExpired): ?>
@@ -48,13 +48,13 @@ $now = Carbon\Carbon::now();
                         <td><?php echo $ex_times > 0 ? 'Còn ' . $ex_times . ' lần gia hạn' : 'Hết quyền gia hạn' ?></td>
                     <?php endif; ?>
 
-                    <?php else: ?>
+                <?php else: ?>
                     <td style="color: red">
-                        <?php $book_expired_fine = Session::get('LibConfig.book_expired_fine'); ?>
-                    <?php echo 'Tiền phạt : ' . ($diff) * $book_expired_fine . ' (đồng)' ?>
+                        <?php $book_expired_fine = $configs['book_expired_fine']; ?>
+                        <?php echo 'Tiền phạt : ' . ($diff) * $book_expired_fine . ' (đồng)' ?>
                     </td>
-            <?php endif; ?>
+                <?php endif; ?>
             </tr>
-<?php endforeach; ?>
+        <?php endforeach; ?>
     </tbody>
 </table>

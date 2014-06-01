@@ -99,7 +99,8 @@ return array(
         'Dinesh\Barcode\BarcodeServiceProvider',
         'Baum\BaumServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
-        'Darsain\Console\ConsoleServiceProvider'
+        'Darsain\Console\ConsoleServiceProvider',
+//        'Liebig\Cron\CronServiceProvider'
     ),
     /*
       |--------------------------------------------------------------------------

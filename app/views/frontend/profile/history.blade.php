@@ -4,19 +4,70 @@
     <i class="fa fa-clock-o"></i>  Lịch sử mượn / trả tài liệu
 </div>
 <div class="clear"></div>
-    <table class='table table-bordered table-striped'>
-        <thead >
+<?php
+$max_extra_times = $configs['extra_times'];
+$now = Carbon\Carbon::now();
+
+?>
+<table cellpadding='0' cellspacing='0' class='table table-bordered sort' width='100%'>
+    <thead>
+        <tr>
+            <th style='width:20%'>Tiêu đề</th>
+            <th style='width:10%'>Ngày mượn</th>
+            <th style='width:15%'>Hết hạn</th>
+            <th style='width:12%'>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <?php foreach ($circulations as $row): ?>
+            <?php
+            $ex_times = (int) $max_extra_times - $row->extensions;
+            $isExpired = $row->expired_at->lt($now) && ($now->diffInDays($row->expired_at) > 0);
+
+            ?>
             <tr>
-                <th>#</th>
-                <th>Tiêu đề</th>
-                <th>Tác giả</th>
-                <th>Thể loại</th>
-                <th>Hình thức mượn</th>
-                <th>Số lượng</th>
-                <th>Thao tác</th>
-                <th>Thời gian</th>
+                <?php if ($row->returned == 1): ?>
+                    <td style="text-decoration: line-through">{{$row->bookItem->book->title}}</td>
+                <?php elseif ($isExpired): ?>
+                    <td style="color: red">{{$row->bookItem->book->title}}</td>
+                <?php else: ?>
+                    <td>{{$row->bookItem->book->title}}</td>
+                <?php endif; ?>
+
+                <td>{{$row->created_at->format('d \t\h\á\n\g m, Y')}}</td>
+                <?php if (!$isExpired || $row->returned == 1): ?>
+                    <td>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') ?>
+                    </td>
+                <?php else: ?>
+                    <td style="color: red">
+                        <?php $diff = $now->diffInDays($row->expired_at); ?>
+                        <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') . ' (trễ ' . $diff . ' ngày)'; ?>
+                    </td>
+                <?php endif; ?>
+                <?php if ($row->is_lost): ?>
+                    <td style="color: red">Làm mất</td>
+                <?php elseif ($row->returned == 1): ?>
+                    <td>Đã trả</td>
+                <?php elseif (!$isExpired): ?>
+                    <?php if ($row->bookItem->book->book_scope == Book::SCOPE_LOCAL): ?>
+                        <td>Mượn tại chỗ</td>
+                    <?php else: ?>
+                        <td><?php echo $ex_times > 0 ? 'Còn ' . $ex_times . ' lần gia hạn' : 'Hết quyền gia hạn' ?></td>
+                    <?php endif; ?>
+
+                <?php else: ?>
+                    <td style="color: red">
+                        <?php $book_expired_fine = $configs['book_expired_fine']; ?>
+                        <?php echo 'Tiền phạt : ' . $diff * $book_expired_fine . ' (đồng)' ?>
+                    </td>
+                <?php endif; ?>
             </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<div class='pagination'>
+    {{$circulations->links()}}
+</div>
 @stop

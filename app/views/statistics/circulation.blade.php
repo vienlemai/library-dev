@@ -15,8 +15,9 @@
                 </div>
                 <div class='content'>
                     <ul>
-                        <li>Tổng số tài liệu đang cho mượn: <?php echo $count['borrow'] ?></li>
-                        <li>Tổng số tài liệu đã bị mất: <?php echo $count['lost'] ?></li>
+                        <li>Tổng số tài liệu đang cho mượn : <?php echo $bookCount['lended_book'] - $bookCount['lost_books'] ?></li>
+                        <li>Tổng số tài liệu trễ hạn : <?php echo $bookCount['expired_book'] ?></li>
+                        <li>Tổng số tài liệu bị mất : <?php echo $bookCount['lost_books'] ?></li>
                     </ul>
                     <hr>
                     <h5>Thống kê theo thời gian</h5>
@@ -36,6 +37,10 @@
                                 <option value="return" <?php echo $type == 'return' ? 'selected' : '' ?>>Trả</option>
                             </select>
                             <button class="btn btn-primary offset1">Xem thống kê</button>
+                            <a class="btn btn-success" href="{{url()}}" target="_blank">
+                                <i class="i-printer"></i>
+                                In báo cáo
+                            </a>
                         </div>
                         <div class="controls-row custom-select-time" style="display: <?php echo $time == 'custom' ? 'block' : 'none' ?>">
                             <label class="span1">Từ ngày</label>
@@ -48,19 +53,13 @@
                     @include('partials.flash')
                     <hr>
                     <?php
-                    echo View::make('statistics.partials.circulation', array(
+                    echo View::make('statistics.partials._circulation', array(
                         'circulations' => $circulations,
                         'timeTitle' => $timeTitle,
                         'typeTitle' => $typeTitle,
                     ))->render()
 
                     ?>
-                    <div class="content-row">
-                        <a class="btn btn-primary" href="{{route('statistics.print.circulation',array('time'=>$time,'type'=>$type,'start'=>$start,'end'=>$end))}}" target="_blank">
-                            <i class="i-printer"></i>
-                            In báo cáo
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>

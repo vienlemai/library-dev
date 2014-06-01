@@ -37,7 +37,7 @@
                         <?php endif; ?>
 
                         <td>{{$row->created_at->format('d \t\h\á\n\g m, Y')}}</td>
-                        <?php if (!$isExpired): ?>
+                        <?php if (!$isExpired || $row->returned == 1): ?>
                             <td>
                                 <?php echo $row->expired_at->format('d \t\h\á\n\g m, Y') ?>
                             </td>
