@@ -23,6 +23,12 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
         return $this->morphOne('User', 'loginable');
     }
 
+    public static $TYPE_LABELS = array(
+        self::TYPE_CATALOGER => 'Biên mục',
+        self::TYPE_MODERATOR => 'Kiểm duyêt',
+        self::TYPE_LIBRARIAN => 'Thủ thư',
+    );
+
     public static function validate($input) {
         $rules = array(
             'username' => 'required|min:5',

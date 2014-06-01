@@ -7,23 +7,49 @@ class StatisticsController extends \BaseController {
     public $layout = 'layouts.admin';
 
     public function reader() {
-        if (Request::isMethod('GET')) {
-            return View::make('statistics.reader');
-        } else {
-            $result = array();
-            if (Input::get('all_readers') == 1) {
-                $result['all_readers'] = Reader::count();
-            }
-            if (Input::get('borrowing_readers') == 1) {
-                $result['borrowing_readers'] = Circulation::distinct()->get(array('reader_id'))->count();
-            }
-            if (Input::get('borrowing_times') == 1) {
-                $result['borrowing_times'] = Circulation::count();
-            }
-            return Response::json(array(
-                    'success' => true,
-                    'html' => View::make('statistics._reader_result')->with('result', $result)->render()
+        $time = $this->_timeFromInput();
+        if ($time['status'] == false) {
+            Session::flash('error', $time['message']);
+            return Redirect::back();
+        }
+        $readerCount['all'] = Reader::count();
+        $readerCount['expired'] = Reader::where('status', Reader::SS_EXPIRED)->count();
+        $readerCount['paused'] = Reader::where('status', Reader::SS_PAUSED)->count();
+        $reades = Reader::with('creator')
+            ->whereBetween('created_at', array($time['start'], $time['end']))
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        if (Input::has('print')) {
+            return View::make('statistics.print_reader', array(
+                    'readerCount' => $readerCount,
+                    'time' => $time['timeType'],
+                    'start' => $time['start']->format('d/m/Y'),
+                    'end' => $time['end']->format('d/m/Y'),
+                    'readers' => $reades,
+                    'timeTitle' => $time['timeTitle'],
             ));
+        } else {
+            return View::make('statistics.reader', array(
+                    'readerCount' => $readerCount,
+                    'time' => $time['timeType'],
+                    'start' => $time['start']->format('d/m/Y'),
+                    'end' => $time['end']->format('d/m/Y'),
+                    'readers' => $reades,
+                    'timeTitle' => $time['timeTitle'],
+            ));
+        }
+    }
+
+    public function user() {
+        $time = $this->_timeFromInput();
+        if ($time['status'] == false) {
+            Session::flash('error', $time['message']);
+            return Redirect::back();
+        }
+        $users = User::all();
+        $userCount[''];
+        foreach (User::$TYPE_LABELS as $k=>$v) {
+            
         }
     }
 
@@ -64,14 +90,25 @@ class StatisticsController extends \BaseController {
             ->whereBetween('published_at', array($time['start'], $time['end']))
             ->orderBy('published_at')
             ->get();
-        return View::make('statistics.book', array(
-                'bookCount' => $bookCount,
-                'time' => $time['timeType'],
-                'start' => $time['start']->format('d/m/Y'),
-                'end' => $time['end']->format('d/m/Y'),
-                'books' => $books,
-                'timeTitle' => $time['timeTitle'],
-        ));
+        if (Input::has('print')) {
+            return View::make('statistics.print_book', array(
+                    'bookCount' => $bookCount,
+                    'time' => $time['timeType'],
+                    'start' => $time['start']->format('d/m/Y'),
+                    'end' => $time['end']->format('d/m/Y'),
+                    'books' => $books,
+                    'timeTitle' => $time['timeTitle'],
+            ));
+        } else {
+            return View::make('statistics.book', array(
+                    'bookCount' => $bookCount,
+                    'time' => $time['timeType'],
+                    'start' => $time['start']->format('d/m/Y'),
+                    'end' => $time['end']->format('d/m/Y'),
+                    'books' => $books,
+                    'timeTitle' => $time['timeTitle'],
+            ));
+        }
     }
 
     public function circulation() {

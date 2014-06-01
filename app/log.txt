@@ -3166,3 +3166,696 @@ Queries   14
 [3ms] Update `books` set `lended` = `lended` + 1, `updated_at` = 2014-06-01 21:32:30 where `id` = 5
 [2ms] Update `books` set `lend_count` = `lend_count` + 1, `updated_at` = 2014-06-01 21:32:30 where `id` = 5
 ====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/circulation
+Process   StatisticsController@circulation
+Type      HTML
+Params    []
+Queries   12
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select * from `circulations` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59
+[1ms] Select * from `book_items` where `book_items`.`id` in (58, 111, 112)
+[1ms] Select * from `books` where `books`.`id` in (3, 5)
+[2ms] Select * from `readers` where `readers`.`id` in (1)
+[1ms] Select * from `users` where `users`.`id` in (1)
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select count(*) as aggregate from `circulations` where `returned` = 
+[2ms] Select count(*) as aggregate from `circulations` where `expired` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/circulation
+Process   StatisticsController@circulation
+Type      HTML
+Params    []
+Queries   12
+
+[3ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[3ms] Select * from `circulations` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 111, 112)
+[2ms] Select * from `books` where `books`.`id` in (3, 5)
+[2ms] Select * from `readers` where `readers`.`id` in (1)
+[2ms] Select * from `users` where `users`.`id` in (1)
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select count(*) as aggregate from `circulations` where `returned` = 
+[1ms] Select count(*) as aggregate from `circulations` where `expired` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/circulation
+Process   StatisticsController@circulation
+Type      HTML
+Params    {"time":"day","type":"borrow","start":"01\/06\/2014","end":"01\/06\/2014","print":"true"}
+Queries   12
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `circulations` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59
+[1ms] Select * from `book_items` where `book_items`.`id` in (58, 111, 112)
+[3ms] Select * from `books` where `books`.`id` in (3, 5)
+[1ms] Select * from `readers` where `readers`.`id` in (1)
+[1ms] Select * from `users` where `users`.`id` in (1)
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select count(*) as aggregate from `circulations` where `returned` = 
+[2ms] Select count(*) as aggregate from `circulations` where `expired` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/circulation
+Process   StatisticsController@circulation
+Type      HTML
+Params    []
+Queries   12
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `circulations` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 111, 112)
+[2ms] Select * from `books` where `books`.`id` in (3, 5)
+[2ms] Select * from `readers` where `readers`.`id` in (1)
+[2ms] Select * from `users` where `users`.`id` in (1)
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select count(*) as aggregate from `circulations` where `returned` = 
+[1ms] Select count(*) as aggregate from `circulations` where `expired` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    []
+Queries   20
+
+[3ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[2ms] Select * from `storages` where `id` = 2 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    []
+Queries   20
+
+[3ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[7ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[2ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    {"time":"day","start":"01\/06\/2014","end":"01\/06\/2014","print":"true"}
+Queries   20
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[4ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    []
+Queries   20
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[3ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[2ms] Select * from `storages` where `id` = 2 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `id` = 6 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[2ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    {"time":"day","start":"01\/06\/2014","end":"01\/06\/2014","print":"true"}
+Queries   20
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[8ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[2ms] Select * from `storages` where `id` = 1 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[4ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[7ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[2ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    {"time":"day","start":"01\/06\/2014","end":"01\/06\/2014","print":"true"}
+Queries   20
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[4ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    {"time":"day","start":"01\/06\/2014","end":"01\/06\/2014","print":"true"}
+Queries   20
+
+[3ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[2ms] Select * from `storages` where `id` = 1 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[7ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[2ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    []
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select count(*) as aggregate from `readers`
+[2ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `created_at` desc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    []
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[2ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `created_at` desc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"month"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[2ms] Select * from `readers` where `created_at` between 2014-06-01 00:00:00 and 2014-06-30 23:59:59 order by `created_at` desc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"30\/06\/2014"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[2ms] Select * from `readers` where `created_at` between 2014-05-01 22:07:56 and 2014-06-30 22:07:56 order by `created_at` desc
+[1ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"30\/06\/2014","print":"true"}
+Queries   21
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[2ms] Select * from `storages` where `id` = 1 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[4ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `id` = 6 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[4ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[3ms] Select * from `books` where `status` = 3 and `published_at` between 2014-05-01 22:08:00 and 2014-06-30 22:08:00 order by `published_at` asc
+[1ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"30\/06\/2014","print":"true"}
+Queries   21
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `storages` where `parent_id` is null
+[6ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[2ms] Select * from `storages` where `id` = 2 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[1ms] Select * from `storages` where `id` = 6 limit 1
+[1ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[3ms] Select * from `books` where `status` = 3 and `published_at` between 2014-05-01 22:11:12 and 2014-06-30 22:11:12 order by `published_at` asc
+[1ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000
+Process   PageController@index
+Type      HTML
+Params    []
+Queries   6
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `users`.`id` = 1 limit 1
+[3ms] Update `accounts` set `remember_token` = ybJ33JZTtaICMUXNEZAoBLFkQesa4QwZfN7mNizGkM4JdAfPxWkvcoASdMxw where `id` = 1
+[2ms] Select count(*) as aggregate from `books` where `level` not in (2, 3, 4) and `status` = 3
+[3ms] Select * from `books` where `level` not in (2, 3, 4) and `status` = 3 order by `published_at` desc limit 20 offset 0
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin
+Process   AdminController@index
+Type      HTML
+Params    []
+Queries   1
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin
+Process   AdminController@index
+Type      HTML
+Params    []
+Queries   1
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/login
+Process   AdminController@login
+Type      HTML
+Params    []
+Queries   1
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+====================================================================================================
+====================================================================================================
+Started   [POST] http://localhost:8000/admin/login
+Process   AdminController@postLogin
+Type      HTML
+Params    {"username":"admin","password":"123456"}
+Queries   2
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `username` = admin limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin
+Process   AdminController@index
+Type      HTML
+Params    []
+Queries   17
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `activities`
+[1ms] Select * from `activities` order by `created_at` desc limit 10 offset 0
+[2ms] Select * from `readers` where `id` in (1)
+[2ms] Select * from `books` where `id` in (5, 3, 7, 6, 4)
+[2ms] Select count(*) as aggregate from `readers` where `reader_type` = 3
+[1ms] Select count(*) as aggregate from `readers` where `reader_type` = 2
+[1ms] Select count(*) as aggregate from `readers` where `reader_type` = 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2) >= 1
+[1ms] Select count(*) as aggregate from `users`
+[2ms] Select count(*) as aggregate from `orders` where `status` = new
+[1ms] Select * from `users` where `users`.`id` = 1 limit 1
+[1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    []
+Queries   8
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select count(*) as aggregate from `readers`
+[2ms] Select count(*) as aggregate from `readers` where `status` = 2
+[2ms] Select count(*) as aggregate from `readers` where `status` = 1
+[2ms] Select * from `readers` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `created_at` desc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"01\/06\/2014"}
+Queries   9
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[2ms] Select * from `readers` where `created_at` between 2014-05-01 22:13:07 and 2014-06-01 22:13:07 order by `created_at` desc
+[2ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"01\/06\/2014","print":"true"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[2ms] Select count(*) as aggregate from `readers` where `status` = 2
+[2ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-05-01 22:13:10 and 2014-06-01 22:13:10 order by `created_at` desc
+[2ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"01\/06\/2014","print":"true"}
+Queries   9
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-05-01 22:13:34 and 2014-06-01 22:13:34 order by `created_at` desc
+[1ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"01\/06\/2014"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-05-01 22:13:40 and 2014-06-01 22:13:40 order by `created_at` desc
+[2ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"01\/06\/2014","print":"true"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-05-01 22:13:42 and 2014-06-01 22:13:42 order by `created_at` desc
+[1ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"custom","start":"01\/05\/2014","end":"01\/06\/2014","print":"true"}
+Queries   9
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[2ms] Select count(*) as aggregate from `readers` where `status` = 1
+[2ms] Select * from `readers` where `created_at` between 2014-05-01 22:14:08 and 2014-06-01 22:14:08 order by `created_at` desc
+[2ms] Select * from `users` where `users`.`id` in (1)
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    {"time":"day"}
+Queries   8
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[1ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select count(*) as aggregate from `readers`
+[2ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[2ms] Select * from `readers` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `created_at` desc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/reader
+Process   StatisticsController@reader
+Type      HTML
+Params    []
+Queries   8
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select count(*) as aggregate from `readers`
+[1ms] Select count(*) as aggregate from `readers` where `status` = 2
+[1ms] Select count(*) as aggregate from `readers` where `status` = 1
+[1ms] Select * from `readers` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `created_at` desc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/book
+Process   StatisticsController@book
+Type      HTML
+Params    []
+Queries   20
+
+[1ms] Select * from `configs` where `key` = last_execute limit 1
+[3ms] Select * from `accounts` where `id` = 1 limit 1
+[1ms] Select * from `users` where `id` = 1 limit 1
+[2ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[1ms] Select * from `storages` where `parent_id` is null
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 1 and `status` = 3) >= 1
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `book_type` = 2 and `status` = 3) >= 1
+[1ms] Select * from `storages` where `id` = 1 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 1 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (1)) >= 1
+[1ms] Select * from `storages` where `id` = 2 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 2 order by `lft` asc
+[2ms] Select * from `storages` where `id` = 6 limit 1
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[2ms] Select * from `storages` where `storages`.`parent_id` = 6 order by `lft` asc
+[5ms] Select count(*) as aggregate from `book_items` where (select count(*) from `books` where `book_items`.`book_id` = `books`.`id` and `storage` in (3, 4, 5, 7, 8, 9, 10, 11, 12)) >= 1
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select * from `books` where `status` = 3 and `published_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59 order by `published_at` asc
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/circulation
+Process   StatisticsController@circulation
+Type      HTML
+Params    []
+Queries   12
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `circulations` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 111, 112)
+[2ms] Select * from `books` where `books`.`id` in (3, 5)
+[1ms] Select * from `readers` where `readers`.`id` in (1)
+[2ms] Select * from `users` where `users`.`id` in (1)
+[2ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select count(*) as aggregate from `circulations` where `returned` = 
+[1ms] Select count(*) as aggregate from `circulations` where `expired` = 1
+====================================================================================================
+====================================================================================================
+Started   [GET] http://localhost:8000/admin/statistics/circulation
+Process   StatisticsController@circulation
+Type      HTML
+Params    []
+Queries   12
+
+[2ms] Select * from `configs` where `key` = last_execute limit 1
+[2ms] Select * from `accounts` where `id` = 1 limit 1
+[2ms] Select * from `users` where `id` = 1 limit 1
+[1ms] Select * from `groups` where `groups`.`id` = 1 limit 1
+[2ms] Select * from `circulations` where `created_at` between 2014-06-01 00:00:00 and 2014-06-01 23:59:59
+[2ms] Select * from `book_items` where `book_items`.`id` in (58, 111, 112)
+[2ms] Select * from `books` where `books`.`id` in (3, 5)
+[1ms] Select * from `readers` where `readers`.`id` in (1)
+[1ms] Select * from `users` where `users`.`id` in (1)
+[1ms] Select count(*) as aggregate from `circulations` where `is_lost` = 1
+[1ms] Select count(*) as aggregate from `circulations` where `returned` = 
+[1ms] Select count(*) as aggregate from `circulations` where `expired` = 1
+====================================================================================================

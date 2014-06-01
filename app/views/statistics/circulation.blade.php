@@ -37,7 +37,7 @@
                                 <option value="return" <?php echo $type == 'return' ? 'selected' : '' ?>>Trả</option>
                             </select>
                             <button class="btn btn-primary offset1">Xem thống kê</button>
-                            <a class="btn btn-success" href="{{url()}}" target="_blank">
+                            <a class="btn btn-success" href="{{route('statistics.circulation',array('time'=>$time,'type'=>$type,'start'=>$start,'end'=>$end,'print'=>'true'))}}" target="_blank">
                                 <i class="i-printer"></i>
                                 In báo cáo
                             </a>

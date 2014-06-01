@@ -4,18 +4,18 @@
 <div class="wrap">
     <div class='head'>
         <div class='page-title'>
-            Thống kê tài liệu
+            Thống kê
         </div>
     </div>
     <div class='content'>
         <div class='row-fluid'>
             <div class='block'>
                 <div class='head'>
-                    <h2>Chọn các danh mục thống kê</h2>
+                    <h2>Thống kê tài liệu</h2>
                 </div>
                 <div class='content'>
                     <ul>
-                        <li>Tổng tài liệu đang lưu hành: <?php echo $bookCount['publish_books'] + $bookCount['publish_magazines'] - $bookCount['lost_books'] ?>
+                        <li>Tổng số tài liệu đang lưu hành: <?php echo $bookCount['publish_books'] + $bookCount['publish_magazines'] - $bookCount['lost_books'] ?>
                             <ul>
                                 <li>Sách : <?php echo $bookCount['publish_books'] ?></li>
                                 <li>Tạp chí/biểu mẫu : <?php echo $bookCount['publish_magazines'] ?></li>
@@ -37,7 +37,9 @@
                                 <option value="custom" <?php echo $time == 'custom' ? 'selected' : '' ?>>Khoảng thời gian</option>
                             </select>
                             <button class="btn btn-primary offset1">Xem thống kê</button>
-                            <a href="#" class="btn btn-success margin-10 btn-print">
+                            <a href="<?php echo route('statistics.book', array('time' => $time, 'start' => $start, 'end' => $end, 'print' => 'true')) ?>"
+                               class="btn btn-success margin-10 btn-print"
+                               target="_blank">
                                 <i class="i-printer"></i> In báo cáo
                             </a>
                         </div>
