@@ -11,7 +11,7 @@ class PageController extends FrontendBaseController {
         $books = Book::level(array(2, 3, 4))
             ->publish()
             ->orderBy('published_at', 'DESC')
-            ->paginate(5);
+            ->paginate(20);
         
         $newest_books = Book::newest();
         
