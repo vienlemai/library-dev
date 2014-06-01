@@ -14,9 +14,8 @@
 App::before(function($request) {
     $lastExecuteObj = DB::table('configs')
         ->where('key', 'last_execute')
-//        ->remember(120)
+        ->remember(120)
         ->first();
-//    dd($lastExecuteObj);
     $lastExecute = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteObj->value);
     $now = Carbon\Carbon::now();
     if ($now->diffInDays($lastExecute) !== 0) {
