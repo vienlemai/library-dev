@@ -2,6 +2,7 @@
 @section('content')
 <?php
 $now = Carbon\Carbon::now();
+$max_extra_times = $configs['extra_times'];
 ?>
 <div class="page-title">
     <i class="fa fa-book"></i> Tài liệu đang mượn
@@ -24,7 +25,7 @@ $now = Carbon\Carbon::now();
 
             <?php foreach ($borrowing_books as $row): ?>
                 <?php
-                $ex_times = (int) $extra_times - $row->extensions;
+                $ex_times = (int) $max_extra_times - $row->extensions;
                 $isExpired = $row->expired_at->lt($now) && ($now->diffInDays($row->expired_at) > 0);
                 $isLocal = $row->bookItem->book->book_scope == Book::SCOPE_LOCAL;
                 ?>
@@ -52,6 +53,7 @@ $now = Carbon\Carbon::now();
 
                     <?php else: ?>
                         <td class="text-error">
+                            <?php $book_expired_fine = $configs['book_expired_fine']; ?>
                             <?php echo 'Tiền phạt : ' . ($diff) * $book_expired_fine . ' (đồng)' ?>
                         </td>
                     <?php endif; ?>                    

@@ -16,7 +16,21 @@
         </thead>
         <tbody>
             <?php foreach ($orders as $order): ?>
-                <tr>
+                <?php
+                switch ($order->status) {
+                    case Order::SS_NEW:
+                        $class = 'text-info';
+                        break;
+                    case Order::SS_APPROVED:
+                        $class = 'text-success';
+                        break;
+                    case Order::SS_REJECTED:
+                        $class = 'text-error';
+                        break;
+                }
+
+                ?>
+                <tr class="<?php echo $class ?>">
                     <td><?php echo $order->reader->full_name ?></td>
                     <td><?php echo $order->book->title ?></td>
                     <td><?php echo $order->count ?></td>
@@ -34,7 +48,7 @@
                                 <i class="i-plus"></i>Chấp nhận
                             </a>
                             <a href="javascript:void(0)"  data-id="{{$order->id}}" class="text-error order-action-reject">
-                                <i class="i-cancel-2">Hủy</i>
+                                <i class="i-cancel-2">Từ chối</i>
                             </a>
                         <?php endif; ?>
                     </td>

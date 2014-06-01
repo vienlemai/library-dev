@@ -5,7 +5,7 @@ class ProfileController extends FrontendBaseController {
     public function account() {
         $reader = $this->currentReader;
         return View::make('frontend.profile.account')
-                        ->with(compact('reader'));
+                ->with(compact('reader'));
     }
 
     public function update() {
@@ -20,19 +20,19 @@ class ProfileController extends FrontendBaseController {
         } else {
             Session::flash('error', 'Cập nhật thất bại.');
             return Redirect::to(route('fe.account'))->with('message', 'Cập nhật thất bại.')
-                            ->withInput()
-                            ->withErrors($validate->messages());
+                    ->withInput()
+                    ->withErrors($validate->messages());
         }
     }
 
     public function updatePassword() {
         $validate = Validator::make(Input::all(), array(
-                    'password' => 'required|min:6',
-                    'password_confirmation' => 'required|same:password'
-                        ), array(
-                    'required' => 'không được để trống',
-                    'min' => 'xin nhập tối thiểu :min ký tự',
-                    'password_confirmation.same' => 'xác nhận không khớp'
+                'password' => 'required|min:6',
+                'password_confirmation' => 'required|same:password'
+                ), array(
+                'required' => 'không được để trống',
+                'min' => 'xin nhập tối thiểu :min ký tự',
+                'password_confirmation.same' => 'xác nhận không khớp'
         ));
 
         if ($validate->passes()) {
@@ -44,35 +44,39 @@ class ProfileController extends FrontendBaseController {
         } else {
             Session::flash('error', 'Đổi mật khẩu thất bại!');
             return Redirect::to(route('fe.account'))
-                            ->withErrors($validate->messages());
+                    ->withErrors($validate->messages());
         }
     }
 
     public function borrowing() {
         $borrowing_books = Circulation::with('bookItem.book')
-                ->where('reader_id', $this->currentReader->id)
-                ->where('returned', false)
-                ->get();
+            ->where('reader_id', Auth::user()->loginable_id)
+            ->where('returned', false)
+            ->orderBy('created_at','DESC')
+            ->get();
         return View::make('frontend.profile.borrowing')
-                        ->with(compact('borrowing_books'));
+                ->with(compact('borrowing_books'));
     }
 
     public function history() {
-        $histories = array();
+        $readerId = Auth::user()->loginable_id;
+        $circulations = Circulation::where('reader_id', '=', $readerId)
+            ->orderBy('created_at', 'DESC')
+            ->paginate(self::ITEMS_PER_PAGE);
         return View::make('frontend.profile.history')
-                        ->with(compact('histories'));
+                ->with(compact('circulations'));
     }
 
     public function extra($id) {
         $book_more_time = DB::table('configs')
-                ->where('key', 'book_more_time')
-                ->first();
+            ->where('key', 'book_more_time')
+            ->first();
         Circulation::where('id', '=', $id)
-                ->increment('extensions');
+            ->increment('extensions');
         $circulation = Circulation::where('id', '=', $id)
-                ->first();
+            ->first();
         Circulation::where('id', '=', $id)
-                ->update(array('expired_at' => $circulation->expired_at->addDays($book_more_time->value)));
+            ->update(array('expired_at' => $circulation->expired_at->addDays($book_more_time->value)));
         Session::flash('success', 'Gia hạn thành công');
         return Redirect::back();
     }
@@ -80,11 +84,11 @@ class ProfileController extends FrontendBaseController {
     public function orders() {
         $readerId = Auth::user()->loginable_id;
         $orders = Order::with('book', 'reader')
-                ->where('reader_id', $readerId)
-                ->orderBy('created_at', 'DESC')
-                ->get();
+            ->where('reader_id', $readerId)
+            ->orderBy('created_at', 'DESC')
+            ->get();
         return View::make('frontend.profile.orders', array(
-                    'orders' => $orders
+                'orders' => $orders
         ));
     }
 

@@ -3,6 +3,11 @@
 class PageController extends FrontendBaseController {
 
     public function index() {
+        if (Auth::check()) {
+            if (Auth::user()->loginable_type != 'Reader') {
+                Auth::logout();
+            }
+        }
         $books = Book::level(array(2, 3, 4))
             ->publish()
             ->orderBy('published_at', 'DESC');

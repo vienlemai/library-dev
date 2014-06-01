@@ -19,7 +19,8 @@ class ConfigController extends BaseController {
             foreach ($inputs as $k => $v) {
                 Configs::where('key', '=', $k)->update(array('value' => $v));
             }
-            return Redirect::to('configs');
+            Session::flash('success','Lưu thành công cấu hình');
+            return Redirect::route('configs');
         } else {
             var_dump($v->messages());
             exit('error');

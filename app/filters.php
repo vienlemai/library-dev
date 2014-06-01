@@ -12,6 +12,7 @@
  */
 
 App::before(function($request) {
+//    Cron::run();
     $lastExecuteObj = DB::table('configs')
         ->where('key', 'last_execute')
         ->remember(120)
@@ -20,9 +21,9 @@ App::before(function($request) {
     $now = Carbon\Carbon::now();
     if ($now->diffInDays($lastExecute) !== 0) {
         Queue::push('JobForDay@sendRemindCirculation');
-        DB::table('system_configs')
-            ->where('name', 'last_execute')
-            ->update(array('day' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
+        DB::table('configs')
+            ->where('key', 'last_execute')
+            ->update(array('value' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
     }
 });
 
@@ -52,8 +53,7 @@ App::after(function($request, $response) {
     }
     $log .= $sql_log . "\n";
     $log .= str_repeat('=', 100) . "\n";
-
-    $logFile = implode(DIRECTORY_SEPARATOR, array(app_path(), 'storage', 'logs', 'log.txt'));
+    $logFile = __DIR__ . DIRECTORY_SEPARATOR . 'log.txt';
     file_put_contents($logFile, $log, FILE_APPEND);
     file_put_contents('php://stdout', $log);
 });

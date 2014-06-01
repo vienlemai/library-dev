@@ -11,11 +11,12 @@
             <div class='block'>
                 <div class='content'>  
                     <ul>
-                        <li>Tổng số tài liệu đang cho mượn: <?php echo $count['borrow'] ?></li>
-                        <li>Tổng số tài liệu đã bị mất: <?php echo $count['lost'] ?></li>
+                        <li>Tổng số tài liệu đang cho mượn : <?php echo $bookCount['lended_book'] - $bookCount['lost_books'] ?></li>
+                        <li>Tổng số tài liệu trễ hạn : <?php echo $bookCount['expired_book'] ?></li>
+                        <li>Tổng số tài liệu bị mất : <?php echo $bookCount['lost_books'] ?></li>
                     </ul>
                     <?php
-                    echo View::make('statistics.partials.circulation', array(
+                    echo View::make('statistics.partials._circulation', array(
                         'circulations' => $circulations,
                         'timeTitle' => $timeTitle,
                         'typeTitle' => $typeTitle,
