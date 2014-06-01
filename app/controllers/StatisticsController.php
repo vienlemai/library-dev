@@ -42,14 +42,50 @@ class StatisticsController extends \BaseController {
 
     public function user() {
         $time = $this->_timeFromInput();
+        $userId = Input::has('user_id') ? Input::get('user_id') : -1;
         if ($time['status'] == false) {
             Session::flash('error', $time['message']);
             return Redirect::back();
         }
         $users = User::all();
-        $userCount[''];
-        foreach (User::$TYPE_LABELS as $k=>$v) {
-            
+        $userCount = array();
+        foreach (User::$TYPE_LABELS as $k => $v) {
+            $userByType = $users->filter(function($item)use ($k) {
+                if ($item->group_id == $k) {
+                    return $item;
+                }
+            });
+            $userCount[$k] = array(
+                'title' => $v,
+                'value' => $userByType->count(),
+            );
+        }
+        $activities = Activity::whereBetween('created_at', array($time['start'], $time['end']));
+        if ($userId != -1) {
+            $activities->where('author_id', $userId);
+            $user = User::find(array('full_name'));
+            $userTitle = 'nhân viên ' . $user->full_name;
+        } else {
+            $userTitle = 'tất cả nhân viên';
+        }
+        if (Input::has('print')) {
+            return View::make('', array(
+                    'users' => $users,
+                    'userCount' => $userCount,
+                    'activities' => $activities,
+                    'userTitle' => $userTitle
+            ));
+        } else {
+            return View::make('statistics.user', array(
+                    'users' => $users,
+                    'userCount' => $userCount,
+                    'activities' => $activities,
+                    'userTitle' => $userTitle,
+                    'time' => $time['timeType'],
+                    'start' => $time['start']->format('d/m/Y'),
+                    'end' => $time['end']->format('d/m/Y'),
+                    'timeTitle' => $time['timeTitle'],
+            ));
         }
     }
 

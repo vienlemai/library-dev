@@ -236,6 +236,10 @@ Route::group(array('prefix' => 'admin'), function () {
             'as' => 'statistics.reader',
             'uses' => 'StatisticsController@reader',
         ));
+        Route::get('statistics/user', array(
+            'as' => 'statistics.user',
+            'uses' => 'StatisticsController@user',
+        ));
         Route::get('statistics/book', array(
             'as' => 'statistics.book',
             'uses' => 'StatisticsController@book',

@@ -79,12 +79,13 @@ class Permission {
                 'statistics.reader' => 'Thống kê bạn đọc',
                 'statistics.book' => 'Thống kê tài liệu',
                 'statistics.circulation' => 'Thống kê mượn trả',
+                'statistics.user' => 'Thống kê nhân viên',
             ),
             'routes' => array(
                 'statistics.reader',
                 'statistics.book',
                 'statistics.circulation',
-                'statistics.print.circulation'
+                'statistics.user'
             ),
         ),
         6 => array(

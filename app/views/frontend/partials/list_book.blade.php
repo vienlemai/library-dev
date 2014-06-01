@@ -1,6 +1,7 @@
 <div id="books-list">
     <?php
     $show_paging = (int) ($books->getTotal() / $books->getPerPage()) > 0 ? true : false;
+
     ?>
     <?php if ($show_paging) : ?>
         <div class='pagination'>
@@ -37,8 +38,6 @@
                     <?php endif; ?>
                     <?php if ($book->isBook()): ?>
                         <dl class="dl-horizontal">
-                            <dt>Nhan đề: </dt>
-                            <dd>kinh dịch diễn giải</dd>
                             <dt>Nhan đề song song: </dt>
                             <dd>{{!empty($book->sub_title)?$book->sub_title:'(trống)'}}</dd>
                             <dt>Tác giả: </dt>
@@ -60,8 +59,6 @@
                         </dl>
                     <?php else: ?>
                         <dl class="dl-horizontal">
-                            <dt>Nhan đề: </dt>
-                            <dd>{{$book->title}}</dd>
                             <dt>Số tạp chí: </dt>
                             <dd>{{!empty($book->magazine_number)?$book->magazine_number:'(trống)'}}</dd>
                             <dt>Ngày ra tạp chí: </dt>

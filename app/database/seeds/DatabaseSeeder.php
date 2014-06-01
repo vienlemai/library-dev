@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder {
         //$this->call('SystemConfigSeed');
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
-        $this->call('ConfigTableSeeder');
+        $this->call('UserTableSeeder');
         $this->command->info('table seeded!');
     }
 
