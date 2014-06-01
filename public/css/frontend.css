@@ -655,9 +655,9 @@ div.pagination span.disabled {
     font-size: 15px;
     font-weight: bold;
 }
-#right-sidebar .sidebar-box a {
+#right-sidebar .sidebar-box  ul li > a {
     color: #734633;
 }
-#right-sidebar .sidebar-box a:hover {
-   color: #B46405;
+#right-sidebar .sidebar-box ul li > a:hover {
+    color: #B46405;
 }

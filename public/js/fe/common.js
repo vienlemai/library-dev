@@ -28,6 +28,7 @@ $(document).ready(function() {
         $_thisLink = $(this);
         var originalText = $_thisLink.text();
         var sendData = {book_id: $_thisLink.data('book-id')};
+        var bookId = $_thisLink.data('book-id');
         $.ajax({
             type: 'POST',
             url: $_thisLink.data('url'),
@@ -40,14 +41,8 @@ $(document).ready(function() {
             },
             success: function(response) {
                 if (response.success) {
-                    $_thisLink.toggleClass('hide');
-                    if ($_thisLink.hasClass('btn-add-to-cart')) {
-                        console.log('add');
-                        $_thisLink.siblings('.btn-remove-from-cart').toggleClass('hide');
-                    } else {
-                        console.log('remove');
-                        $_thisLink.siblings('.btn-add-to-cart').toggleClass('hide');
-                    }
+                    $('.btn-add-to-cart[data-book-id="' + bookId + '"]').toggleClass('hide');
+                    $('.btn-remove-from-cart[data-book-id="' + bookId + '"]').toggleClass('hide');
                     $_booksCounter.text(response.books_count);
                 }
             }

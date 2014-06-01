@@ -402,7 +402,7 @@ class Book extends Eloquent {
         return self::level(array(2, 3, 4))
                 ->orderBy('published_at', 'DESC')
                 ->publish()
-                ->take(10)
+                ->take(5)
                 ->get();
     }
     
@@ -410,7 +410,7 @@ class Book extends Eloquent {
        return self::level(array(2, 3, 4))
                 ->orderBy('lend_count', 'DESC')
                 ->publish()
-                ->take(10)
+                ->take(5)
                 ->get();
     }
     
