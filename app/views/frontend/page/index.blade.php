@@ -29,7 +29,14 @@
         </ul>
     </div>
     <div class="sidebar-box">
-        <h4><i class="fa fa-group"></i> Thành viên mới</h4>
+        <h4><i class="fa fa-star"></i> Tài liệu mượn nhiều</h4>
+        <ul>
+            <?php foreach ($top_books as $book) : ?>
+                <li>
+                    <a href="#"><?php echo ucfirst($book->title) ?></a>
+                </li>
+            <?php endforeach; ?>
+        </ul>
     </div>
 </div>
 
