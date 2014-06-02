@@ -171,8 +171,6 @@ class Reader extends Eloquent implements IActivityAuthor {
             $reader->barcode = $fullCode;
             $reader->status = Reader::SS_CIRCULATED;
             $reader->created_by = Auth::user()->loginable_id;
-            $expired = Session::get('LibConfig.reader_expired');
-            $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
         });
         // Write create reader event
         static::created(function($reader) {

@@ -193,7 +193,8 @@ class CirculationController extends \BaseController {
     public function borrow($scope) {
         $readerId = Input::get('readerId');
         $bookItemId = Input::get('bookItemId');
-        Circulation::createCirculation($readerId, $bookItemId, $scope);
+        $expired = $this->configs['book_expired'];
+        Circulation::createCirculation($readerId, $bookItemId, $scope, $expired);
         $circulations = Circulation::where('reader_id', '=', $readerId)
             ->where('returned', '=', false)
             ->with('bookItem', 'bookItem.book')

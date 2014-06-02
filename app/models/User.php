@@ -1,9 +1,10 @@
 <?php
 
 class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor {
-    const TYPE_CATALOGER = 1;
-    const TYPE_MODERATOR = 2;
-    const TYPE_LIBRARIAN = 3;
+    const TYPE_ADMIN = 1;
+    const TYPE_CATALOGER = 2;
+    const TYPE_MODERATOR = 3;
+    const TYPE_LIBRARIAN = 4;
 
     protected $table = 'users';
     protected $fillable = array(
@@ -24,6 +25,7 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
     }
 
     public static $TYPE_LABELS = array(
+        self::TYPE_ADMIN => 'Quản trị',
         self::TYPE_CATALOGER => 'Biên mục',
         self::TYPE_MODERATOR => 'Kiểm duyêt',
         self::TYPE_LIBRARIAN => 'Thủ thư',

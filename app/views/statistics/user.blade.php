@@ -36,6 +36,7 @@
                                 <option value="month" <?php echo $time == 'month' ? 'selected' : '' ?>>Tháng này</option>
                                 <option value="custom" <?php echo $time == 'custom' ? 'selected' : '' ?>>Khoảng thời gian</option>
                             </select>
+                            <div class="span1"></div>
                             <label class="span1">Nhân viên</label>
                             <select name="user_id" class="span2 select2">
                                 <option value="-1">Tất cả</option>
@@ -44,7 +45,7 @@
                                 <?php endforeach; ?>
                             </select>
                             <button class="btn btn-primary offset1">Xem thống kê</button>
-                            <a href="<?php echo route('statistics.reader', array('time' => $time, 'start' => $start, 'end' => $end, 'print' => 'true')) ?>"
+                            <a href="<?php echo route('statistics.user', array('time' => $time, 'start' => $start, 'end' => $end, 'print' => 'true')) ?>"
                                class="btn btn-success margin-10 btn-print"
                                target="_blank">
                                 <i class="i-printer"></i> In báo cáo

@@ -55,6 +55,8 @@ class ReaderController extends \BaseController {
                     'username' => $reader->email,
                     'password' => Hash::make($password)
                 ));
+                $expired = $this->configs['reader_expired'];
+                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
                 $reader->save();
                 $reader->account()->save($account);
                 $reader->saveCardNumber();

@@ -28,9 +28,7 @@ class Circulation extends Eloquent {
         });
     }
 
-    public static function createCirculation($readerId, $bookItemId, $scope) {
-        $expired = Session::get('LibConfig.book_expired');
-
+    public static function createCirculation($readerId, $bookItemId, $scope, $expired) {
         $circulation = new Circulation(array(
             'reader_id' => $readerId,
             'book_item_id' => $bookItemId,

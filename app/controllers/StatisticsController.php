@@ -47,7 +47,7 @@ class StatisticsController extends \BaseController {
             Session::flash('error', $time['message']);
             return Redirect::back();
         }
-        $users = User::all();
+        $users = User::all(array('id', 'full_name', 'group_id'));
         $userCount = array();
         foreach (User::$TYPE_LABELS as $k => $v) {
             $userByType = $users->filter(function($item)use ($k) {
@@ -60,26 +60,32 @@ class StatisticsController extends \BaseController {
                 'value' => $userByType->count(),
             );
         }
-        $activities = Activity::whereBetween('created_at', array($time['start'], $time['end']));
+        $activities = Activity::with('author.group', 'object')
+            ->where('author_type', 'User')
+            ->whereBetween('created_at', array($time['start'], $time['end']));
         if ($userId != -1) {
             $activities->where('author_id', $userId);
-            $user = User::find(array('full_name'));
-            $userTitle = 'nhân viên ' . $user->full_name;
+            $user = User::find($userId, array('full_name'));
+            $userTitle = 'nhân viên "' . $user->full_name . '"';
         } else {
             $userTitle = 'tất cả nhân viên';
         }
         if (Input::has('print')) {
-            return View::make('', array(
-                    'users' => $users,
+            return View::make('statistics.print_user', array(
+                     'users' => $users,
                     'userCount' => $userCount,
-                    'activities' => $activities,
-                    'userTitle' => $userTitle
+                    'activities' => $activities->get(),
+                    'userTitle' => $userTitle,
+                    'time' => $time['timeType'],
+                    'start' => $time['start']->format('d/m/Y'),
+                    'end' => $time['end']->format('d/m/Y'),
+                    'timeTitle' => $time['timeTitle'],
             ));
         } else {
             return View::make('statistics.user', array(
                     'users' => $users,
                     'userCount' => $userCount,
-                    'activities' => $activities,
+                    'activities' => $activities->get(),
                     'userTitle' => $userTitle,
                     'time' => $time['timeType'],
                     'start' => $time['start']->format('d/m/Y'),
@@ -208,17 +214,17 @@ class StatisticsController extends \BaseController {
             case 'day':
                 $start = Carbon\Carbon::now()->startOfDay();
                 $end = Carbon\Carbon::now()->endOfDay();
-                $timeTitle = 'hôm nay (' . $start->format('d \t\h\á\n\g m Y') . ')';
+                $timeTitle = 'trong ngày hôm nay (' . $start->format('d \t\h\á\n\g m Y') . ')';
                 break;
             case 'week':
                 $start = Carbon\Carbon::now()->startOfWeek();
                 $end = Carbon\Carbon::now()->endOfWeek();
-                $timeTitle = 'tuần này (' . $start->format('d \t\h\á\n\g m Y') . '  - ' . $end->format('d \t\h\á\n\g m Y') . ')';
+                $timeTitle = 'trong tuần này (' . $start->format('d \t\h\á\n\g m Y') . '  - ' . $end->format('d \t\h\á\n\g m Y') . ')';
                 break;
             case 'month':
                 $start = Carbon\Carbon::now()->startOfMonth();
                 $end = Carbon\Carbon::now()->endOfMonth();
-                $timeTitle = 'tháng này (' . $start->format('d \t\h\á\n\g m Y') . '  - ' . $end->format('d \t\h\á\n\g m Y') . ')';
+                $timeTitle = 'trong tháng này (' . $start->format('d \t\h\á\n\g m Y') . '  - ' . $end->format('d \t\h\á\n\g m Y') . ')';
                 break;
             case 'custom':
                 try {
@@ -226,7 +232,7 @@ class StatisticsController extends \BaseController {
                     $endInput = Input::get('end');
                     $start = Carbon\Carbon::createFromFormat('d-m-Y', str_ireplace('/', '-', $startInput));
                     $end = Carbon\Carbon::createFromFormat('d-m-Y', str_ireplace('/', '-', $endInput));
-                    $timeTitle = 'trong khoảng thời gian từ (' . $start->format('d \t\h\á\n\g m Y') . ' đến ' . $end->format('d \t\h\á\n\g m Y') . ')';
+                    $timeTitle = 'trong khoảng thời gian từ ' . $start->format('d \t\h\á\n\g m Y') . ' đến ' . $end->format('d \t\h\á\n\g m Y');
                 } catch (Exception $e) {
                     $result['status'] = false;
                     $result['message'] = 'Thời gian bắt đầu và kết thúc không hợp lệ';
