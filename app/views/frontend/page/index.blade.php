@@ -1,26 +1,8 @@
 @extends('layouts.frontend')
 @section('content')
-<div class="page-title">
-    <i class='fa fa-home'></i> Trang chủ
-</div>
-<div class="search-box">
-    <form action="<?php echo route('fe.search') ?>" class="form-horizontal" method='GET'>          
-        <div class="control-group">
-            <div class="controls">
-                <input type="text"  name="keyword" placeholder="Nhập tiêu đề tài liệu để tìm kiếm . . ." style="width: 380px">
-                <button type='submit' class='btn'><i class='fa fa-search'></i></button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="clear"></div>
-<div id="books-index">
-    <?php echo View::make('frontend.partials.list_book', array('books' => $books))->render() ?>
-</div>
-<div id="right-sidebar">
-    <?php $books_in_sidebar = array(); ?>
+<div id="left-sidebar">
     <div class="sidebar-box">
-        <h4><i class="fa fa-bookmark"></i> Tài liệu mới nhất</h4>
+        <h4><i class="fa fa-spinner"></i> Tài liệu mới nhất</h4>
         <ul>
             <?php foreach ($newest_books as $book) : ?>
                 <li>
@@ -153,6 +135,88 @@
             <?php endforeach; ?>
         </ul>
     </div>
+</div> 
+<!-- End side bar-->
+
+<div id="index-content-wrap">
+    <div class="section">
+        <div class="section-title">
+            <h4><i class="fa fa-bullhorn"></i> Tin tức / Thông báo</h4>
+        </div>
+        <div class="section-content articles">
+            <!-- Loop over articles here -->
+            <?php $articles = array() ?>
+            <?php foreach ($articles as $article) : ?>
+                <div class="article">
+                    <div class="article-title">
+                        <h4><?php  ?></h4>
+                        <span class="timestamp text-muted"><?php  ?></span>
+                    </div>
+                    <div class="article-content">
+                        <?php  ?>
+                    </div>
+                    <a href="#<?php  ?>" class="read-more">>> Đọc thêm</a>
+                </div>
+            <?php endforeach; ?>
+
+            <div class="article">
+                <div class="article-title">
+                    <h4>Trung Quốc tiếp tục dịch chuyển giàn khoan</h4>
+                    <span class="timestamp text-muted">(Thứ 2 - 01/06/2014)</span>
+                </div>
+                <div class="article-content">
+                    Tàu cảnh sát biển Việt Nam đang ở vùng biển Hoàng Sa (chủ quyền Việt Nam) bất ngờ bị tàu hải cảnh Trung Quốc hung hăng đâm thủng 4 lỗ.
+                </div>
+                <a href="#" class="read-more">>> Đọc thêm</a>
+            </div>
+            <div class="article">
+                <div class="article-title">
+                    <h4>Hơn 180 người thiệt mạng trong chiến dịch ở đông Ukraine</h4>
+                    <span class="timestamp text-muted">(Thứ 2 - 01/06/2014)</span>
+                </div>
+                <div class="article-content">
+                    Theo tư liệu Viện nghiên cứu Hán Nôm công bố sáng 3/6, cuốn sách giáo khoa của Trung Quốc xuất bản năm 1912 thể hiện biên giới nước này chỉ tới đảo Hải Nam.
+                </div>
+                <a href="#" class="read-more">>> Đọc thêm</a>
+            </div>
+            <div class="article">
+                <div class="article-title">
+                    <h4>Lê Tư trẻ đẹp bất chấp thời gian</h4>
+                    <span class="timestamp text-muted">(Thứ 2 - 01/06/2014)</span>
+                </div>
+                <div class="article-content">
+                    Ở Ai Cập, giá xăng chỉ tương đương 5.600 đồng mỗi lít, hai đại diện của Đông Nam Á là Indonesia và Malaysia cũng góp mặt trong danh sách này.
+                </div>
+                <a href="#" class="read-more">>> Đọc thêm</a>
+            </div>
+        </div>
+        <div class="section-footer">
+            <div class="pagination">
+                <ul class="pagination">
+                    <li class="disabled"><span>«</span></li>
+                    <li class="active"><span>1</span></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">»</a></li>	
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="section">
+        <div class="section-title">
+            <h4 class="inline"><i class="fa fa-book"></i> Tài liệu thư viện</h4>
+            <div id="search-box">
+                <form action="<?php echo route('fe.search') ?>" class="form-horizontal" method='GET'>          
+                    <input type="text"  name="keyword" placeholder="Nhập tiêu đề tài liệu để tìm kiếm . . ." style="width: 380px">
+                    <button type='submit' class='btn'><i class='fa fa-search'></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="section-content articles">
+            <?php echo View::make('frontend.partials.list_book', array('books' => $books))->render() ?>
+        </div>
+    </div>
 </div>
+
 
 @stop

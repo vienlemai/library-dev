@@ -1,13 +1,7 @@
 <div id="books-list">
     <?php
     $show_paging = (int) ($books->getTotal() / $books->getPerPage()) > 0 ? true : false;
-
     ?>
-    <?php if ($show_paging) : ?>
-        <div class='pagination'>
-            {{$books->links()}}
-        </div>
-    <?php endif; ?>
     <div class="clearfix"></div>
     <?php foreach ($books as $book): ?>
         <div class="book-box">
@@ -84,10 +78,14 @@
             </div>
         </div>
     <?php endforeach; ?>
+    <?php if ($books->count() == 0) : ?>
+        <p class="text-center">Không tìm thấy tài liệu nào!</p>
+    <?php endif; ?>
     <div class="clearfix"></div>
     <?php if ($show_paging) : ?>
         <div class='pagination'>
             {{$books->links()}}
         </div>
     <?php endif; ?>
+
 </div>        

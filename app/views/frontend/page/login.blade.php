@@ -1,7 +1,6 @@
 @extends('layouts.frontend')
 @section('content')
 <div class="contact_form text-center">
-    <div class="form_subtitle">Đăng nhập</div>
     <form name="register" action="{{route('login')}}" method="POST">   
         <div class="form_row">
             <label class="contact"><strong>Email</strong></label>
