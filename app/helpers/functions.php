@@ -29,10 +29,12 @@ function bookTypesForSelect() {
 }
 
 function storagesToJson($storages) {
-    $options = array();
-     array_push($options, array('id' => 'all', 'text' => 'Tất cả'));
+    $storageOptions = array();
+    array_push($storageOptions, array('id' => 'all', 'text' => 'Tất cả'));
     foreach ($storages as $storage) {
-        array_push($options, array('id' => $storage->id . '', 'text' => $storage->name));
+        if ($storage->isLeaf()) {
+            array_push($storageOptions, array('id' => $storage->id . '', 'text' => $storage->name));
+        }
     }
-    return json_encode($options);
+    return json_encode($storageOptions);
 }
