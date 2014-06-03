@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('currentMenu','readers')
+@section('currentMenu','articles')
 @section('content')
 <div class="wrap">
     <div class='head'>
@@ -24,7 +24,6 @@
                 echo View::make('article.partials._list', array(
                     'articles' => $articles,
                 ))->render();
-
                 ?>
             </div>
         </div>

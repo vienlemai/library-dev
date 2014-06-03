@@ -26,14 +26,13 @@
                     <div class="span10">
                         @include('partials.flash')    
                         {{ Former::horizontal_open(route('article.store'))->method('POST') }}
-                        {{Former::xxlarge_text('title')
-								->label('Tiêu đề (*)')
+                        {{Former::xxlarge_text('title')->label('Tiêu đề (*)')
                         }}
                         {{Former::textarea('content')
                         ->label('Nội dung')
                         ->id('article-content')
-                        ->class('input-large editor')
-                        ->rows(20)
+                        ->class('editor')
+                        ->rows(15)
                         }}	
 
                         {{Former::actions()

@@ -16,32 +16,33 @@
                 <th style='width:20%'>Tiêu đề</th>
                 <th style='width:15%'>Ngày đăng</th>
                 <th style='width:15%'>Người đăng</th>
-                <th style='width:7%'>Tình trạng</th>
                 <th style='width:10%'>Thao tác</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($articles as $row): ?>
                 <tr>
-                    <td>{{$row->title}}</td>
+                    <td>
+                        <a class='text-info' href="{{route('article.edit',$row->id)}}">{{$row->title}}</a>
+                    </td>
                     <td>{{$row->created_at->format('H:i, d \t\h\á\n\g m, Y')}}</td>
                     <td>{{$row->creator->full_name}}</td>
                     <td>
                         <?php if ($row->isActive()): ?>
-                            <a href="{{route('article.unactive', array($row->id))}}">
-                                <img src="<?php echo asset('img/approve.png') ?>"/>
+                            <a class="text-muted" href="{{route('article.unactive', array($row->id))}}">
+                                <i class="icon-eye-close"></i> Ẩn
                             </a>
                         <?php else: ?>
-                            <a href="{{route('article.active', array($row->id)) }}">
-                                <img src="<?php echo asset('img/dis-approve.png') ?>"/>
+                            <a  class="text-success" href="{{route('article.active', array($row->id)) }}">
+                                <i class="icon-eye-open"></i> Hiện
                             </a>
                         <?php endif; ?>
-                    </td>
-                    <td>
+                        &nbsp;
                         <a class='text-warning' href="{{route('article.edit',$row->id)}}">
-                            <i class='i-pencil'></i>
+                            <i class="i-pencil"></i>
                             Sửa
                         </a>
+                        &nbsp;
                         <a class='text-error' href="{{route('article.delete',$row->id)}}" data-confirm="Bạn có chắc chắn muốn xóa thông báo {{$row->title}}" data-method="delete" data-token="{{csrf_token()}}">
                             <i class='i-cancel-2'></i>
                             Xóa
