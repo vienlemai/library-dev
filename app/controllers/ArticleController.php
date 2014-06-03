@@ -64,14 +64,14 @@ class ArticleController extends BaseController {
 
     public function active($id) {
         $article = Article::findOrFail($id);
-        $article->active();
+        $article->makeActive();
         Session::flash('success', 'Kích hoạt thành công 1 thông báo');
         return Redirect::route('articles');
     }
 
     public function unActive($id) {
         $article = Article::findOrFail($id);
-        $article->unActive();
+        $article->makeInactive();
         Session::flash('success', 'Ẩn thành công 1 thông báo');
         return Redirect::route('articles');
     }

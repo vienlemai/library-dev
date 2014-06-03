@@ -5,9 +5,12 @@
     <div id="menu">
         <ul>           
             <!-- Selected-->
-            <li >
+            <li>
                 <a href="<?php echo route('fe.home') ?>"><i class="fa fa-home"></i>  Trang chủ</a>
             </li>
+            <li>
+                <a href="<?php echo route('fe.articles') ?>"><i class="fa fa-bullhorn"></i>  Thông báo</a>
+            </li>            
             <li><a href="<?php echo route('fe.search') ?>"><i class="fa fa-search"></i> Tìm kiếm</a></li>
             <li class="dropdown" id="category-menu">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
