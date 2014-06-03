@@ -91,6 +91,7 @@ class Permission {
         6 => array(
             'title' => 'Quản trị hệ thống',
             'menus' => array(
+                'articles' => 'Thông báo',
                 'configs' => 'Cấu hình',
                 'users' => 'Nhân viên',
                 'send.mail' => 'Gửi mail thu hồi tài liệu'
@@ -102,7 +103,12 @@ class Permission {
                 'user.create',
                 'user.view',
                 'user.edit',
-                'user.permission'
+                'user.permission',
+                'articles',
+                'article.create',
+                'article.edit',
+                'article.active',
+                'article.unactive',
             ),
         ),
     );

@@ -94,6 +94,11 @@ Route::group(array('prefix' => 'admin'), function () {
         'uses' => 'UserController@search'
     ));
 
+    Route::get('article/search', array(
+        'as' => 'article.search',
+        'uses' => 'ArticleController@search',
+    ));
+
     Route::get('book/exportchoose/{permission}', array(
         'as' => 'book.export.choose',
         'uses' => 'BookController@exportChoose'
@@ -290,6 +295,28 @@ Route::group(array('prefix' => 'admin'), function () {
             'as' => 'order',
             'uses' => 'OrderController@index',
         ));
+
+        Route::get('articles', array(
+            'as' => 'articles',
+            'uses' => 'ArticleController@index'
+        ));
+
+        Route::get('article/create', array(
+            'as' => 'article.create',
+            'uses' => 'ArticleController@create',
+        ));
+        Route::get('article/edit/{id}', array(
+            'as' => 'article.edit',
+            'uses' => 'ArticleController@edit',
+        ));
+        Route::get('article/active/{id}', array(
+            'as' => 'article.active',
+            'uses' => 'ArticleController@active',
+        ));
+        Route::get('article/unactive/{id}', array(
+            'as' => 'article.unactive',
+            'uses' => 'ArticleController@unActive',
+        ));
     });
 
 
@@ -382,6 +409,20 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::post('book/publish/many', array(
             'as' => 'book.publish.many',
             'uses' => 'BookController@publishMany'
+        ));
+
+        Route::post('article/store', array(
+            'as' => 'article.store',
+            'uses' => 'ArticleController@store',
+        ));
+        Route::post('article/update/{id}', array(
+            'as' => 'article.update',
+            'uses' => 'ArticleController@update',
+        ));
+
+        Route::delete('article/delete/{id}', array(
+            'as' => 'article.delete',
+            'uses' => 'ArticleController@delete',
         ));
     });
 });
