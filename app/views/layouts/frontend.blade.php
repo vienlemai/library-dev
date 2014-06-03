@@ -20,7 +20,8 @@
             </div><!--end of center content-->
             <div class="margin-15"></div>
             <div class="footer">
-                <div class="left_footer">
+                <div class="left_footer text-italic text-muted">
+                    Bản quyền thuộc về Thư Viện T52 - 2014
                 </div>
                 <div class="right_footer">
                     <a href="#">Trang chủ</a>

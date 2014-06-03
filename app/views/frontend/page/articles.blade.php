@@ -9,7 +9,7 @@
     <?php foreach ($articles as $article) : ?>
         <div class="article">
             <div class="article-title">
-                <h4><?php echo $article->title ?></h4>
+               <h4><a href="<?php echo route('fe.article_details', $article->id) ?>"><?php echo $article->title ?></a></h4>
                 <span class="timestamp text-muted"><?php echo date('m/d/Y - H:i', strtotime($article->created_at)) ?></span>
             </div>
             <div class="article-content">
