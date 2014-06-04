@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder {
         //$this->call('SystemConfigSeed');
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
-        $this->call('UserTableSeeder');
+        $this->call('StorageTableSeeder');
         $this->command->info('table seeded!');
     }
 
@@ -36,18 +36,17 @@ class StorageTableSeeder extends Seeder {
 
     public function run() {
         DB::table('storages')->truncate();
-        $khoA = Storage::create(array('name' => 'Kho A'));
-        $khoB = Storage::create(array('name' => 'Kho B'));
+        $khoA = Storage::create(array('name' => 'Tài liệu tham khảo'));
+        $khoB = Storage::create(array('name' => 'Tư liệu giáo khoa'));
         $khoB->children()->create(array('name' => 'Luật'));
         $khoB->children()->create(array('name' => 'Tham Khảo'));
         $khoB->children()->create(array('name' => 'Nghiệp vụ cơ bản'));
         $child = $khoB->children()->create(array('name' => 'Chuyên ngành'));
         $child->children()->create(array('name' => 'Đường thủy'));
         $child->children()->create(array('name' => 'Đường bộ - Đường sắt'));
-        $child->children()->create(array('name' => 'Cảnh sát môi trường'));
-        $child->children()->create(array('name' => 'Cảnh sát kinh tế'));
-        $child->children()->create(array('name' => 'Kỹ thuật hình sự'));
-        $child->children()->create(array('name' => 'CA phụ trách xã'));
+        $child->children()->create(array('name' => 'Ma túy'));
+        $child->children()->create(array('name' => 'Hình sự'));
+        $child->children()->create(array('name' => 'Quản lý hành chính'));
     }
 
 }
