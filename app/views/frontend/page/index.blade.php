@@ -135,6 +135,9 @@
             <?php endforeach; ?>
         </ul>
     </div>
+    <div class="sidebar-box">
+        <h4><i class="fa fa-user"></i> Bạn đọc mới</h4>
+    </div>
 </div> 
 <!-- End side bar-->
 
@@ -144,61 +147,18 @@
             <h4><i class="fa fa-bullhorn"></i> Tin tức / Thông báo</h4>
         </div>
         <div class="section-content articles">
-            <!-- Loop over articles here -->
-            <?php $articles = array() ?>
             <?php foreach ($articles as $article) : ?>
                 <div class="article">
                     <div class="article-title">
-                        <h4><?php  ?></h4>
-                        <span class="timestamp text-muted"><?php  ?></span>
+                        <h4><a href="<?php echo route('fe.article_details', $article->id) ?>"><?php echo $article->title ?></a></h4>
+                        <span class="timestamp text-muted"><?php echo date('m/d/Y - H:i', strtotime($article->created_at)) ?></span>
                     </div>
                     <div class="article-content">
-                        <?php  ?>
+                        <?php echo truncate(strip_tags($article->content), 100) ?>
                     </div>
-                    <a href="#<?php  ?>" class="read-more">>> Đọc thêm</a>
+                    <a href="<?php echo route('fe.article_details', $article->id) ?>" class="read-more">>> Đọc thêm</a>
                 </div>
             <?php endforeach; ?>
-
-            <div class="article">
-                <div class="article-title">
-                    <h4>Trung Quốc tiếp tục dịch chuyển giàn khoan</h4>
-                    <span class="timestamp text-muted">(Thứ 2 - 01/06/2014)</span>
-                </div>
-                <div class="article-content">
-                    Tàu cảnh sát biển Việt Nam đang ở vùng biển Hoàng Sa (chủ quyền Việt Nam) bất ngờ bị tàu hải cảnh Trung Quốc hung hăng đâm thủng 4 lỗ.
-                </div>
-                <a href="#" class="read-more">>> Đọc thêm</a>
-            </div>
-            <div class="article">
-                <div class="article-title">
-                    <h4>Hơn 180 người thiệt mạng trong chiến dịch ở đông Ukraine</h4>
-                    <span class="timestamp text-muted">(Thứ 2 - 01/06/2014)</span>
-                </div>
-                <div class="article-content">
-                    Theo tư liệu Viện nghiên cứu Hán Nôm công bố sáng 3/6, cuốn sách giáo khoa của Trung Quốc xuất bản năm 1912 thể hiện biên giới nước này chỉ tới đảo Hải Nam.
-                </div>
-                <a href="#" class="read-more">>> Đọc thêm</a>
-            </div>
-            <div class="article">
-                <div class="article-title">
-                    <h4>Lê Tư trẻ đẹp bất chấp thời gian</h4>
-                    <span class="timestamp text-muted">(Thứ 2 - 01/06/2014)</span>
-                </div>
-                <div class="article-content">
-                    Ở Ai Cập, giá xăng chỉ tương đương 5.600 đồng mỗi lít, hai đại diện của Đông Nam Á là Indonesia và Malaysia cũng góp mặt trong danh sách này.
-                </div>
-                <a href="#" class="read-more">>> Đọc thêm</a>
-            </div>
-        </div>
-        <div class="section-footer">
-            <div class="pagination">
-                <ul class="pagination">
-                    <li class="disabled"><span>«</span></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">»</a></li>	
-                </ul>
-            </div>
         </div>
 
     </div>

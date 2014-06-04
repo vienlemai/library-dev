@@ -1,6 +1,7 @@
 <?php
 
 class Article extends Illuminate\Database\Eloquent\Model {
+
     public $fillable = array(
         'title',
         'content',
@@ -9,8 +10,8 @@ class Article extends Illuminate\Database\Eloquent\Model {
     protected static function boot() {
         parent::boot();
         static::creating(function($model) {
-            $model->user_id = Auth::user()->loginable_id;
-        });
+                    $model->user_id = Auth::user()->loginable_id;
+                });
     }
 
     public function creator() {
@@ -41,12 +42,12 @@ class Article extends Illuminate\Database\Eloquent\Model {
         return Validator::make($input, $rules, $messages);
     }
 
-    public function active() {
+    public function makeActive() {
         $this->active = true;
         $this->save();
     }
 
-    public function unActive() {
+    public function makeInactive() {
         $this->active = false;
         $this->save();
     }

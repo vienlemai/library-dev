@@ -667,7 +667,7 @@ div.pagination span.disabled {
 #left-sidebar .sidebar-box h4 {
     padding-left: 5px;
     color: #734633;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
 }
 #left-sidebar .sidebar-box  ul li > a {
@@ -681,9 +681,14 @@ div.pagination span.disabled {
     border-bottom: 1px solid#eee;
 }
 .article .article-title h4 {
-    font-size: 14px;
     margin-bottom: 0;
+}
+.article .article-title h4 a {
+    font-size: 14px;
     color: #422D2D;
+}
+.article .article-title h4 a:hover {
+    color: #9C5500;
 }
 .article .article-title h4 .timestamp {
     font-weight: 200;
