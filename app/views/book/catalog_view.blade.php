@@ -46,6 +46,7 @@
                             <a href="{{route('book.edit',$book->id)}}" class="btn btn-primary">Chỉnh sửa</a>                            
                         <?php endif; ?>
                         <a href="#" onclick="window.open('{{route('book.barcode',$book->id)}}')" class="btn btn-primary"><i class="icon-print"></i> In mã vạch</a>
+                        <a href="#" onclick="window.open('{{route('book.label',$book->id)}}')" class="btn btn-primary"><i class="icon-print"></i> In nhãn</a>
                     </div>
 
                 </div>

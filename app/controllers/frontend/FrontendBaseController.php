@@ -19,7 +19,8 @@ class FrontendBaseController extends BaseController {
             Session::put('storage_html', $storage_html);
         }
         View::share('storage_html', $storage_html);
-        View::share('slide_images', Slider::scanImages());
+        $photo_urls = Slider::scanImages();
+        View::share('slide_images', $photo_urls);
     }
 
     protected function booksInCart() {

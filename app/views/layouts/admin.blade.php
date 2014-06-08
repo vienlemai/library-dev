@@ -9,7 +9,7 @@
         <![endif]-->
         <title>Thư viện online - Quản trị</title>
         <link rel="icon" type="image/ico" href="favicon.ico"/>
- 
+
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
@@ -45,7 +45,7 @@
                 @yield('extra_html')
             </div>
         </div>
-        
+
         <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/plugins/jquery.iframe-transport.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/plugins/jquery.fileupload.js')}}}"></script>

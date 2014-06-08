@@ -24,7 +24,8 @@ class BookItem extends Eloquent {
     protected $fillable = array(
         'barcode',
         'status',
-        'cutter'
+        'sequence',
+        'book_id',
     );
 
     public function book() {

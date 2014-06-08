@@ -44,6 +44,8 @@ p.more_details{
     width:900px;
     height: auto;
     margin:auto;
+	border-bottom-left-radius: 18px;
+	border-bottom-right-radius: 18px;
     background-color:#FFFFFF;
 }
 .header{
@@ -56,6 +58,7 @@ p.more_details{
 #banner, #banner img {
     max-height: 100px;
     min-height: 100px;
+	width: 100%;
 }
 /*-----------------------------menu-------------------*/
 #menu{
@@ -551,9 +554,9 @@ div.pagination span.disabled {
 }
 /*---------------footer------------------------*/
 .footer{
-    height:100px;
+    height:88px;
     border-top:1px #b2b2b2 dashed;
-    background:url(/img/footer_bg.gif) no-repeat bottom;
+    //background:url(/img/footer_bg.gif) no-repeat bottom;
 }
 .left_footer{
     float:left;
@@ -708,4 +711,11 @@ div.pagination span.disabled {
     color: #773434;
     font-style: italic;
     margin-right: 15px;
+}
+
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    display: block;
+    height: 180px;
+    line-height: 1;
+    width: 100%;
 }

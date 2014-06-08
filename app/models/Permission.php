@@ -16,6 +16,7 @@ class Permission {
                 'book.edit',
                 'book.catalog.view',
                 'book.barcode',
+                'book.label',
                 'book.submit',
                 'book.save',
                 'book.update',
@@ -34,6 +35,7 @@ class Permission {
                 'book.disapprove',
                 'book.publish',
                 'book.barcode',
+                'book.label',
             ),
         ),
         3 => array(
@@ -56,7 +58,8 @@ class Permission {
                 'reader.card',
                 'reader.pause',
                 'reader.unpause',
-                'order'
+                'order',
+                'book.label',
             ),
         ),
         4 => array(

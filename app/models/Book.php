@@ -1,7 +1,6 @@
 <?php
 
 class Book extends Eloquent {
-
     /**
      * Table name
      */
@@ -13,7 +12,6 @@ class Book extends Eloquent {
     /**
      * Status SS_ADDED when cataloger add a book to database
      */
-
     const SS_ADDED = 0;
 
     /**
@@ -64,14 +62,15 @@ class Book extends Eloquent {
         10 => 'attach',
         11 => 'organization',
         12 => 'language',
-        13 => 'type_number',
-        14 => 'price',
-        15 => 'storage',
-        16 => 'number',
-        17 => 'level',
-        18 => 'book_scope',
-        19 => 'permission',
-        20 => 'another_infor'
+        13 => 'cutter',
+        14 => 'type_number',
+        15 => 'price',
+        16 => 'storage',
+        17 => 'number',
+        18 => 'level',
+        19 => 'book_scope',
+        20 => 'permission',
+        21 => 'another_infor'
     );
     public static $magazineTitle = array(
         1 => 'title',
@@ -82,14 +81,15 @@ class Book extends Eloquent {
         6 => 'magazine_local',
         7 => 'organization',
         8 => 'language',
-        9 => 'type_number',
-        10 => 'price',
-        11 => 'storage',
-        12 => 'number',
-        13 => 'level',
-        14 => 'book_scope',
-        15 => 'permission',
-        16 => 'another_infor'
+        9 => 'cutter',
+        10 => 'type_number',
+        11 => 'price',
+        12 => 'storage',
+        13 => 'number',
+        14 => 'level',
+        15 => 'book_scope',
+        16 => 'permission',
+        17 => 'another_infor'
     );
     public static $storageTitle = array(
         1 => 'Kho A',
@@ -151,16 +151,15 @@ class Book extends Eloquent {
         3 => 'Đã lưu hành',
     );
     public $mapStorage = array(
-        1 => 'Kho A',
-        3 => 'Kho B/Luật',
-        4 => 'Kho B/Tham khảo',
-        5 => 'Kho B/Nghiệp vụ cơ bản',
-        7 => 'Kho B/Chuyên ngành/Đường thủy',
-        8 => 'Kho B/Chuyên ngành/Đường bộ - Đường sắt',
-        9 => 'Kho B/Chuyên ngành/Cảnh sát môi trường',
-        10 => 'Kho B/Chuyên ngành/Cảnh sát kinh tế',
-        11 => 'Kho B/Chuyên ngành/Kỹ thuật hình sự',
-        12 => 'Kho B/Chuyên ngành/CA phụ trách xã',
+        1 => 'Tài liệu tham khảo',
+        3 => 'Tư liệu giáo khoa/Luật',
+        4 => 'Tư liệu giáo khoa/Tham khảo',
+        5 => 'Tư liệu giáo khoa/Nghiệp vụ cơ bản',
+        7 => 'Tư liệu giáo khoa/Chuyên ngành/Đường thủy',
+        8 => 'Tư liệu giáo khoa/Chuyên ngành/Đường bộ - Đường sắt',
+        9 => 'Tư liệu giáo khoa/Chuyên ngành/Ma túy',
+        10 => 'Tư liệu giáo khoa/Chuyên ngành/Hình sự',
+        11 => 'Tư liệu giáo khoa/Chuyên ngành/Quản lý hành chính',
     );
 
     /**
@@ -254,14 +253,37 @@ class Book extends Eloquent {
     public static function boot() {
         parent::boot();
         static::creating(function($book) {
-                    $book->status = Book::SS_ADDED;
-                    $book->created_by = Auth::user()->loginable_id;
-                    $book->barcode_printed = 0;
-                    $time = time();
-                    $vnCode = '893';
-                    $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
-                    $book->barcode = $random;
-                });
+            $book->status = Book::SS_ADDED;
+            $book->created_by = Auth::user()->loginable_id;
+            $book->barcode_printed = 0;
+            $time = time();
+            $vnCode = '893';
+            $random = $vnCode . substr(number_format($time * mt_rand(), 0, '', ''), 0, 6);
+            $book->barcode = $random;
+        });
+        static::created(function($book) {
+            DB::table('book_type_controls')
+                ->insert(array(
+                    'book_id' => $book->id,
+                    'book_type_number' => $book->type_number,
+                    'max' => $book->number,
+            ));
+            $number = (int) $book->number;
+            $book->saveBookItem(0, $number);
+        });
+    }
+
+    public function updateNumer($number) {
+        $this->number = $this->number + $number;
+        $this->save();
+        $bookTypeControll = DB::table('book_type_controls')
+            ->where('book_type_number', $this->type_number)
+            ->first();
+        $max = $bookTypeControll->max;
+        DB::table('book_type_controls')
+            ->where('book_type_number', $this->type_number)
+            ->update(array('max' => $max + $number));
+        $this->saveBookItem($max, $number);
     }
 
     public function scopeStudent($query) {
@@ -319,13 +341,17 @@ class Book extends Eloquent {
             'title' => 'required|min:5',
             'number' => 'required|integer|min:1',
             'storage' => 'required',
+            'cutter' => 'required',
+            'type_number' => 'required'
         );
 
         $messages = array(
             'title.min' => 'tối thiểu :min ký tự',
             'min' => 'xin nhập tối thiểu :min',
             'required' => 'không được để trống',
-            'integer' => 'xin nhập vào số nguyên'
+            'integer' => 'xin nhập vào số nguyên',
+            'cutter.required' => 'Không được để trống số cutter',
+            'type_number.required' => 'Không được để trống số phân loại',
         );
         return Validator::make($input, $rules, $messages);
     }
@@ -361,16 +387,19 @@ class Book extends Eloquent {
 //        return ucwords($value);
 //    }
 
-    public function saveBookItem() {
-        for ($i = 1; $i <= $this->number; $i++) {
-            $code = $this->barcode . sprintf("%03s", $i);
+    public function saveBookItem($start, $number) {
+        $start+= 1;
+        for ($i = 1; $i <= $number; $i++) {
+            $code = $this->barcode . sprintf("%03s", $start);
             $fullCode = self::ean13_check_digit($code);
             $bItem = new BookItem(array(
                 'barcode' => $fullCode,
                 'status' => BookItem::SS_STORAGED,
-                'cutter' => $this->id . '-' . $i,
+                'sequence' => $start,
+                'book_id' => $this->id,
             ));
-            $this->bookItems()->save($bItem);
+            $bItem->save();
+            $start++;
         }
     }
 
@@ -381,9 +410,9 @@ class Book extends Eloquent {
         }
         if (isset($params['keyword']) && $params['keyword'] != '') {
             $query = $query->where(function($query) use($params) {
-                        $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
-                        $query->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
-                    });
+                $query->where('title', 'LIKE', '%' . $params['keyword'] . '%');
+                $query->orWhere('author', 'LIKE', '%' . $params['keyword'] . '%');
+            });
         }
         if (isset($params['reader_type'])) {
             $query = $query->where('permission', 'LIKE', '%' . $params['reader_type'] . '%');
@@ -405,15 +434,15 @@ class Book extends Eloquent {
                 ->take(5)
                 ->get();
     }
-    
+
     public static function topBorrowing() {
-       return self::level(array(2, 3, 4))
+        return self::level(array(2, 3, 4))
                 ->orderBy('lend_count', 'DESC')
                 ->publish()
                 ->take(5)
                 ->get();
     }
-    
+
     public function scopeLevel($query, $levels = array()) {
         if (!empty($levels)) {
             $query->whereNotIn('level', $levels);
@@ -447,8 +476,8 @@ class Book extends Eloquent {
 
     public static function findBorrowingByReader($reader) {
         return Circulation::where('reader_id', $reader->id)->with('bookItem.book')
-                        ->where('returned', '0')
-                        ->lists('books.id');
+                ->where('returned', '0')
+                ->lists('books.id');
     }
 
     public static function bookValidate($input) {
@@ -458,13 +487,17 @@ class Book extends Eloquent {
             'number' => 'required|integer|min:1',
             'pages' => 'required|integer|min:1',
             'storage' => 'required',
+            'cutter' => 'required',
+            'type_number' => 'required'
         );
 
         $messages = array(
             'title.min' => 'tối thiểu :min ký tự',
             'min' => 'xin nhập tối thiểu :min',
             'required' => 'không được để trống',
-            'integer' => 'xin nhập vào số nguyên'
+            'integer' => 'xin nhập vào số nguyên',
+            'cutter.required' => 'Không được để trống số cutter',
+            'type_number.required' => 'Không được để trống số phân loại',
         );
         return Validator::make($input, $rules, $messages);
     }
@@ -486,6 +519,8 @@ class Book extends Eloquent {
             'title' => 'required',
             'author' => 'required',
             'number' => 'required|integer|min:1',
+            'cutter' => 'required',
+            'type_number' => 'required',
             'pages' => 'required|integer|min:1',
             'storage' => 'required',
             'level' => 'required|in:bình thường,mật,tối mật, tuyệt mật',
@@ -496,6 +531,8 @@ class Book extends Eloquent {
         $messages = array(
             'title.required' => 'Không được để trống tiêu đề',
             'author.required' => 'Không được để trống tác giả',
+            'cutter.required' => 'Không được để trống số cutter',
+            'type_number.required' => 'Không được để trống số phân loại',
             'number.required' => 'Không được để trống số lượng tài liệu',
             'number.integer' => 'Số lượng phải là một số nguyên',
             'number.min' => 'Số lượng tối thiểu lớn hơn hoặc bằng 1',
@@ -518,6 +555,8 @@ class Book extends Eloquent {
         $rules = array(
             'title' => 'required',
             'number' => 'required|integer|min:1',
+            'cutter' => 'required',
+            'type_number' => 'required',
             'storage' => 'required',
             'level' => 'in:bình thường,mật,tối mật, tuyệt mật',
             'book_scope' => 'in:tại chỗ,về nhà',
@@ -527,6 +566,8 @@ class Book extends Eloquent {
         $messages = array(
             'title.required' => 'Không được để trống tiêu đề',
             'author.required' => 'Không được để trống tác giả',
+            'cutter.required' => 'Không được để trống số cutter',
+            'type_number.required' => 'Không được để trống số phân loại',
             'number.required' => 'Không được để trống số lượng tài liệu',
             'number.integer' => 'Số lượng phải là một số nguyên',
             'number.min' => 'Số lượng tối thiểu lớn hơn hoặc bằng 1',
@@ -598,8 +639,8 @@ class Book extends Eloquent {
 
     public static function dataForExcel($type) {
         $books = Book::where('status', $type)
-                ->where('book_type', Book::TYPE_BOOK)
-                ->get();
+            ->where('book_type', Book::TYPE_BOOK)
+            ->get();
         $dataToExport = array();
         if (!$books->isEmpty()) {
             $titles = array();
@@ -635,8 +676,8 @@ class Book extends Eloquent {
             }
         }
         $magazines = Book::where('status', $type)
-                ->where('book_type', Book::TYPE_MAGAZINE)
-                ->get();
+            ->where('book_type', Book::TYPE_MAGAZINE)
+            ->get();
         if (!$books->isEmpty()) {
             $mtitles = array();
             foreach (Book::$magazineTitle as $k => $v) {
@@ -696,6 +737,10 @@ class Book extends Eloquent {
 
     public function scopePublish($query) {
         return $query->where('status', self::SS_PUBLISHED);
+    }
+
+    public function scopePermission($query, $readerType) {
+        return $query->where('permission', 'like', '%' . $readerType . '%');
     }
 
 }

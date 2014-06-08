@@ -1,5 +1,3 @@
-<h2>Thẻ bạn đọc {{$reader->ful_name}}</h2>
-<br>
 <table style="border: solid 1px #000000; padding: 5px">
     <tbody>
         <tr>
@@ -16,11 +14,23 @@
             </td>
             <td>Họ và tên: {{$reader->full_name}}</td>
         </tr>
-        <tr>
-            <td>
-                Lớp: {{$reader->class}}
-            </td>
-        </tr>
+        <?php if ($reader->isStudent()): ?>
+            <tr>
+                <td>
+                    Lớp: {{$reader->class}}
+                </td>
+            </tr>
+        <?php elseif ($reader->isStaff()): ?>
+            <tr>
+                <td>
+                    Đơn vị: {{$reader->department}}
+                </td>
+            </tr>
+        <?php else: ?>
+            <tr>
+                <td></td>
+            </tr>
+        <?php endif; ?>
         <tr>
             <td>
                 Mã thẻ: {{$reader->card_number}}

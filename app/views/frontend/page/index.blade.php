@@ -1,5 +1,22 @@
 @extends('layouts.frontend')
 @section('content')
+<div id="carousel-example-generic" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <?php foreach ($slide_images as $key => $photo_url) { ?>
+            <li data-target="#carousel-example-generic" data-slide-to="<?php echo $key ?>" class="<?php echo ($key == 0) ? 'active' : '' ?>"></li>
+        <?php } ?>
+    </ol>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <?php foreach ($slide_images as $key => $photo_url) { ?>
+            <div class="item <?php echo ($key == 0) ? 'active' : '' ?>">
+                <img src="<?php echo asset($photo_url) ?>"/>
+            </div> 
+        <?php } ?>
+
+    </div>
+</div>
 <div id="left-sidebar">
     <div class="sidebar-box">
         <h4><i class="fa fa-spinner"></i> Tài liệu mới nhất</h4>
@@ -135,33 +152,10 @@
             <?php endforeach; ?>
         </ul>
     </div>
-    <div class="sidebar-box">
-        <h4><i class="fa fa-user"></i> Bạn đọc mới</h4>
-    </div>
 </div> 
 <!-- End side bar-->
 
 <div id="index-content-wrap">
-    <div class="section">
-        <div class="section-title">
-            <h4><i class="fa fa-bullhorn"></i> Tin tức / Thông báo</h4>
-        </div>
-        <div class="section-content articles">
-            <?php foreach ($articles as $article) : ?>
-                <div class="article">
-                    <div class="article-title">
-                        <h4><a href="<?php echo route('fe.article_details', $article->id) ?>"><?php echo $article->title ?></a></h4>
-                        <span class="timestamp text-muted"><?php echo date('m/d/Y - H:i', strtotime($article->created_at)) ?></span>
-                    </div>
-                    <div class="article-content">
-                        <?php echo truncate(strip_tags($article->content), 100) ?>
-                    </div>
-                    <a href="<?php echo route('fe.article_details', $article->id) ?>" class="read-more">>> Đọc thêm</a>
-                </div>
-            <?php endforeach; ?>
-        </div>
-
-    </div>
     <div class="section">
         <div class="section-title">
             <h4 class="inline"><i class="fa fa-book"></i> Tài liệu thư viện</h4>
@@ -177,6 +171,4 @@
         </div>
     </div>
 </div>
-
-
 @stop

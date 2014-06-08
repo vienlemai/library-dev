@@ -20,13 +20,14 @@
             </div><!--end of center content-->
             <div class="margin-15"></div>
             <div class="footer">
-                <div class="left_footer text-italic text-muted">
-                    Bản quyền thuộc về Thư Viện T52 - 2014
-                </div>
-                <div class="right_footer">
-                    <a href="#">Trang chủ</a>
-                    <a href="#">Giới thiệu</a>
-                </div>
+                <!--                <div class="left_footer text-italic text-muted">
+                                    Bản quyền thuộc về Thư Viện T52 - 2014
+                                </div>
+                                <div class="right_footer">
+                                    <a href="#">Trang chủ</a>
+                                    <a href="#">Giới thiệu</a>
+                                </div>-->
+                <img src="<?php echo asset('img/footer.png') ?>"/>
             </div>
         </div>
         <script type="text/javascript" src="{{{asset('js/plugins/jquery-2.0.0.min.js')}}}"></script>

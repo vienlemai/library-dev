@@ -1,6 +1,6 @@
 <div class="header">
     <div id="banner">
-        <img src="<?php echo $slide_images[0]?>">
+        <img src="<?php echo asset('img/banner.jpg') ?>">
     </div>
     <div id="menu">
         <ul>           
@@ -27,7 +27,7 @@
                 $books_count = count($books_in_cart);
                 ?>
                 <li><a href="<?php echo route('fe.cart') ?>"><i class="fa fa-shopping-cart"></i>  Giỏ sách (<span id='books-counter'><?php echo $books_count ?></span>)</a></li>
-                <li class="dropdown" id="user-box">
+                <li class="dropdown" id="user-box_">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user"></i> Trang cá nhân
                         <span class="caret"></span>
@@ -49,7 +49,7 @@
                 </li>
 
             <?php else: ?>
-                <li class="dropdown" id="user-box">
+                <li class="dropdown" id="user-box_">
                     <a href="{{route('fe.login')}}"><i class="fa fa-sign-in"></i>  Đăng nhập</a>
                 </li>
             <?php endif; ?>

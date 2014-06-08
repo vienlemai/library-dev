@@ -69,6 +69,9 @@
                     <table cellpadding='0' cellspacing='0' class='bordered-b sort' width='100%'>
                         <thead>
                             <tr>
+                                <th style='width:5%'>
+                                    <input class='checkall' type='checkbox'>
+                                </th>
                                 <th style='width:10%'>Mã thẻ</th>
                                 <th style='width:20%'>Họ tên</th>
                                 <th style='width:10%'>Loại bạn đọc</th>
@@ -78,8 +81,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <form action="{{route('reader.cards')}}" method="POST" class="form-check" target="_blank">
+                            {{Form::token()}}
                             <?php foreach ($readers as $reader): ?>
                                 <tr>
+                                    <td>
+                                        <input name="readerId[]" value="{{$reader->id}}" class="checkitem" type='checkbox'>
+                                    </td>
                                     <td>{{$reader->barcode}}</td>
                                     <td>{{$reader->full_name}}</td>
                                     <td>{{Reader::$TYPE_LABELS[$reader->reader_type]}}</td>
@@ -101,18 +109,18 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-
+                        </form>
                         </tbody>
                     </table>
                 </div>
                 <div class="footer">
-                    <span class="loading" style="margin-left: 50px; display: none">
-                        <img src="{{asset('img/loading.gif')}}"/>
-                        Đang tải . . .
-                    </span>
-                    <div class='side fr'>
-                        <div class='pagination'>
-                            {{$readers->links()}}
+                    <div class="side">
+                        <button class="btn btn-primary btn-check-submit" data-url="{{route('reader.cards')}}">Tạo thẻ</button>
+                        <span class="check-info" style="display: none"></span>
+                        <div class='side fr'>
+                            <div class='pagination'>
+                                {{$readers->links()}}
+                            </div>
                         </div>
                     </div>
                 </div>

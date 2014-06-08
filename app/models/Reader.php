@@ -175,6 +175,13 @@ class Reader extends Eloquent implements IActivityAuthor {
         // Write create reader event
         static::created(function($reader) {
             Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
+            $articleTitle = 'Bạn đọc mới';
+            $articleContent = $reader->getTypeName() . $reader->full_name . ' vừa đăng ký là nhân viên của thư viện';
+            $article = new Article(array(
+                'title' => $articleTitle,
+                'content' => $articleContent,
+            ));
+            $article->save();
         });
     }
 
@@ -212,7 +219,7 @@ class Reader extends Eloquent implements IActivityAuthor {
     public function getTypeName() {
         switch ($this->reader_type) {
             case self::TYPE_STUDENT:
-                return 'Sinh viên';
+                return 'Học viên';
             case self::TYPE_STAFF:
                 return 'Cán bộ';
             case self::TYPE_TEACHER:

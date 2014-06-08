@@ -81,7 +81,7 @@
                         } else if ($reader->isStaff()) {
                             echo View::make('reader.partials.view_staff', array('reader' => $reader));
                         } else {
-                            
+                            echo View::make('reader.partials.view_teacher', array('reader' => $reader));
                         }
 
                         ?>

@@ -251,27 +251,32 @@ class BookController extends \BaseController {
             $v = Book::magazineValidate(Input::all());
         }
         if ($v->passes()) {
-            $permission = json_encode(Input::get('permission'));
-            $book = new Book(Input::all());
-            $book->book_type = $type;
-            $book->permission = $permission;
-            if ($book->save()) {
-                $book->saveBookItem();
-                Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
-                    . Input::get('title')
-                    . '"</strong>, số lượng : <strong>'
-                    . Input::get('number') . ' cuốn</strong>');
+            $book = Book::where('type_number', Input::get('type_number'))
+                ->first();
+            if ($book === null) {
+                $permission = json_encode(Input::get('permission'));
+                $book = new Book(Input::all());
+                $book->book_type = $type;
+                $book->permission = $permission;
+                if ($book->save()) {
+                    Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
+                        . Input::get('title')
+                        . '"</strong>, số lượng : <strong>'
+                        . Input::get('number') . ' cuốn</strong>');
 
-                $redirect = Input::get('redirect');
-                if ($redirect == 'create') {
-                    return Redirect::route('book.create', $type);
-                } elseif ($redirect == 'index') {
-                    return Redirect::route('book.catalog');
+                    $redirect = Input::get('redirect');
+                    if ($redirect == 'create') {
+                        return Redirect::route('book.create', $type);
+                    } elseif ($redirect == 'index') {
+                        return Redirect::route('book.catalog');
+                    }
+                    return Redirect::route('book.view', $book->id);
+                } else {
+                    Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+                    return Redirect::route('book.create');
                 }
-                return Redirect::route('book.view', $book->id);
             } else {
-                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
-                return Redirect::route('book.create');
+                $book->updateNumer(Input::get('number'));
             }
         } else {
             return Redirect::back()->withInput()->withErrors($v->messages());
@@ -322,7 +327,10 @@ class BookController extends \BaseController {
         $book = Book::with('bookItems')->get()->find($id);
         $result = array();
         foreach ($book->bookItems as $bookItem) {
-            array_push($result, array('code' => $bookItem->barcode, 'barcode' => DNS1D::getBarcodePNGPath($bookItem->barcode, "EAN13", 1.5, 33)));
+            array_push($result, array(
+                'code' => $bookItem->barcode,
+                'barcode' => DNS1D::getBarcodePNGPath($bookItem->barcode, "EAN13",2.0,50)
+            ));
         }
         return View::make('book.barcode', array('barcode' => $result, 'book' => $book));
     }
@@ -460,14 +468,15 @@ class BookController extends \BaseController {
                 Input::file('book')->move($destinationPath, $fileName);
                 $fullPath = $destinationPath . DIRECTORY_SEPARATOR . $fileName;
                 $excelData = Excel::load($fullPath)->toArray();
-                $bookData = $excelData['Sheet1'];
-                unset($bookData[0]);
+                $bookData = array_shift($excelData);
+                //dd($bookData);
+                //unset($bookData[0]);
                 $numberOfBooks = count($bookData);
                 if ($type == Book::TYPE_BOOK) {
-                    for ($i = 1; $i <= $numberOfBooks; $i++) {
+                    for ($i = 0; $i < $numberOfBooks; $i++) {
                         $dataValidate = array();
                         foreach (Book::$titleToExcel as $k => $v) {
-                            $dataValidate[$v] = strtolower($bookData[$i][$k]);
+                            $dataValidate[$v] = $bookData[$i] !== null ? strtolower(array_shift($bookData[$i])) : '';
                         }
                         $v = Book::bookExcelValidate($dataValidate);
                         if (!$v->passes()) {
@@ -475,10 +484,10 @@ class BookController extends \BaseController {
                         }
                     }
                 } else if ($type == Book::TYPE_MAGAZINE) {
-                    for ($i = 1; $i <= $numberOfBooks; $i++) {
+                    for ($i = 0; $i < $numberOfBooks; $i++) {
                         $dataValidate = array();
                         foreach (Book::$magazineTitle as $k => $v) {
-                            $dataValidate[$v] = strtolower($bookData[$i][$k]);
+                            $dataValidate[$v] = $bookData[$i] !== null ? strtolower(array_shift($bookData[$i])) : '';
                         }
                         $v = Book::magazineExcelValidate($dataValidate);
                         if (!$v->passes()) {
@@ -506,24 +515,29 @@ class BookController extends \BaseController {
     public function postImport($type) {
         $filePath = Input::get('file_path');
         $excelData = Excel::load($filePath)->toArray();
-        $bookData = $excelData['Sheet1'];
-        unset($bookData[0]);
-        foreach ($bookData as $book) {
+        $bookData = array_shift($excelData);
+        $numberOfBooks = count($bookData);
+        for ($i = 0; $i < $numberOfBooks; $i++) {
             $bookToSave = array();
             if ($type == Book::TYPE_BOOK) {
                 foreach (Book::$titleToExcel as $k => $v) {
-                    $bookToSave[$v] = ($book[$k]);
+                    $bookToSave[$v] = $bookData[$i] !== null ? (array_shift($bookData[$i])) : '';
                 }
             } else if ($type == Book::TYPE_MAGAZINE) {
                 foreach (Book::$magazineTitle as $k => $v) {
-                    $bookToSave[$v] = ($book[$k]);
+                    $bookToSave[$v] = $bookData[$i] !== null ? (array_shift($bookData[$i])) : '';
                 }
             }
             $bookToSaveConverted = Book::convertTitleToId($bookToSave);
-            $book = new Book($bookToSaveConverted);
-            $book->book_type = $type;
-            $book->save();
-            $book->saveBookItem();
+            $book = Book::where('type_number', $bookToSaveConverted['type_number'])
+                ->first();
+            if ($book !== null) {
+                $book->updateNumer($bookToSaveConverted['number']);
+            } else {
+                $book = new Book($bookToSaveConverted);
+                $book->book_type = $type;
+                $book->save();
+            }
         }
         Session::flash('success', 'Lưu thành công ' . count($bookData) . ' tài liệu từ file excel');
         return Redirect::route('book.catalog');
@@ -580,6 +594,13 @@ class BookController extends \BaseController {
         } else {
             return Redirect::route('error', array('inventory'));
         }
+    }
+
+    public function label($id) {
+        $bookItems = BookItem::with('book')
+            ->where('book_id', $id)
+            ->get();
+        return View::make('book.label', array('bookItems' => $bookItems));
     }
 
 }

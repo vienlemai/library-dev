@@ -117,6 +117,10 @@ Route::group(array('prefix' => 'admin'), function () {
         'as' => 'order.reject',
         'uses' => 'OrderController@reject',
     ));
+    Route::post('reader/cards', array(
+        'as' => 'reader.cards',
+        'uses' => 'ReaderController@cards'
+    ));
 
 
 
@@ -163,6 +167,11 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::get('book/barcode/{id}', array(
             'as' => 'book.barcode',
             'uses' => 'BookController@barcode'
+        ));
+
+        Route::get('book/label/{id}', array(
+            'as' => 'book.label',
+            'uses' => 'BookController@label'
         ));
         Route::get('book/import/{type}', array(
             'as' => 'book.import',

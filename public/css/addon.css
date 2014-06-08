@@ -140,3 +140,7 @@ ul.pagination {
 .modal .modal-header h4{
 	color: white;
 }
+.label-contain{
+	text-align: center;
+	border: 1px solid,#000000;
+}

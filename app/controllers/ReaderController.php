@@ -88,6 +88,20 @@ class ReaderController extends \BaseController {
         return View::make('reader.card', array('reader' => $reader, 'barcode' => $barcode));
     }
 
+    public function cards() {
+        $readers = Reader::whereIn('id', Input::get('readerId'))
+            ->get();
+        $barcodes = array();
+        foreach ($readers as $r) {
+            $barcode = DNS1D::getBarcodePNGPath($r->barcode, "EAN13", 1.5, 33);
+            array_push($barcodes, $barcode);
+        }
+        return View::make('reader.cards', array(
+                'readers' => $readers,
+                'barcodes' => $barcodes,
+        ));
+    }
+
     public function pause($id) {
         $reader = Reader::findOrFail($id);
         Reader::where('id', '=', $id)->update(array('status' => Reader::SS_PAUSED));

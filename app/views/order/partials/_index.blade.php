@@ -32,7 +32,12 @@
                 ?>
                 <tr class="<?php echo $class ?>">
                     <td><?php echo $order->reader->full_name ?></td>
-                    <td><?php echo $order->book->title ?></td>
+                    <td>
+                        <a href="javascript:void(0)" data-modal="show-modal" data-url='{{route('book.library.view',$order->book->id)}}'>
+                            <i class='i-magnifier'></i>
+                            <?php echo $order->book->title ?>
+                        </a>
+                    </td>
                     <td><?php echo $order->count ?></td>
                     <td><?php echo $order->getStatusTitle() ?></td>
                     <td><?php echo $order->created_at->format('d \t\h\á\n\g m, Y') ?></td>
