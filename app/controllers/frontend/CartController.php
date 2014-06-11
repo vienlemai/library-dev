@@ -10,20 +10,20 @@ class CartController extends FrontendBaseController {
         }
         $readerId = Auth::user()->loginable_id;
         $circulations = Circulation::where('reader_id', '=', $readerId)
-                ->where('returned', '=', false)
-                ->with('bookItem', 'bookItem.book')
-                ->get();
+            ->where('returned', '=', false)
+            ->with('bookItem', 'bookItem.book')
+            ->get();
         $orders = Order::where('reader_id', $readerId)
-                ->where('status', Order::SS_NEW)
-                ->get();
+            ->where('status', Order::SS_NEW)
+            ->get();
         $cirCount = $this->_countCirculationScope($circulations);
         $orderCount = $this->_countOrderScope($orders);
         //dd($orderCount);
         Session::flash('warning', 'Hãy nhập số lượng không vượt quá số lượng cho phép');
         return View::make('frontend.cart.show', array(
-                    'cirCount' => $cirCount,
-                    'orderCount' => $orderCount,
-                    'books' => $books,
+                'cirCount' => $cirCount,
+                'orderCount' => $orderCount,
+                'books' => $books,
         ));
     }
 
@@ -39,8 +39,8 @@ class CartController extends FrontendBaseController {
         }
         if (Request::ajax()) {
             return Response::json(array(
-                        'success' => $success,
-                        'books_count' => count($this->booksInCart())
+                    'success' => $success,
+                    'books_count' => count($this->booksInCart())
             ));
         } else {
             return Redirect::to(route('fe.cart'));
@@ -58,8 +58,8 @@ class CartController extends FrontendBaseController {
             $success = false;
         }
         return Response::json(array(
-                    'success' => $success,
-                    'books_count' => count($this->booksInCart())
+                'success' => $success,
+                'books_count' => count($this->booksInCart())
         ));
     }
 
@@ -75,9 +75,9 @@ class CartController extends FrontendBaseController {
         $cart = json_decode(Input::get('cart'), true);
         $readerId = Auth::user()->loginable_id;
         $circulations = Circulation::where('reader_id', '=', $readerId)
-                ->where('returned', '=', false)
-                ->with('bookItem', 'bookItem.book')
-                ->get();
+            ->where('returned', '=', false)
+            ->with('bookItem', 'bookItem.book')
+            ->get();
         $cirCount = $this->_countCirculationScope($circulations);
         foreach ($cart as $item) {
             if ($item['scope'] == Book::SCOPE_LOCAL) {

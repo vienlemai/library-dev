@@ -16,7 +16,9 @@
                 <th style='width:5%'>TT</th>
                 <th>Tiêu đề</th>
                 <th>Tác giả</th>
+                <th>Thể loại</th>
                 <th>Số lượng</th>
+                <th>Còn lại</th>
                 <th>Ngày lưu hành</th>
                 <th>Thao tác</th>
             </tr>
@@ -24,22 +26,24 @@
         <tbody>					
             <?php $stt = $books->getFrom() ?>
             <?php foreach ($books as $book): ?>
-
                 <tr>
                     <td>
                         {{$stt++}}
                     </td>
                     <td>{{$book->title }}</td>
                     <td>{{$book->author}}</td>
+                    <td>{{$book->getBookTypeName()}}</td>
                     <td>{{$book->number}}</td>
+                    <td>{{$book->number - $book->lended}}</td>
                     <td>{{$book->published_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
                     <td>
                         <div class='row-actions'>
                             <a class='text-info' href="javascript:void(0)" data-modal="show-modal" data-url='{{route('book.library.view',$book->id)}}'>
                                 <i class='i-magnifier'></i>
                                 Xem
-                            </a>		
-                            <a href="#" onclick="window.open('{{route('book.barcode',$book->id)}}')" class="text-warning"><i class="i-printer"></i> In mã vạch</a>
+                            </a>
+                            <a href="{{route('book.barcode',$book->id)}}" target="_blank" class="text-success"><i class="i-printer"></i> In mã vạch</a>
+                            <a href="{{route('book.label',$book->id)}}" target="_blank" class="text-warning"><i class="i-printer"></i> In nhãn</a>
                         </div>
                     </td>
                 </tr>

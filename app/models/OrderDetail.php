@@ -1,6 +1,6 @@
 <?php
 
-class Order extends Illuminate\Database\Eloquent\Model {
+class OrderDetail extends Illuminate\Database\Eloquent\Model {
     /**
      * Table name
      */
@@ -11,23 +11,18 @@ class Order extends Illuminate\Database\Eloquent\Model {
     const SS_REJECTED = 'rejected';
 
     public $fillable = array(
-        'reader_id',
         'book_id',
         'count',
         'scope'
     );
     public $timestamps = false;
 
-    public function reader() {
-        return $this->belongsTo('Reader');
-    }
+    public function order (){
+        return $this->belongsTo('Order');
+}
 
     public function book() {
         return $this->belongsTo('Book');
-    }
-
-    public function orderDetail() {
-        return $this->hasMany('OrderDetail');
     }
 
     public function approver() {

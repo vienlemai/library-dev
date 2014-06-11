@@ -1,23 +1,23 @@
 <div class='head'>
     <h2>Hoạt động thư viện</h2>
     <div class="side fr">
-        <?php if(false):?>
-        <?php Former::framework('Nude'); ?>
-        <?php
-        echo Former::open(route('activity.search'))->method('GET')->class('form-ajasx form-inline')
+        <?php if (false): ?>
+            <?php Former::framework('Nude'); ?>
+            <?php
+            echo Former::open(route('activity.search'))->method('GET')->class('form-ajasx form-inline')
 
-        ?>
-        <label>Nhóm:  </label>
-        <?php
-        echo Former::select('group', '')->options(activityGroupsForSelect())
-            ->class('table-search-input')->data_url(route('activity.search'))
-            ->data_group(Input::get('group', ''))
+            ?>
+            <label>Nhóm:  </label>
+            <?php
+            echo Former::select('group', '')->options(activityGroupsForSelect())
+                ->class('table-search-input')->data_url(route('activity.search'))
+                ->data_group(Input::get('group', ''))
 
-        ?>
-        <label>Từ ngày:  </label>
-        <?php echo Former::select('range', '')->options(activityRangesForSelect())->class('table-search-input')->data_url(route('activity.search')) ?>
-        <?php echo Former::close() ?>
-        <?php endif;?>
+            ?>
+            <label>Từ ngày:  </label>
+            <?php echo Former::select('range', '')->options(activityRangesForSelect())->class('table-search-input')->data_url(route('activity.search')) ?>
+            <?php echo Former::close() ?>
+        <?php endif; ?>
     </div>
 </div>
 <div class='content np' id="activities-wrapper">

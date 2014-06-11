@@ -56,6 +56,10 @@
 								->label('Tài liệu đính kèm')
 								->value($book->attach)
                 }}
+                {{Former::xlarge_text('year_publish')
+								->label('Năm xuất bản')
+                                ->value($book->year_publish)
+                }}
 
             </div>
         </div>
@@ -81,6 +85,10 @@
                     {{Former::xlarge_text('type_number')
 									->label('Số phân loại')
 									->value($book->type_number)
+                    }}
+                    {{Former::xlarge_text('cutter')
+									->label('Số cutter')
+									->value($book->cutter)
                     }}
                     {{Former::xlarge_text('price')
 									->label('Giá tiền')

@@ -17,13 +17,13 @@
                                     <td><?php echo $bookItems[$j]->book->cutter ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $bookItems[$j]->sequence ?></td>
+                                    <td><?php echo 'C'.$bookItems[$j]->sequence ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $bookItems[$j]->book->year_publish.'2014' ?></td>
+                                    <td><?php echo $bookItems[$j]->book->year_publish  ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo 'Tài liệu tham khảo' ?></td>
+                                    <td><?php echo $path ?></td>
                                 </tr>
                             </tbody>
                         </table> 
@@ -36,21 +36,24 @@
 
                 ?><td style="padding: 20px">
                     <table style="text-align: center; border: 4px #151515 double;width: 150px; height: 150px">
-                            <tbody>
+                        <tbody>
                             <tr>
                                 <td>TV-T52</td>
                             </tr>
                             <tr>
-                                <td><?php echo $bookItems[$j]->book->type_number ?></td>
+                                <td><?php echo $bookItems[$i]->book->type_number ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo $bookItems[$j]->book->cutter ?></td>
+                                <td><?php echo $bookItems[$i]->book->cutter ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo $bookItems[$j]->sequence ?></td>
+                                <td><?php echo 'C'.$bookItems[$i]->sequence ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo $bookItems[$j]->book->year_publish ?></td>
+                                <td><?php echo $bookItems[$i]->book->year_publish ?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo $path ?></td>
                             </tr>
                         </tbody>
                     </table> 

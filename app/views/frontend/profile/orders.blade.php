@@ -23,32 +23,39 @@ $now = Carbon\Carbon::now();
         <tbody>
             <?php foreach ($orders as $order): ?>
                 <?php
-                switch ($order->status) {
-                    case Order::SS_NEW:
-                        $class = 'text-info';
-                        break;
-                    case Order::SS_APPROVED:
-                        $class = 'text-success';
-                        break;
-                    case Order::SS_REJECTED:
-                        $class = 'text-error';
-                        break;
-                }
+                $now = Carbon\Carbon::now();
+                $isNotShow = (($order->pick_up_at !== null && $now->gt($order->pick_up_at)) || ($order->status == Order::SS_REJECTED && $now->diffInDays($order->created_at) > 3));
 
                 ?>
-                <tr class="<?php echo $class ?>">
-                    <td><?php echo $order->book->title ?></td>
-                    <td><?php echo $order->created_at->format('H:i, d \t\h\á\n\g m, Y') ?></td>
-                    <td><?php echo $order->count ?></td>
-                    <td><?php echo $order->book->scopeName() ?></td>
-                    <td><?php echo $order->getStatusTitle() ?></td>
-                    <td><?php
-                        if ($order->status == Order::SS_APPROVED) {
-                            echo $order->pick_up_at->format('d \t\h\á\n\g m, Y');
-                        }
+                <?php if (!$isNotShow) : ?>
+                    <?php
+                    switch ($order->status) {
+                        case Order::SS_NEW:
+                            $class = 'text-info';
+                            break;
+                        case Order::SS_APPROVED:
+                            $class = 'text-success';
+                            break;
+                        case Order::SS_REJECTED:
+                            $class = 'text-error';
+                            break;
+                    }
 
-                        ?></td>
-                </tr>
+                    ?>
+                    <tr class="<?php echo $class ?>">
+                        <td><?php echo $order->book->title ?></td>
+                        <td><?php echo $order->created_at->format('H:i, d \t\h\á\n\g m, Y') ?></td>
+                        <td><?php echo $order->count ?></td>
+                        <td><?php echo $order->book->scopeName() ?></td>
+                        <td><?php echo $order->getStatusTitle() ?></td>
+                        <td><?php
+                            if ($order->status == Order::SS_APPROVED) {
+                                echo $order->pick_up_at->format('d \t\h\á\n\g m, Y');
+                            }
+
+                            ?></td>
+                    </tr>
+                <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>

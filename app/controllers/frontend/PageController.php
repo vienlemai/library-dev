@@ -3,13 +3,13 @@
 class PageController extends FrontendBaseController {
 
     public function index() {
-        $query = Book::level(array(2, 3, 4))
+        $query = Book::level(array(3, 4))
             ->publish()
             ->orderBy('published_at', 'DESC');
         if (Auth::check()) {
             if (Auth::user()->loginable_type != 'Reader') {
                 Auth::logout();
-            }else{
+            } else {
                 $query->permission(Auth::user()->loginable->reader_type);
             }
         }

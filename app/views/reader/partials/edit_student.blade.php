@@ -1,4 +1,14 @@
 {{ Former::horizontal_open(route('reader.update',$reader->id))->method('POST') }}
+{{Former::xlarge_text('card_number')
+    ->label('Số thẻ (*)')
+    ->value($reader->card_number)
+    ->disabled()
+}}
+{{Former::select('reader_type')
+    ->label('Loại bạn đọc (*)')
+    ->class('select2 input-xlarge')
+    ->options(Reader::$TYPE_LABELS,$reader->reader_type)
+}}
 {{Former::xlarge_text('full_name')
     ->label('Họ tên (*)')
     ->value($reader->full_name)
@@ -33,6 +43,7 @@
 {{Former::xlarge_text('email')
     ->label('Email (*)')
     ->value($reader->email)
+    ->disabled()
 }}
 
 {{Former::xlarge_text('phone')

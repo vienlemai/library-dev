@@ -65,6 +65,11 @@
 								->value($book->attach)
 								->disabled()
             }}
+            {{Former::xlarge_text('year_publish')
+								->label('Năm xuất bản')
+								->value($book->year_publish)
+								->disabled()
+            }}
 
         </div>
     </div>

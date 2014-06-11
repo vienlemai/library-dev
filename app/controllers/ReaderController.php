@@ -49,25 +49,32 @@ class ReaderController extends \BaseController {
         if ($v->passes()) {
             $reader = new Reader(Input::all());
             if (!$reader->checkExistEmail()) {
-                $reader->reader_type = $type;
-                $password = '123456';
-                $account = new Account(array(
-                    'username' => $reader->email,
-                    'password' => Hash::make($password)
-                ));
-                $expired = $this->configs['reader_expired'];
-                $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
-                $reader->save();
-                $reader->account()->save($account);
-                $reader->saveCardNumber();
-                $mailContent = View::make('reader.partials.mail_template', array(
-                        'reader' => $reader,
-                        'password' => $password
-                    ))->render();
                 $mailSubject = 'Thông báo về việc tạo mới tài khoản thư viện';
-                $this->addMailToQueue($reader->email, $mailSubject, $mailContent);
-                Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
-                return Redirect::route('readers');
+                try {
+                    $password = '123456';
+                    Mail::send('reader.partials.mail_template', array(
+                        'reader' => $reader,
+                        'password' => $password), function($message) use ($reader, $mailSubject) {
+                        $message->to($reader->email, $reader->full_name)->subject($mailSubject);
+                    });
+                    $reader->reader_type = $type;
+                    $account = new Account(array(
+                        'username' => $reader->email,
+                        'password' => Hash::make($password)
+                    ));
+                    $expired = $this->configs['reader_expired'];
+                    $reader->expired_at = Carbon\Carbon::now()->addDays($expired);
+                    $reader->save();
+                    $reader->account()->save($account);
+                    $reader->saveCardNumber();
+                    Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
+                    return Redirect::route('readers');
+                } catch (Exception $exc) {
+                    dd($exc);
+                    Session::flash('error', 'Tạo bạn đọc thất bại, không có kết nối đến Internet nên không thể gửi mail, vui lòng kiểm tra lại kết nối.');
+                    return Redirect::back();
+                }
+                //$this->addMailToQueue($reader->email, $mailSubject, $mailContent);
             } else {
                 Session::flash('error', 'Email này đã tồn tại, không thể tạo mới');
                 return Redirect::back();
@@ -84,7 +91,7 @@ class ReaderController extends \BaseController {
 
     public function card($id) {
         $reader = Reader::findOrFail($id);
-        $barcode = DNS1D::getBarcodePNGPath($reader->barcode, "EAN13", 1.5, 33);
+        $barcode = DNS1D::getBarcodePNGPath($reader->barcode, "EAN13", 2.0, 50);
         return View::make('reader.card', array('reader' => $reader, 'barcode' => $barcode));
     }
 

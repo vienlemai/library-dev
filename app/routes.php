@@ -433,5 +433,9 @@ Route::group(array('prefix' => 'admin'), function () {
             'as' => 'article.delete',
             'uses' => 'ArticleController@delete',
         ));
+        Route::delete('order/delete/{id}', array(
+            'as' => 'order.delete',
+            'uses' => 'OrderController@delete',
+        ));
     });
 });

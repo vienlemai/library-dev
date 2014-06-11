@@ -17,6 +17,23 @@ class BaseController extends Controller {
                     $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
                 }
                 View::share('modules', $modules);
+                $lastExecuteObj = DB::table('configs')
+                    ->where('key', 'last_execute')
+                    ->remember(120)
+                    ->first();
+                $lastExecute = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteObj->value);
+                $now = Carbon\Carbon::now();
+                if ($now->diffInDays($lastExecute) !== 0) {
+                    JobForDay::updateStatus();
+                    if (!JobForDay::sendRemindCirculation()) {
+                        if (Route::currentRouteName() !== 'error') {
+                            return Redirect::route('error', array('internet'));
+                        }
+                    }
+                    DB::table('configs')
+                        ->where('key', 'last_execute')
+                        ->update(array('value' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
+                }
             }
         });
         $configs = DB::table('configs')->remember(120)->get();

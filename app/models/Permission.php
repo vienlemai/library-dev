@@ -42,7 +42,7 @@ class Permission {
             'title' => 'Lưu hành',
             'menus' => array(
                 'circulation' => 'Mượn trả tài liệu',
-                'order' => 'Bạn đọc đăng ký mượn',
+                'order' => 'Bạn đọc đăng ký online',
                 'book.library' => 'Danh sách tài liệu',
                 'readers' => 'Danh sách bạn đọc',
             ),

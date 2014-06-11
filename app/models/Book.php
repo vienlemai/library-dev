@@ -60,17 +60,18 @@ class Book extends Eloquent {
         8 => 'pages',
         9 => 'size',
         10 => 'attach',
-        11 => 'organization',
-        12 => 'language',
-        13 => 'cutter',
-        14 => 'type_number',
-        15 => 'price',
-        16 => 'storage',
-        17 => 'number',
-        18 => 'level',
-        19 => 'book_scope',
-        20 => 'permission',
-        21 => 'another_infor'
+        11 => 'year_publish',
+        12 => 'organization',
+        13 => 'language',
+        14 => 'cutter',
+        15 => 'type_number',
+        16 => 'price',
+        17 => 'storage',
+        18 => 'number',
+        19 => 'level',
+        20 => 'book_scope',
+        21 => 'permission',
+        22 => 'another_infor'
     );
     public static $magazineTitle = array(
         1 => 'title',
@@ -79,17 +80,18 @@ class Book extends Eloquent {
         4 => 'magazine_additional',
         5 => 'magazine_special',
         6 => 'magazine_local',
-        7 => 'organization',
-        8 => 'language',
-        9 => 'cutter',
-        10 => 'type_number',
-        11 => 'price',
-        12 => 'storage',
-        13 => 'number',
-        14 => 'level',
-        15 => 'book_scope',
-        16 => 'permission',
-        17 => 'another_infor'
+        7 => 'year_publish',
+        8 => 'organization',
+        9 => 'language',
+        10 => 'cutter',
+        11 => 'type_number',
+        12 => 'price',
+        13 => 'storage',
+        14 => 'number',
+        15 => 'level',
+        16 => 'book_scope',
+        17 => 'permission',
+        18 => 'another_infor'
     );
     public static $storageTitle = array(
         1 => 'Kho A',
@@ -116,6 +118,7 @@ class Book extends Eloquent {
         'attach' => 'Tài liệu đính kèm',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
+        'cutter' => 'Số cutter',
         'type_number' => 'Số phân loại',
         'price' => 'Giá',
         'storage' => 'Nơi lưu trữ',
@@ -134,6 +137,7 @@ class Book extends Eloquent {
         'magazine_local' => 'Khu vực',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
+        'cutter' => 'Số cutter',
         'type_number' => 'Số phân loại',
         'price' => 'Giá',
         'storage' => 'Nơi lưu trữ',
@@ -234,6 +238,7 @@ class Book extends Eloquent {
         'organization',
         'language',
         'type_number',
+        'cutter',
         'price',
         'storage',
         'number',
@@ -248,6 +253,7 @@ class Book extends Eloquent {
         'book_type',
         'book_scope',
         'permission',
+        'year_publish'
     );
 
     public static function boot() {
@@ -334,26 +340,6 @@ class Book extends Eloquent {
         $this->save();
         // Write disapprove book event
         Activity::write(Session::get('User'), Activity::DISAPPROVED_BOOK, $this);
-    }
-
-    public static function magazineValidate($input) {
-        $rules = array(
-            'title' => 'required|min:5',
-            'number' => 'required|integer|min:1',
-            'storage' => 'required',
-            'cutter' => 'required',
-            'type_number' => 'required'
-        );
-
-        $messages = array(
-            'title.min' => 'tối thiểu :min ký tự',
-            'min' => 'xin nhập tối thiểu :min',
-            'required' => 'không được để trống',
-            'integer' => 'xin nhập vào số nguyên',
-            'cutter.required' => 'Không được để trống số cutter',
-            'type_number.required' => 'Không được để trống số phân loại',
-        );
-        return Validator::make($input, $rules, $messages);
     }
 
     public function representString() {
@@ -488,7 +474,8 @@ class Book extends Eloquent {
             'pages' => 'required|integer|min:1',
             'storage' => 'required',
             'cutter' => 'required',
-            'type_number' => 'required'
+            'type_number' => 'required',
+            'year_publish' => 'required|integer',
         );
 
         $messages = array(
@@ -498,6 +485,29 @@ class Book extends Eloquent {
             'integer' => 'xin nhập vào số nguyên',
             'cutter.required' => 'Không được để trống số cutter',
             'type_number.required' => 'Không được để trống số phân loại',
+            'year_publish.required' => 'Không được để trống năm xuất bản'
+        );
+        return Validator::make($input, $rules, $messages);
+    }
+
+    public static function magazineValidate($input) {
+        $rules = array(
+            'title' => 'required|min:5',
+            'number' => 'required|integer|min:1',
+            'storage' => 'required',
+            'cutter' => 'required',
+            'type_number' => 'required',
+            'year_publish' => 'required|integer',
+        );
+
+        $messages = array(
+            'title.min' => 'tối thiểu :min ký tự',
+            'min' => 'xin nhập tối thiểu :min',
+            'required' => 'không được để trống',
+            'integer' => 'xin nhập vào số nguyên',
+            'cutter.required' => 'Không được để trống số cutter',
+            'type_number.required' => 'Không được để trống số phân loại',
+            'year_publish.required' => 'Không được để trống năm xuất bản'
         );
         return Validator::make($input, $rules, $messages);
     }
@@ -520,6 +530,7 @@ class Book extends Eloquent {
             'author' => 'required',
             'number' => 'required|integer|min:1',
             'cutter' => 'required',
+            'year_publish' => 'required|integer',
             'type_number' => 'required',
             'pages' => 'required|integer|min:1',
             'storage' => 'required',
@@ -537,6 +548,8 @@ class Book extends Eloquent {
             'number.integer' => 'Số lượng phải là một số nguyên',
             'number.min' => 'Số lượng tối thiểu lớn hơn hoặc bằng 1',
             'pages.required' => 'Không được để trống số trang',
+            'year_publish.integer' => 'Năm xuất bản phải là một số nguyên dương',
+            'year_publish.required' => 'Năm xuất bản không được để trống',
             'pages.integer' => 'Số trang phải là một số nguyên',
             'pages.min' => 'Số trang phải lớn hơn 0',
             'level.in' => 'Mức độ tài liệu phải thuộc một trong các giá trị: bình thường, mật, tối mật, tuyệt mật',
@@ -555,6 +568,7 @@ class Book extends Eloquent {
         $rules = array(
             'title' => 'required',
             'number' => 'required|integer|min:1',
+            'year_publish' => 'required|integer',
             'cutter' => 'required',
             'type_number' => 'required',
             'storage' => 'required',
@@ -574,6 +588,8 @@ class Book extends Eloquent {
             'pages.required' => 'Không được để trống số trang',
             'pages.integer' => 'Số trang phải là một số nguyên',
             'pages.min' => 'Số trang phải lớn hơn 0',
+            'year_publish.required' => 'Năm xuất bản không được để trống',
+            'year_publish.integer' => 'Năm xuất bản phải là một số nguyên dương',
             'level.in' => 'Mức độ tài liệu phải thuộc một trong các giá trị: bình thường, mật, tối mật, tuyệt mật',
             'scope.in' => 'Phạm vi mượn không hợp lệ, phải thuộc một trong các giá trị: tại chỗ, về nhà',
             'permission.bx_permission' => 'Đối tượng được mượn không hợp lệ',

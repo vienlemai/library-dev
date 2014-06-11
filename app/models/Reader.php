@@ -135,13 +135,15 @@ class Reader extends Eloquent implements IActivityAuthor {
             'class' => 'required',
             'email' => 'required',
             'avatar' => 'required',
+            'card_number' => 'required',
         );
 
         $messages = array(
             'full_name.required' => 'Phải nhập tên bạn đọc',
             'class.required' => 'Phải nhập lớp',
             'email.required' => 'Phải nhập địa chỉ email',
-            'avatar.required' => 'Phải chọn ảnh đại diện'
+            'avatar.required' => 'Phải chọn ảnh đại diện',
+            'card_number.required' => 'Phải nhập số thẻ',
         );
         return Validator::make($input, $rules, $messages);
     }
@@ -151,12 +153,14 @@ class Reader extends Eloquent implements IActivityAuthor {
             'full_name' => 'required',
             'email' => 'required',
             'avatar' => 'required',
+            'department' => 'required',
         );
 
         $messages = array(
             'full_name.required' => 'Phải nhập tên bạn đọc',
             'email.required' => 'Phải nhập địa chỉ email',
-            'avatar.required' => 'Phải chọn ảnh đại diện'
+            'avatar.required' => 'Phải chọn ảnh đại diện',
+            'department.required' => 'Phải nhập đơn vị'
         );
         return Validator::make($input, $rules, $messages);
     }
@@ -192,8 +196,10 @@ class Reader extends Eloquent implements IActivityAuthor {
         } else if ($this->isStaff()) {
             $cardPrefix = 'NV-';
         }
-        $card_number = $cardPrefix . sprintf("%04s", $this->id);
-        $this->update(array('card_number' => $card_number));
+        if (!$this->isStudent()) {
+            $card_number = $cardPrefix . sprintf("%04s", $this->id);
+            $this->update(array('card_number' => $card_number));
+        }
     }
 
     public function creator() {

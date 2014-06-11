@@ -1,4 +1,7 @@
 {{ Former::horizontal_open(route('reader.save',Reader::TYPE_STUDENT))->method('POST') }}
+{{Former::xlarge_text('card_number')
+                        ->label('Số thẻ (*)')
+}}
 {{Former::xlarge_text('full_name')
                         ->label('Họ tên (*)')
 }}

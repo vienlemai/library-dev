@@ -11,6 +11,9 @@
 {{Former::xlarge_text('hometown')
                         ->label('Quê quán')
 }}
+{{Former::xlarge_text('department')
+                        ->label('Đơn vị (*)')
+}}
 
 {{Former::xlarge_text('email')
                         ->label('Email (*)')

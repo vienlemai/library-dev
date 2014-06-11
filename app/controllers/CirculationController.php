@@ -150,7 +150,7 @@ class CirculationController extends \BaseController {
                 } else {
                     //error can not borrow more book
                     $result['status'] = false;
-                    $result['message'] = 'Bạn đọc này không thể mượn tài liệu';
+                    $result['message'] = 'Bạn đọc này "' . strtolower(Reader::$SS_LABELS[$reader->status]) . '" không thể mượn tài liệu';
                 }
             }
         } else {

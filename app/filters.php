@@ -12,19 +12,7 @@
  */
 
 App::before(function($request) {
-//    Cron::run();
-    $lastExecuteObj = DB::table('configs')
-        ->where('key', 'last_execute')
-        ->remember(120)
-        ->first();
-    $lastExecute = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $lastExecuteObj->value);
-    $now = Carbon\Carbon::now();
-    if ($now->diffInDays($lastExecute) !== 0) {
-        Queue::push('JobForDay@sendRemindCirculation');
-        DB::table('configs')
-            ->where('key', 'last_execute')
-            ->update(array('value' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));
-    }
+    
 });
 
 

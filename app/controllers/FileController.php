@@ -19,7 +19,7 @@ class FileController extends BaseController {
         try {
             Input::file('image')->move($destinationPath, $fileName);
             $result['status'] = true;
-            $result['image_path'] = '/' . Reader::AVATAR_DIR_PATH . $fileName;
+            $result['image_path'] = asset('/' . Reader::AVATAR_DIR_PATH . $fileName);
             $result['image_name'] = $fileName;
         } catch (Exception $e) {
             $result['status'] = false;

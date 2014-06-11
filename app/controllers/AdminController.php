@@ -37,6 +37,8 @@ class AdminController extends BaseController {
                 break;
             case 'inventory':$message = 'Có một đợt kiểm kê đang diễn ra, bạn không thể thực hiện thao tác này cho đến khi kiểm kê kết thúc.';
                 break;
+            case 'internet':$message = 'Lỗi hệ thống, không có kết nối đến Internet,vui lòng kiểm tra lại kết nối';
+                break;
             default : $message = 'Lỗi hệ thống';
         }
         return View::make('admin.error', compact('message'));
@@ -89,24 +91,48 @@ class AdminController extends BaseController {
         ));
     }
 
+    /* public function postSendMail() {
+      $v = User::mailContentValidate(Input::all());
+      if ($v->passes()) {
+      $mailTitle = Input::get('title');
+      $mailContent = Input::get('content');
+      $readers = Reader::readerBorrowing();
+      foreach ($readers as $reader) {
+      DB::table('mail_queues')
+      ->insert(array(
+      'mail_to' => $reader->email,
+      'subject' => $mailTitle,
+      'content' => $mailContent,
+      'created_at' => Carbon\Carbon::now(),
+      'updated_at' => Carbon\Carbon::now(),
+      ));
+      }
+      Session::flash('success', 'Đã gửi mail thành công cho ' . $readers->count() . ' bạn đọc');
+      return Redirect::route('send.mail');
+      } else {
+      return Redirect::back()->withInput()->withErrors($v->messages());
+      }
+      } */
+
     public function postSendMail() {
         $v = User::mailContentValidate(Input::all());
         if ($v->passes()) {
-            $mailTitle = Input::get('title');
-            $mailContent = Input::get('content');
-            $readers = Reader::readerBorrowing();
-            foreach ($readers as $reader) {
-                DB::table('mail_queues')
-                    ->insert(array(
-                        'mail_to' => $reader->email,
-                        'subject' => $mailTitle,
-                        'content' => $mailContent,
-                        'created_at' => Carbon\Carbon::now(),
-                        'updated_at' => Carbon\Carbon::now(),
-                ));
+            try {
+                $mailTitle = Input::get('title');
+                $mailContent = Input::get('content');
+                //dd($mailContent);
+                $readers = Reader::readerBorrowing();
+                foreach ($readers as $reader) {
+                    Mail::send('admin.mail_content', array('full_name' => $reader->full_name, 'mail_content' => $mailContent), function($message) use ($mailTitle, $reader) {
+                        $message->to($reader->email, $reader->full_name)->subject($mailTitle);
+                    });
+                }
+                Session::flash('success', 'Đã gửi mail thành công cho ' . $readers->count() . ' bạn đọc');
+                return Redirect::route('send.mail');
+            } catch (Exception $exc) {
+                Session::flash('error', 'Gửi mail thất bại, khôn g có kết nối đến Internet nên không thể gửi mail, vui lòng kiểm tra lại kết nối');
+                return Redirect::back();
             }
-            Session::flash('success', 'Đã gửi mail thành công cho ' . $readers->count() . ' bạn đọc');
-            return Redirect::route('send.mail');
         } else {
             return Redirect::back()->withInput()->withErrors($v->messages());
         }

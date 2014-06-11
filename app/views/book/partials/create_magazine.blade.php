@@ -50,6 +50,9 @@
                             {{Former::xlarge_text('magazine_local')
 								->label('Khu vực')
                             }}  
+                            {{Former::xlarge_text('year_publish')
+								->label('Năm xuất bản')
+                            }}
 
                         </div>
                     </div>

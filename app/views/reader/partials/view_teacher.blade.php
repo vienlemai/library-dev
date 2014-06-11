@@ -1,4 +1,9 @@
 {{ Former::horizontal_open('')->method('POST') }}
+{{Former::xlarge_text('card_number')
+        ->label('Mã thẻ (*)')
+        ->value($reader->card_number)
+        ->disabled()
+}}
 {{Former::xlarge_text('full_name')
         ->label('Họ tên (*)')
         ->value($reader->full_name)

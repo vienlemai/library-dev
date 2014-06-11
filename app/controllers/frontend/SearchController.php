@@ -5,7 +5,7 @@ class SearchController extends FrontendBaseController {
 
     public function index() {
         $query = Book::search($this->sanitizedParams())
-            ->level(array(2, 3, 4))
+            ->level(array(3, 4))
             ->publish()
             ->orderBy('published_at', 'DESC');
         if (Auth::check()) {

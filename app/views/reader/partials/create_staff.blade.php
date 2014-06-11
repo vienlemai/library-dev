@@ -12,7 +12,7 @@
                         ->label('Quê quán')
 }}
 {{Former::xlarge_text('department')
-                        ->label('Đơn vị')
+                        ->label('Đơn vị (*)')
 }}
 
 {{Former::xlarge_text('email')

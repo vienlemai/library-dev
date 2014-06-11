@@ -23,7 +23,7 @@
                     <h2>Thông bạn đọc</h2>
                 </div>
                 <div class='content'>
-                    <div class="span4">
+                    <div class="span5">
                         <form action="{{route('upload.image')}}" upload-type="readers" class="form-horizontal form-upload-image" method="POST">
                             <!--							<div class="control-group">
                                                             <label class="control-label" for="avatar">Ảnh đại diện (*)</label>
@@ -33,7 +33,7 @@
                                                         </div>-->
                             <div class="control-group">
                                 <div class="controls">
-                                    <img class="image-preview reader-avatar" src="{{$reader->avatar}}" width="100" height="100"/>
+                                    <img class="image-preview reader-avatar" src="<?php echo asset($reader->avatar) ?>" width="100" height="100"/>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -67,7 +67,7 @@
 
 
                     </div>
-                    <div class="span8">
+                    <div class="span7">
                         @include('partials.flash')
                         <?php if ($errors->has('avatar')): ?>
                             <div class="alert alert-error upload-error">           

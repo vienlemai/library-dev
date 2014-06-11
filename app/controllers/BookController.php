@@ -329,7 +329,7 @@ class BookController extends \BaseController {
         foreach ($book->bookItems as $bookItem) {
             array_push($result, array(
                 'code' => $bookItem->barcode,
-                'barcode' => DNS1D::getBarcodePNGPath($bookItem->barcode, "EAN13",2.0,50)
+                'barcode' => DNS1D::getBarcodePNGPath($bookItem->barcode, "EAN13", 2.0, 50)
             ));
         }
         return View::make('book.barcode', array('barcode' => $result, 'book' => $book));
@@ -491,7 +491,7 @@ class BookController extends \BaseController {
                         }
                         $v = Book::magazineExcelValidate($dataValidate);
                         if (!$v->passes()) {
-                            return Redirect::back()->with('index', $i)->withErrors($v->messages());
+                            return Redirect::back()->with('index', $i+1)->withErrors($v->messages());
                         }
                     }
                 }
@@ -562,15 +562,16 @@ class BookController extends \BaseController {
             return Redirect::back();
         }
         $excel = Excel::create('Danh_sach_tai_lieu_' . Carbon\Carbon::now()->format('d_m_Y'));
+        $count = 0;
         foreach ($status as $s) {
             $dataToExport = Book::dataForExcel($s);
             if (!empty($dataToExport)) {
                 $excel->sheet(Book::getExcelSheetTitle($s))
                     ->with($dataToExport);
+                $count++;
             }
         }
-        $excelData = $excel->toArray();
-        if (empty($excelData)) {
+        if ($count == 0) {
             Session::flash('error', 'Hiện không có dữ liệu theo yêu cầu của bạn, không thể xuất file excel');
             return Redirect::back();
         }
@@ -600,7 +601,12 @@ class BookController extends \BaseController {
         $bookItems = BookItem::with('book')
             ->where('book_id', $id)
             ->get();
-        return View::make('book.label', array('bookItems' => $bookItems));
+        $storageOptions = new Storage();
+        $path = $storageOptions->supperRoot($bookItems[0]->book->storage);
+        return View::make('book.label', array(
+                'bookItems' => $bookItems,
+                'path' => $path,
+        ));
     }
 
 }

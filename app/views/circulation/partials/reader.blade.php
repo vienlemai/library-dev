@@ -1,23 +1,23 @@
 <?php $max_book_remote = $configs['max_book_remote'] ?>
-<div class='span5'>
+<div class='span5' style="font-size: 11px">
     <div class='content-row'>
-        <input class='barcode-scanner' value="{{$reader->barcode}}" data-url="{{route('circulation.reader')}}" placeholder='Mã thẻ' type='text'>
+        <input class='barcode-scanner span12' value="{{$reader->barcode}}" data-url="{{route('circulation.reader')}}" placeholder='Mã thẻ' type='text'>
     </div>
     <div class='avatar-select-wrapper'>
         <div class='avatar'>
-            <img src='{{$reader->avatar}}' height="100" width="100">
+            <img src='<?php echo asset($reader->avatar) ?>' height="100" width="100">
         </div>
     </div>
     <div class='content-row'>
-        <div class='span4'>Ngày tạo:</div>
-        <div class='span8'>
-            {{$reader->created_at->format('d \t\h\á\n\g m, Y')}}
+        <div class='span5'>Ngày tạo:</div>
+        <div class='span7'>
+            {{$reader->created_at->format('d/m/Y')}}
         </div>
     </div>
     <div class='content-row'>
-        <div class='span4'>Hết hạn:</div>
-        <div class='span8'>
-            {{$reader->expired_at->format('d \t\h\á\n\g m, Y')}}
+        <div class='span5'>Hết hạn:</div>
+        <div class='span7'>
+            {{$reader->expired_at->format('d/m/Y')}}
         </div>
     </div>
     <div class='content-row'>
@@ -27,7 +27,7 @@
         </a>
     </div>
 </div>
-<div class='span7'>
+<div class='span7' style="font-size: 11px">
     <?php if ($reader->status == Reader::SS_PAUSED): ?>
         <div class="alert alert-error">
             Bạn đọc đang bị khóa thẻ, không thể mượn thêm tài liệu

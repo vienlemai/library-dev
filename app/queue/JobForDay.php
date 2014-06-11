@@ -1,10 +1,10 @@
 <?php
 
 class JobForDay {
-    protected $dayForRemind = 7;
-    protected $mailRemindTitle = 'Nhắc nhở trả tài liệu cho thư viện';
+    protected static $dayForRemind = 7;
+    protected static $mailRemindTitle = 'Nhắc nhở trả tài liệu cho thư viện';
 
-    public function updateStatus($job, $data) {
+    public static function updateStatus() {
         $readers = Reader::get();
         $now = Carbon\Carbon::now();
         foreach ($readers as $reader) {
@@ -22,10 +22,9 @@ class JobForDay {
                     ->update(array('expired' => true));
             }
         }
-        $job->delete();
     }
 
-    public function sendRemindCirculation($job, $data) {
+    public static function sendRemindCirculation() {
         $remindReaders = Reader::whereHas('circulations', function($query) {
                 $query->where('is_lost', false)
                     ->where('is_reminded', false);
@@ -37,31 +36,31 @@ class JobForDay {
                 ->where('is_reminded', false)
                 ->where('reader_id', $reader->id)
                 ->get();
-            $dayForRemind = $this->dayForRemind;
+            $dayForRemind = self::$dayForRemind;
             $remindCirculations = $circulations->filter(function($item)use ($now, $dayForRemind) {
                 if ($now->diffInDays($item->expired_at) <= $dayForRemind) {
                     return $item;
                 }
             });
             if ($remindCirculations->count() > 0) {
-                foreach ($remindCirculations as $circulation) {
-                    $circulation->is_reminded = true;
-                    $circulation->save();
+                $mailTitle = self::$mailRemindTitle;
+                try {
+                    Mail::send('admin.mail_remind', array(
+                        'full_name' => $reader->full_name,
+                        'circulations' => $remindCirculations,
+                        ), function($message) use ($mailTitle, $reader) {
+                        $message->to($reader->email, $reader->full_name)->subject($mailTitle);
+                    });
+                    foreach ($remindCirculations as $circulation) {
+                        $circulation->is_reminded = true;
+                        $circulation->save();
+                    }
+                } catch (Exception $exc) {
+                    return false;
                 }
-                DB::table('mail_queues')
-                    ->insert(array(
-                        'mail_to' => $reader->email,
-                        'subject' => $this->mailRemindTitle,
-                        'content' => View::make('admin.mail_remind', array(
-                            'full_name' => $reader->full_name,
-                            'circulations' => $remindCirculations,
-                        ))->render(),
-                        'created_at' => Carbon\Carbon::now(),
-                        'updated_at' => Carbon\Carbon::now(),
-                ));
             }
         }
-        $job->delete();
+        return true;
     }
 
 }

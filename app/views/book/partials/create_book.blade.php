@@ -66,6 +66,9 @@
                             {{Former::xlarge_text('attach')
 								->label('Tài liệu đính kèm')
                             }}
+                            {{Former::xlarge_text('year_publish')
+								->label('Năm xuất bản')
+                            }}
 
                         </div>
                     </div>

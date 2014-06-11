@@ -27,7 +27,8 @@
                             <li>Người gửi : {{$book->cataloger->full_name}}</li>
                             <li>Ngày gửi : {{$book->submitted_at->format('d/m/Y h:i').' ('.$book->submitted_at->diffForHumans().')'}}</li>
                         </ul>
-                        <a href="#" onclick="window.open('{{route('book.barcode',$book->id)}}')" class="btn btn-primary"><i class="icon-print"></i> In mã vạch</a>
+                        <a href="{{route('book.barcode',$book->id)}}" target="_blank" class="btn btn-primary"><i class="icon-print"></i> In mã vạch</a>
+                        <a href="{{route('book.label',$book->id)}}" target="_blank" class="btn btn-success"><i class="icon-print"></i> In nhãn</a>
                     </div>
                     <div class="span6">
                         <button class="btn btn-primary" btn-confirm="confirm" data-url="{{route('book.publish',$book->id)}}" data-confirm="Bạn có chắc chắn cho lưu hành tài liệu {{$book->title}} ?">Đồng ý cho lưu hành</button>

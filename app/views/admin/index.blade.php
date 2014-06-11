@@ -12,7 +12,7 @@
             <div class='span9'>    
                 <?php if ($isLibrarian && $count['order'] > 0): ?>
                     <div class="alert alert-block">
-                        <strong>Lưu ý : </strong>Có <?php echo $count['order'] ?> bạn đọc đang đăng ký mượn tài liệu, vui lòng <a href="{{route('order')}}">Xem danh sách</a>
+                        <strong>Lưu ý : </strong>Có <?php echo $count['order'] ?> tài liệu đang được đăng ký mượn tài liệu, vui lòng <a href="{{route('order')}}">Xem danh sách</a>
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                     </div>
                 <?php endif; ?>

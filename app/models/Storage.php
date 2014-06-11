@@ -70,6 +70,14 @@ class Storage extends Node {
         }
     }
 
+    public function supperRoot($id) {
+        if(in_array($id, array(1))){
+            return 'K.TK';
+        }else{
+            return 'K.GK';
+        }
+    }
+
     public function isContain($rootId, $leafId) {
         $leafNode = $this->find($leafId);
         if (empty($leafNode)) {
