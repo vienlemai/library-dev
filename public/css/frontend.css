@@ -555,21 +555,24 @@ div.pagination span.disabled {
 /*---------------footer------------------------*/
 .footer{
     height:88px;
-    border-top:1px #b2b2b2 dashed;
-    //background:url(/img/footer_bg.gif) no-repeat bottom;
+    background:url(/img/footer.png) no-repeat bottom;
 }
 .left_footer{
     float:left;
-    padding:10px 0 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    padding:20px 0 0 10px;
 }
 .right_footer{
     float:right;
-    padding:10px 10px 0 0;
+    color: #fff;
+    padding:20px 10px 0 0;
 }
 .footer a{
     text-decoration:none;
     padding:0 5px 0 5px;
-    color:#afaeaf;
+    color:#fff;
 }
 #user-box {
     margin-left: 300px;
