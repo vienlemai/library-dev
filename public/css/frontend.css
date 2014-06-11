@@ -44,8 +44,8 @@ p.more_details{
     width:900px;
     height: auto;
     margin:auto;
-	border-bottom-left-radius: 18px;
-	border-bottom-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
     background-color:#FFFFFF;
 }
 .header{
@@ -58,7 +58,7 @@ p.more_details{
 #banner, #banner img {
     max-height: 100px;
     min-height: 100px;
-	width: 100%;
+    width: 100%;
 }
 /*-----------------------------menu-------------------*/
 #menu{
@@ -129,6 +129,7 @@ span.colors{
     border-top: 1px #b2b2b2 dashed;
     width:890px;
     min-height: 530px;
+    padding-bottom: 15px;
 }
 .left_content{
     width:490px;
@@ -400,15 +401,14 @@ a.view_cart{
     padding:10px;
     border:1px #DFD1D2 solid;
     border-radius: 4px;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin-left: 30%;
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.85);
 }
 .form_row{
     width:335px;
-    _width:355px;
     clear:both;
-    padding:10px 0 10px 0;
-    _padding:5px 0 5px 0;
+    padding: 10px 0 0 0;
     color:#a53d17;
 }
 label.contact{
@@ -721,4 +721,10 @@ div.pagination span.disabled {
     height: 180px;
     line-height: 1;
     width: 100%;
+}
+.center_content.login-page {
+    min-height: 486px;
+    padding: 0;
+    width: 100%;
+    background: url('/img/frontend_login_background.png') no-repeat;
 }

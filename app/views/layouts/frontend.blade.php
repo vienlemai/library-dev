@@ -13,12 +13,12 @@
     <body>       
         <div id="wrap">
             <?php echo View::make('frontend.partials.main_menu'); ?>
-            <div class="center_content">
+           
+            <div class="center_content <?php echo Route::currentRouteAction() == 'PageController@login' ? 'login-page' : ''?>">
                 @include('partials.flash')
                 @yield('content')
                 <div class="clear"></div>
             </div><!--end of center content-->
-            <div class="margin-15"></div>
             <div class="footer">
                 <div class="left_footer">
                     Bản quyền thuộc về Thư Viện T52 - Năm {{date('Y')}}
