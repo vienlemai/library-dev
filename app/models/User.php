@@ -61,7 +61,7 @@ class User extends Illuminate\Database\Eloquent\Model implements IActivityAuthor
 
     public function beforeSave() {
         //exit ('beroresave');
-        $permissions = json_decode($this->permissions);
+        $permissions = json_decode($this->permissions,true);
         if (is_null($permissions)) {
             $permissions = array();
         }

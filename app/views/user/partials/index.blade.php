@@ -16,8 +16,8 @@
                 <th style='width:15%'>Họ tên</th>
                 <th style='width:10%'>Email</th>
                 <th style="width: 10%">Nhóm</th>
-                <th style='width:15%'>Ngày tạo</th>
-                <th style='width:15%'>Thao tác</th>
+                <th style='width:10%'>Ngày tạo</th>
+                <th style='width:20%'>Thao tác</th>
             </tr>
         </thead>
         <tbody>

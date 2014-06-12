@@ -251,34 +251,29 @@ class BookController extends \BaseController {
             $v = Book::magazineValidate(Input::all());
         }
         if ($v->passes()) {
-            $book = Book::where('type_number', Input::get('type_number'))
-                ->first();
-            if ($book === null) {
-                $permission = json_encode(Input::get('permission'));
-                $book = new Book(Input::all());
-                $book->book_type = $type;
-                $book->permission = $permission;
-                if ($book->save()) {
-                    Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
-                        . Input::get('title')
-                        . '"</strong>, số lượng : <strong>'
-                        . Input::get('number') . ' cuốn</strong>');
+            $permission = json_encode(Input::get('permission'));
+            $book = new Book(Input::all());
+            $book->book_type = $type;
+            $book->permission = $permission;
+            if ($book->save()) {
+                Session::flash('success', 'Tạo mới thành công tài liệu <strong>"'
+                    . Input::get('title')
+                    . '"</strong>, số lượng : <strong>'
+                    . Input::get('number') . ' cuốn</strong>');
 
-                    $redirect = Input::get('redirect');
-                    if ($redirect == 'create') {
-                        return Redirect::route('book.create', $type);
-                    } elseif ($redirect == 'index') {
-                        return Redirect::route('book.catalog');
-                    }
-                    return Redirect::route('book.view', $book->id);
-                } else {
-                    Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
-                    return Redirect::route('book.create');
+                $redirect = Input::get('redirect');
+                if ($redirect == 'create') {
+                    return Redirect::route('book.create', $type);
+                } elseif ($redirect == 'index') {
+                    return Redirect::route('book.catalog');
                 }
+                return Redirect::route('book.view', $book->id);
             } else {
-                $book->updateNumer(Input::get('number'));
+                Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
+                return Redirect::route('book.create');
             }
         } else {
+            Session::flash('error', 'Đã có lỗi, vui lòng kiểm tra lại dữ liệu');
             return Redirect::back()->withInput()->withErrors($v->messages());
         }
     }
@@ -491,7 +486,7 @@ class BookController extends \BaseController {
                         }
                         $v = Book::magazineExcelValidate($dataValidate);
                         if (!$v->passes()) {
-                            return Redirect::back()->with('index', $i+1)->withErrors($v->messages());
+                            return Redirect::back()->with('index', $i + 1)->withErrors($v->messages());
                         }
                     }
                 }
@@ -529,15 +524,9 @@ class BookController extends \BaseController {
                 }
             }
             $bookToSaveConverted = Book::convertTitleToId($bookToSave);
-            $book = Book::where('type_number', $bookToSaveConverted['type_number'])
-                ->first();
-            if ($book !== null) {
-                $book->updateNumer($bookToSaveConverted['number']);
-            } else {
-                $book = new Book($bookToSaveConverted);
-                $book->book_type = $type;
-                $book->save();
-            }
+            $book = new Book($bookToSaveConverted);
+            $book->book_type = $type;
+            $book->save();
         }
         Session::flash('success', 'Lưu thành công ' . count($bookData) . ' tài liệu từ file excel');
         return Redirect::route('book.catalog');
@@ -581,12 +570,14 @@ class BookController extends \BaseController {
     public function publishMany() {
         if ($this->_checkInventory()) {
             $bookIds = Input::get('bookIds');
+            //dd($bookIds);
             try {
                 foreach ($bookIds as $bookId) {
                     $book = Book::findOrFail($bookId);
                     $book->publish();
                 }
             } catch (Exception $e) {
+                dd($e);
                 Session::flash('error', 'Đã có lỗi xảy ra, vui lòng thử lại');
                 return Redirect::route('moderator');
             }
@@ -600,6 +591,7 @@ class BookController extends \BaseController {
     public function label($id) {
         $bookItems = BookItem::with('book')
             ->where('book_id', $id)
+            ->orderBy('sequence')
             ->get();
         $storageOptions = new Storage();
         $path = $storageOptions->supperRoot($bookItems[0]->book->storage);

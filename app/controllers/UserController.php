@@ -75,10 +75,9 @@ class UserController extends BaseController {
                 array_push($permissions, (int) $p);
             }
         }
-        $permissions = json_encode($permissions);
-        //dd($user);
+        $user->permissions = json_encode($permissions);
         $user->beforeSave();
-        $user->update(array('permissions' => $permissions));
+        $user->update(array('permissions' => json_encode($permissions)));
         Session::flash('success', 'Phân quyền thành công');
         return Redirect::route('users');
     }
@@ -118,7 +117,8 @@ class UserController extends BaseController {
 
     public function delete($id) {
         $user = User::findOrFail($id);
-        User::where('id', '=', $id)->delete();
+        $user->account()->delete();
+        $user->delete();
         Session::flash('error', 'Đã xóa nhân viên "' . $user->full_name . '"');
         return Redirect::route('users');
     }

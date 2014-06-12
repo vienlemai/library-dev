@@ -116,6 +116,7 @@ class Book extends Eloquent {
         'pages' => 'Số trang',
         'size' => 'Kích cỡ',
         'attach' => 'Tài liệu đính kèm',
+        'year_publish' => 'Năm xuất bản',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
         'cutter' => 'Số cutter',
@@ -135,6 +136,7 @@ class Book extends Eloquent {
         'magazine_additional' => 'Phụ trương',
         'magazine_special' => 'Số đặc biệt',
         'magazine_local' => 'Khu vực',
+        'year_publish' => 'Năm xuất bản',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
         'cutter' => 'Số cutter',
@@ -268,15 +270,42 @@ class Book extends Eloquent {
             $book->barcode = $random;
         });
         static::created(function($book) {
-            DB::table('book_type_controls')
-                ->insert(array(
-                    'book_id' => $book->id,
-                    'book_type_number' => $book->type_number,
-                    'max' => $book->number,
-            ));
-            $number = (int) $book->number;
-            $book->saveBookItem(0, $number);
+            $bookTypeControl = DB::table('book_type_controls')
+                ->where('book_type_number', $book->type_number)
+                ->first();
+            if ($bookTypeControl === null) {
+                $start = 0;
+                DB::table('book_type_controls')
+                    ->insert(array(
+                        'book_id' => $book->id,
+                        'book_type_number' => $book->type_number,
+                        'max' => $book->number,
+                ));
+            } else {
+                $max = $bookTypeControl->max;
+                $start = $max;
+                DB::table('book_type_controls')
+                    ->where('book_type_number', $book->type_number)
+                    ->update(array(
+                        'max' => $max + $book->number,
+                ));
+            }
+            $book->saveBookItem($start);
         });
+    }
+
+    public function saveBookItem($start) {
+        for ($i = 1; $i <= $this->number; $i++) {
+            $code = $this->barcode . sprintf("%03s", ++$start);
+            $fullCode = self::ean13_check_digit($code);
+            $bItem = new BookItem(array(
+                'barcode' => $fullCode,
+                'status' => BookItem::SS_STORAGED,
+                'sequence' => $start,
+                'book_id' => $this->id,
+            ));
+            $bItem->save();
+        }
     }
 
     public function updateNumer($number) {
@@ -329,7 +358,32 @@ class Book extends Eloquent {
         $this->status = self::SS_PUBLISHED;
         $this->published_at = Carbon\Carbon::now();
         $this->published_by = Auth::user()->loginable_id;
-        $this->save();
+        $bookTypeControl = DB::table('book_type_controls')
+            ->where('book_type_number', $this->type_number)
+            ->first();
+        if ($this->id != $bookTypeControl->book_id) {
+            $oldBook = Book::where('id', $bookTypeControl->book_id)
+                ->where('status', self::SS_PUBLISHED)
+                ->first();
+            if ($oldBook !== null) {
+                $oldNumber = $oldBook->number;
+                $oldBook->number = $oldNumber + $this->number;
+                $oldBook->save();
+                BookItem::where('book_id', $this->id)
+                    ->update(array(
+                        'book_id' => $oldBook->id,
+                ));
+                $this->delete();
+            } else {
+                DB::table('book_type_controls')
+                    ->where('book_type_number', $this->type_number)
+                    ->update(array('book_id' => $this->id));
+                $this->save();
+            }
+        } else {
+            $this->save();
+        }
+
         // Write publish book event
         Activity::write(Session::get('User'), Activity::PUBLISHED_BOOK, $this);
     }
@@ -373,21 +427,7 @@ class Book extends Eloquent {
 //        return ucwords($value);
 //    }
 
-    public function saveBookItem($start, $number) {
-        $start+= 1;
-        for ($i = 1; $i <= $number; $i++) {
-            $code = $this->barcode . sprintf("%03s", $start);
-            $fullCode = self::ean13_check_digit($code);
-            $bItem = new BookItem(array(
-                'barcode' => $fullCode,
-                'status' => BookItem::SS_STORAGED,
-                'sequence' => $start,
-                'book_id' => $this->id,
-            ));
-            $bItem->save();
-            $start++;
-        }
-    }
+
 
     public static function search($params) {
         $query = self::select('books.*');
