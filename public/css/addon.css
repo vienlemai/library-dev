@@ -144,3 +144,18 @@ ul.pagination {
 	text-align: center;
 	border: 1px solid,#000000;
 }
+/* Hello Lavarel 4 */
+.book-error-info{
+	border: 1px solid #990000;
+	padding: 5px;
+}
+.reader-avatar{
+	width: 100px;
+	height: 100px;
+}
+.cir-action{
+	width: 85px;
+}
+.dl-horizontal dt{
+	width: 250px !important;
+}

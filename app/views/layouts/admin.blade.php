@@ -12,8 +12,6 @@
 
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/vlm.css') }}}"/>
         <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/addon.css') }}}"/>
 
         <!--[if lte IE 7]>

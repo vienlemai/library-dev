@@ -10,7 +10,7 @@
         </tr>
         <tr>
             <td rowspan="4">
-                <img width="100" height="100" src="{{$reader->avatar}}"/>                
+                <img width="100" height="100" src="<?php echo asset($reader->avatar) ?>"/>                
             </td>
             <td>Họ và tên: {{$reader->full_name}}</td>
         </tr>

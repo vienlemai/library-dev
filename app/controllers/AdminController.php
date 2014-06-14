@@ -8,6 +8,15 @@ class AdminController extends BaseController {
 
     public function index() {
         $activities = Activity::search()->paginate(Activity::PER_PAGE);
+        foreach ($activities as $activity) {
+            $author = $activity->author;
+            $object = $activity->object;
+            if ($author === null || $object === null) {
+                DB::table('activities')->truncate();
+                $activities = Activity::search()->paginate(Activity::PER_PAGE);
+                break;
+            }
+        }
         $count['reader_student'] = Reader::where('reader_type', Reader::TYPE_STUDENT)->count();
         $count['reader_staff'] = Reader::where('reader_type', Reader::TYPE_STAFF)->count();
         $count['reader_teacher'] = Reader::where('reader_type', Reader::TYPE_TEACHER)->count();

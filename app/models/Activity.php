@@ -8,7 +8,7 @@
 class Activity extends Eloquent {
     public $timestamps = false;
 
-    const PER_PAGE = 10;
+    const PER_PAGE = 20;
     /*
      * Book cataloging activities
      */
