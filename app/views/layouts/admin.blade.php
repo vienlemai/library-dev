@@ -10,12 +10,12 @@
         <title>Thư viện online - Quản trị</title>
         <link rel="icon" type="image/ico" href="favicon.ico"/>
 
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/addon.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/select2.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/all.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/addon.css') }}}"/>
 
         <!--[if lte IE 7]>
-        <script type='text/javascript' src='js/other/lte-ie7.js'></script>
+        <script type='text/javascript' src='assets/js/other/lte-ie7.js'></script>
         <![endif]-->
 
     </head>
@@ -44,19 +44,19 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/jquery.iframe-transport.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/jquery.fileupload.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/bootbox.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/jquery.validate.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/tinymce/tinymce.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/excellentexport.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/plugins/select2.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/actions.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/helper.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/app.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/be/common.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/be/vlm.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/be/lht.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/all.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/jquery.iframe-transport.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/jquery.fileupload.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/bootbox.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/jquery.validate.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/tinymce/tinymce.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/excellentexport.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/plugins/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/actions.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/helper.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/app.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/be/common.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/be/vlm.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/be/lht.js')}}}"></script>
     </body>
 </html>

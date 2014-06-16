@@ -10,11 +10,11 @@
         <title>Thư viện online - Quản trị</title>
         <link rel="icon" type="image/ico" href="favicon.ico"/>
 
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/lht.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/be/vlm.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/addon.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/select2.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/all.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/be/lht.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/be/vlm.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/addon.css') }}}"/>
 
         <!--[if lte IE 7]>
         <script type='text/javascript' src='js/other/lte-ie7.js'></script>
@@ -25,11 +25,11 @@
         <div id="wrapper" class="screen_wide">
             @yield('content')
         </div>
-        <script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('assets/js/all.js')}}}"></script>
         <script type="text/javascript">
-$('header').hide();
-$('footer').hide();
-window.print();
+            $('header').hide();
+            $('footer').hide();
+            window.print();
         </script>
 
     </body>

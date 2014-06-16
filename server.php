@@ -6,7 +6,7 @@ $uri = urldecode($uri);
 
 $paths = require __DIR__.'/bootstrap/paths.php';
 
-$requested = $paths['public'].$uri;
+$requested = $paths['base'].$uri;
 
 // This file allows us to emulate Apache's "mod_rewrite" functionality from the
 // built-in PHP web server. This provides a convenient way to test a Laravel
@@ -16,4 +16,4 @@ if ($uri !== '/' and file_exists($requested))
 	return false;
 }
 
-require_once $paths['public'].'/index.php';
+require_once $paths['base'].'/index.php';
