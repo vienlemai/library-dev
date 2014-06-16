@@ -36,10 +36,12 @@
                             <i class='i-pencil'></i>
                             Sửa
                         </a>
-                        <a class='text-error' href='{{route('user.delete',$user->id)}}' data-confirm='Bạn có chắc chắn muốn xóa nhân viên "{{$user->full_name}}"' data-method="delete" data-token="{{csrf_token()}}">
-                            <i class='i-cancel-2'></i>
-                            Xóa
-                        </a>
+                        <?php if (!$user->isAdmin()): ?>
+                            <a class='text-error' href='{{route('user.delete',$user->id)}}' data-confirm='Bạn có chắc chắn muốn xóa nhân viên "{{$user->full_name}}"' data-method="delete" data-token="{{csrf_token()}}">
+                                <i class='i-cancel-2'></i>
+                                Xóa
+                            </a>
+                        <?php endif; ?>
                         <?php if (!$user->isAdmin()): ?>
                             <a class='text-warning' href="{{route('user.permission',$user->id)}}">
                                 <i class='i-magnifier'></i>

@@ -48,6 +48,18 @@
                                 ->value($user->group->name)
                                 ->disabled()
                     }}	
+                    <?php if (!$user->isAdmin()): ?>
+                        <div class="control-group">
+                            <label for="permissions" class="control-label">Các quyền khác</label>
+                            <div class="controls">
+                                <?php foreach ($permissions as $k => $v): ?>
+                                    <label  class="checkbox">                                
+                                        <input type="checkbox" name="permissions[]" value="<?php echo $k ?>" <?php echo in_array($k, $curentPermissions) ? 'checked' : '' ?> disabled><?php echo $v ?>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     {{Former::xlarge_text('date_of_birth')
 								->label('Ngày sinh')
                                 ->value($user->date_of_birth)
