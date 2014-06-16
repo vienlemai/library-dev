@@ -84,7 +84,24 @@ class UserController extends BaseController {
 
     public function view($id) {
         $user = User::findOrFail($id);
-        return View::make('user.view', array('user' => $user));
+        $groupsTmp = Group::all();
+        foreach ($groupsTmp as $tmp) {
+            $groups[$tmp->id] = $tmp->name;
+        }
+        foreach (Permission::$ACTIONS as $k => $v) {
+            $permissions[$k] = $v['title'];
+        }
+        $defaultPermissions = json_decode($user->group->permissions);
+        $curentPermissions = $user->permissions;
+        foreach ($defaultPermissions as $k) {
+            unset($permissions[$k]);
+        }
+        return View::make('user.view', array(
+                'user' => $user,
+                'groups' => $groups,
+                'permissions' => $permissions,
+                'curentPermissions' => json_decode($curentPermissions)
+        ));
     }
 
     public function edit($id) {

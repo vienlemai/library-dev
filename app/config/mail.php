@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'maivien3101990@gmail.com', 'name' => 'Lê Mai Viện'),
+	'from' => array('address' => 'thuvient52@gmail.com', 'name' => 'Ban Quản Trị'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return array(
 	|
 	*/
 
-	'username' => 'maivien3101990',
+	'username' => 'thuvient52',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return array(
 	|
 	*/
 
-	'password' => 'MaiVien158',
+	'password' => 'tccsgtt52',
 
 	/*
 	|--------------------------------------------------------------------------

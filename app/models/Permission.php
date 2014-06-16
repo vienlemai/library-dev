@@ -77,7 +77,7 @@ class Permission {
             ),
         ),
         5 => array(
-            'title' => 'Thống kê tài liệu',
+            'title' => 'Thống kê',
             'menus' => array(
                 'statistics.reader' => 'Thống kê bạn đọc',
                 'statistics.book' => 'Thống kê tài liệu',

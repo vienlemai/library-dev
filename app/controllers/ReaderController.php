@@ -70,7 +70,6 @@ class ReaderController extends \BaseController {
                     Session::flash('success', 'Tạo mới thành công bạn đọc ' . $reader->full_name);
                     return Redirect::route('readers');
                 } catch (Exception $exc) {
-                    dd($exc);
                     Session::flash('error', 'Tạo bạn đọc thất bại, không có kết nối đến Internet nên không thể gửi mail, vui lòng kiểm tra lại kết nối.');
                     return Redirect::back();
                 }
