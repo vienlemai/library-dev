@@ -12,7 +12,7 @@ $now = Carbon\Carbon::now();
 <div class='span4'>
     <?php echo Former::horizontal_open(route('fe.update_account'), 'POST') ?>
     <?php Former::populate($reader) ?>
-    <?php echo Former::text('email', 'Email')->disabled() ?>
+    <?php echo Former::text('email', 'Email'); ?>
     <?php echo Former::text('full_name', 'Họ tên') ?>
     <?php echo Former::text('year_of_birth', 'Ngày sinh')->class('datepicker') ?>
     <?php echo Former::text('class', 'Lớp') ?>

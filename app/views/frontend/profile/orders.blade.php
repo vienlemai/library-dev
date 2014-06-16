@@ -47,7 +47,27 @@ $now = Carbon\Carbon::now();
                         <td><?php echo $order->created_at->format('H:i, d \t\h\á\n\g m, Y') ?></td>
                         <td><?php echo $order->count ?></td>
                         <td><?php echo $order->book->scopeName() ?></td>
-                        <td><?php echo $order->getStatusTitle() ?></td>
+                        <td>
+                            <?php if ($order->status == Order::SS_REJECTED): ?>
+                                <a href="#order-reason-reject-{{$order->id}}" class="btn btn-small btn-danger" data-toggle='modal'>
+                                    <?php echo $order->getStatusTitle() ?>
+                                </a>
+                                <div class="modal hide fade" id="order-reason-reject-{{$order->id}}">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4>Lý do từ chối</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <?php echo $order->reason_reject ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn" data-dismiss="modal" aria-hidden="true"><i class='fa fa-times'></i> Đóng</button>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <?php echo $order->getStatusTitle() ?>
+                            <?php endif; ?>
+                        </td>
                         <td><?php
                             if ($order->status == Order::SS_APPROVED) {
                                 echo $order->pick_up_at->format('d \t\h\á\n\g m, Y');

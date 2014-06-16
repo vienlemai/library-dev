@@ -2,7 +2,7 @@
 {{Former::xlarge_text('card_number')
     ->label('Số thẻ (*)')
     ->value($reader->card_number)
-    ->disabled()
+    ->readonly()
 }}
 {{Former::select('reader_type')
     ->label('Loại bạn đọc (*)')
@@ -43,7 +43,6 @@
 {{Former::xlarge_text('email')
     ->label('Email (*)')
     ->value($reader->email)
-    ->disabled()
 }}
 
 {{Former::xlarge_text('phone')

@@ -147,9 +147,9 @@ class ReaderController extends \BaseController {
             $reader->update(Input::all());
             Session::flash('success', 'Lưu thành công thông tin bạn đọc "' . $reader->full_name . '"');
         } else {
-            return Redirect::route('reader.create')->withInput()->withErrors($v->messages());
+            return Redirect::back()->withInput()->withErrors($v->messages());
         }
-        return Redirect::route('readers');
+        return Redirect::back();
     }
 
 }

@@ -23,8 +23,7 @@
                 <div class='head'>
                     <h2>Nhập thông tin bạn đọc</h2>
                 </div>
-                <div class='content'>
-                    @include('partials.flash')
+                <div class='content'>                   
                     <?php if ($errors->has('avatar')): ?>
                         <div class="alert alert-error upload-error">           
                             {{$errors->first('avatar')}}
@@ -56,6 +55,7 @@
                         </div>
                     </div>
                     <div class="span8">
+                        @include('partials.flash')
                         <?php
                         if ($reader->reader_type == Reader::TYPE_STUDENT) {
                             echo View::make('reader.partials.edit_student', array('reader' => $reader))->render();

@@ -179,13 +179,13 @@ class Reader extends Eloquent implements IActivityAuthor {
         // Write create reader event
         static::created(function($reader) {
             Activity::write(Session::get('User'), Activity::ADDED_CARD, $reader);
-            $articleTitle = 'Bạn đọc mới';
-            $articleContent = $reader->getTypeName() . $reader->full_name . ' vừa đăng ký là nhân viên của thư viện';
-            $article = new Article(array(
-                'title' => $articleTitle,
-                'content' => $articleContent,
-            ));
-            $article->save();
+//            $articleTitle = 'Bạn đọc mới';
+//            $articleContent = $reader->getTypeName() .' '. $reader->full_name . ' vừa đăng ký là nhân viên của thư viện';
+//            $article = new Article(array(
+//                'title' => $articleTitle,
+//                'content' => $articleContent,
+//            ));
+//            $article->save();
         });
     }
 

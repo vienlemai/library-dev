@@ -11,6 +11,7 @@
 		<link rel="icon" type="image/ico" href="favicon.ico"/>
 		<script type="text/javascript" src="{{{asset('js/all.js')}}}"></script>
 		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/all.css') }}}"/>
+		<link media="screen" rel="stylesheet" type="text/css" href="{{{ asset('css/admin_login.css') }}}"/>
 
 		<!--[if lte IE 7]>
 		<script type='text/javascript' src='js/other/lte-ie7.js'></script>
