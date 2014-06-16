@@ -2,7 +2,7 @@
 <div id='sidebar'>
     <div class='user'>
         <div class='pic'>
-            <img src="{{asset('assets/img/default_avatar.png')}}">
+            <img src="{{asset('img/default_avatar.png')}}">
         </div>
         <div class='info'>
             <div class='name'

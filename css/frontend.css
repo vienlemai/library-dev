@@ -63,7 +63,7 @@ p.more_details{
 /*-----------------------------menu-------------------*/
 #menu{
     height:30px;
-    background:url(/assets/img/menu_bg.png) no-repeat;
+    background:url(../img/menu_bg.png) no-repeat;
 }
 #menu > ul{
     display:block;
@@ -166,12 +166,6 @@ a.more{
     font-size:11px;
     padding:0px 15px 0 0 ;
 }
-.about{
-    width:337px;
-    clear:both;
-    background:url(/assets/images/border.gif) no-repeat bottom center;
-    padding:0 0 35px 0;
-}
 img.right{
     float:right;
     padding:0 0 0 10px;
@@ -204,21 +198,6 @@ img.right{
     float:left;
     padding:0 0 0 25px;
     position:relative;
-}
-.box_top{
-    width:295px;
-    height:9px;
-    background:url(/assets/images/box_top.gif) no-repeat center bottom;
-}
-.box_center{
-    width:295px;
-    height:auto;
-    background:url(/assets/images/box_center.gif) repeat-y center;
-}
-.box_bottom{
-    width:295px;
-    height:9px;
-    background:url(/assets/images/box_bottom.gif) no-repeat center top;
 }
 
 .book-box{
@@ -280,13 +259,6 @@ ul.list{
 ul.list li{
     list-style:none;
     padding:2px 0 2px 0;
-}
-ul.list li a{
-    list-style:none;
-    text-decoration:none;
-    color:#000000;
-    background:url(/assets/images/left_menu_bullet.gif) no-repeat left;
-    padding:0 0 0 17px;
 }
 ul.list li a:hover{
     text-decoration:underline;
@@ -555,7 +527,7 @@ div.pagination span.disabled {
 /*---------------footer------------------------*/
 .footer{
     height:88px;
-    background:url(/assets/img/footer.png) no-repeat bottom;
+    background:url(../img/footer.png) no-repeat bottom;
 }
 .left_footer{
     float:left;
@@ -726,5 +698,5 @@ div.pagination span.disabled {
     min-height: 486px;
     padding: 0;
     width: 100%;
-    background: url('/assets/img/frontend_login_background.png') no-repeat;
+    background: url('../img/frontend_login_background.png') no-repeat;
 }

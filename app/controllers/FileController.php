@@ -5,7 +5,7 @@ class FileController extends BaseController {
     public function uploadImage() {
         $uploadType = Input::get('uploadType');
         $oldFile = Input::get('oldFile');
-        $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $uploadType;
+        $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $uploadType;
         $result = array();
         if (!is_dir($destinationPath)) {
             mkdir($destinationPath);
@@ -19,7 +19,7 @@ class FileController extends BaseController {
         try {
             Input::file('image')->move($destinationPath, $fileName);
             $result['status'] = true;
-            $result['image_path'] = '/' . Reader::AVATAR_DIR_PATH . $fileName;
+            $result['image_path'] = asset(Reader::AVATAR_DIR_PATH . $fileName);
             $result['image_name'] = $fileName;
         } catch (Exception $e) {
             $result['status'] = false;

@@ -3,12 +3,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>Thư Viện</title>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/bootstrap-2.3.2.min.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/fe/bootstrap-override.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/font-awesome.min.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/fe/bootstrap-datepicker.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/select2.css') }}}"/>
-        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('assets/css/frontend.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/bootstrap-2.3.2.min.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/fe/bootstrap-override.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/font-awesome.min.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/fe/bootstrap-datepicker.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/select2.css') }}}"/>
+        <link media="all" rel="stylesheet" type="text/css" href="{{{ asset('css/frontend.css') }}}"/>
     </head>
     <body>       
         <div id="wrap">
@@ -29,12 +29,12 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="{{{asset('assets/js/plugins/jquery-2.0.0.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('assets/js/plugins/bootstrap-2.3.2.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('assets/js/plugins/bootbox.min.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('assets/js/plugins/bootstrap-datepicker.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('assets/js/plugins/select2.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('assets/js/fe/common.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/jquery-2.0.0.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/bootstrap-2.3.2.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/bootbox.min.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/bootstrap-datepicker.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/plugins/select2.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/fe/common.js')}}}"></script>
         @yield('inline_js')
     </body>
 </html>
