@@ -2,8 +2,8 @@
 
 class Slider {
 
-    const SLIDE_IMAGES_DIR_PATH = 'assets/sliders';
-    const DEFAULT_BANNER_IMAGE_PATH = '/assets/img/banner.jpg';
+    const SLIDE_IMAGES_DIR_PATH = 'sliders';
+    const DEFAULT_BANNER_IMAGE_PATH = 'img/banner.jpg';
 
     public static function scanImages() {
         $slide_photos_path = public_path() . DIRECTORY_SEPARATOR . self::SLIDE_IMAGES_DIR_PATH . DIRECTORY_SEPARATOR;

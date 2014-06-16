@@ -1,6 +1,6 @@
 <div class="header">
     <div id="banner">
-        <img src="<?php echo asset('assets/img/banner.jpg') ?>">
+        <img src="<?php echo asset('img/banner.jpg') ?>">
     </div>
     <div id="menu">
         <ul>           

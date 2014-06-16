@@ -34,7 +34,7 @@
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <img class="image-preview" src="{{asset('assets/img/no_avatar.gif')}}" width="100" height="100"/>
+                                    <img class="image-preview" src="{{asset('img/no_avatar.gif')}}" width="100" height="100"/>
                                 </div>
                             </div>
                             <input type="hidden" class="crsf-token" name="token" value="{{Session::token()}}"/>	

@@ -9,6 +9,6 @@ Thumbs.db
 .idea
 nbproject
 /nbproject/private/
-/public/img/barcode/
-/public/img/readers/
-/public/packages/
+/img/barcode/
+/img/readers/
+/packages/
