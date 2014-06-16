@@ -34,7 +34,7 @@
             <div class="control-group">
                 <label class="control-label" for="title">Ngày hẹn</label>
                 <div class="controls">
-                    <input type="text" name="time_pick_up" class="input-xlarge datepicker">
+                    <input type="text" name="time_pick_up" class="input-xlarge datepicker" data-min-date="<?php echo date('Y-m-d')?>">
                 </div>
             </div>
             <input class="order-id" type="hidden" name="id" value=""/>

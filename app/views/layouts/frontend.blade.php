@@ -26,6 +26,7 @@
                 <div class="right_footer">
                     <a href="<?php echo route('fe.home')?>">Trang chủ</a>
                     <a href="#">Giới thiệu</a>
+                    <a href="#top"><i class="fa fa-angle-up"></i> Lên đầu trang</a>
                 </div>
             </div>
         </div>
