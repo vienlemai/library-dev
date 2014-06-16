@@ -47,7 +47,7 @@ class Reader extends Eloquent implements IActivityAuthor {
     /**
      * Avatar directory relative path
      */
-    const AVATAR_DIR_PATH = 'img/readers/';
+    const AVATAR_DIR_PATH = 'assets/img/readers/';
 
     public static $TYPE_LABELS = array(
         self::TYPE_STUDENT => 'Học viên',

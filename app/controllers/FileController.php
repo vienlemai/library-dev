@@ -5,7 +5,7 @@ class FileController extends BaseController {
     public function uploadImage() {
         $uploadType = Input::get('uploadType');
         $oldFile = Input::get('oldFile');
-        $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $uploadType;
+        $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $uploadType;
         $result = array();
         if (!is_dir($destinationPath)) {
             mkdir($destinationPath);
