@@ -1,3 +1,8 @@
+<style>
+    table * {
+        font-size: 10px;
+    }
+</style>
 <?php $len = count($barcodes) ?>
 <table>
     <tbody>
@@ -17,7 +22,7 @@
                                 </tr>
                                 <tr>
                                     <td rowspan="4">
-                                        <img width="100" height="100" src="{{$readers[$j]->avatar}}"/>                
+                                        <img width="80" height="80" src="{{$readers[$j]->avatar}}"/>                
                                     </td>
                                     <td>Họ và tên: {{$readers[$j]->full_name}}</td>
                                 </tr>
@@ -27,15 +32,11 @@
                                             Lớp: {{$readers[$j]->class}}
                                         </td>
                                     </tr>
-                                <?php elseif ($readers[$j]->isStaff()): ?>
+                                <?php else : ?>
                                     <tr>
                                         <td>
                                             Đơn vị: {{$readers[$j]->department}}
                                         </td>
-                                    </tr>
-                                <?php else: ?>
-                                    <tr>
-                                        <td></td>
                                     </tr>
                                 <?php endif; ?>
                                 <tr>
@@ -61,7 +62,6 @@
         <?php endfor; ?>
         <tr>
             <?php while ($i < $len) {
-
                 ?><td style="padding: 20px">
                     <table style="border: solid 1px #000000; padding: 5px">
                         <tbody>
@@ -117,7 +117,6 @@
                 <?php
                 $i++;
             }
-
             ?>
         </tr>
     </tbody>

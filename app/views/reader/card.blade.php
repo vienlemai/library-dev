@@ -1,3 +1,8 @@
+<style>
+    table * {
+        font-size: 10px;
+    }
+</style>
 <table style="border: solid 1px #000000; padding: 5px">
     <tbody>
         <tr>
@@ -10,7 +15,7 @@
         </tr>
         <tr>
             <td rowspan="4">
-                <img width="100" height="100" src="<?php echo asset($reader->avatar) ?>"/>                
+                <img width="80" height="80" src="<?php echo asset($reader->avatar) ?>"/>                
             </td>
             <td>Họ và tên: {{$reader->full_name}}</td>
         </tr>
@@ -20,15 +25,11 @@
                     Lớp: {{$reader->class}}
                 </td>
             </tr>
-        <?php elseif ($reader->isStaff()): ?>
+        <?php else: ?>
             <tr>
                 <td>
                     Đơn vị: {{$reader->department}}
                 </td>
-            </tr>
-        <?php else: ?>
-            <tr>
-                <td></td>
             </tr>
         <?php endif; ?>
         <tr>
