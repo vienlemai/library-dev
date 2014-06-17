@@ -34,6 +34,11 @@ Route::get('/thong-bao/{id}', array(
     'as' => 'fe.article_details',
     'uses' => 'PageController@articleDetails',
 ));
+
+Route::post('/reminder_password', array(
+    'as' => 'fe.reminder_password',
+    'uses' => 'PasswordController@reminderPassword',
+));
 Route::group(array('before' => 'fe.auth'), function() {
 
             /*
