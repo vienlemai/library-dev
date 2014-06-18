@@ -1,6 +1,7 @@
 <style>
-    table * {
-        font-size: 10px;
+    table.titiem  {
+        font-size: 10px;        
+        border: solid 1px #000000; padding: 0px; margin: 0px
     }
 </style>
 <?php $len = count($barcodes) ?>
@@ -10,7 +11,7 @@
             <tr>
                 <?php for ($j = $i; $j <= $i + 1; $j++): ?>
                     <td style="padding: 20px;">
-                        <table style="border: solid 1px #000000; padding: 5px">
+                        <table class="titiem">
                             <tbody>
                                 <tr>
                                     <td>Trường TC CSGT</td>
@@ -62,8 +63,9 @@
         <?php endfor; ?>
         <tr>
             <?php while ($i < $len) {
+
                 ?><td style="padding: 20px">
-                    <table style="border: solid 1px #000000; padding: 5px">
+                    <table class="titiem">
                         <tbody>
                             <tr>
                                 <td>Trường TC CSGT</td>
@@ -79,23 +81,23 @@
                                 </td>
                                 <td>Họ và tên: {{$readers[$i]->full_name}}</td>
                             </tr>
-                            <?php if ($readers[$i]->isStudent()): ?>
+    <?php if ($readers[$i]->isStudent()): ?>
                                 <tr>
                                     <td>
                                         Lớp: {{$readers[$i]->class}}
                                     </td>
                                 </tr>
-                            <?php elseif ($readers[$i]->isStaff()): ?>
+    <?php elseif ($readers[$i]->isStaff()): ?>
                                 <tr>
                                     <td>
                                         Đơn vị: {{$readers[$i]->department}}
                                     </td>
                                 </tr>
-                            <?php else: ?>
+    <?php else: ?>
                                 <tr>
                                     <td></td>
                                 </tr>
-                            <?php endif; ?>
+    <?php endif; ?>
                             <tr>
                                 <td>
                                     Mã thẻ: {{$readers[$i]->card_number}}
@@ -117,6 +119,7 @@
                 <?php
                 $i++;
             }
+
             ?>
         </tr>
     </tbody>

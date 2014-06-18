@@ -1,9 +1,10 @@
 <style>
     table * {
-        font-size: 10px;
+        font-size: 10px;        
+        border: solid 1px #000000; padding: 0px; margin: 0px
     }
 </style>
-<table style="border: solid 1px #000000; padding: 5px">
+<table>
     <tbody>
         <tr>
             <td>Trường TC CSGT</td>
