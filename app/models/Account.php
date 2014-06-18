@@ -74,7 +74,7 @@ class Account extends Eloquent implements UserInterface, RemindableInterface {
      * @return string
      */
     public function getReminderEmail() {
-        return $this->email;
+        return $this->username;
     }
 
     public function getRememberToken() {

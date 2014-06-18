@@ -1,18 +1,16 @@
 <style>
-    table.titiem  {
-        font-size: 10px;        
-        border: solid 1px #000000; padding: 0px; margin: 0px
+    table * {
+        font-size: 10px;
     }
 </style>
 <?php $len = count($barcodes) ?>
 <table>
     <tbody>
-        <?php for ($i = 0; $i < $len; $i += 2): ?>
+        <?php for ($i = 0; $i < $len - 2; $i += 2): ?>
             <tr>
-<<<<<<< HEAD
                 <?php for ($j = $i; $j <= $i + 1; $j++): ?>
                     <td style="padding: 20px;">
-                        <table class="titiem">
+                        <table style="border: solid 1px #000000; padding: 5px">
                             <tbody>
                                 <tr>
                                     <td>Trường TC CSGT</td>
@@ -64,9 +62,8 @@
         <?php endfor; ?>
         <tr>
             <?php while ($i < $len) {
-
                 ?><td style="padding: 20px">
-                    <table class="titiem">
+                    <table style="border: solid 1px #000000; padding: 5px">
                         <tbody>
                             <tr>
                                 <td>Trường TC CSGT</td>
@@ -82,23 +79,23 @@
                                 </td>
                                 <td>Họ và tên: {{$readers[$i]->full_name}}</td>
                             </tr>
-    <?php if ($readers[$i]->isStudent()): ?>
+                            <?php if ($readers[$i]->isStudent()): ?>
                                 <tr>
                                     <td>
                                         Lớp: {{$readers[$i]->class}}
                                     </td>
                                 </tr>
-    <?php elseif ($readers[$i]->isStaff()): ?>
+                            <?php elseif ($readers[$i]->isStaff()): ?>
                                 <tr>
                                     <td>
                                         Đơn vị: {{$readers[$i]->department}}
                                     </td>
                                 </tr>
-    <?php else: ?>
+                            <?php else: ?>
                                 <tr>
                                     <td></td>
                                 </tr>
-    <?php endif; ?>
+                            <?php endif; ?>
                             <tr>
                                 <td>
                                     Mã thẻ: {{$readers[$i]->card_number}}
@@ -120,29 +117,7 @@
                 <?php
                 $i++;
             }
-
             ?>
         </tr>
-=======
-                <td>
-                    <?php
-                    echo View::make('reader.card')
-                            ->with('reader', $readers[$i])
-                            ->with('barcode', $barcodes[$i])->render()
-                    ?>
-                </td>
-                <td>
-                    <?php
-                    if (isset($readers[$i + 1])) {
-                        echo View::make('reader.card')
-                                ->with('reader', $readers[$i + 1])
-                                ->with('barcode', $barcodes[$i + 1])
-                                ->render();
-                    }
-                    ?>
-                </td>
-            </tr>
-        <?php endfor; ?>
->>>>>>> a32e90adfd30645a482e404f100e6892916c6780
     </tbody>
 </table>
