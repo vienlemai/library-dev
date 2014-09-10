@@ -204,7 +204,10 @@ class Book extends Eloquent {
     public function moderator() {
         return $this->belongsTo('User', 'published_by');
     }
-
+    
+    public function kho() {
+        return $this->belongsTo('Storage', 'storage');
+    }
     /*
      * Scopes
      */
@@ -446,7 +449,7 @@ class Book extends Eloquent {
         if (isset($params['storage']) && $params['storage'] != 'all') {
             $query = $query->where('storage', '=', $params['storage']);
         }
-
+        $query->with('bookItems');
         return $query;
     }
 

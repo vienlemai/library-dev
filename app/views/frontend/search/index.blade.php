@@ -14,10 +14,29 @@
         <label class="control-label" for="keyword">Từ khóa: </label>
         <input type="text" id="keyword" name="keyword" placeholder="Tên sách hoặc tác giả" class='form-control' value='<?php echo $keyword ?>'>
         <button type='submit' class='btn'><i class="fa fa-search"></i> Tìm</button>
+        <a class="btn btn-sm btn-default" href="<?php echo route('fe.search') ?>"><i class="fa fa-refresh"></i></a>
     </form>
 </div>
 <div id="search-result">
-    <?php echo View::make('frontend.partials.list_book', array('books' => $books))->render() ?>
+    <div class="col-md-12">
+        <?php
+        $show_paging = (int) ($books->getTotal() / $books->getPerPage()) > 0 ? true : false;
+        ?>
+        <?php if ($show_paging) : ?>
+            <div class='pagination'>
+                {{$books->links()}}
+            </div>
+        <?php endif; ?>
+        <div class="span5">
+            <p>Tìm thấy {{ $books->getTotal() }} kết quả </p>
+        </div>
+        <?php echo View::make('frontend.search._results', array('books' => $books))->render() ?>
+        <?php if ($show_paging) : ?>
+            <div class='pagination'>
+                {{$books->links()}}
+            </div>
+        <?php endif; ?>
+    </div>
 </div>
 @stop
 @section('inline_js')

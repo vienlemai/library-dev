@@ -11,7 +11,7 @@ class SearchController extends FrontendBaseController {
         if (Auth::check()) {
             $query->permission(Auth::user()->loginable->reader_type);
         }
-        $books = $query->paginate();
+        $books = $query->paginate(15);
         $storages = Storage::all();
         return View::make('frontend.search.index')
                 ->with('keyword', Input::get('keyword', ''))

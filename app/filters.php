@@ -56,12 +56,16 @@ App::after(function($request, $response) {
 
 Route::filter('auth', function() {
     if (!Auth::check()) {
-        Session::put('url.intended', URL::full());
+        if (Request::isMethod('get')) {
+            Session::put('url.intended', URL::full());
+        }
         return Redirect::route('login');
     } else {
         $loginableType = Auth::user()->loginable_type;
         if ($loginableType != 'User') {
-            Session::put('url.intended', URL::full());
+             if (Request::isMethod('get')) {
+                Session::put('url.intended', URL::full());
+             }
             return Redirect::route('login');
         }
     }
