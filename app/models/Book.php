@@ -650,8 +650,6 @@ class Book extends Eloquent {
             }
         }
         foreach (self::$SCOPE_LABELS as $k => $v) {
-            var_dump($k);
-            var_dump(strtolower($v));
             if (trim(strtolower($book['book_scope'])) == strtolower($v)) {
                 $book['book_scope'] = $k;
                 break;
