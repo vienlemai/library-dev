@@ -54,24 +54,23 @@ class Book extends Eloquent {
         2 => 'sub_title',
         3 => 'author',
         4 => 'translator',
-        5 => 'publish_info',
-        6 => 'publisher',
-        7 => 'printer',
-        8 => 'pages',
-        9 => 'size',
-        10 => 'attach',
-        11 => 'year_publish',
-        12 => 'organization',
-        13 => 'language',
-        14 => 'cutter',
-        15 => 'type_number',
-        16 => 'price',
-        17 => 'storage',
-        18 => 'number',
-        19 => 'level',
-        20 => 'book_scope',
-        21 => 'permission',
-        22 => 'another_infor'
+        5 => 'publisher',
+        6 => 'printer',
+        7 => 'pages',
+        8 => 'size',
+        9 => 'attach',
+        10 => 'year_publish',
+        11 => 'organization',
+        12 => 'language',
+        13 => 'cutter',
+        14 => 'type_number',
+        15 => 'price',
+        16 => 'storage',
+        17 => 'number',
+        18 => 'level',
+        19 => 'book_scope',
+        20 => 'permission',
+        21 => 'another_infor'
     );
     public static $magazineTitle = array(
         1 => 'title',
@@ -110,7 +109,6 @@ class Book extends Eloquent {
         'sub_title' => 'Nhan đề song song',
         'author' => 'Tác giả',
         'translator' => 'Dịch giả',
-        'publish_info' => 'Thông tin xuất bản',
         'publisher' => 'Nhà xuất bản',
         'printer' => 'Nhà in',
         'pages' => 'Số trang',
@@ -231,7 +229,6 @@ class Book extends Eloquent {
         'sub_title',
         'author',
         'translator',
-        'publish_info',
         'publisher',
         'printer',
         'pages',
@@ -709,7 +706,6 @@ class Book extends Eloquent {
                 array_push($bookData, $book->sub_title);
                 array_push($bookData, $book->author);
                 array_push($bookData, $book->translator);
-                array_push($bookData, $book->publish_info);
                 array_push($bookData, $book->publisher);
                 array_push($bookData, $book->printer);
                 array_push($bookData, $book->pages);

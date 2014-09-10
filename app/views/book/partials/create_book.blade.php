@@ -44,12 +44,8 @@
 								->label('Dịch giả')
                             }}
 
-                            {{Former::xlarge_text('publish_info')
-								->label('Thông tin xuất bản')
-                            }}
-
                             {{Former::xlarge_text('publisher')
-								->label('Nhà xuất bản/Nơi xuất bản')
+								->label('Nơi xuất bản/Nhà xuất bản')
                             }}
 
                             {{Former::xlarge_text('printer')

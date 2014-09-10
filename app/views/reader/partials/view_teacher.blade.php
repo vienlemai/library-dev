@@ -1,36 +1,30 @@
-{{ Former::horizontal_open('')->method('POST') }}
-{{Former::xlarge_text('card_number')
-        ->label('Mã thẻ (*)')
-        ->value($reader->card_number)
-        ->disabled()
-}}
-{{Former::xlarge_text('full_name')
-        ->label('Họ tên (*)')
-        ->value($reader->full_name)
-        ->disabled()
-}}
-
-{{Former::xlarge_text('year_of_birth')
-        ->label('Ngày sinh')
-        ->class('datepicker')
-        ->value($reader->year_of_birth)
-        ->disabled()
-}}
-
-{{Former::xlarge_text('hometown')
-        ->label('Quê quán')
-        ->value($reader->hometown)
-        ->disabled()
-}}
-
-{{Former::xlarge_text('email')
-        ->label('Email (*)')
-        ->value($reader->email)
-        ->disabled()
-}}
-
-{{Former::xlarge_text('phone')
-        ->label('Điện thoại')
-        ->value($reader->phone)
-        ->disabled()
-}}
+<table class="table table-bordered">
+    <tr>
+        <td>Mã thẻ</td>
+        <td>{{$reader->card_number}}</td>
+    </tr>
+    <tr>
+        <td>Họ tên</td>
+        <td>{{$reader->full_name}}</td>
+    </tr>
+    <tr>
+        <td>Ngày sinh</td>
+        <td>{{$reader->year_of_birth}}</td>
+    </tr>
+    <tr>
+        <td>Quê quán</td>
+        <td>{{$reader->hometown}}</td>
+    </tr>
+    <tr>
+        <td>Đơn vị</td>
+        <td>{{$reader->department}}</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>{{$reader->email}}</td>
+    </tr>
+    <tr>
+        <td>Điện thoại</td>
+        <td>{{$reader->phone}}</td>
+    </tr>
+</table>

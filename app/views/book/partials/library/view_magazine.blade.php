@@ -6,60 +6,102 @@
     <div class="modal-body">
         <h4 class="text-center">Tài liệu: {{$book->title}}</h4>
         <h5 class="text-info">Thông tin lưu hành</h5>
-        <dl class="dl-horizontal">
-            <dt>Thể loại: </dt>
-            <dd>Tạp chí/biểu mẫu</dd>
-            <dt>Ngày nhập:</dt>
-            <dd>{{$book->created_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</dd>
-            <dt>Người nhập:</dt>
-            <dd>{{$book->cataloger->full_name}}</dd>
-            <dt>Ngày lưu hành</dt>
-            <dd>{{$book->published_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</dd>
-            <dt>Người kiểm duyệt:</dt>
-            <dd>{{$book->moderator->full_name}}</dd>
-        </dl>
-        <hr>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>Thể loại</td>
+                <td>Tạp chí/Biểu mẫu</td>
+            </tr>
+            <tr>
+                <td>Ngày nhập</td>
+                <td>{{$book->created_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</td>
+            </tr>
+            <tr>
+                <td>Người nhập</td>
+                <td>{{$book->cataloger->full_name}}</td>
+            </tr>
+            <tr>
+                <td>Ngày lưu hành</td>
+                <td>{{$book->published_at->format('d \t\h\á\n\g m, Y').' ('.$book->created_at->diffForHumans().')'}}</td>
+            </tr>
+            <tr>
+                <td>Người kiểm duyệt</td>
+                <td>{{$book->moderator->full_name}}</td>
+            </tr>
+        </table>
         <h5 class="text-success">Thông tin tài liệu</h5>
-        <dl class="dl-horizontal">
-            <dt>Nhan đề: </dt>
-            <dd>{{$book->title}}</dd>
-            <dt>Số tạp chí: </dt>
-            <dd>{{!empty($book->magazine_number)?$book->magazine_number:'(trống)'}}</dd>
-            <dt>Ngày ra tạp chí: </dt>
-            <dd>{{!empty($book->magazine_publish_day)?$book->magazine_publish_day:'(trống)'}}</dd>
-            <dt>Phụ trương: </dt>
-            <dd>{{!empty($book->magazine_additional)?$book->magazine_additional:'(trống)'}}</dd>
-            <dt>Số đặc biệt: </dt>
-            <dd>{{!empty($book->magazine_special)?$book->magazine_special:'(trống)'}}</dd>
-            <dt>Khu vực: </dt>
-            <dd>{{!empty($book->magazine_local)?$book->magazine_local:'(trống)'}}</dd>
-        </dl>
-        <hr>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>Nhan đề</td>
+                <td>{{$book->title}}</td>
+            </tr>
+            <tr>
+                <td>Số tạp chí</td>
+                <td>{{$book->magazine_number}}</td>
+            </tr>
+            <tr>
+                <td>Ngày ra tạp chí</td>
+                <td>{{$book->magazine_publish_day}}</td>
+            </tr>
+            <tr>
+                <td>Phụ trương</td>
+                <td>{{$book->magazine_additional}}</td>
+            </tr>
+            <tr>
+                <td>Số đặc biệt</td>
+                <td>{{$book->magazine_special}}</td>
+            </tr>
+            <tr>
+                <td>Khu vực</td>
+                <td>{{$book->magazine_local}}</td>
+            </tr>
+        </table>
         <h5 class="text-warning">Thông tin kiểm soát</h5>
-        <dl class="dl-horizontal">
-            <dt>Mã cơ quan</dt>
-            <dd>{{!empty($book->organization)?$book->organization:'(trống)'}}</dd>
-            <dt>Ngôn ngữ</dt>
-            <dd>{{!empty($book->language)?$book->language:'(trống)'}}</dd>
-            <dt>Số cutter</dt>
-            <dd>{{$book->id}}</dd>
-            <dt>Số phân loại</dt>
-            <dd>{{!empty($book->type_number)?$book->type_number:'(trống)'}}</dd>
-            <dt>Giá tiền</dt>
-            <dd>{{!empty($book->price)?$book->price:'(trống)'}}</dd>
-            <dt>Nơi lưu trữ</dt>
-            <dd>{{$path}}</dd>
-            <dt>Số lượng</dt>
-            <dd>{{$book->number}}</dd>
-            <dt>Mức độ</dt>
-            <dd>{{$book->level}}</dd>
-            <dt>Phạm vi mượn</dt>
-            <dd>{{$book->scopeName()}}</dd>
-            <dt>Đối tượng được mượn</dt>
-            <dd>{{$book->permissionName()}}</dd>
-            <dt>Thông tin khác</dt>
-            <dd>{{!empty($book->another_infor)?$book->another_infor:'(trống)'}}</dd>
-        </dl>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>Mã cơ quan</td>
+                <td>{{$book->organization}}</td>
+            </tr>
+            <tr>
+                <td>Ngôn ngữ</td>
+                <td>{{$book->language}}</td>
+            </tr>
+            <tr>
+                <td>Số cutter</td>
+                <td>{{$book->cutter}}</td>
+            </tr>
+            <tr>
+                <td>Số phân loại</td>
+                <td>{{$book->type_number}}</td>
+            </tr>
+            <tr>
+                <td>Giá tiền</td>
+                <td>{{$book->price}}</td>
+            </tr>
+            <tr>
+                <td>Nơi lưu trữ</td>
+                <td>{{$path}}</td>
+            </tr>
+            <tr>
+                <td>Số lượng</td>
+                <td>{{$book->number}}</td>
+            </tr>
+            <tr>
+                <td>Mức độ</td>
+                <td>{{$book->level}}</td>
+            </tr>
+            <tr>
+                <td>Phạm vi mượn</td>
+                <td>{{$book->scopeName()}}</td>
+            </tr>
+            <tr>
+                <td>Đối tượng được mượn</td>
+                <td>{{$book->permissionName()}}</td>
+            </tr>
+            <tr>
+                <td>Thông tin khác</td>
+                <td>{{$book->another_infor}}</td>
+            </tr>
+        </table>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Đóng</button>            

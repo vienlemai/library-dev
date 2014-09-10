@@ -42,8 +42,6 @@
                                 <i class='i-magnifier'></i>
                                 Xem
                             </a>
-                            <a href="{{route('book.barcode',$book->id)}}" target="_blank" class="text-success"><i class="i-printer"></i> In mã vạch</a>
-                            <a href="{{route('book.label',$book->id)}}" target="_blank" class="text-warning"><i class="i-printer"></i> In nhãn</a>
                         </div>
                     </td>
                 </tr>

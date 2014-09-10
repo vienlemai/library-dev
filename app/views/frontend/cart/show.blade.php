@@ -14,7 +14,7 @@
 </div>
 <div class="clear"></div>
 <form action='{{route('fe.cart.submit')}}' method="POST" id="form-cart">
-      <table class='table table-bordered table-striped' id="cart-table">
+    <table class='table table-bordered table-striped' id="cart-table">
         <thead>
             <tr>
                 <th>#</th>
@@ -32,7 +32,7 @@
             <?php foreach ($books as $book): ?>
                 <tr>
                     <td>
-                        <?php echo++$index ?>
+                        <?php echo ++$index ?>
                         <input class="cart-input-book-id" type="hidden" name="" value="{{$book->id}}"/>
                         <input class="cart-input-book-scope" type="hidden" name="" value="{{$book->book_scope}}"/>
                     </td>
@@ -44,43 +44,71 @@
                             </div>
                             <div class="modal-body">
                                 <?php if ($book->isBook()): ?>
-                                    <dl class="dl-horizontal">
-                                        <dt>Nhan đề: </dt>
-                                        <dd>kinh dịch diễn giải</dd>
-                                        <dt>Nhan đề song song: </dt>
-                                        <dd>{{!empty($book->sub_title)?$book->sub_title:'(trống)'}}</dd>
-                                        <dt>Tác giả: </dt>
-                                        <dd>{{$book->author}}</dd>
-                                        <dt>Dịch giả: </dt>
-                                        <dd>{{!empty($book->translator)?$book->translator:'(trống)'}}</dd>
-                                        <dt>Thông tin xuất bản: </dt>
-                                        <dd>{{!empty($book->publish_info)?$book->publish_info:'(trống)'}}</dd>
-                                        <dt>Nhà xuất bản/Nơi xuất bản: </dt>
-                                        <dd>{{!empty($book->publisher)?$book->publisher:'(trống)'}}</dd>
-                                        <dt>Nhà in: </dt>
-                                        <dd>{{!empty($book->printer)?$book->printer:'(trống)'}}</dd>
-                                        <dt>Số trang: </dt>
-                                        <dd>{{!empty($book->pages)?$book->pages:'(trống)'}}</dd>
-                                        <dt>Khổ cỡ: </dt>
-                                        <dd>{{!empty($book->size)?$book->size:'(trống)'}}</dd>
-                                        <dt>Tài liệu đính kèm: </dt>
-                                        <dd>{{!empty($book->attach)?$book->attach:'(trống)'}}</dd>
-                                    </dl>
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <td>Nhan đề</td>
+                                            <td>{{$book->title}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nhan đề song song</td>
+                                            <td>$book->sub_title</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tác giả</td>
+                                            <td>{{$book->author}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dịch giả</td>
+                                            <td>{{$book->translator}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nơi xuất bản/Nhà xuất bản</td>
+                                            <td>$book->publisher</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nhà in</td>
+                                            <td>{{$book->printer}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Số trang</td>
+                                            <td>{{$book->pages}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Khổ cỡ</td>
+                                            <td>{{$book->size}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tài liệu đính kèm</td>
+                                            <td>{{$book->attach}}</td>
+                                        </tr>
+                                    </table>
                                 <?php else: ?>
-                                    <dl class="dl-horizontal">
-                                        <dt>Nhan đề: </dt>
-                                        <dd>{{$book->title}}</dd>
-                                        <dt>Số tạp chí: </dt>
-                                        <dd>{{!empty($book->magazine_number)?$book->magazine_number:'(trống)'}}</dd>
-                                        <dt>Ngày ra tạp chí: </dt>
-                                        <dd>{{!empty($book->magazine_publish_day)?$book->magazine_publish_day:'(trống)'}}</dd>
-                                        <dt>Phụ trương: </dt>
-                                        <dd>{{!empty($book->magazine_additional)?$book->magazine_additional:'(trống)'}}</dd>
-                                        <dt>Số đặc biệt: </dt>
-                                        <dd>{{!empty($book->magazine_special)?$book->magazine_special:'(trống)'}}</dd>
-                                        <dt>Khu vực: </dt>
-                                        <dd>{{!empty($book->magazine_local)?$book->magazine_local:'(trống)'}}</dd>
-                                    </dl>
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <td>Nhan đề</td>
+                                            <td>{{$book->title}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Số tạp chí</td>
+                                            <td>{{$book->magazine_number}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ngày ra tạp chí</td>
+                                            <td>{{$book->magazine_publish_day}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phụ trương</td>
+                                            <td>{{$book->magazine_additional}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Số đặc biệt</td>
+                                            <td>{{$book->magazine_special}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Khu vực</td>
+                                            <td>{{$book->magazine_local}}</td>
+                                        </tr>
+                                    </table>
                                 <?php endif; ?>
 
                             </div>

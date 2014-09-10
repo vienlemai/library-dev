@@ -7,8 +7,6 @@
     <dd>{{$book->author}}</dd>
     <dt>Dịch giả: </dt>
     <dd>{{!empty($book->translator)?$book->translator:'(trống)'}}</dd>
-    <dt>Thông tin xuất bản: </dt>
-    <dd>{{!empty($book->publish_info)?$book->publish_info:'(trống)'}}</dd>
     <dt>Nhà xuất bản/Nơi xuất bản: </dt>
     <dd>{{!empty($book->publisher)?$book->publisher:'(trống)'}}</dd>
     <dt>Nhà in: </dt>

@@ -27,11 +27,6 @@
 								->value($book->translator)
                 }}
 
-                {{Former::xlarge_text('publish_info')
-								->label('Thông tin xuất bản')
-								->value($book->publish_info)
-                }}
-
                 {{Former::xlarge_text('publisher')
 								->label('Nhà xuất bản/Nơi xuất bản')
 								->value($book->publisher)

@@ -24,57 +24,44 @@
                 </div>
                 <div class='content'>
                     <div class="span5">
-                        <form action="{{route('upload.image')}}" upload-type="readers" class="form-horizontal form-upload-image" method="POST">
-                            <!--							<div class="control-group">
-                                                            <label class="control-label" for="avatar">Ảnh đại diện (*)</label>
-                                                            <div class="controls">
-                                                                <input type="file" class="input-choose-image" name="image"/>
-                                                            </div>
-                                                        </div>-->
-                            <div class="control-group">
-                                <div class="controls">
-                                    <img class="image-preview reader-avatar" src="<?php echo asset($reader->avatar) ?>" width="100" height="100"/>
-                                </div>
-                            </div>
-                            <div class="control-group">
-                                <div class="controls">
-                                    <h4>Thông tin kiểm soát</h4>
-                                    <ul>
-                                        <li>Loại bạn đọc: {{Reader::$TYPE_LABELS[$reader->reader_type]}}</li>
-                                        <li>Mã bạn đọc: {{$reader->card_number}}</li>
-                                        <li>Ngày tạo: {{$reader->created_at->format('d/m/Y')}}</li>
-                                        <li>Ngày hết hạn: {{$reader->expired_at->format('d/m/Y')}}</li>
-                                        <li>Người tạo: {{$reader->creator->full_name }}</li>
-                                        <?php if ($reader->expired): ?>
-                                            <li style="color: red">Trạng thái: Hết hạn ({{$reader->status->expired_at->diffForHumans()}})</li>
-                                        <?php else : ?>
-                                            <li>Trạng thái: {{Reader::$SS_LABELS[$reader->status]}}</li>
-                                        <?php endif; ?>
-
-                                    </ul>
-                                </div>
-                            </div>
-                            <input type="hidden" class="crsf-token" name="token" value="{{Session::token()}}"/>	
-                            <input type="hidden" class="old-file" value=""/>
-                        </form>
-                        <div class="alert alert-error upload-error" style="display: none">           
-                            <span></span>
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                        </div>
-                        <div class="progress progress-info progress-small upload-progress" style="display: none">
-                            <div class="bar tip" title="" style="width: 0%"></div>
-                        </div>
-
-
+                        <img class="image-preview reader-avatar offset4" src="<?php echo asset($reader->avatar) ?>" width="100" height="100"/>
+                        <h4>Thông tin kiểm soát</h4>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Loại bạn đọc</td>
+                                <td>{{Reader::$TYPE_LABELS[$reader->reader_type]}}</td>
+                            </tr>
+                            <tr>
+                                <td>Mã bạn đọc</td>
+                                <td>{{$reader->card_number}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngày tạo</td>
+                                <td>{{$reader->created_at->format('d/m/Y')}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ngày hết hạn</td>
+                                <td>{{$reader->expired_at->format('d/m/Y')}}</td>
+                            </tr>
+                            <tr>
+                                <td>Người tạo</td>
+                                <td>{{$reader->creator->full_name }}</td>
+                            </tr>
+                            <?php if ($reader->expired): ?>
+                                <tr style="color: red">
+                                    <td>Trạng thái</td>
+                                    <td>Hết hạn ({{$reader->status->expired_at->diffForHumans()}})</td>
+                                </tr>
+                            <?php else : ?>
+                                <tr>
+                                    <td>Trạng thái</td>
+                                    <td>{{Reader::$SS_LABELS[$reader->status]}}</td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
                     </div>
                     <div class="span7">
-                        @include('partials.flash')
-                        <?php if ($errors->has('avatar')): ?>
-                            <div class="alert alert-error upload-error">           
-                                {{$errors->first('avatar')}}
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                            </div>
-                        <?php endif; ?>
+                        <h4>Thông tin chi tiết</h4>
                         <?php
                         if ($reader->isStudent()) {
                             echo View::make('reader.partials.view_student', array('reader' => $reader));
