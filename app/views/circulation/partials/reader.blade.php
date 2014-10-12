@@ -1,5 +1,5 @@
 <?php $max_book_remote = $configs['max_book_remote'] ?>
-<div class='span5' style="font-size: 11px">
+<div class='span5'>
     <div class='content-row'>
         <input class='barcode-scanner span12' value="{{$reader->barcode}}" data-url="{{route('circulation.reader')}}" placeholder='Mã thẻ' type='text'>
     </div>
@@ -27,7 +27,7 @@
         </a>
     </div>
 </div>
-<div class='span7' style="font-size: 11px">
+<div class='span7'>
     <?php if ($reader->status == Reader::SS_PAUSED): ?>
         <div class="alert alert-error">
             Bạn đọc đang bị khóa thẻ, không thể mượn thêm tài liệu
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class='content-row'>
-        <div class='span5'>Địa chỉ email:</div>
+        <div class='span5'>Email:</div>
         <div class='span7'>
             {{$reader->email}}
         </div>
@@ -82,19 +82,19 @@
         </div>
     </div>
     <div class='content-row'>
-        <div class='span5'>Chuyên nghành:</div>
+        <div class='span5'>Ngành:</div>
         <div class='span7'>
             {{$reader->subject}}
         </div>
     </div>
     <div class='content-row'>
-        <div class='span5'>Mượn tại chỗ:</div>
+        <div class='span5'>M. Tại chỗ:</div>
         <div class='span7'>
             <span id="cir-count-local">{{$counLocal}}</span>/{{$max_book_remote}}
         </div>
     </div>
     <div class='content-row'>
-        <div class='span5'>Mượn về nhà:</div>
+        <div class='span5'>M. về nhà:</div>
         <div class='span7'>
             <span id="cir-count-remote">{{$countRemote}}</span>/{{$max_book_remote}}
         </div>

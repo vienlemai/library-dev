@@ -7,8 +7,9 @@ composer.lock
 .DS_Store
 Thumbs.db
 .idea
-nbproject
+/nbproject
 /nbproject/private/
 /img/barcode/
 /img/readers/
 /packages/
+/app/storage

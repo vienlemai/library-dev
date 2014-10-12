@@ -164,6 +164,10 @@ Route::group(array('prefix' => 'admin'), function () {
             'as' => 'book.library.view',
             'uses' => 'BookController@libraryView'
         ));
+        Route::get('book/library/find', array(
+            'as' => 'book.library.find',
+            'uses' => 'BookController@find'
+        ));
         Route::get('book/barcode/{id}', array(
             'as' => 'book.barcode',
             'uses' => 'BookController@barcode'
@@ -325,6 +329,10 @@ Route::group(array('prefix' => 'admin'), function () {
         Route::get('article/unactive/{id}', array(
             'as' => 'article.unactive',
             'uses' => 'ArticleController@unActive',
+        ));
+        Route::get('activity/delete-all', array(
+            'as' => 'activity.delete.all',
+            'uses' => 'ActivityController@deleteAll',
         ));
     });
 

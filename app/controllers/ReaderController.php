@@ -52,11 +52,11 @@ class ReaderController extends \BaseController {
                 $mailSubject = 'Thông báo về việc tạo mới tài khoản thư viện';
                 try {
                     $password = '123456';
-                    Mail::send('reader.partials.mail_template', array(
-                        'reader' => $reader,
-                        'password' => $password), function($message) use ($reader, $mailSubject) {
-                        $message->to($reader->email, $reader->full_name)->subject($mailSubject);
-                    });
+//                    Mail::send('reader.partials.mail_template', array(
+//                        'reader' => $reader,
+//                        'password' => $password), function($message) use ($reader, $mailSubject) {
+//                        $message->to($reader->email, $reader->full_name)->subject($mailSubject);
+//                    });
                     $reader->reader_type = $type;
                     $account = new Account(array(
                         'username' => $reader->email,

@@ -51,7 +51,7 @@
                                         </tr>
                                         <tr>
                                             <td>Nhan đề song song</td>
-                                            <td>$book->sub_title</td>
+                                            <td>{{$book->sub_title}}</td>
                                         </tr>
                                         <tr>
                                             <td>Tác giả</td>
@@ -63,7 +63,7 @@
                                         </tr>
                                         <tr>
                                             <td>Nơi xuất bản/Nhà xuất bản</td>
-                                            <td>$book->publisher</td>
+                                            <td>{{$book->publisher}}</td>
                                         </tr>
                                         <tr>
                                             <td>Nhà in</td>

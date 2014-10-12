@@ -45,6 +45,7 @@ class Permission {
                 'order' => 'Bạn đọc đăng ký online',
                 'book.library' => 'Danh sách tài liệu',
                 'readers' => 'Danh sách bạn đọc',
+                'book.library.find' => 'Tra cứu tài liệu',
             ),
             'routes' => array(
                 'circulation',
@@ -60,6 +61,7 @@ class Permission {
                 'reader.unpause',
                 'order',
                 'book.label',
+                'book.library.find'
             ),
         ),
         4 => array(
@@ -97,7 +99,7 @@ class Permission {
                 'articles' => 'Thông báo',
                 'configs' => 'Cấu hình',
                 'users' => 'Nhân viên',
-                'send.mail' => 'Gửi mail thu hồi tài liệu'
+            //'send.mail' => 'Gửi mail thu hồi tài liệu'
             ),
             'routes' => array(
                 'send.mail',
@@ -112,6 +114,7 @@ class Permission {
                 'article.edit',
                 'article.active',
                 'article.unactive',
+                'activity.delete.all'
             ),
         ),
     );

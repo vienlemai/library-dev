@@ -10,11 +10,22 @@
         </div>
     </div>
     <div class='content-row'>
-        <div class='span4'>Trang thái:</div>
+        <div class='span4'>Số ĐKCB:</div>
         <div class='span8'>
-            <?php echo $bookItem->status == BookItem::SS_LENDED ? 'Đang cho mượn' : 'Đang lưu trữ' ?>
+            <?php echo $bookItem->dkcb ?>
         </div>
     </div>
+    <div class='content-row'>
+        <div class='span4'>Mức độ:</div>
+        <div class='span8'>
+            <?php echo Book::$LEVELS[$bookItem->book->level] ?>
+        </div>
+    </div>
+    <div class='content-row'>
+        <div class='span8'><strong><?php echo $bookItem->statusLabel() ?></strong></div>
+        <div class='span4'></div>
+    </div>
+
 
     <?php if ($borrow): ?>
         <?php if ($isLocal): ?>
@@ -62,47 +73,81 @@
             <button data-dismiss="alert" class="close" type="button">×</button>
         </div>
     <?php endif; ?>
-    <div class='content-row'>
-        <div class='span4'>Tiêu đề:</div>
-        <div class='span8'>{{$bookItem->book->title}}</div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Tác giả:</div>
-        <div class='span8'>{{$bookItem->book->author}}</div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Nhà xuất bản:</div>
-        <div class='span8'>
-            {{$bookItem->book->publisher}}
-        </div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Ngôn ngữ:</div>
-        <div class='span8'>
-            {{$bookItem->book->language}}
-        </div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Mức độ:</div>
-        <div class='span8'>
-            {{Book::$LEVELS[$bookItem->book->level]}}
-        </div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Kho:</div>
-        <div class='span8'></div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Số trang</div>
-        <div class='span8'>{{$bookItem->book->pages}}</div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Kích thước</div>
-        <div class='span8'>{{$bookItem->book->size}}</div>
-    </div>
-    <div class='content-row'>
-        <div class='span4'>Giá tiền</div>
-        <div class='span8'>{{$bookItem->book->price}}</div>
-    </div>
+    <?php if ($bookItem->book->isBook()): ?>
+        <table class="table">
+            <tr>
+                <td>Nhan đề</td>
+                <td><strong>{{$bookItem->book->title}}</strong></td>
+            </tr>
+            <tr>
+                <td>Thể loại</td>
+                <td>Sách</td>
+            </tr>
+            <tr>
+                <td>Tác giả</td>
+                <td>{{$bookItem->book->author}}</td>
+            </tr>
+            <tr>
+                <td>Nhà xuất bản</td>
+                <td>{{$bookItem->book->publisher}}</td>
+            </tr>
+            <tr>
+                <td>Ngôn ngữ</td>
+                <td>{{$bookItem->book->language}}</td>
+            </tr>
+            <tr>
+                <td>Kho</td>
+                <td><?php echo Storage::fullSupperRoot($bookItem->book->id) ?></td>
+            </tr>
+            <tr>
+                <td>Số trang</td>
+                <td>{{$bookItem->book->pages}}</td>
+            </tr>
+            <tr>
+                <td>Kích thước</td>
+                <td>{{$bookItem->book->size}}</td>
+            </tr>
+            <tr>
+                <td>Phạm vi mượn</td>
+                <td>{{$bookItem->book->permissionName()}}</td>
+            </tr>
+
+        </table>
+    <?php else: ?>
+        <table class="table table-bordered">
+            <tr>
+                <td>Nhan đề</td>
+                <td>{{$bookItem->book->title}}</td>
+            </tr>
+            <tr>
+                <td>Thể loại</td>
+                <td>Tạp chí/Biểu mẫu</td>
+            </tr>
+            <tr>
+                <td>Số tạp chí</td>
+                <td>{{$bookItem->book->magazine_number}}</td>
+            </tr>
+            <tr>
+                <td>Ngày ra tạp chí</td>
+                <td>{{$bookItem->book->magazine_publish_day}}</td>
+            </tr>
+            <tr>
+                <td>Phụ trương</td>
+                <td>{{$bookItem->book->magazine_additional}}</td>
+            </tr>
+            <tr>
+                <td>Số đặc biệt</td>
+                <td>{{$bookItem->book->magazine_special}}</td>
+            </tr>
+            <tr>
+                <td>Khu vực</td>
+                <td>{{$bookItem->book->magazine_local}}</td>
+            </tr>
+            <tr>
+                <td>Phạm vi mượn</td>
+                <td>{{$bookItem->book->permissionName()}}</td>
+            </tr>
+        </table>
+    <?php endif; ?>
 
 </div>

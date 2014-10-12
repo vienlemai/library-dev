@@ -1,19 +1,20 @@
 <style>
-    table * {
+    table  {
         font-size: 10px;        
         border: solid 1px #000000; padding: 0px; margin: 0px
     }
     .text-center {
         text-align: center;
     }
+    .card-header{ font-size: 9px; }
     .card-title {
         font-weight: 800; 
         font-size: 16px;
-        margin-left: 20px;
+        margin-left: 15px;
     }
     .card-photo {
-        width: 100px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
     }
     .card-number {
         font-weight: bold;
@@ -26,12 +27,12 @@
         height: 35px;
     }
     .barcode-number {
-         padding-left: 30px;
+        padding-left: 30px;
     }
 </style>
 <table>
     <tbody>
-        <tr>
+        <tr class="card-header">
             <td>Trường TC CSGT</td>
             <td>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</td>
         </tr>

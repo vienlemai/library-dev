@@ -17,10 +17,26 @@
                     </div>
                 <?php endif; ?>
                 <div class='block table-container'>
+                    @include('partials.flash')
                     @include('activity._listing')
                 </div>
             </div>
             <div class='span3'>
+                <div class="block">
+                    <div class="head">
+                        <h2>Thông tin nhân viên</h2>
+                    </div>
+                    <div class="content">
+                        <?php $user = Auth::user()->loginable; ?>
+                        <ul>
+                            <li>Họ tên : <?php echo $user->full_name ?></li>
+                            <li>Email: <?php echo $user->email; ?></li>
+                            <li>Tên đăng nhập: <?php echo $user->username; ?></li>
+
+                        </ul>
+
+                    </div>
+                </div>
                 <div class='block'>
                     <div class='head'>
                         <h2>
@@ -36,8 +52,8 @@
                             </ul>
                             <li>Tổng số bạn đọc: {{$count['reader_total']}}</li>
                             <ul>
-                                <li>Sinh viên: {{$count['reader_student']}}</li>
-                                <li>Giảng viên: {{$count['reader_teacher']}}</li>
+                                <li>Học viên: {{$count['reader_student']}}</li>
+                                <li>Giáo viên: {{$count['reader_teacher']}}</li>
                                 <li>Cán bộ: {{$count['reader_staff']}}</li>
                             </ul>
                             <li>Tổng số nhân viên: {{$count['user']}}</li>

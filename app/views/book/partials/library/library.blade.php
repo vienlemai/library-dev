@@ -18,7 +18,6 @@
                 <th>Tác giả</th>
                 <th>Thể loại</th>
                 <th>Số lượng</th>
-                <th>Còn lại</th>
                 <th>Ngày lưu hành</th>
                 <th>Thao tác</th>
             </tr>
@@ -34,7 +33,6 @@
                     <td>{{$book->author}}</td>
                     <td>{{$book->getBookTypeName()}}</td>
                     <td>{{$book->number}}</td>
-                    <td>{{$book->number - $book->lended}}</td>
                     <td>{{$book->published_at->format('h:i, d \t\h\á\n\g m, Y')}}</td>
                     <td>
                         <div class='row-actions'>

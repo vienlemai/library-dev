@@ -60,17 +60,18 @@ class Book extends Eloquent {
         8 => 'size',
         9 => 'attach',
         10 => 'year_publish',
-        11 => 'organization',
-        12 => 'language',
-        13 => 'cutter',
-        14 => 'type_number',
-        15 => 'price',
-        16 => 'storage',
-        17 => 'number',
-        18 => 'level',
-        19 => 'book_scope',
-        20 => 'permission',
-        21 => 'another_infor'
+        11 => 'subject',
+        12 => 'organization',
+        13 => 'language',
+        14 => 'cutter',
+        15 => 'type_number',
+        16 => 'price',
+        17 => 'storage',
+        18 => 'number',
+        19 => 'level',
+        20 => 'book_scope',
+        21 => 'permission',
+        22 => 'another_infor'
     );
     public static $magazineTitle = array(
         1 => 'title',
@@ -80,17 +81,18 @@ class Book extends Eloquent {
         5 => 'magazine_special',
         6 => 'magazine_local',
         7 => 'year_publish',
-        8 => 'organization',
-        9 => 'language',
-        10 => 'cutter',
-        11 => 'type_number',
-        12 => 'price',
-        13 => 'storage',
-        14 => 'number',
-        15 => 'level',
-        16 => 'book_scope',
-        17 => 'permission',
-        18 => 'another_infor'
+        8 => 'subject',
+        9 => 'organization',
+        10 => 'language',
+        11 => 'cutter',
+        12 => 'type_number',
+        13 => 'price',
+        14 => 'storage',
+        15 => 'number',
+        16 => 'level',
+        17 => 'book_scope',
+        18 => 'permission',
+        19 => 'another_infor'
     );
     public static $storageTitle = array(
         1 => 'Kho A',
@@ -115,6 +117,7 @@ class Book extends Eloquent {
         'size' => 'Kích cỡ',
         'attach' => 'Tài liệu đính kèm',
         'year_publish' => 'Năm xuất bản',
+        'subject' => 'Chủ đề chủ mục',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
         'cutter' => 'Số cutter',
@@ -135,6 +138,7 @@ class Book extends Eloquent {
         'magazine_special' => 'Số đặc biệt',
         'magazine_local' => 'Khu vực',
         'year_publish' => 'Năm xuất bản',
+        'subject' => 'Chủ đề chủ mục',
         'organization' => 'Mã cơ quan',
         'language' => 'Ngôn ngữ',
         'cutter' => 'Số cutter',
@@ -204,10 +208,11 @@ class Book extends Eloquent {
     public function moderator() {
         return $this->belongsTo('User', 'published_by');
     }
-    
+
     public function kho() {
         return $this->belongsTo('Storage', 'storage');
     }
+
     /*
      * Scopes
      */
@@ -237,6 +242,7 @@ class Book extends Eloquent {
         'pages',
         'size',
         'attach',
+        'subject',
         'organization',
         'language',
         'type_number',
@@ -292,33 +298,51 @@ class Book extends Eloquent {
             }
             $book->saveBookItem($start);
         });
+        static::updating(function($book) {
+            $bookItems = $book->bookItems;
+            $currentDKCB = $bookItems->first();
+            $storage = Storage::supperRoot2($book->storage);
+            //dd($storage);
+            if (strpos($currentDKCB->dkcb, $storage) === false) {
+                foreach ($bookItems as $bookItem) {
+                    $bookItem->dkcb = $storage . substr($bookItem->dkcb, 1);
+                    $bookItem->save();
+                }
+            }
+        });
+        static::deleted(function($book) {
+            $storage = Storage::supperRoot2($book->storage);
+            $key = $storage == 'A' ? 'auto_dkcb_a' : 'auto_dkcb_b';
+            $count = $book->bookItems->count();
+            DB::table('configs')
+                ->where('key', $key)
+                ->decrement('value', $count);
+        });
     }
 
     public function saveBookItem($start) {
+        $storage = Storage::supperRoot2($this->id);
+        $key = $storage == 'A' ? 'auto_dkcb_a' : 'auto_dkcb_b';
+        $dkcbStd = DB::table('configs')
+            ->where('key', $key)
+            ->first(array('value'));
+        $dkcb = $dkcbStd->value;
         for ($i = 1; $i <= $this->number; $i++) {
             $code = $this->barcode . sprintf("%03s", ++$start);
             $fullCode = self::ean13_check_digit($code);
             $bItem = new BookItem(array(
                 'barcode' => $fullCode,
-                'status' => BookItem::SS_STORAGED,
+                'status' => BookItem::SS_ADDED,
                 'sequence' => $start,
                 'book_id' => $this->id,
+                'dkcb' => $storage . $dkcb,
             ));
             $bItem->save();
+            $dkcb++;
         }
-    }
-
-    public function updateNumer($number) {
-        $this->number = $this->number + $number;
-        $this->save();
-        $bookTypeControll = DB::table('book_type_controls')
-            ->where('book_type_number', $this->type_number)
-            ->first();
-        $max = $bookTypeControll->max;
-        DB::table('book_type_controls')
-            ->where('book_type_number', $this->type_number)
-            ->update(array('max' => $max + $number));
-        $this->saveBookItem($max, $number);
+        DB::table('configs')
+            ->where('key', $key)
+            ->update(array('value' => $dkcb));
     }
 
     public function scopeStudent($query) {
@@ -350,6 +374,9 @@ class Book extends Eloquent {
         $this->status = self::SS_SUBMITED;
         $this->submitted_at = Carbon\Carbon::now();
         $this->save();
+        DB::table('book_items')
+            ->where('book_id', $this->id)
+            ->update(array('status' => BookItem::SS_SUBMITED));
         // Write submit book event
         Activity::write(Session::get('User'), Activity::SUBMITED_BOOK, $this);
     }
@@ -372,6 +399,7 @@ class Book extends Eloquent {
                 BookItem::where('book_id', $this->id)
                     ->update(array(
                         'book_id' => $oldBook->id,
+                        'status' => BookItem::SS_STORAGED,
                 ));
                 $this->delete();
             } else {
@@ -379,11 +407,16 @@ class Book extends Eloquent {
                     ->where('book_type_number', $this->type_number)
                     ->update(array('book_id' => $this->id));
                 $this->save();
+                DB::table('book_items')
+                    ->where('book_id', $this->id)
+                    ->update(array('status' => BookItem::SS_STORAGED));
             }
         } else {
             $this->save();
+            DB::table('book_items')
+                ->where('book_id', $this->id)
+                ->update(array('status' => BookItem::SS_STORAGED));
         }
-
         // Write publish book event
         Activity::write(Session::get('User'), Activity::PUBLISHED_BOOK, $this);
     }
@@ -392,6 +425,9 @@ class Book extends Eloquent {
         $this->status = self::SS_DISAPPROVED;
         $this->error_reason = $reason;
         $this->save();
+        DB::table('book_items')
+            ->where('book_id', $this->id)
+            ->update(array('status' => BookItem::SS_DISAPPROVED));
         // Write disapprove book event
         Activity::write(Session::get('User'), Activity::DISAPPROVED_BOOK, $this);
     }

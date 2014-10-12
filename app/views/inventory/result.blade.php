@@ -72,21 +72,21 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tiêu đề</th>
-                                    <th>Lý do</th>
+                                    <th>Mô tả</th>
+                                    <th>Số ĐKCB</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($lostBooks as $row): ?>
                                     <tr>
-                                        <td><?php echo $row->bookItem->book->title ?></td>                                  
-                                        <td><?php echo $row->reader->getTypeName() ?> <strong><?php echo $row->reader->full_name ?></strong> làm mất</td>
+                                        <td><?php echo $row->book->title ?></td>       
+                                        <td><?php echo $row->dkcb ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     <?php endif; ?>   
-                        <a class="btn btn-primary text-center" target="_blank" href="{{route('inventory.print',$id)}}" style="margin: 10px">
+                    <a class="btn btn-primary text-center" target="_blank" href="{{route('inventory.print',$id)}}" style="margin: 10px">
                         <i class="i-printer">In báo cáo</i>
                     </a>
 

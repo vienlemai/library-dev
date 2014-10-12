@@ -273,6 +273,22 @@ class CirculationController extends \BaseController {
     public function lost() {
         $readerId = Input::get('readerId');
         $bookItemId = Input::get('bookItemId');
+        DB::table('book_items')
+            ->where('id', $bookItemId)
+            ->update(array(
+                'status' => BookItem::SS_LOST_BY_READER,
+        ));
+        $reader = DB::table('readers')
+            ->where('id', $readerId)
+            ->first(array('full_name', 'reader_type', 'barcode'));
+        DB::table('lost_books')
+            ->insert(array(
+                'reader_id' => $readerId,
+                'book_item_id' => $bookItemId,
+                'reason' => Reader::$TYPE_LABELS[$reader->reader_type] . ' ' . $reader->full_name . '(' . $reader->barcode . ') làm mất',
+                'reason_id' => BookItem::SS_LOST_BY_READER,
+                'created_at' => Carbon\Carbon::now(),
+        ));
         Circulation::where('reader_id', '=', $readerId)
             ->where('book_item_id', '=', $bookItemId)
             ->where('returned', '=', false)

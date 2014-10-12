@@ -4,7 +4,7 @@ class BaseController extends Controller {
     /**
      * for pagination: the number of items per page
      */
-    const ITEMS_PER_PAGE = 20;
+    const ITEMS_PER_PAGE = 30;
 
     protected $configs;
 
@@ -13,7 +13,7 @@ class BaseController extends Controller {
             $modules = array();
             if (Auth::check()) {
                 if (Auth::user()->loginable_type == 'User') {
-                    $user = Session::get('User');
+                    $user = Auth::user()->loginable;
                     $modules = array_merge(json_decode($user->permissions), json_decode($user->group->permissions));
                 }
                 View::share('modules', $modules);
@@ -25,11 +25,11 @@ class BaseController extends Controller {
                 $now = Carbon\Carbon::now();
                 if ($now->diffInDays($lastExecute) !== 0) {
                     JobForDay::updateStatus();
-                    if (!JobForDay::sendRemindCirculation()) {
-                        if (Route::currentRouteName() !== 'error') {
-                            return Redirect::route('error', array('internet'));
-                        }
-                    }
+//                    if (!JobForDay::sendRemindCirculation()) {
+//                        if (Route::currentRouteName() !== 'error') {
+//                            return Redirect::route('error', array('internet'));
+//                        }
+//                    }
                     DB::table('configs')
                         ->where('key', 'last_execute')
                         ->update(array('value' => Carbon\Carbon::now()->format('Y-m-d H:i:s')));

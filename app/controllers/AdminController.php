@@ -7,7 +7,7 @@ class AdminController extends BaseController {
     protected $layout = 'layouts.admin';
 
     public function index() {
-        $activities = Activity::search()->paginate(Activity::PER_PAGE);
+        $activities = Activity::search()->paginate(50);
         foreach ($activities as $activity) {
             $author = $activity->author;
             $object = $activity->object;
@@ -90,6 +90,7 @@ class AdminController extends BaseController {
 
     public function getLogout() {
         Auth::logout();
+        Session::forget('User');
         return Redirect::route('login');
     }
 

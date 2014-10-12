@@ -73,14 +73,14 @@
                             <thead>
                                 <tr>
                                     <th>Tiêu đề</th>
-                                    <th>Lý do</th>
+                                    <th>Số ĐKCB</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($lostBooks as $row): ?>
                                     <tr>
-                                        <td><?php echo $row->bookItem->book->title ?></td>                                  
-                                        <td><?php echo $row->reader->getTypeName() ?> <strong><?php echo $row->reader->full_name ?></strong> làm mất</td>
+                                        <td><?php echo $row->book->title ?></td>       
+                                        <td><?php echo $row->dkcb ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

@@ -32,6 +32,8 @@ class Inventory extends Eloquent {
     protected $fillable = array(
         'title',
         'reason',
+        'stored_list',
+        'lended_list',
     );
 
     public function getDates() {

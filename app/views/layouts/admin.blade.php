@@ -40,7 +40,7 @@
                 <div id="content">
                     @yield('content')
                 </div>
-                @yield('extra_html')
+
             </div>
         </div>
 
@@ -56,7 +56,7 @@
         <script type="text/javascript" src="{{{asset('js/helper.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/app.js')}}}"></script>
         <script type="text/javascript" src="{{{asset('js/be/common.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/be/vlm.js')}}}"></script>
-        <script type="text/javascript" src="{{{asset('js/be/lht.js')}}}"></script>
+        <script type="text/javascript" src="{{{asset('js/admin.js')}}}"></script>
+        @yield('extra_html')
     </body>
 </html>

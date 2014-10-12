@@ -1,3 +1,6 @@
+{{Former::xlarge_text('subject')
+    ->label('Đề mục, chủ đề')
+}}
 {{Former::xlarge_text('organization')
     ->label('Mã cơ quan')
 }}

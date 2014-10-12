@@ -70,11 +70,27 @@ class Storage extends Node {
         }
     }
 
-    public function supperRoot($id) {
-        if(in_array($id, array(1))){
+    public static function supperRoot($id) {
+        if (in_array($id, array(1))) {
             return 'K.TK';
-        }else{
+        } else {
             return 'K.GK';
+        }
+    }
+
+    public static function supperRoot2($id) {
+        if (in_array($id, array(1))) {
+            return 'A';
+        } else {
+            return 'B';
+        }
+    }
+
+    public static function fullSupperRoot($id) {
+        if (in_array($id, array(1))) {
+            return 'K.Tham khảo';
+        } else {
+            return 'K.Giáo khoa';
         }
     }
 

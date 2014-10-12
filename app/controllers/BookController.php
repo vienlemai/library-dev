@@ -82,7 +82,15 @@ class BookController extends \BaseController {
         if (Request::ajax()) {
             $books = Book::where('status', '=', $type)
                 ->where('created_by', '=', Auth::user()->loginable_id)
-                ->where('title', 'LIKE', '%' . $keyword . '%')
+                ->where(function($query) use($keyword) {
+                    $query->orWhere('title', 'like', '%' . $keyword . '%')
+                    ->orWhereHas('bookItems', function($query) use($keyword) {
+                        $query->where('dkcb', $keyword);
+                    })
+                    ->orWhereHas('bookItems', function($query) use($keyword) {
+                        $query->where('barcode', $keyword);
+                    });
+                })
                 ->orderBy('updated_at', 'desc')
                 ->paginate(self::ITEMS_PER_PAGE);
             return View::make('book.partials.catalog.' . $type, array('books' => $books, 'keyword' => $keyword));
@@ -104,6 +112,7 @@ class BookController extends \BaseController {
     public function library() {
         $books = Book::where('status', '=', Book::SS_PUBLISHED)
             ->orderBy('published_at', 'desc')
+            //->paginate(self::ITEMS_PER_PAGE);
             ->paginate(self::ITEMS_PER_PAGE);
         if (Request::ajax()) {
             return View::make('book.partials.library.library', array('books' => $books));
@@ -115,7 +124,15 @@ class BookController extends \BaseController {
     public function librarySearch() {
         $keyword = Input::get('keyword');
         $books = Book::where('status', '=', Book::SS_PUBLISHED)
-            ->where('title', 'LIKE', '%' . $keyword . '%')
+            ->where(function($query) use ($keyword) {
+                $query->orWhere('title', 'LIKE', '%' . $keyword . '%')
+                ->orWhereHas('bookItems', function($query)use($keyword) {
+                    $query->where('dkcb', $keyword);
+                })
+                ->orWhereHas('bookItems', function($query)use($keyword) {
+                    $query->where('barcode', $keyword);
+                });
+            })
             ->orderBy('published_at', 'desc')
             ->paginate(self::ITEMS_PER_PAGE);
         if (Request::ajax()) {
@@ -126,7 +143,7 @@ class BookController extends \BaseController {
     }
 
     public function libraryView($id) {
-        $book = Book::with('moderator', 'cataloger')->find($id);
+        $book = Book::with('moderator', 'cataloger', 'bookItems')->find($id);
         $storageOptions = new Storage();
         $node = Storage::where('id', '=', $book->storage)->first();
         $path = $storageOptions->getPath($node);
@@ -198,7 +215,15 @@ class BookController extends \BaseController {
         if (Request::ajax()) {
             $books = Book::where('status', '=', $type)
                 ->where('created_by', '=', Auth::user()->loginable_id)
-                ->where('title', 'LIKE', '%' . $keyword . '%')
+                ->where(function($query) use ($keyword) {
+                    $query->orWhere('title', 'LIKE', '%' . $keyword . '%')
+                    ->orWhereHas('bookItems', function($query) use($keyword) {
+                        $query->where('dkcb', $keyword);
+                    })
+                    ->orWhereHas('bookItems', function($query) use ($keyword) {
+                        $query->where('barcode', $keyword);
+                    });
+                })
                 ->orderBy('updated_at', 'desc')
                 ->paginate(self::ITEMS_PER_PAGE);
             return View::make('book.partials.moderate.' . $type, array('books' => $books, 'keyword' => $keyword));
@@ -593,12 +618,29 @@ class BookController extends \BaseController {
             ->where('book_id', $id)
             ->orderBy('sequence')
             ->get();
-        $storageOptions = new Storage();
-        $path = $storageOptions->supperRoot($bookItems[0]->book->storage);
         return View::make('book.label', array(
                 'bookItems' => $bookItems,
-                'path' => $path,
         ));
+    }
+
+    public function find() {
+        $bookItems = array();
+        if (Input::has('keyword')) {
+            $keyword = Input::get('keyword');
+            $bookItems = BookItem::with('book')
+                ->where('barcode', $keyword)
+                ->orWhere('dkcb', $keyword)
+                ->get();
+            $bookItems->filter(function($item) {
+                if ($item->status == BookItem::SS_LOST_BY_READER || $item->status == BookItem::SS_LOST_BY_INVENTORY) {
+                    $item->lost = DB::table('lost_books')
+                        ->where('book_item_id', $item->id)
+                        ->first();
+                }
+                return $item;
+            });
+        }
+        return View::make('book.find', compact('keyword', 'bookItems'));
     }
 
 }

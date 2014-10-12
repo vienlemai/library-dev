@@ -5,7 +5,7 @@
             <tr>
                 <?php for ($j = $i; $j < $i + 3; $j++): ?>
                     <td style="padding: 20px">
-                        <table style="text-align: center; border: 4px #151515 double;width: 150px; height: 150px">
+                        <table style="text-align: center; border: 4px #151515 double;width: 120px; height: 140px">
                             <tbody>
                                 <tr>
                                     <td>TV-T52</td>
@@ -17,13 +17,13 @@
                                     <td><?php echo $bookItems[$j]->book->cutter ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo 'C'.$bookItems[$j]->sequence ?></td>
+                                    <td><?php echo 'C' . $bookItems[$j]->sequence ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $bookItems[$j]->book->year_publish  ?></td>
+                                    <td><?php echo $bookItems[$j]->book->year_publish ?></td>
                                 </tr>
                                 <tr>
-                                    <td><?php echo $path ?></td>
+                                    <td><?php echo $bookItems[$j]->dkcb ?></td>
                                 </tr>
                             </tbody>
                         </table> 
@@ -35,7 +35,7 @@
             <?php while ($i < $len) {
 
                 ?><td style="padding: 20px">
-                    <table style="text-align: center; border: 4px #151515 double;width: 150px; height: 150px">
+                    <table style="text-align: center; border: 4px #151515 double;width: 120px; height: 140px">
                         <tbody>
                             <tr>
                                 <td>TV-T52</td>
@@ -47,13 +47,13 @@
                                 <td><?php echo $bookItems[$i]->book->cutter ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo 'C'.$bookItems[$i]->sequence ?></td>
+                                <td><?php echo 'C' . $bookItems[$i]->sequence ?></td>
                             </tr>
                             <tr>
                                 <td><?php echo $bookItems[$i]->book->year_publish ?></td>
                             </tr>
                             <tr>
-                                <td><?php echo $path ?></td>
+                                <td><?php echo $bookItems[$i]->dkcb ?></td>
                             </tr>
                         </tbody>
                     </table> 

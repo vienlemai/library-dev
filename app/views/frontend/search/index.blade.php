@@ -21,6 +21,7 @@
     <div class="col-md-12">
         <?php
         $show_paging = (int) ($books->getTotal() / $books->getPerPage()) > 0 ? true : false;
+
         ?>
         <?php if ($show_paging) : ?>
             <div class='pagination'>
@@ -28,7 +29,7 @@
             </div>
         <?php endif; ?>
         <div class="span5">
-            <p>Tìm thấy {{ $books->getTotal() }} kết quả </p>
+            <p class="search-count-title">Tìm thấy {{ $books->getTotal() }} kết quả </p>
         </div>
         <?php echo View::make('frontend.search._results', array('books' => $books))->render() ?>
         <?php if ($show_paging) : ?>

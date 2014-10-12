@@ -57,6 +57,11 @@
         </div>
         <div class='content'>
             <div class="form-horizontal">
+                {{Former::xlarge_text('subject')
+									->label('Đề mục, chủ đề')
+									->value($book->subject)
+									->disabled()
+                }}
                 {{Former::xlarge_text('organization')
 									->label('Mã cơ quan')
 									->value($book->organization)
@@ -71,7 +76,7 @@
 
                 {{Former::xlarge_text('cutter')
 									->label('Số cutter')
-									->value($book->id)
+									->value($book->cutter)
 									->disabled()
                 }}
 

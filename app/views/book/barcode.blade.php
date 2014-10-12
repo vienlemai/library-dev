@@ -4,7 +4,6 @@
         <tr>
             <td colspan='3' style="padding-bottom: 15px; text-align: center">
                 Tài liệu: <span style='font-weight: bold'><?php echo $book->title ?></span>
-               - Ngày lưu hành:  <?php echo $book->published_at->format('d/m/Y') ?>
             </td>
         </tr>
         <?php for ($i = 0; $i < $len - 3; $i += 3): ?>

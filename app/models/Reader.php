@@ -51,7 +51,7 @@ class Reader extends Eloquent implements IActivityAuthor {
 
     public static $TYPE_LABELS = array(
         self::TYPE_STUDENT => 'Học viên',
-        self::TYPE_TEACHER => 'Giảng viên',
+        self::TYPE_TEACHER => 'Giáo viên',
         self::TYPE_STAFF => 'Nhân viên',
     );
     public static $LABELS = array(

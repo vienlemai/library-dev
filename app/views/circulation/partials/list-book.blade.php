@@ -12,7 +12,7 @@ $now = Carbon\Carbon::now();
 <table cellpadding='0' cellspacing='0' class='bordered-b sort' width='100%'>
     <thead>
         <tr>
-            <th style='width:7%'>Mã vạch</th>
+            <th style='width:7%'>Số ĐKCB</th>
             <th style='width:20%'>Tiêu đề</th>
             <th style='width:10%'>Ngày mượn</th>
             <th style='width:15%'>Hết hạn</th>
@@ -28,7 +28,7 @@ $now = Carbon\Carbon::now();
 
             ?>
             <tr>
-                <td>{{$row->bookItem->barcode}}</td>
+                <td>{{$row->bookItem->dkcb}}</td>
                 <td>{{$row->bookItem->book->title}}</td>
                 <td>{{$row->created_at->format('d \t\h\á\n\g m, Y')}}</td>
                 <?php if (!$isExpired): ?>

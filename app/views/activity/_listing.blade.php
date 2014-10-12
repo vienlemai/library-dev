@@ -1,23 +1,7 @@
 <div class='head'>
     <h2>Hoạt động thư viện</h2>
-    <div class="side fr">
-        <?php if (false): ?>
-            <?php Former::framework('Nude'); ?>
-            <?php
-            echo Former::open(route('activity.search'))->method('GET')->class('form-ajasx form-inline')
-
-            ?>
-            <label>Nhóm:  </label>
-            <?php
-            echo Former::select('group', '')->options(activityGroupsForSelect())
-                ->class('table-search-input')->data_url(route('activity.search'))
-                ->data_group(Input::get('group', ''))
-
-            ?>
-            <label>Từ ngày:  </label>
-            <?php echo Former::select('range', '')->options(activityRangesForSelect())->class('table-search-input')->data_url(route('activity.search')) ?>
-            <?php echo Former::close() ?>
-        <?php endif; ?>
+    <div class="toolbar-table-right">
+        <a href="#" data-url="<?php echo route('activity.delete.all') ?>" class="btn btn-primary" btn-confirm="confirm" data-confirm="Bạn có chắc chắn muốn xóa ?">Xóa tất cả hoạt động</a>
     </div>
 </div>
 <div class='content np' id="activities-wrapper">

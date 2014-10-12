@@ -52,6 +52,10 @@
             </div>
             <div class='content'>
                 <div class="form-horizontal">
+                    {{Former::xlarge_text('subject')
+									->label('Đề mục, chủ đề')
+									->value($book->subject)
+                    }}
                     {{Former::xlarge_text('organization')
 									->label('Mã cơ quan')
 									->value($book->organization)
