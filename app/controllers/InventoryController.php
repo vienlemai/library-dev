@@ -95,7 +95,7 @@ class InventoryController extends \BaseController {
             'end_at' => Carbon\Carbon::now(),
         ));
         $storageModel = new Storage();
-        $inventory = Inventory::findOrFail($id);
+        $inventory = Inventory::findOrFail($inventoryId);
         $storages = Storage::where('parent_id', '=', null)
             ->get();
         $booksScanned = array();
@@ -106,7 +106,7 @@ class InventoryController extends \BaseController {
             if (empty($nodeLeaves)) {
                 array_push($nodeLeaves, $storages[$i]->id);
             }
-            $number = DB::table(Inventory::DB_PREFIX . $id)
+            $number = DB::table(Inventory::DB_PREFIX . $inventoryId)
                 ->whereIn('storage', $nodeLeaves)
                 ->count();
             $booksScanned[$i]['count'] = $number;
@@ -116,7 +116,7 @@ class InventoryController extends \BaseController {
         }
         $storedList = json_decode($inventory->stored_list, true);
         $lendedList = json_decode($inventory->lended_list, true);
-        $scannedList = DB::table(Inventory::DB_PREFIX . $id)
+        $scannedList = DB::table(Inventory::DB_PREFIX . $inventoryId)
             ->lists('book_item_id');
         $bookTotal = count($storedList) + count($lendedList);
         $booksStored = count($storedList);
@@ -140,6 +140,7 @@ class InventoryController extends \BaseController {
                         'reason' => 'Mất kiểm kê (' . $inventory->title . ')',
                         'created_at' => Carbon\Carbon::now(),
                 ));
+                Book::where('id', $bookItem->book_id)->increment('lost');
             }
         }
         return Redirect::route('inventory.result', $inventoryId);
@@ -222,7 +223,7 @@ class InventoryController extends \BaseController {
                 ->get();
         }
         return View::make('inventory.print_result', compact(
-                    'bookTotal', 'booksStored', 'booksLended', 'booksScanned', 'inventory', 'booksScannedTotal', 'bookLose', 'booksLendedList', 'lostBooksByReader','lostBooks'
+                    'bookTotal', 'booksStored', 'booksLended', 'booksScanned', 'inventory', 'booksScannedTotal', 'bookLose', 'booksLendedList', 'lostBooksByReader', 'lostBooks'
                 )
         );
     }

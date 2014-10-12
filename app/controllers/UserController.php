@@ -119,13 +119,18 @@ class UserController extends BaseController {
         if ($v->passes()) {
             $user->full_name = Input::get('full_name');
             $user->email = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
             $user->sex = Input::get('sex');
             $user->group_id = Input::get('group_id');
             $user->date_of_birth = Input::get('date_of_birth');
             $user->beforeSave();
             $user->save();
             Session::flash('success', 'Sửa thành công thông tin nhân viên "' . $user->full_name . '"');
+            DB::table('accounts')
+                ->where('loginable_type', 'User')
+                ->where('loginable_id', $user->id)
+                ->update(array(
+                    'password' => Hash::make(Input::get('password'))
+            ));
             return Redirect::route('users');
         } else {
             return Redirect::back()->withInput()->withErrors($v->messages());

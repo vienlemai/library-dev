@@ -2,7 +2,7 @@
 
 class Permission {
     public static $SHARED_ROUTES = array(
-        'home',
+        'home','profile','change_password'
     );
     public static $ACTIONS = array(
         1 => array(

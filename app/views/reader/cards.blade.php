@@ -8,13 +8,13 @@
     }
     .card-header{ font-size: 9px; }
     .card-title {
-        font-weight: 800; 
-        font-size: 16px;
+        font-weight: bold; 
+        font-size: 12px;
         margin-left: 15px;
     }
     .card-photo {
-        width: 80px;
-        height: 80px;
+        width: 65px;
+        height: 65px;
     }
     .card-number {
         font-weight: bold;
@@ -24,11 +24,12 @@
         font-weight: bold;
     }
     .barcode {
-        height: 35px;
+        height: 30px;
     }
     .barcode-number {
         padding-left: 30px;
     }
+    table.titiem hr { margin: 0px; padding: 0px;}
 </style>
 <?php $len = count($barcodes) ?>
 <table>
@@ -55,6 +56,7 @@
                                 <tr>
                                     <td rowspan="5">
                                         <img class='card-photo' src="<?php echo asset($readers[$j]->avatar) ?>"/>                
+                                        <div class="card-number">{{$readers[$j]->card_number}}</div>
                                     </td>
                                     <td class='card-title'  style='padding-left: 10px;'>THẺ THƯ VIỆN</td>
                                 </tr>
@@ -87,9 +89,6 @@
                                         <span class='barcode-number'>{{$readers[$j]->barcode}}</span>
                                     </td>
                                 </tr>
-                                <tr>			
-                                    <td class='card-number'>{{$readers[$j]->card_number}}</td>
-                                </tr>
                             </tbody>
                         </table>
                     </td> 
@@ -118,6 +117,7 @@
                             <tr>
                                 <td rowspan="5">
                                     <img class='card-photo' src="<?php echo asset($readers[$i]->avatar) ?>"/>                
+                                    <div class="card-number">{{$readers[$i]->card_number}}</div>
                                 </td>
                                 <td class='card-title'  style='padding-left: 10px;'>THẺ THƯ VIỆN</td>
                             </tr>
@@ -149,9 +149,6 @@
                                     <br>
                                     <span class='barcode-number'>{{$readers[$i]->barcode}}</span>
                                 </td>
-                            </tr>
-                            <tr>			
-                                <td class='card-number'>{{$readers[$i]->card_number}}</td>
                             </tr>
                         </tbody>
                     </table>

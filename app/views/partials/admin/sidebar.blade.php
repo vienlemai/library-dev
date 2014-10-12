@@ -24,6 +24,9 @@
         <li class='<?php echo setActiveMenu($currentMenu, 'dashboard') ?>'>
             <a href='{{route('home')}}'>Bảng điều khiển</a>
         </li>
+        <li class='<?php echo setActiveMenu($currentMenu, 'profile') ?>'>
+            <a href='{{route('profile')}}'>Trang cá nhân</a>
+        </li>
         <?php foreach ($modules as $p): ?>
             <li class='openable open'>
                 <a href='#'><?php echo Permission::$ACTIONS[$p]['title'] ?></a>

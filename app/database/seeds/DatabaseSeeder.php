@@ -12,8 +12,33 @@ class DatabaseSeeder extends Seeder {
         //$this->call('SystemConfigSeed');
         //$this->call('ConfigTableSeeder');
         //$this->call('StorageTableSeeder');
-        $this->call('UserTableSeeder');
-        $this->command->info('table seeded!');
+        $this->call('ResetSeed');
+        //$this->command->info('table seeded!');
+    }
+
+}
+
+class ResetSeed extends Seeder {
+
+    public function run() {
+        DB::table('activities')->truncate();
+        DB::table('articles')->truncate();
+        DB::table('books')->truncate();
+        DB::table('book_items')->truncate();
+        DB::table('book_type_controls')->truncate();
+        DB::table('circulations')->truncate();
+        DB::table('inventories')->truncate();
+        DB::table('lost_books')->truncate();
+        DB::table('orders')->truncate();
+        DB::table('readers')->truncate();
+        DB::table('users')->where('id', '!=', 1)->delete();
+        DB::table('accounts')->where('id', '!=', 1)->delete();
+        DB::table('configs')->where('key', 'auto_dkcb_a')->update(array(
+            'value' => 1
+        ));
+        DB::table('configs')->where('key', 'auto_dkcb_b')->update(array(
+            'value' => 1
+        ));
     }
 
 }

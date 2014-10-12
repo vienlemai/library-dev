@@ -148,4 +148,28 @@ class AdminController extends BaseController {
         }
     }
 
+    public function profile() {
+        $user = Auth::user()->loginable;
+        return View::make('admin.profile', compact('user'));
+    }
+
+    public function changePassword() {
+        $user = Auth::user();
+        $oldPass = Input::get('old_password');
+        if (!Hash::check($oldPass, $user->password)) {
+            Session::flash('error', 'Mật khẩu cũ không đúng');
+        } else {
+            $newPass = Input::get('password');
+            $confirmPas = Input::get('password_confimation');
+            if ($newPass != $confirmPas) {
+                Session::flash('error', 'Mật khẩu mới phải giống nhau');
+            } else {
+                Session::flash('success','Đổi mật khẩu thành công');
+                $user->password = Hash::make($newPass);
+                $user->save();
+            }
+        }
+        return Redirect::back();
+    }
+
 }

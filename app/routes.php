@@ -128,6 +128,14 @@ Route::group(array('prefix' => 'admin'), function () {
      * routers for get request that need to authenticate to continute
      */
     Route::group(array('before' => 'auth'), function () {
+        Route::get('profile', array(
+            'as' => 'profile',
+            'uses' => 'AdminController@profile'
+        ));
+        Route::post('change-password', array(
+            'as' => 'change_password',
+            'uses' => 'AdminController@changePassword',
+        ));
         Route::get('book/create/{type}', array(
             'as' => 'book.create',
             'uses' => 'BookController@create'

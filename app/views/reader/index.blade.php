@@ -81,7 +81,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <form action="{{route('reader.cards')}}" method="POST" class="form-check" target="_blank">
+                        <form action="{{route('reader.cards')}}" method="POST" class="form-check">
                             {{Form::token()}}
                             <?php foreach ($readers as $reader): ?>
                                 <tr>

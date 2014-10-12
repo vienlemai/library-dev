@@ -1,5 +1,5 @@
 <style>
-    table  {
+    table.titiem  {
         font-size: 10px;        
         border: solid 1px #000000; padding: 0px; margin: 0px
     }
@@ -8,13 +8,13 @@
     }
     .card-header{ font-size: 9px; }
     .card-title {
-        font-weight: 800; 
-        font-size: 16px;
+        font-weight: bold; 
+        font-size: 12px;
         margin-left: 15px;
     }
     .card-photo {
-        width: 80px;
-        height: 80px;
+        width: 65px;
+        height: 65px;
     }
     .card-number {
         font-weight: bold;
@@ -24,13 +24,14 @@
         font-weight: bold;
     }
     .barcode {
-        height: 35px;
+        height: 30px;
     }
     .barcode-number {
         padding-left: 30px;
     }
+    table.titiem hr { margin: 0px; padding: 0px;}
 </style>
-<table>
+<table class="titiem">
     <tbody>
         <tr class="card-header">
             <td>Trường TC CSGT</td>
@@ -48,6 +49,7 @@
         <tr>
             <td rowspan="5">
                 <img class='card-photo' src="<?php echo asset($reader->avatar) ?>"/>                
+                <div class="card-number">{{$reader->card_number}}</div>
             </td>
             <td class='card-title'  style='padding-left: 10px;'>THẺ THƯ VIỆN</td>
         </tr>
@@ -79,9 +81,6 @@
                 <br>
                 <span class='barcode-number'>{{$reader->barcode}}</span>
             </td>
-        </tr>
-        <tr>			
-            <td class='card-number'>{{$reader->card_number}}</td>
         </tr>
     </tbody>
 </table>

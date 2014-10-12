@@ -23,7 +23,11 @@
                             <th>Sách</th>
                         </tr>
                         <tr>
-                            <td>Tổng số</td>
+                            <td>Tổng số còn lại</td>
+                            <td><?php echo ($book->number - $book->lended - $book->lost) . '/' . $book->number ?></td>
+                        </tr>
+                        <tr>
+                            <td>Tổng số lúc biên mục</td>
                             <td><?php echo $book->number ?></td>
                         </tr>
                         <tr>

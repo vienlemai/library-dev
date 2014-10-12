@@ -327,7 +327,7 @@ class BookController extends \BaseController {
     public function catalogView($bookId) {
         $book = Book::findOrFail($bookId);
         $user = Auth::user();
-        if ($book->created_by != $user->id) {
+        if ($book->created_by != $user->loginable->id) {
             App::abort(404);
         }
         $storageOptions = new Storage();
@@ -364,7 +364,7 @@ class BookController extends \BaseController {
     public function edit($bookId) {
         $book = Book::findOrFail($bookId);
         $user = Auth::user();
-        if ($book->created_by != $user->id) {
+        if ($book->created_by != $user->loginable->id) {
             Session::flash('error', 'Tài liệu không đúng, vui lòng kiểm tra lại');
             return Redirect::route('book.moderate');
         } else if ($book->status == Book::SS_SUBMITED || $book->status == Book::SS_PUBLISHED) {

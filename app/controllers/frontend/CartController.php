@@ -80,10 +80,12 @@ class CartController extends FrontendBaseController {
             ->get();
         $cirCount = $this->_countCirculationScope($circulations);
         foreach ($cart as $item) {
-            if ($item['scope'] == Book::SCOPE_LOCAL) {
-                $countLocal+= $item['number'];
-            } else {
-                $countRemote+= $item['number'];
+            if (!empty($item)) {
+                if ($item['scope'] == Book::SCOPE_LOCAL) {
+                    $countLocal+= $item['number'];
+                } else {
+                    $countRemote+= $item['number'];
+                }
             }
         }
         $countLocal += $cirCount['local'];
@@ -93,13 +95,15 @@ class CartController extends FrontendBaseController {
             return Redirect::back();
         } else {
             foreach ($cart as $item) {
-                $order = new Order(array(
-                    'reader_id' => $readerId,
-                    'book_id' => $item['bookId'],
-                    'count' => $item['number'],
-                    'scope' => $item['scope'],
-                ));
-                $order->save();
+                if (!empty($item)) {
+                    $order = new Order(array(
+                        'reader_id' => $readerId,
+                        'book_id' => $item['bookId'],
+                        'count' => $item['number'],
+                        'scope' => $item['scope'],
+                    ));
+                    $order->save();
+                }
             }
             Session::put('books_in_cart', array());
             Session::flash('success', 'Đăng kí mượn thành công');
